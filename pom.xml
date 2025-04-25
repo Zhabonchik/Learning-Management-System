@@ -21,6 +21,7 @@
         <springdoc.version>2.8.6</springdoc.version>
         <h2databse.version>2.3.232</h2databse.version>
         <liquibase.version>4.31.1</liquibase.version>
+        <lombok.version>1.18.38</lombok.version>
     </properties>
 
     <dependencies>
@@ -57,6 +58,13 @@
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>
             <version>${liquibase.version}</version>
+        </dependency>
+        <!-- Annotation processing -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
         </dependency>
         <!-- Testing -->
         <dependency>
