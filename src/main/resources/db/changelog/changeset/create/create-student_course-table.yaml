@@ -1,0 +1,39 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-student_course-table
+      author: Mikita Shapel
+      changes:
+        - createTable:
+            tableName: student_course
+            columns:
+              - column:
+                  name: student_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: course_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+
+        - addPrimaryKey:
+            tableName: student_course
+            columnNames: student_id, course_id
+            constraintName: pk_student_course
+
+        - addForeignKeyConstraint:
+            baseTableName: student_course
+            baseColumnNames: student_id
+            referencedTableName: student
+            referencedColumnNames: id
+            constraintName: fk_student_course_student
+            onDelete: CASCADE
+
+        - addForeignKeyConstraint:
+            baseTableName: student_course
+            baseColumnNames: course_id
+            referencedTableName: course
+            referencedColumnNames: id
+            constraintName: fk_student_course_course
+            onDelete: CASCADE
