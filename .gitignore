@@ -4,6 +4,9 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+src/main/resources/application-secret.yaml
+src/main/resources/db/changelog/changeset/insert/
+
 ### IntelliJ IDEA ###
 .idea
 *.iws
