@@ -28,6 +28,6 @@ public class CourseSettings {
     private LocalDateTime endDate;
 
     @Column(name = "is_public")
-    private boolean isPublic;
+    private Boolean isPublic;
 
 }

@@ -13,11 +13,11 @@ public interface CourseMapper {
     @Mapping(target = "lessonId",
             expression = "java(course.getLessons().stream()"
                     + ".map(com.leverx.learningmanagementsystem.entity.Lesson::getId)"
-                    + ".collect(java.util.stream.Collectors.toSet()))")
+                    + ".collect(java.util.stream.Collectors.toList()))")
     @Mapping(target = "studentId",
             expression = "java(course.getStudents().stream()"
                     + ".map(com.leverx.learningmanagementsystem.entity.Student::getId)"
-                    + ".collect(java.util.stream.Collectors.toSet()))")
+                    + ".collect(java.util.stream.Collectors.toList()))")
     GetCourseDto toGetCourseDto(Course course);
 
     @Mapping(target = "settings", ignore = true)

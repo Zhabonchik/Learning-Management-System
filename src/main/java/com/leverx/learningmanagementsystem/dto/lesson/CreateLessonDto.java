@@ -8,6 +8,5 @@ import java.util.UUID;
 public record CreateLessonDto(
         String title,
         Integer duration,
-        UUID courseId
-) {
+        UUID courseId) {
 }

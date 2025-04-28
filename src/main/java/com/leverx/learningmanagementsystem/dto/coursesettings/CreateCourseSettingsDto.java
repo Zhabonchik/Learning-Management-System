@@ -8,6 +8,5 @@ import java.time.LocalDateTime;
 public record CreateCourseSettingsDto(
         LocalDateTime startDate,
         LocalDateTime endDate,
-        boolean isPublic
-) {
+        boolean isPublic) {
 }

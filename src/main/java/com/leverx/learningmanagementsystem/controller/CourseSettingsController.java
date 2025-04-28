@@ -3,11 +3,13 @@ package com.leverx.learningmanagementsystem.controller;
 import com.leverx.learningmanagementsystem.dto.coursesettings.CreateCourseSettingsDto;
 import com.leverx.learningmanagementsystem.dto.coursesettings.GetCourseSettingsDto;
 import com.leverx.learningmanagementsystem.service.CourseSettingsService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
+
 
 @RestController
 @RequestMapping("/course-settings")
@@ -31,7 +33,7 @@ public class CourseSettingsController {
     }
 
     @PostMapping
-    public GetCourseSettingsDto createCourseSettings(@RequestBody CreateCourseSettingsDto createCourseSettingsDto) {
+    public GetCourseSettingsDto addCourseSettings(@RequestBody CreateCourseSettingsDto createCourseSettingsDto) {
         return courseSettingsService.create(createCourseSettingsDto);
     }
 

@@ -12,7 +12,6 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/students")
-@Slf4j
 public class StudentController {
 
     private final StudentService studentService;

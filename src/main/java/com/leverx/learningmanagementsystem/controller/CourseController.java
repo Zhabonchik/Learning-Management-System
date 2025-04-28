@@ -3,11 +3,13 @@ package com.leverx.learningmanagementsystem.controller;
 import com.leverx.learningmanagementsystem.dto.course.CreateCourseDto;
 import com.leverx.learningmanagementsystem.dto.course.GetCourseDto;
 import com.leverx.learningmanagementsystem.service.CourseService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
+
 
 @RestController
 @RequestMapping("/courses")

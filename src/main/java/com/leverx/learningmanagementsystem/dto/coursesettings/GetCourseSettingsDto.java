@@ -10,6 +10,5 @@ public record GetCourseSettingsDto(
         UUID id,
         LocalDateTime startDate,
         LocalDateTime endDate,
-        boolean isPublic
-) {
+        boolean isPublic) {
 }

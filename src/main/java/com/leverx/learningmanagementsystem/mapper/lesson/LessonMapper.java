@@ -9,7 +9,7 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface LessonMapper {
 
-    @Mapping(target = "courseId", expression = "java(lesson.getId())")
+    @Mapping(target = "courseId", expression = "java(lesson.getCourse().getId())")
     GetLessonDto toGetLessonDto(Lesson lesson);
 
     @Mapping(target = "course", ignore = true)

@@ -11,7 +11,7 @@ public interface StudentMapper {
 
     @Mapping(target = "courseId", expression = "java(student.getCourses().stream()"
             + ".map(com.leverx.learningmanagementsystem.entity.Course::getId)"
-            + ".collect(java.util.stream.Collectors.toSet()))")
+            + ".collect(java.util.stream.Collectors.toList()))")
     GetStudentDto toGetStudentDto(Student student);
 
     @Mapping(target = "courses", ignore = true)

@@ -4,7 +4,7 @@ import lombok.Builder;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.List;
 import java.util.UUID;
 
 @Builder
@@ -14,5 +14,5 @@ public record CreateStudentDto(
         String email,
         LocalDate dateOfBirth,
         BigDecimal coins,
-        Set<UUID> courseId) {
+        List<UUID> courseId) {
 }

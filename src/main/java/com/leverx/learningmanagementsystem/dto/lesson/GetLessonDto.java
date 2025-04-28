@@ -9,6 +9,5 @@ public record GetLessonDto(
         UUID id,
         String title,
         Integer duration,
-        UUID courseId
-) {
+        UUID courseId) {
 }
