@@ -13,6 +13,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @EqualsAndHashCode(exclude = "course")
 @ToString(exclude = "course")
+@Builder
 public class Lesson {
 
     @Id

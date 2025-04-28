@@ -5,7 +5,8 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -16,6 +17,7 @@ import java.util.UUID;
 @Setter
 @EqualsAndHashCode(exclude = "courses")
 @ToString(exclude = "courses")
+@Builder
 public class Student {
 
     @Id
@@ -43,6 +45,7 @@ public class Student {
             joinColumns = @JoinColumn(name = "student_id"),
             inverseJoinColumns = @JoinColumn(name = "course_id")
     )
-    private List<Course> courses;
+    @Builder.Default
+    private Set<Course> courses = new HashSet<>();
 
 }

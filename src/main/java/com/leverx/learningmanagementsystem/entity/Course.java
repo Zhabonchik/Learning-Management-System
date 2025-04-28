@@ -4,7 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -15,6 +16,7 @@ import java.util.UUID;
 @Setter
 @EqualsAndHashCode(exclude = {"settings", "lessons", "students"})
 @ToString(exclude = {"settings", "lessons", "students"})
+@Builder
 public class Course {
 
     @Id
@@ -38,9 +40,11 @@ public class Course {
     private CourseSettings settings;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
-    private List<Lesson> lessons;
+    @Builder.Default
+    private Set<Lesson> lessons = new HashSet<>();
 
     @ManyToMany(mappedBy = "courses")
-    private List<Student> students;
+    @Builder.Default
+    private Set<Student> students = new HashSet<>();
 
 }
