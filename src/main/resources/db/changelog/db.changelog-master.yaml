@@ -9,13 +9,13 @@ databaseChangeLog:
       file: db/changelog/changeset/create/create-lesson-table.yaml
   - include:
       file: db/changelog/changeset/create/create-student_course-table.yaml
-  - include:
-      file: db/changelog/changeset/insert/insert-student-table.yaml
-  - include:
-      file: db/changelog/changeset/insert/insert-course_settings-table.yaml
-  - include:
-      file: db/changelog/changeset/insert/insert-course-table.yaml
-  - include:
-      file: db/changelog/changeset/insert/insert-lesson-table.yaml
-  - include:
-      file: db/changelog/changeset/insert/insert-student_course-table.yaml
+#  - include:
+#      file: db/changelog/changeset/insert/insert-student-table.yaml
+#  - include:
+#      file: db/changelog/changeset/insert/insert-course_settings-table.yaml
+#  - include:
+#      file: db/changelog/changeset/insert/insert-course-table.yaml
+#  - include:
+#      file: db/changelog/changeset/insert/insert-lesson-table.yaml
+#  - include:
+#      file: db/changelog/changeset/insert/insert-student_course-table.yaml

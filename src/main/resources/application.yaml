@@ -13,3 +13,21 @@ spring:
       enabled: true
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info
+  endpoint:
+    health:
+      show-details: always
+  info:
+    env:
+      enabled: true
+
+info:
+  app:
+    name: Learning Managements System
+    description: Application provides functionality for creation of courses and students' further enrollment
+    version: 1.0.0
