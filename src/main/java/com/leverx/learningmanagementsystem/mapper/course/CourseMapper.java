@@ -10,11 +10,11 @@ import org.mapstruct.Mapping;
 public interface CourseMapper {
 
     @Mapping(target = "courseSettingsId", source = "settings.id")
-    @Mapping(target = "lessonId",
+    @Mapping(target = "lessonIds",
             expression = "java(course.getLessons().stream()"
                     + ".map(com.leverx.learningmanagementsystem.entity.Lesson::getId)"
                     + ".collect(java.util.stream.Collectors.toList()))")
-    @Mapping(target = "studentId",
+    @Mapping(target = "studentIds",
             expression = "java(course.getStudents().stream()"
                     + ".map(com.leverx.learningmanagementsystem.entity.Student::getId)"
                     + ".collect(java.util.stream.Collectors.toList()))")

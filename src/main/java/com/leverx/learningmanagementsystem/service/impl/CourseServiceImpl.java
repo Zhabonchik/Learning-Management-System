@@ -108,28 +108,28 @@ public class CourseServiceImpl implements CourseService {
         Set<Lesson> lessons;
         Set<Student> students;
 
-        if (createCourseDto.lessonId() != null && createCourseDto.lessonId().isEmpty()) {
+        if (createCourseDto.lessonIds() != null && createCourseDto.lessonIds().isEmpty()) {
             log.info("Fetching course's lessons");
             lessons = StreamSupport.stream(lessonRepository
-                            .findAllById(createCourseDto.lessonId())
+                            .findAllById(createCourseDto.lessonIds())
                             .spliterator(), false)
                     .collect(Collectors.toSet());
-            if (lessons.size() != createCourseDto.lessonId().size()) {
+            if (lessons.size() != createCourseDto.lessonIds().size()) {
                 throw new MismatchException("Numbers of lessons in course with id = " + course.getId()
-                        + " and requested lessons mismatch (" + lessons.size() + " != " + createCourseDto.lessonId().size() + ")");
+                        + " and requested lessons mismatch (" + lessons.size() + " != " + createCourseDto.lessonIds().size() + ")");
             }
         } else {
             lessons = Collections.emptySet();
         }
-        if (createCourseDto.studentId() != null && !createCourseDto.studentId().isEmpty()) {
+        if (createCourseDto.studentIds() != null && !createCourseDto.studentIds().isEmpty()) {
             log.info("Fetching course's students");
             students = StreamSupport.stream(studentRepository
-                            .findAllById(createCourseDto.studentId())
+                            .findAllById(createCourseDto.studentIds())
                             .spliterator(), false)
                     .collect(Collectors.toSet());
-            if (students.size() != createCourseDto.studentId().size()) {
+            if (students.size() != createCourseDto.studentIds().size()) {
                 throw new MismatchException("Numbers of students in course with id = " + course.getId()
-                        + " and requested students mismatch (" + students.size() + " != " + createCourseDto.studentId().size() + ")");
+                        + " and requested students mismatch (" + students.size() + " != " + createCourseDto.studentIds().size() + ")");
             }
         } else {
             students = Collections.emptySet();

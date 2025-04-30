@@ -27,7 +27,7 @@ public class ScheduledTasks {
         this.emailService = emailService;
     }
 
-    @Scheduled(initialDelay = 10_000, fixedRate = 10_000)
+    @Scheduled(initialDelay = 10_000_000, fixedRate = 10_000)
     public void getCoursesStartingTomorrow() {
 
         LocalDate tomorrow = LocalDate.now().plusDays(1);
@@ -41,7 +41,7 @@ public class ScheduledTasks {
             String subject = course.getTitle();
             String body = "Dear student, course " + course.getTitle() + " is starting soon. The exact date is "
                     + course.getSettings().getStartDate();
-            try{
+            try {
                 emailService.sendEmail(emails, subject, body);
             } catch (MessagingException ex) {
                 log.error(ex.getMessage());

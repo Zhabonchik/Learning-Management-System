@@ -92,13 +92,13 @@ public class StudentServiceImpl implements StudentService {
 
         log.info("Fetching courses of student with id = {}", student.getId());
         Set<Course> courses = StreamSupport.stream(courseRepository
-                        .findAllById(createStudentDto.courseId())
+                        .findAllById(createStudentDto.courseIds())
                         .spliterator(), false)
                 .collect(Collectors.toSet());
 
-        if (courses.size() != createStudentDto.courseId().size()) {
+        if (courses.size() != createStudentDto.courseIds().size()) {
             throw new MismatchException("Numbers of courses of student"
-                    + " and requested courses mismatch (" + courses.size() + " != " + createStudentDto.courseId().size() + ")");
+                    + " and requested courses mismatch (" + courses.size() + " != " + createStudentDto.courseIds().size() + ")");
         }
 
         student.setCourses(courses);

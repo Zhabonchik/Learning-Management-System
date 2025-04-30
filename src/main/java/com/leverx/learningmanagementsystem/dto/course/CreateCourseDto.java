@@ -17,6 +17,6 @@ public record CreateCourseDto(
         @PositiveOrZero(message = "Price must be >= 0") BigDecimal price,
         @PositiveOrZero(message = "Coins paid must be >= 0") BigDecimal coinsPaid,
         @NotNull(message = "Course must have course settings") UUID courseSettingsId,
-        List<UUID> lessonId,
-        List<UUID> studentId) {
+        List<UUID> lessonIds,
+        List<UUID> studentIds) {
 }

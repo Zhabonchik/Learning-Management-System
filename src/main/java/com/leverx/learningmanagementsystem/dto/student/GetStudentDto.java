@@ -16,5 +16,5 @@ public record GetStudentDto(
         @Email String email,
         @Past(message = "Date of birth must be in past") LocalDate dateOfBirth,
         @PositiveOrZero(message = "Coins must be >= 0") BigDecimal coins,
-        List<UUID> courseId) {
+        List<UUID> courseIds) {
 }
