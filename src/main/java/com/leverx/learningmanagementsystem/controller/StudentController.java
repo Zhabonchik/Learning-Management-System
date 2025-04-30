@@ -3,7 +3,7 @@ package com.leverx.learningmanagementsystem.controller;
 import com.leverx.learningmanagementsystem.dto.student.CreateStudentDto;
 import com.leverx.learningmanagementsystem.dto.student.GetStudentDto;
 import com.leverx.learningmanagementsystem.service.StudentService;
-import lombok.extern.slf4j.Slf4j;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,12 +32,12 @@ public class StudentController {
     }
 
     @PostMapping
-    public GetStudentDto addStudent(@RequestBody CreateStudentDto createStudentDto) {
+    public GetStudentDto addStudent(@RequestBody @Valid CreateStudentDto createStudentDto) {
         return studentService.create(createStudentDto);
     }
 
     @PutMapping("/{id}")
-    public GetStudentDto updateStudent(@PathVariable("id") UUID id, @RequestBody CreateStudentDto updateStudentDto) {
+    public GetStudentDto updateStudent(@PathVariable("id") UUID id, @RequestBody @Valid CreateStudentDto updateStudentDto) {
         return studentService.update(id, updateStudentDto);
     }
 

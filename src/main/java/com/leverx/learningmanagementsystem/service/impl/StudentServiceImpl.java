@@ -94,12 +94,11 @@ public class StudentServiceImpl implements StudentService {
                 .collect(Collectors.toSet());
 
         if (courses.size() != createStudentDto.courseId().size()) {
-            throw new MismatchException("Numbers of courses of student with id = " + student.getId()
+            throw new MismatchException("Numbers of courses of student"
                     + " and requested courses mismatch (" + courses.size() + " != " + createStudentDto.courseId().size() + ")");
         }
 
         student.setCourses(courses);
-
         studentRepository.save(student);
     }
 }

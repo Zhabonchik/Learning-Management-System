@@ -3,7 +3,7 @@ package com.leverx.learningmanagementsystem.controller;
 import com.leverx.learningmanagementsystem.dto.course.CreateCourseDto;
 import com.leverx.learningmanagementsystem.dto.course.GetCourseDto;
 import com.leverx.learningmanagementsystem.service.CourseService;
-import lombok.extern.slf4j.Slf4j;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,12 +33,12 @@ public class CourseController {
     }
 
     @PostMapping
-    public GetCourseDto addCourse(@RequestBody CreateCourseDto createCourseDto) {
+    public GetCourseDto addCourse(@RequestBody @Valid CreateCourseDto createCourseDto) {
         return courseService.create(createCourseDto);
     }
 
     @PutMapping("/{id}")
-    public GetCourseDto updateCourse(@PathVariable("id") UUID id, @RequestBody CreateCourseDto updateCourseDto) {
+    public GetCourseDto updateCourse(@PathVariable("id") UUID id, @RequestBody @Valid CreateCourseDto updateCourseDto) {
         return courseService.update(id, updateCourseDto);
     }
 
