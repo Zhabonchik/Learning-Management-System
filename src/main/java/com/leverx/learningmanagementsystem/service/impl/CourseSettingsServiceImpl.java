@@ -4,6 +4,7 @@ import com.leverx.learningmanagementsystem.dto.coursesettings.CreateCourseSettin
 import com.leverx.learningmanagementsystem.dto.coursesettings.GetCourseSettingsDto;
 import com.leverx.learningmanagementsystem.entity.CourseSettings;
 import com.leverx.learningmanagementsystem.exception.EntityNotFoundException;
+import com.leverx.learningmanagementsystem.exception.InvalidCourseDatesException;
 import com.leverx.learningmanagementsystem.mapper.coursesettings.CourseSettingsMapper;
 import com.leverx.learningmanagementsystem.repository.CourseSettingsRepository;
 import com.leverx.learningmanagementsystem.service.CourseSettingsService;
@@ -11,6 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
 
@@ -49,6 +52,8 @@ public class CourseSettingsServiceImpl implements CourseSettingsService {
     public GetCourseSettingsDto create(CreateCourseSettingsDto createCourseDto) {
         CourseSettings courseSettings = courseSettingsMapper.toCourseSettings(createCourseDto);
 
+        checkDate(courseSettings);
+
         log.info("Create course settings: {}", courseSettings);
         courseSettingsRepository.save(courseSettings);
 
@@ -65,6 +70,8 @@ public class CourseSettingsServiceImpl implements CourseSettingsService {
         CourseSettings courseSettings = courseSettingsMapper.toCourseSettings(updateCourseDto);
         courseSettings.setId(id);
 
+        checkDate(courseSettings);
+
         log.info("Update course settings: {}", courseSettings);
         courseSettingsRepository.save(courseSettings);
 
@@ -75,5 +82,16 @@ public class CourseSettingsServiceImpl implements CourseSettingsService {
     public void delete(UUID id) {
         log.info("Delete course settings by id: {}", id);
         courseSettingsRepository.deleteById(id);
+    }
+
+    private void checkDate(CourseSettings courseSettings) {
+
+        if (courseSettings.getStartDate() == null || courseSettings.getEndDate() == null) {
+            throw new InvalidCourseDatesException("Invalid date format, expected format: yyyy-MM-dd HH:mm:ss");
+        }
+
+        if (courseSettings.getStartDate().isAfter(courseSettings.getEndDate())) {
+            throw new InvalidCourseDatesException("Course start date is after course end date");
+        }
     }
 }
