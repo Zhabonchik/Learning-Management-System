@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -90,6 +91,11 @@ public class CourseServiceImpl implements CourseService {
         saveCourse(course, updateCourseDto);
 
         return courseMapper.toGetCourseDto(course);
+    }
+
+    @Override
+    public List<Course> getAllStartingBetweenDates(LocalDateTime startDate, LocalDateTime endDate) {
+        return courseRepository.findAllStartingTheFollowingDay(startDate, endDate);
     }
 
     @Override
