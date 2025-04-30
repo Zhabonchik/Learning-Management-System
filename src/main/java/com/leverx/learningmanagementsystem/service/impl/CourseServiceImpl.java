@@ -17,6 +17,7 @@ import com.leverx.learningmanagementsystem.service.CourseService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
@@ -64,6 +65,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    @Transactional
     public GetCourseDto create(CreateCourseDto createCourseDto) {
         Course course = courseMapper.toCourse(createCourseDto);
 
@@ -74,6 +76,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    @Transactional
     public GetCourseDto update(UUID id, CreateCourseDto updateCourseDto) {
 
         if (courseRepository.findById(id).isEmpty()) {
@@ -95,7 +98,7 @@ public class CourseServiceImpl implements CourseService {
         courseRepository.deleteById(id);
     }
 
-    private void saveCourse(Course course, CreateCourseDto createCourseDto) {
+    public void saveCourse(Course course, CreateCourseDto createCourseDto) {
         Set<Lesson> lessons;
         Set<Student> students;
 

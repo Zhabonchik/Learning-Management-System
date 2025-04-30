@@ -13,6 +13,7 @@ import com.leverx.learningmanagementsystem.service.StudentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Set;
@@ -54,6 +55,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    @Transactional
     public GetStudentDto create(CreateStudentDto createStudentDto) {
 
         Student student = studentMapper.toStudent(createStudentDto);
@@ -64,6 +66,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    @Transactional
     public GetStudentDto update(UUID id, CreateStudentDto updateStudentDto) {
 
         if (studentRepository.findById(id).isEmpty()) {
@@ -85,7 +88,7 @@ public class StudentServiceImpl implements StudentService {
         studentRepository.deleteById(id);
     }
 
-    private void saveStudent(Student student, CreateStudentDto createStudentDto) {
+    public void saveStudent(Student student, CreateStudentDto createStudentDto) {
 
         log.info("Fetching courses of student with id = {}", student.getId());
         Set<Course> courses = StreamSupport.stream(courseRepository

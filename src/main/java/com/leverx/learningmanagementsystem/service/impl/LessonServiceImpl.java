@@ -11,6 +11,7 @@ import com.leverx.learningmanagementsystem.repository.LessonRepository;
 import com.leverx.learningmanagementsystem.service.LessonService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -49,6 +50,7 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
+    @Transactional
     public GetLessonDto create(CreateLessonDto createLessonDto) {
         Lesson lesson = lessonMapper.toLesson(createLessonDto);
 
@@ -63,6 +65,7 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
+    @Transactional
     public GetLessonDto update(UUID id, CreateLessonDto updateLessonDto) {
 
         if (lessonRepository.findById(id).isEmpty()) {

@@ -11,6 +11,7 @@ import com.leverx.learningmanagementsystem.service.CourseSettingsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -49,6 +50,7 @@ public class CourseSettingsServiceImpl implements CourseSettingsService {
     }
 
     @Override
+    @Transactional
     public GetCourseSettingsDto create(CreateCourseSettingsDto createCourseDto) {
         CourseSettings courseSettings = courseSettingsMapper.toCourseSettings(createCourseDto);
 
@@ -61,6 +63,7 @@ public class CourseSettingsServiceImpl implements CourseSettingsService {
     }
 
     @Override
+    @Transactional
     public GetCourseSettingsDto update(UUID id, CreateCourseSettingsDto updateCourseDto) {
 
         if (courseSettingsRepository.findById(id).isEmpty()) {
