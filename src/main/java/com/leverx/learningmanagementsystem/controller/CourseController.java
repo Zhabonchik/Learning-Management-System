@@ -4,11 +4,10 @@ import com.leverx.learningmanagementsystem.dto.course.CreateCourseDto;
 import com.leverx.learningmanagementsystem.dto.course.GetCourseDto;
 import com.leverx.learningmanagementsystem.service.CourseService;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,36 +16,36 @@ import java.util.UUID;
 @RequestMapping("/courses")
 public class CourseController {
 
-    private final CourseService courseService;
+    private final CourseService service;
 
     @Autowired
     public CourseController(CourseService courseService) {
-        this.courseService = courseService;
+        this.service = courseService;
     }
 
     @GetMapping
     public List<GetCourseDto> getAllCourses() {
-        return courseService.getAllCourses();
+        return service.getAllCourses();
     }
 
     @GetMapping("/{id}")
     public GetCourseDto getCourse(@PathVariable("id") UUID id) {
-        return courseService.getById(id);
+        return service.getById(id);
     }
 
     @PostMapping
     public GetCourseDto addCourse(@RequestBody @Valid CreateCourseDto createCourseDto) {
-        return courseService.create(createCourseDto);
+        return service.create(createCourseDto);
     }
 
     @PutMapping("/{id}")
     public GetCourseDto updateCourse(@PathVariable("id") UUID id, @RequestBody @Valid CreateCourseDto updateCourseDto) {
-        return courseService.update(id, updateCourseDto);
+        return service.update(id, updateCourseDto);
     }
 
     @DeleteMapping("/{id}")
     public void deleteCourse(@PathVariable("id") UUID id) {
-        courseService.delete(id);
+        service.delete(id);
     }
 
 }

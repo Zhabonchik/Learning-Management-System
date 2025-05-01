@@ -4,7 +4,6 @@ import com.leverx.learningmanagementsystem.dto.lesson.CreateLessonDto;
 import com.leverx.learningmanagementsystem.dto.lesson.GetLessonDto;
 import com.leverx.learningmanagementsystem.service.LessonService;
 import jakarta.validation.Valid;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,35 +14,35 @@ import java.util.UUID;
 @RequestMapping("/lessons")
 public class LessonController {
 
-    private final LessonService lessonService;
+    private final LessonService service;
 
     @Autowired
     public LessonController(LessonService lessonService) {
-        this.lessonService = lessonService;
+        this.service = lessonService;
     }
 
     @GetMapping
     public List<GetLessonDto> getAllLessons() {
-        return lessonService.getAllLessons();
+        return service.getAllLessons();
     }
 
     @GetMapping("/{id}")
     public GetLessonDto getLesson(@PathVariable("id") UUID id) {
-        return lessonService.getById(id);
+        return service.getById(id);
     }
 
     @PostMapping
     public GetLessonDto addLesson(@RequestBody @Valid CreateLessonDto createLessonDto) {
-        return lessonService.create(createLessonDto);
+        return service.create(createLessonDto);
     }
 
     @PutMapping("/{id}")
     public GetLessonDto updateLesson(@PathVariable("id") UUID id, @RequestBody @Valid CreateLessonDto createLessonDto) {
-        return lessonService.update(id, createLessonDto);
+        return service.update(id, createLessonDto);
     }
 
     @DeleteMapping("/{id}")
     public void deleteLesson(@PathVariable("id") UUID id) {
-        lessonService.delete(id);
+        service.delete(id);
     }
 }

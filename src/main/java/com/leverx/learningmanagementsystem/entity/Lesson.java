@@ -24,7 +24,7 @@ public class Lesson {
     private String title;
 
     @Column(name = "duration")
-    private Integer duration;
+    private Integer durationInMinutes;
 
     @ManyToOne
     @JoinColumn(name = "course_id")

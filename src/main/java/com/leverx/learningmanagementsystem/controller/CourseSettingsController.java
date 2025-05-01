@@ -15,36 +15,36 @@ import java.util.UUID;
 @RequestMapping("/course-settings")
 public class CourseSettingsController {
 
-    private final CourseSettingsService courseSettingsService;
+    private final CourseSettingsService service;
 
     @Autowired
     public CourseSettingsController(CourseSettingsService courseSettingsService) {
-        this.courseSettingsService = courseSettingsService;
+        this.service = courseSettingsService;
     }
 
     @GetMapping
     public List<GetCourseSettingsDto> getAllCourseSettings() {
-        return courseSettingsService.getAllCourseSettings();
+        return service.getAllCourseSettings();
     }
 
     @GetMapping("/{id}")
     public GetCourseSettingsDto getCourseSettings(@PathVariable("id") UUID id) {
-        return courseSettingsService.getById(id);
+        return service.getById(id);
     }
 
     @PostMapping
     public GetCourseSettingsDto addCourseSettings(@RequestBody @Valid CreateCourseSettingsDto createCourseSettingsDto) {
-        return courseSettingsService.create(createCourseSettingsDto);
+        return service.create(createCourseSettingsDto);
     }
 
     @PutMapping("/{id}")
     public GetCourseSettingsDto updateCourseSettings(@PathVariable("id") UUID id,
                                                      @RequestBody @Valid CreateCourseSettingsDto createCourseSettingsDto) {
-        return courseSettingsService.update(id, createCourseSettingsDto);
+        return service.update(id, createCourseSettingsDto);
     }
 
     @DeleteMapping("/{id}")
     public void deleteCourseSettings(@PathVariable("id") UUID id) {
-        courseSettingsService.delete(id);
+        service.delete(id);
     }
 }

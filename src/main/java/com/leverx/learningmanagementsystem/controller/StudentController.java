@@ -14,35 +14,35 @@ import java.util.UUID;
 @RequestMapping("/students")
 public class StudentController {
 
-    private final StudentService studentService;
+    private final StudentService service;
 
     @Autowired
     public StudentController(StudentService studentService) {
-        this.studentService = studentService;
+        this.service = studentService;
     }
 
     @GetMapping
     public List<GetStudentDto> getAllStudents() {
-        return studentService.getAllStudents();
+        return service.getAllStudents();
     }
 
     @GetMapping("/{id}")
     public GetStudentDto getStudent(@PathVariable("id") UUID id) {
-        return studentService.getById(id);
+        return service.getById(id);
     }
 
     @PostMapping
     public GetStudentDto addStudent(@RequestBody @Valid CreateStudentDto createStudentDto) {
-        return studentService.create(createStudentDto);
+        return service.create(createStudentDto);
     }
 
     @PutMapping("/{id}")
     public GetStudentDto updateStudent(@PathVariable("id") UUID id, @RequestBody @Valid CreateStudentDto updateStudentDto) {
-        return studentService.update(id, updateStudentDto);
+        return service.update(id, updateStudentDto);
     }
 
     @DeleteMapping("/{id}")
     public void deleteStudent(@PathVariable("id") UUID id) {
-        studentService.delete(id);
+        service.delete(id);
     }
 }
