@@ -1,8 +1,6 @@
 package com.leverx.learningmanagementsystem.dto.course;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Builder;
 
@@ -16,7 +14,7 @@ public record CreateCourseDto(
         @NotBlank(message = "Description must not be blank") String description,
         @PositiveOrZero(message = "Price must be >= 0") BigDecimal price,
         @PositiveOrZero(message = "Coins paid must be >= 0") BigDecimal coinsPaid,
-        @NotNull(message = "Course must have course settings") UUID courseSettingsId,
+        UUID courseSettingsId,
         List<UUID> lessonIds,
         List<UUID> studentIds) {
 }

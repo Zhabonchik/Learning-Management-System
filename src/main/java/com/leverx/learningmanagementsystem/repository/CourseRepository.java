@@ -21,6 +21,9 @@ public interface CourseRepository extends CrudRepository<Course, UUID> {
     @EntityGraph(attributePaths = {"lessons", "students", "settings"})
     List<Course> findAll();
 
+    @Query("SELECT c FROM Course c WHERE c.id IN :ids")
+    List<Course> findAllById(@Param("ids") List<UUID> ids);
+
     @EntityGraph(attributePaths = {"lessons", "students", "settings"})
     @Query(value = "SELECT c FROM Course c JOIN c.settings s where s.startDate BETWEEN :tomorrowStart AND :tomorrowEnd")
     List<Course> findAllStartingTheFollowingDay(@Param("tomorrowStart") LocalDateTime tomorrowStart,

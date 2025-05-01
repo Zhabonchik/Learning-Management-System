@@ -98,8 +98,6 @@ databaseChangeLog:
               - column:
                   name: settings_id
                   type: uuid
-                  constraints:
-                    nullable: false
 
         - addForeignKeyConstraint:
             baseTableName: course

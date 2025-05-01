@@ -6,6 +6,8 @@ import com.leverx.learningmanagementsystem.entity.CourseSettings;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface CourseSettingsMapper {
 
@@ -15,4 +17,6 @@ public interface CourseSettingsMapper {
 
     @Mapping(target = "id", ignore = true)
     CourseSettings toCourseSettings(CreateCourseSettingsDto createCourseSettingsDto);
+
+    List<GetCourseSettingsDto> toGetCourseSettingsDtoList(List<CourseSettings> courseSettingsList);
 }

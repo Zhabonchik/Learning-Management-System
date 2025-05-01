@@ -6,7 +6,8 @@ import com.leverx.learningmanagementsystem.entity.Course;
 import com.leverx.learningmanagementsystem.entity.CourseSettings;
 import com.leverx.learningmanagementsystem.entity.Lesson;
 import com.leverx.learningmanagementsystem.entity.Student;
-import com.leverx.learningmanagementsystem.exception.EntityValidationException;
+import com.leverx.learningmanagementsystem.exception.EntityValidationException.EntityNotFoundException;
+import com.leverx.learningmanagementsystem.exception.EntityValidationException.IncorrectResultSizeException;
 import com.leverx.learningmanagementsystem.mapper.course.CourseMapper;
 import com.leverx.learningmanagementsystem.repository.CourseRepository;
 import com.leverx.learningmanagementsystem.repository.CourseSettingsRepository;
@@ -15,14 +16,12 @@ import com.leverx.learningmanagementsystem.repository.StudentRepository;
 import com.leverx.learningmanagementsystem.service.CourseService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -41,17 +40,14 @@ public class CourseServiceImpl implements CourseService {
     public GetCourseDto getById(UUID id) {
         log.info("Get course with id {}", id);
         Course course = courseRepository.findById(id)
-                .orElseThrow(() -> new EntityValidationException.EntityNotFoundException("Course with id = " + id + " not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Course with id = " + id + " not found"));
         return courseMapper.toGetCourseDto(course);
     }
 
     @Override
     public List<GetCourseDto> getAllCourses() {
         log.info("Get all courses");
-        List<Course> courses = (List<Course>) courseRepository.findAll();
-        return courses.stream()
-                .map(courseMapper::toGetCourseDto)
-                .toList();
+        return courseMapper.toGetCourseDtoList(courseRepository.findAll());
     }
 
     @Override
@@ -70,7 +66,7 @@ public class CourseServiceImpl implements CourseService {
     public GetCourseDto update(UUID id, CreateCourseDto updateCourseDto) {
 
         if (courseRepository.findById(id).isEmpty()) {
-            throw new EntityValidationException.EntityNotFoundException("Course with id = " + id + " not found");
+            throw new EntityNotFoundException("Course with id = " + id + " not found");
         }
 
         Course course = courseMapper.toCourse(updateCourseDto);
@@ -97,41 +93,40 @@ public class CourseServiceImpl implements CourseService {
         Set<Lesson> lessons;
         Set<Student> students;
 
-        if (createCourseDto.lessonIds() != null && createCourseDto.lessonIds().isEmpty()) {
+        if (createCourseDto.lessonIds() != null && CollectionUtils.isNotEmpty(createCourseDto.lessonIds())) {
             log.info("Fetching course's lessons");
-            lessons = StreamSupport.stream(lessonRepository
-                            .findAllById(createCourseDto.lessonIds())
-                            .spliterator(), false)
-                    .collect(Collectors.toSet());
+            lessons = new HashSet<>(lessonRepository.findAllById(createCourseDto.lessonIds()));
             if (lessons.size() != createCourseDto.lessonIds().size()) {
-                throw new EntityValidationException.IncorrectResultSizeException(
-                        "Numbers of lessons in course with id = " + course.getId()
-                        + " and requested lessons mismatch (" + lessons.size() + " != " + createCourseDto.lessonIds().size() + ")");
+                throw new IncorrectResultSizeException(
+                        "Some of requested lessons don't exist");
             }
         } else {
             lessons = Collections.emptySet();
         }
-        if (createCourseDto.studentIds() != null && !createCourseDto.studentIds().isEmpty()) {
+        if (createCourseDto.studentIds() != null && CollectionUtils.isNotEmpty(createCourseDto.studentIds())) {
             log.info("Fetching course's students");
             students = StreamSupport.stream(studentRepository
                             .findAllById(createCourseDto.studentIds())
                             .spliterator(), false)
                     .collect(Collectors.toSet());
             if (students.size() != createCourseDto.studentIds().size()) {
-                throw new EntityValidationException.IncorrectResultSizeException(
-                        "Numbers of students in course with id = " + course.getId()
-                        + " and requested students mismatch (" + students.size() + " != " + createCourseDto.studentIds().size() + ")");
+                throw new IncorrectResultSizeException(
+                        "Some of requested students don't exist");
             }
         } else {
             students = Collections.emptySet();
         }
 
-        log.info("Fetching course settings with id = {}", createCourseDto.courseSettingsId());
-        CourseSettings courseSettings = courseSettingsRepository.findById(createCourseDto.courseSettingsId())
-                .orElseThrow(() -> new EntityValidationException.EntityNotFoundException("Course settings with id = "
-                        + createCourseDto.courseSettingsId() + " not found"));
+        UUID settingsId = createCourseDto.courseSettingsId();
+        if (settingsId != null) {
+            log.info("Fetching course settings with id = {}", settingsId);
+            CourseSettings courseSettings = courseSettingsRepository.findById(settingsId)
+                    .orElseThrow(() -> new EntityNotFoundException("Course settings with id = " + settingsId + " not found"));
+            course.setSettings(courseSettings);
+        } else {
+            course.setSettings(null);
+        }
 
-        course.setSettings(courseSettings);
         course.setLessons(lessons);
         course.setStudents(students);
 

@@ -6,10 +6,12 @@ import com.leverx.learningmanagementsystem.entity.Course;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface CourseMapper {
 
-    @Mapping(target = "courseSettingsId", source = "settings.id")
+    @Mapping(target = "courseSettingsId", expression = "java(course.getSettings() != null ? course.getSettings().getId() : null)")
     @Mapping(target = "lessonIds",
             expression = "java(course.getLessons().stream()"
                     + ".map(com.leverx.learningmanagementsystem.entity.Lesson::getId)"
@@ -30,5 +32,7 @@ public interface CourseMapper {
     @Mapping(target = "lessons", ignore = true)
     @Mapping(target = "students", ignore = true)
     Course toCourse(CreateCourseDto getCourseDto);
+
+    List<GetCourseDto> toGetCourseDtoList(List<Course> courses);
 
 }

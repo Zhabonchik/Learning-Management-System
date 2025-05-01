@@ -6,6 +6,8 @@ import com.leverx.learningmanagementsystem.entity.Student;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface StudentMapper {
 
@@ -20,4 +22,6 @@ public interface StudentMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "courses", ignore = true)
     Student toStudent(CreateStudentDto createStudentDto);
+
+    List<GetStudentDto> toGetStudentDtoList(List<Student> students);
 }
