@@ -1,73 +1,64 @@
 package com.leverx.learningmanagementsystem.service.impl;
 
 import com.leverx.learningmanagementsystem.dto.student.CreateStudentDto;
-import com.leverx.learningmanagementsystem.dto.student.GetStudentDto;
 import com.leverx.learningmanagementsystem.entity.Course;
 import com.leverx.learningmanagementsystem.entity.Student;
-import com.leverx.learningmanagementsystem.exception.EntityNotFoundException;
-import com.leverx.learningmanagementsystem.exception.MismatchException;
+import com.leverx.learningmanagementsystem.exception.EntityValidationException.StudentAlreadyEnrolledException;
+import com.leverx.learningmanagementsystem.exception.EntityValidationException.EntityNotFoundException;
+import com.leverx.learningmanagementsystem.exception.EntityValidationException.IncorrectResultSizeException;
+import com.leverx.learningmanagementsystem.exception.EntityValidationException.NotEnoughCoinsException;
 import com.leverx.learningmanagementsystem.mapper.student.StudentMapper;
 import com.leverx.learningmanagementsystem.repository.CourseRepository;
 import com.leverx.learningmanagementsystem.repository.StudentRepository;
+import com.leverx.learningmanagementsystem.service.CourseService;
 import com.leverx.learningmanagementsystem.service.StudentService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Slf4j
 @Service
+@AllArgsConstructor
 public class StudentServiceImpl implements StudentService {
 
+    private final CourseService courseService;
     private final StudentRepository studentRepository;
     private final CourseRepository courseRepository;
     private final StudentMapper studentMapper;
 
-    @Autowired
-    public StudentServiceImpl(StudentRepository studentRepository, CourseRepository courseRepository,
-                              StudentMapper studentMapper) {
-        this.studentRepository = studentRepository;
-        this.courseRepository = courseRepository;
-        this.studentMapper = studentMapper;
-    }
-
     @Override
-    public GetStudentDto getById(UUID id) {
+    public Student getById(UUID id) {
         log.info("Get student by id: {}", id);
-        Student student = studentRepository.findById(id)
+        return studentRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Student with id " + id + " not found"));
-        return studentMapper.toGetStudentDto(student);
     }
 
     @Override
-    public List<GetStudentDto> getAllStudents() {
+    public List<Student> getAll() {
         log.info("Get all students");
-        List<Student> students = (List<Student>) studentRepository.findAll();
-        return students.stream()
-                .map(studentMapper::toGetStudentDto)
-                .toList();
+        return studentRepository.findAll();
     }
 
     @Override
     @Transactional
-    public GetStudentDto create(CreateStudentDto createStudentDto) {
+    public Student create(CreateStudentDto createStudentDto) {
 
         Student student = studentMapper.toStudent(createStudentDto);
         log.info("Create student: {}", student);
         saveStudent(student, createStudentDto);
 
-        return studentMapper.toGetStudentDto(student);
+        return student;
     }
 
     @Override
     @Transactional
-    public GetStudentDto update(UUID id, CreateStudentDto updateStudentDto) {
+    public Student update(UUID id, CreateStudentDto updateStudentDto) {
 
         if (studentRepository.findById(id).isEmpty()) {
             throw new EntityNotFoundException("Student with id " + id + " not found");
@@ -79,26 +70,47 @@ public class StudentServiceImpl implements StudentService {
         log.info("Update student: {}", student);
         saveStudent(student, updateStudentDto);
 
-        return studentMapper.toGetStudentDto(student);
+        return student;
+    }
+
+    @Transactional
+    public void enrollForCourse(UUID studentId, UUID courseId) {
+        Student student = getById(studentId);
+        Course course = courseService.getById(courseId);
+
+        if (student.getCourses().contains(course)) {
+            throw new StudentAlreadyEnrolledException("Student with id " + studentId
+                    + " already enrolled for course with id = " + courseId);
+        }
+
+        if (student.getCoins().compareTo(course.getPrice()) < 0) {
+            throw new NotEnoughCoinsException("Student with id = " + studentId
+                    + " doesn't have enough coins to enroll for course with id = " + courseId);
+        }
+
+        student.setCoins(student.getCoins().subtract(course.getPrice()));
+        student.getCourses().add(course);
+        course.setCoinsPaid(course.getCoinsPaid().add(course.getPrice()));
+        course.getStudents().add(student);
+
+        studentRepository.save(student);
+        courseRepository.save(course);
     }
 
     @Override
     public void delete(UUID id) {
+        getById(id);
         log.info("Delete student: {}", id);
         studentRepository.deleteById(id);
     }
 
-    public void saveStudent(Student student, CreateStudentDto createStudentDto) {
+    private void saveStudent(Student student, CreateStudentDto createStudentDto) {
 
-        log.info("Fetching courses of student with id = {}", student.getId());
-        Set<Course> courses = StreamSupport.stream(courseRepository
-                        .findAllById(createStudentDto.courseId())
-                        .spliterator(), false)
-                .collect(Collectors.toSet());
+        log.info("Fetching courses for student with id = {}", student.getId());
+        Set<Course> courses = new HashSet<>(courseRepository.findAllById(createStudentDto.courseIds()));
 
-        if (courses.size() != createStudentDto.courseId().size()) {
-            throw new MismatchException("Numbers of courses of student"
-                    + " and requested courses mismatch (" + courses.size() + " != " + createStudentDto.courseId().size() + ")");
+        if (createStudentDto.courseIds() != null && courses.size() != createStudentDto.courseIds().size()) {
+            throw new IncorrectResultSizeException("Some of requested courses don't exist");
         }
 
         student.setCourses(courses);

@@ -1,57 +1,47 @@
 package com.leverx.learningmanagementsystem.service.impl;
 
 import com.leverx.learningmanagementsystem.dto.coursesettings.CreateCourseSettingsDto;
-import com.leverx.learningmanagementsystem.dto.coursesettings.GetCourseSettingsDto;
 import com.leverx.learningmanagementsystem.entity.CourseSettings;
-import com.leverx.learningmanagementsystem.exception.EntityNotFoundException;
-import com.leverx.learningmanagementsystem.exception.InvalidCourseDatesException;
+import com.leverx.learningmanagementsystem.exception.EntityValidationException.InvalidCourseDatesException;
+import com.leverx.learningmanagementsystem.exception.EntityValidationException.EntityNotFoundException;
 import com.leverx.learningmanagementsystem.mapper.coursesettings.CourseSettingsMapper;
 import com.leverx.learningmanagementsystem.repository.CourseSettingsRepository;
 import com.leverx.learningmanagementsystem.service.CourseSettingsService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
 
+import static com.leverx.learningmanagementsystem.utils.DataFormatUtils.DATE_TIME_FORMAT;
+
 @Slf4j
 @Service
+@AllArgsConstructor
 public class CourseSettingsServiceImpl implements CourseSettingsService {
 
     private final CourseSettingsRepository courseSettingsRepository;
     private final CourseSettingsMapper courseSettingsMapper;
 
-    @Autowired
-    public CourseSettingsServiceImpl(CourseSettingsRepository courseSettingsRepository,
-                                     CourseSettingsMapper courseSettingsMapper) {
-        this.courseSettingsRepository = courseSettingsRepository;
-        this.courseSettingsMapper = courseSettingsMapper;
-    }
-
     @Override
-    public GetCourseSettingsDto getById(UUID id) {
+    public CourseSettings getById(UUID id) {
         log.info("Get course settings by id: {}", id);
-        CourseSettings courseSettings = courseSettingsRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Course settings with id = " + id + " not found"));
-        return courseSettingsMapper.toGetCourseSettingsDto(courseSettings);
+        return courseSettingsRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "Course settings with id = " + id + " not found"));
     }
 
     @Override
-    public List<GetCourseSettingsDto> getAllCourseSettings() {
+    public List<CourseSettings> getAll() {
         log.info("Get all course settings");
-        List<CourseSettings> courseSettingsList = (List<CourseSettings>) courseSettingsRepository.findAll();
-        return courseSettingsList.stream()
-                .map(courseSettingsMapper::toGetCourseSettingsDto)
-                .toList();
+        return courseSettingsRepository.findAll();
     }
 
     @Override
     @Transactional
-    public GetCourseSettingsDto create(CreateCourseSettingsDto createCourseDto) {
+    public CourseSettings create(CreateCourseSettingsDto createCourseDto) {
         CourseSettings courseSettings = courseSettingsMapper.toCourseSettings(createCourseDto);
 
         checkDate(courseSettings);
@@ -59,12 +49,12 @@ public class CourseSettingsServiceImpl implements CourseSettingsService {
         log.info("Create course settings: {}", courseSettings);
         courseSettingsRepository.save(courseSettings);
 
-        return courseSettingsMapper.toGetCourseSettingsDto(courseSettings);
+        return courseSettings;
     }
 
     @Override
     @Transactional
-    public GetCourseSettingsDto update(UUID id, CreateCourseSettingsDto updateCourseDto) {
+    public CourseSettings update(UUID id, CreateCourseSettingsDto updateCourseDto) {
 
         if (courseSettingsRepository.findById(id).isEmpty()) {
             throw new EntityNotFoundException("Course settings with id = " + id + " not found");
@@ -78,11 +68,12 @@ public class CourseSettingsServiceImpl implements CourseSettingsService {
         log.info("Update course settings: {}", courseSettings);
         courseSettingsRepository.save(courseSettings);
 
-        return courseSettingsMapper.toGetCourseSettingsDto(courseSettings);
+        return courseSettings;
     }
 
     @Override
     public void delete(UUID id) {
+        getById(id);
         log.info("Delete course settings by id: {}", id);
         courseSettingsRepository.deleteById(id);
     }
@@ -90,11 +81,13 @@ public class CourseSettingsServiceImpl implements CourseSettingsService {
     private void checkDate(CourseSettings courseSettings) {
 
         if (courseSettings.getStartDate() == null || courseSettings.getEndDate() == null) {
-            throw new InvalidCourseDatesException("Invalid date format, expected format: yyyy-MM-dd HH:mm:ss");
+            throw new InvalidCourseDatesException(
+                    "Invalid date format, expected format: " + DATE_TIME_FORMAT);
         }
 
         if (courseSettings.getStartDate().isAfter(courseSettings.getEndDate())) {
-            throw new InvalidCourseDatesException("Course start date is after course end date");
+            throw new InvalidCourseDatesException(
+                    "Course start date is after course end date");
         }
     }
 }

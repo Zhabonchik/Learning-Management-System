@@ -5,7 +5,7 @@ target/
 !**/src/test/**/target/
 
 src/main/resources/application-secret.yaml
-src/main/resources/db/changelog/changeset/insert/
+src/main/resources/data
 
 ### IntelliJ IDEA ###
 .idea

@@ -2,7 +2,9 @@ package com.leverx.learningmanagementsystem.repository;
 
 import com.leverx.learningmanagementsystem.entity.Student;
 import org.springframework.data.jpa.repository.EntityGraph;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -18,4 +20,6 @@ public interface StudentRepository extends CrudRepository<Student, UUID> {
     @EntityGraph(attributePaths = "courses")
     List<Student> findAll();
 
+    @Query("SELECT s FROM Student s WHERE s.id in :ids")
+    List<Student> findAllById(@Param("ids") List<UUID> ids);
 }
