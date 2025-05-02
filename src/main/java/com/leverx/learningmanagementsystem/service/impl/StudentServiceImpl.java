@@ -40,6 +40,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    @Transactional
     public List<Student> getAll() {
         log.info("Get all students");
         return studentRepository.findAll();
@@ -107,7 +108,7 @@ public class StudentServiceImpl implements StudentService {
     private void saveStudent(Student student, CreateStudentDto createStudentDto) {
 
         log.info("Fetching courses for student with id = {}", student.getId());
-        Set<Course> courses = new HashSet<>(courseRepository.findAllById(createStudentDto.courseIds()));
+        List<Course> courses = courseRepository.findAllById(createStudentDto.courseIds());
 
         if (createStudentDto.courseIds() != null && courses.size() != createStudentDto.courseIds().size()) {
             throw new IncorrectResultSizeException("Some of requested courses don't exist");

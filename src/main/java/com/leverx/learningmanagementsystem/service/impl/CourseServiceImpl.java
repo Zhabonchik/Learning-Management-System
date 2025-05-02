@@ -41,10 +41,15 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Course> getAll() {
         log.info("Get all courses");
-        return courseRepository.findAll();
+
+        List<Course> courses = courseRepository.findAllWithLessons();
+        courses = !courses.isEmpty() ? courseRepository.findAllWithStudents() : courses;
+        courses = !courses.isEmpty() ? courseRepository.findAllWithSettings() : courses;
+
+        return courses;
     }
 
     @Override
@@ -88,28 +93,28 @@ public class CourseServiceImpl implements CourseService {
     }
 
     private void save(Course course, CreateCourseDto createCourseDto) {
-        Set<Lesson> lessons;
-        Set<Student> students;
+        List<Lesson> lessons;
+        List<Student> students;
 
         if (createCourseDto.lessonIds() != null && CollectionUtils.isNotEmpty(createCourseDto.lessonIds())) {
             log.info("Fetching course's lessons");
-            lessons = new HashSet<>(lessonRepository.findAllById(createCourseDto.lessonIds()));
+            lessons = lessonRepository.findAllById(createCourseDto.lessonIds());
             if (lessons.size() != createCourseDto.lessonIds().size()) {
                 throw new IncorrectResultSizeException(
                         "Some of requested lessons don't exist");
             }
         } else {
-            lessons = Collections.emptySet();
+            lessons = Collections.emptyList();
         }
         if (createCourseDto.studentIds() != null && CollectionUtils.isNotEmpty(createCourseDto.studentIds())) {
             log.info("Fetching course's students");
-            students = new HashSet<>(studentRepository.findAllById(createCourseDto.studentIds()));
+            students = studentRepository.findAllById(createCourseDto.studentIds());
             if (students.size() != createCourseDto.studentIds().size()) {
                 throw new IncorrectResultSizeException(
                         "Some of requested students don't exist");
             }
         } else {
-            students = Collections.emptySet();
+            students = Collections.emptyList();
         }
 
         UUID settingsId = createCourseDto.courseSettingsId();

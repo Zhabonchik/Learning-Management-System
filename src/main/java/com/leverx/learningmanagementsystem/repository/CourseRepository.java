@@ -18,8 +18,14 @@ public interface CourseRepository extends CrudRepository<Course, UUID> {
     @EntityGraph(attributePaths = {"lessons", "students", "settings"})
     Optional<Course> findById(UUID id);
 
-    @EntityGraph(attributePaths = {"lessons", "students", "settings"})
-    List<Course> findAll();
+    @Query("SELECT DISTINCT c FROM Course c LEFT JOIN FETCH c.lessons")
+    List<Course> findAllWithLessons();
+
+    @Query("SELECT DISTINCT c FROM Course c LEFT JOIN FETCH c.students")
+    List<Course> findAllWithStudents();
+
+    @Query("SELECT DISTINCT c FROM Course c LEFT JOIN FETCH c.settings")
+    List<Course> findAllWithSettings();
 
     @Query("SELECT c FROM Course c WHERE c.id IN :ids")
     List<Course> findAllById(@Param("ids") List<UUID> ids);

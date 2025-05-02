@@ -38,11 +38,9 @@ public class Course {
     private CourseSettings settings;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
-    @Builder.Default
-    private Set<Lesson> lessons = new HashSet<>();
+    private List<Lesson> lessons;
 
     @ManyToMany(mappedBy = "courses")
-    @Builder.Default
-    private Set<Student> students = new HashSet<>();
+    private List<Student> students;
 
 }
