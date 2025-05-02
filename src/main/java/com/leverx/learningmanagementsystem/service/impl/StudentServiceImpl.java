@@ -108,7 +108,7 @@ public class StudentServiceImpl implements StudentService {
         log.info("Fetching courses for student with id = {}", student.getId());
         Set<Course> courses = new HashSet<>(courseRepository.findAllById(createStudentDto.courseIds()));
 
-        if (courses.size() != createStudentDto.courseIds().size()) {
+        if (createStudentDto.courseIds() != null && courses.size() != createStudentDto.courseIds().size()) {
             throw new IncorrectResultSizeException("Some of requested courses don't exist");
         }
 

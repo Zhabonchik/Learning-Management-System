@@ -43,6 +43,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    @Transactional
     public List<Course> getAll() {
         log.info("Get all courses");
         return courseRepository.findAll();
@@ -103,10 +104,7 @@ public class CourseServiceImpl implements CourseService {
         }
         if (createCourseDto.studentIds() != null && CollectionUtils.isNotEmpty(createCourseDto.studentIds())) {
             log.info("Fetching course's students");
-            students = StreamSupport.stream(studentRepository
-                            .findAllById(createCourseDto.studentIds())
-                            .spliterator(), false)
-                    .collect(Collectors.toSet());
+            students = new HashSet<>(studentRepository.findAllById(createCourseDto.studentIds()));
             if (students.size() != createCourseDto.studentIds().size()) {
                 throw new IncorrectResultSizeException(
                         "Some of requested students don't exist");
