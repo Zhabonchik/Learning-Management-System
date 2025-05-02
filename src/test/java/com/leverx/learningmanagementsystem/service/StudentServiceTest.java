@@ -19,8 +19,10 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @Transactional
 public class StudentServiceTest {
+
     @Autowired
     StudentService studentService;
+
     CreateStudentDto createStudentDto;
 
     @BeforeEach
@@ -43,7 +45,7 @@ public class StudentServiceTest {
     }
 
     @Test
-    public void testCreateStudent() {
+    public void testCreate() {
         Student createdStudent = studentService.create(createStudentDto);
         assertAll(
                 () -> assertNotNull(createdStudent.getId()),
@@ -56,7 +58,7 @@ public class StudentServiceTest {
     }
 
     @Test
-    public void testUpdateStudent() {
+    public void testUpdate() {
         Student updatedStudent = studentService.update(
                 UUID.fromString("5a231280-1988-410f-98d9-852b8dc9caf1"),
                 createStudentDto);
@@ -73,7 +75,7 @@ public class StudentServiceTest {
     }
 
     @Test
-    public void testUpdateStudentThrowsInvalidFormatExceptionAndRollbacksTransaction() {
+    public void testUpdateThrowsIncorrectResultSizeExceptionAndRollbacksTransaction() {
         Exception ex = assertThrows(IncorrectResultSizeException.class,
                 () -> {
                     createStudentDto.courseIds().add(UUID.fromString("ddf747d2-f5de-4a2e-b8b9-66d8bd7e357e"));

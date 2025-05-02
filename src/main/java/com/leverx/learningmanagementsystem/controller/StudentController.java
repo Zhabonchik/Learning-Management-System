@@ -22,18 +22,18 @@ public class StudentController {
     private final StudentMapper studentMapper;
 
     @GetMapping
-    public List<GetStudentDto> getAllStudents() {
+    public List<GetStudentDto> getAll() {
         return studentMapper.toGetStudentDtoList(studentService.getAll());
     }
 
     @GetMapping("/{id}")
-    public GetStudentDto getStudent(@PathVariable("id") UUID id) {
+    public GetStudentDto getById(@PathVariable("id") UUID id) {
         return studentMapper.toGetStudentDto(studentService.getById(id));
     }
 
     @PostMapping
     @ResponseStatus(CREATED)
-    public GetStudentDto addStudent(@RequestBody @Valid CreateStudentDto createStudentDto) {
+    public GetStudentDto create(@RequestBody @Valid CreateStudentDto createStudentDto) {
         return studentMapper.toGetStudentDto(studentService.create(createStudentDto));
     }
 
@@ -44,12 +44,12 @@ public class StudentController {
     }
 
     @PutMapping("/{id}")
-    public GetStudentDto updateStudent(@PathVariable("id") UUID id, @RequestBody @Valid CreateStudentDto updateStudentDto) {
+    public GetStudentDto update(@PathVariable("id") UUID id, @RequestBody @Valid CreateStudentDto updateStudentDto) {
         return studentMapper.toGetStudentDto(studentService.update(id, updateStudentDto));
     }
 
     @DeleteMapping("/{id}")
-    public void deleteStudent(@PathVariable("id") UUID id) {
+    public void delete(@PathVariable("id") UUID id) {
         studentService.delete(id);
     }
 }

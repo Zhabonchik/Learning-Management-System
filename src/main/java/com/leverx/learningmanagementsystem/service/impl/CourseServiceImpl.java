@@ -21,8 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Slf4j
 @Service
@@ -84,6 +82,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public void delete(UUID id) {
+        getById(id);
         log.info("Delete course with id {}", id);
         courseRepository.deleteById(id);
     }

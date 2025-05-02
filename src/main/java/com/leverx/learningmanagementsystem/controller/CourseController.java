@@ -23,28 +23,28 @@ public class CourseController {
     private final CourseMapper courseMapper;
 
     @GetMapping
-    public List<GetCourseDto> getAllCourses() {
+    public List<GetCourseDto> getAll() {
         return courseMapper.toGetCourseDtoList(courseService.getAll());
     }
 
     @GetMapping("/{id}")
-    public GetCourseDto getCourse(@PathVariable("id") UUID id) {
+    public GetCourseDto getById(@PathVariable("id") UUID id) {
         return courseMapper.toGetCourseDto(courseService.getById(id));
     }
 
     @PostMapping
     @ResponseStatus(CREATED)
-    public GetCourseDto addCourse(@RequestBody @Valid CreateCourseDto createCourseDto) {
+    public GetCourseDto create(@RequestBody @Valid CreateCourseDto createCourseDto) {
         return courseMapper.toGetCourseDto(courseService.create(createCourseDto));
     }
 
     @PutMapping("/{id}")
-    public GetCourseDto updateCourse(@PathVariable("id") UUID id, @RequestBody @Valid CreateCourseDto updateCourseDto) {
+    public GetCourseDto update(@PathVariable("id") UUID id, @RequestBody @Valid CreateCourseDto updateCourseDto) {
         return courseMapper.toGetCourseDto(courseService.update(id, updateCourseDto));
     }
 
     @DeleteMapping("/{id}")
-    public void deleteCourse(@PathVariable("id") UUID id) {
+    public void delete(@PathVariable("id") UUID id) {
         courseService.delete(id);
     }
 

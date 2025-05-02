@@ -79,6 +79,7 @@ public class LessonServiceImpl implements LessonService {
 
     @Override
     public void delete(UUID id) {
+        getById(id);
         log.info("Delete Lesson by id: {}", id);
         lessonRepository.deleteById(id);
     }

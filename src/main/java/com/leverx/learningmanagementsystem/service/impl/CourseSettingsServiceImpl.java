@@ -73,6 +73,7 @@ public class CourseSettingsServiceImpl implements CourseSettingsService {
 
     @Override
     public void delete(UUID id) {
+        getById(id);
         log.info("Delete course settings by id: {}", id);
         courseSettingsRepository.deleteById(id);
     }

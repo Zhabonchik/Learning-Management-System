@@ -23,29 +23,29 @@ public class CourseSettingsController {
     private final CourseSettingsMapper courseSettingsMapper;
 
     @GetMapping
-    public List<GetCourseSettingsDto> getAllCourseSettings() {
+    public List<GetCourseSettingsDto> getAll() {
         return courseSettingsMapper.toGetCourseSettingsDtoList(courseSettingsService.getAll());
     }
 
     @GetMapping("/{id}")
-    public GetCourseSettingsDto getCourseSettings(@PathVariable("id") UUID id) {
+    public GetCourseSettingsDto getById(@PathVariable("id") UUID id) {
         return courseSettingsMapper.toGetCourseSettingsDto(courseSettingsService.getById(id));
     }
 
     @PostMapping
     @ResponseStatus(CREATED)
-    public GetCourseSettingsDto addCourseSettings(@RequestBody @Valid CreateCourseSettingsDto createCourseSettingsDto) {
+    public GetCourseSettingsDto create(@RequestBody @Valid CreateCourseSettingsDto createCourseSettingsDto) {
         return courseSettingsMapper.toGetCourseSettingsDto(courseSettingsService.create(createCourseSettingsDto));
     }
 
     @PutMapping("/{id}")
-    public GetCourseSettingsDto updateCourseSettings(@PathVariable("id") UUID id,
+    public GetCourseSettingsDto update(@PathVariable("id") UUID id,
                                                      @RequestBody @Valid CreateCourseSettingsDto createCourseSettingsDto) {
         return courseSettingsMapper.toGetCourseSettingsDto(courseSettingsService.update(id, createCourseSettingsDto));
     }
 
     @DeleteMapping("/{id}")
-    public void deleteCourseSettings(@PathVariable("id") UUID id) {
+    public void delete(@PathVariable("id") UUID id) {
         courseSettingsService.delete(id);
     }
 }

@@ -99,6 +99,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public void delete(UUID id) {
+        getById(id);
         log.info("Delete student: {}", id);
         studentRepository.deleteById(id);
     }
