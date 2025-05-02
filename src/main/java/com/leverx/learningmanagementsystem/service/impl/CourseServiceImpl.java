@@ -1,7 +1,6 @@
 package com.leverx.learningmanagementsystem.service.impl;
 
 import com.leverx.learningmanagementsystem.dto.course.CreateCourseDto;
-import com.leverx.learningmanagementsystem.dto.course.GetCourseDto;
 import com.leverx.learningmanagementsystem.entity.Course;
 import com.leverx.learningmanagementsystem.entity.CourseSettings;
 import com.leverx.learningmanagementsystem.entity.Lesson;
@@ -37,37 +36,32 @@ public class CourseServiceImpl implements CourseService {
     private final CourseMapper courseMapper;
 
     @Override
-    public Course getEntityById(UUID id) {
+    public Course getById(UUID id) {
+        log.info("Get course with id {}", id);
         return courseRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Course with id = " + id + " not found"));
     }
 
     @Override
-    public GetCourseDto getById(UUID id) {
-        log.info("Get course with id {}", id);
-        return courseMapper.toGetCourseDto(getEntityById(id));
-    }
-
-    @Override
-    public List<GetCourseDto> getAllCourses() {
+    public List<Course> getAll() {
         log.info("Get all courses");
-        return courseMapper.toGetCourseDtoList(courseRepository.findAll());
+        return courseRepository.findAll();
     }
 
     @Override
     @Transactional
-    public GetCourseDto create(CreateCourseDto createCourseDto) {
+    public Course create(CreateCourseDto createCourseDto) {
         Course course = courseMapper.toCourse(createCourseDto);
 
         log.info("Create course with id {}", course.getId());
-        saveCourse(course, createCourseDto);
+        save(course, createCourseDto);
 
-        return courseMapper.toGetCourseDto(course);
+        return course;
     }
 
     @Override
     @Transactional
-    public GetCourseDto update(UUID id, CreateCourseDto updateCourseDto) {
+    public Course update(UUID id, CreateCourseDto updateCourseDto) {
 
         if (courseRepository.findById(id).isEmpty()) {
             throw new EntityNotFoundException("Course with id = " + id + " not found");
@@ -77,9 +71,9 @@ public class CourseServiceImpl implements CourseService {
         course.setId(id);
 
         log.info("Update course with id {}", course.getId());
-        saveCourse(course, updateCourseDto);
+        save(course, updateCourseDto);
 
-        return courseMapper.toGetCourseDto(course);
+        return course;
     }
 
     @Override
@@ -93,7 +87,7 @@ public class CourseServiceImpl implements CourseService {
         courseRepository.deleteById(id);
     }
 
-    private void saveCourse(Course course, CreateCourseDto createCourseDto) {
+    private void save(Course course, CreateCourseDto createCourseDto) {
         Set<Lesson> lessons;
         Set<Student> students;
 

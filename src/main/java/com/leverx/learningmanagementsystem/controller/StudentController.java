@@ -2,9 +2,10 @@ package com.leverx.learningmanagementsystem.controller;
 
 import com.leverx.learningmanagementsystem.dto.student.CreateStudentDto;
 import com.leverx.learningmanagementsystem.dto.student.GetStudentDto;
+import com.leverx.learningmanagementsystem.mapper.student.StudentMapper;
 import com.leverx.learningmanagementsystem.service.StudentService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,43 +15,41 @@ import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
 @RequestMapping("/students")
+@AllArgsConstructor
 public class StudentController {
 
-    private final StudentService service;
-
-    @Autowired
-    public StudentController(StudentService studentService) {
-        this.service = studentService;
-    }
+    private final StudentService studentService;
+    private final StudentMapper studentMapper;
 
     @GetMapping
     public List<GetStudentDto> getAllStudents() {
-        return service.getAllStudents();
+        return studentMapper.toGetStudentDtoList(studentService.getAll());
     }
 
     @GetMapping("/{id}")
     public GetStudentDto getStudent(@PathVariable("id") UUID id) {
-        return service.getById(id);
+        return studentMapper.toGetStudentDto(studentService.getById(id));
     }
 
     @PostMapping
+    @ResponseStatus(CREATED)
     public GetStudentDto addStudent(@RequestBody @Valid CreateStudentDto createStudentDto) {
-        return service.create(createStudentDto);
+        return studentMapper.toGetStudentDto(studentService.create(createStudentDto));
     }
 
     @PostMapping("/{studentId}/courses/{courseId}")
     @ResponseStatus(CREATED)
     public void addCourse(@PathVariable("studentId") UUID studentId, @PathVariable("courseId") UUID courseId) {
-        service.enrollForCourse(studentId, courseId);
+        studentService.enrollForCourse(studentId, courseId);
     }
 
     @PutMapping("/{id}")
     public GetStudentDto updateStudent(@PathVariable("id") UUID id, @RequestBody @Valid CreateStudentDto updateStudentDto) {
-        return service.update(id, updateStudentDto);
+        return studentMapper.toGetStudentDto(studentService.update(id, updateStudentDto));
     }
 
     @DeleteMapping("/{id}")
     public void deleteStudent(@PathVariable("id") UUID id) {
-        service.delete(id);
+        studentService.delete(id);
     }
 }

@@ -1,7 +1,6 @@
 package com.leverx.learningmanagementsystem.service.impl;
 
 import com.leverx.learningmanagementsystem.dto.coursesettings.CreateCourseSettingsDto;
-import com.leverx.learningmanagementsystem.dto.coursesettings.GetCourseSettingsDto;
 import com.leverx.learningmanagementsystem.entity.CourseSettings;
 import com.leverx.learningmanagementsystem.exception.EntityValidationException.InvalidCourseDatesException;
 import com.leverx.learningmanagementsystem.exception.EntityValidationException.EntityNotFoundException;
@@ -27,23 +26,22 @@ public class CourseSettingsServiceImpl implements CourseSettingsService {
     private final CourseSettingsMapper courseSettingsMapper;
 
     @Override
-    public GetCourseSettingsDto getById(UUID id) {
+    public CourseSettings getById(UUID id) {
         log.info("Get course settings by id: {}", id);
-        CourseSettings courseSettings = courseSettingsRepository.findById(id)
+        return courseSettingsRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(
                         "Course settings with id = " + id + " not found"));
-        return courseSettingsMapper.toGetCourseSettingsDto(courseSettings);
     }
 
     @Override
-    public List<GetCourseSettingsDto> getAllCourseSettings() {
+    public List<CourseSettings> getAll() {
         log.info("Get all course settings");
-        return courseSettingsMapper.toGetCourseSettingsDtoList(courseSettingsRepository.findAll());
+        return courseSettingsRepository.findAll();
     }
 
     @Override
     @Transactional
-    public GetCourseSettingsDto create(CreateCourseSettingsDto createCourseDto) {
+    public CourseSettings create(CreateCourseSettingsDto createCourseDto) {
         CourseSettings courseSettings = courseSettingsMapper.toCourseSettings(createCourseDto);
 
         checkDate(courseSettings);
@@ -51,12 +49,12 @@ public class CourseSettingsServiceImpl implements CourseSettingsService {
         log.info("Create course settings: {}", courseSettings);
         courseSettingsRepository.save(courseSettings);
 
-        return courseSettingsMapper.toGetCourseSettingsDto(courseSettings);
+        return courseSettings;
     }
 
     @Override
     @Transactional
-    public GetCourseSettingsDto update(UUID id, CreateCourseSettingsDto updateCourseDto) {
+    public CourseSettings update(UUID id, CreateCourseSettingsDto updateCourseDto) {
 
         if (courseSettingsRepository.findById(id).isEmpty()) {
             throw new EntityNotFoundException("Course settings with id = " + id + " not found");
@@ -70,7 +68,7 @@ public class CourseSettingsServiceImpl implements CourseSettingsService {
         log.info("Update course settings: {}", courseSettings);
         courseSettingsRepository.save(courseSettings);
 
-        return courseSettingsMapper.toGetCourseSettingsDto(courseSettings);
+        return courseSettings;
     }
 
     @Override

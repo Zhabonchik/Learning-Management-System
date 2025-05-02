@@ -1,7 +1,6 @@
 package com.leverx.learningmanagementsystem.service;
 
 import com.leverx.learningmanagementsystem.dto.student.CreateStudentDto;
-import com.leverx.learningmanagementsystem.dto.student.GetStudentDto;
 import com.leverx.learningmanagementsystem.entity.Student;
 import org.springframework.stereotype.Service;
 
@@ -11,15 +10,13 @@ import java.util.UUID;
 @Service
 public interface StudentService {
 
-    Student getEntityById(UUID id);
+    Student getById(UUID id);
 
-    GetStudentDto getById(UUID id);
+    List<Student> getAll();
 
-    List<GetStudentDto> getAllStudents();
+    Student create(CreateStudentDto createStudentDto);
 
-    GetStudentDto create(CreateStudentDto createStudentDto);
-
-    GetStudentDto update(UUID id, CreateStudentDto updateStudentDto);
+    Student update(UUID id, CreateStudentDto updateStudentDto);
 
     void enrollForCourse(UUID studentId, UUID courseId);
 

@@ -1,7 +1,7 @@
 package com.leverx.learningmanagementsystem.service;
 
 import com.leverx.learningmanagementsystem.dto.coursesettings.CreateCourseSettingsDto;
-import com.leverx.learningmanagementsystem.dto.coursesettings.GetCourseSettingsDto;
+import com.leverx.learningmanagementsystem.entity.CourseSettings;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,13 +10,13 @@ import java.util.UUID;
 @Service
 public interface CourseSettingsService {
 
-    GetCourseSettingsDto getById(UUID id);
+    CourseSettings getById(UUID id);
 
-    List<GetCourseSettingsDto> getAllCourseSettings();
+    List<CourseSettings> getAll();
 
-    GetCourseSettingsDto create(CreateCourseSettingsDto createCourseDto);
+    CourseSettings create(CreateCourseSettingsDto createCourseDto);
 
-    GetCourseSettingsDto update(UUID id, CreateCourseSettingsDto updateCourseDto);
+    CourseSettings update(UUID id, CreateCourseSettingsDto updateCourseDto);
 
     void delete(UUID id);
 

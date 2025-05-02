@@ -1,7 +1,6 @@
 package com.leverx.learningmanagementsystem.service.impl;
 
 import com.leverx.learningmanagementsystem.dto.lesson.CreateLessonDto;
-import com.leverx.learningmanagementsystem.dto.lesson.GetLessonDto;
 import com.leverx.learningmanagementsystem.entity.Course;
 import com.leverx.learningmanagementsystem.entity.Lesson;
 import com.leverx.learningmanagementsystem.exception.EntityValidationException.EntityNotFoundException;
@@ -27,23 +26,22 @@ public class LessonServiceImpl implements LessonService {
     private final LessonMapper lessonMapper;
 
     @Override
-    public GetLessonDto getById(UUID id) {
+    public Lesson getById(UUID id) {
         log.info("Get Lesson by id: {}", id);
-        Lesson lesson = lessonRepository.findById(id)
+        return lessonRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(
                         "Lesson with id = " + id + " not found"));
-        return lessonMapper.toGetLessonDto(lesson);
     }
 
     @Override
-    public List<GetLessonDto> getAllLessons() {
+    public List<Lesson> getAll() {
         log.info("Get all Lessons");
-        return lessonMapper.toGetLessonDtoList(lessonRepository.findAll());
+        return lessonRepository.findAll();
     }
 
     @Override
     @Transactional
-    public GetLessonDto create(CreateLessonDto createLessonDto) {
+    public Lesson create(CreateLessonDto createLessonDto) {
         Lesson lesson = lessonMapper.toLesson(createLessonDto);
 
         log.info("Create lesson: {}", lesson);
@@ -54,12 +52,12 @@ public class LessonServiceImpl implements LessonService {
         lesson.setCourse(course);
         lessonRepository.save(lesson);
 
-        return lessonMapper.toGetLessonDto(lesson);
+        return lesson;
     }
 
     @Override
     @Transactional
-    public GetLessonDto update(UUID id, CreateLessonDto updateLessonDto) {
+    public Lesson update(UUID id, CreateLessonDto updateLessonDto) {
 
         if (lessonRepository.findById(id).isEmpty()) {
             throw new EntityNotFoundException("Lesson with id = " + id + " not found");
@@ -76,7 +74,7 @@ public class LessonServiceImpl implements LessonService {
         lesson.setCourse(course);
         lessonRepository.save(lesson);
 
-        return lessonMapper.toGetLessonDto(lesson);
+        return lesson;
     }
 
     @Override

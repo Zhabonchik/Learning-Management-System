@@ -1,7 +1,6 @@
 package com.leverx.learningmanagementsystem.service;
 
 import com.leverx.learningmanagementsystem.dto.course.CreateCourseDto;
-import com.leverx.learningmanagementsystem.dto.course.GetCourseDto;
 import com.leverx.learningmanagementsystem.entity.Course;
 import org.springframework.stereotype.Service;
 
@@ -12,15 +11,13 @@ import java.util.UUID;
 @Service
 public interface CourseService {
 
-    Course getEntityById(UUID id);
+    Course getById(UUID id);
 
-    GetCourseDto getById(UUID id);
+    List<Course> getAll();
 
-    List<GetCourseDto> getAllCourses();
+    Course create(CreateCourseDto createCourseDto);
 
-    GetCourseDto create(CreateCourseDto createCourseDto);
-
-    GetCourseDto update(UUID id, CreateCourseDto updateCourseDto);
+    Course update(UUID id, CreateCourseDto updateCourseDto);
 
     List<Course> getAllStartingBetweenDates(LocalDateTime startDate, LocalDateTime endDate);
 
