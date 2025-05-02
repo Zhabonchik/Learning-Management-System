@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
+import static org.springframework.http.HttpStatus.CREATED;
+
 @RestController
 @RequestMapping("/students")
 public class StudentController {
@@ -34,6 +36,12 @@ public class StudentController {
     @PostMapping
     public GetStudentDto addStudent(@RequestBody @Valid CreateStudentDto createStudentDto) {
         return service.create(createStudentDto);
+    }
+
+    @PostMapping("/{studentId}/courses/{courseId}")
+    @ResponseStatus(CREATED)
+    public void addCourse(@PathVariable("studentId") UUID studentId, @PathVariable("courseId") UUID courseId) {
+        service.enrollForCourse(studentId, courseId);
     }
 
     @PutMapping("/{id}")

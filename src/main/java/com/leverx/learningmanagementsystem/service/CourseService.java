@@ -12,6 +12,8 @@ import java.util.UUID;
 @Service
 public interface CourseService {
 
+    Course getEntityById(UUID id);
+
     GetCourseDto getById(UUID id);
 
     List<GetCourseDto> getAllCourses();

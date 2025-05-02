@@ -6,6 +6,7 @@ import com.leverx.learningmanagementsystem.entity.Student;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
@@ -22,6 +23,9 @@ public interface StudentMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "courses", ignore = true)
     Student toStudent(CreateStudentDto createStudentDto);
+
+    @Mapping(target = "coins", source = "newCoins")
+    CreateStudentDto toCreateStudentDto(GetStudentDto getStudentDto, BigDecimal newCoins);
 
     List<GetStudentDto> toGetStudentDtoList(List<Student> students);
 }

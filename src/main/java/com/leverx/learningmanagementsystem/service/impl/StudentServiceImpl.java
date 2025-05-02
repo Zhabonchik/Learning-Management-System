@@ -4,11 +4,14 @@ import com.leverx.learningmanagementsystem.dto.student.CreateStudentDto;
 import com.leverx.learningmanagementsystem.dto.student.GetStudentDto;
 import com.leverx.learningmanagementsystem.entity.Course;
 import com.leverx.learningmanagementsystem.entity.Student;
+import com.leverx.learningmanagementsystem.exception.EntityValidationException.StudentAlreadyEnrolledException;
 import com.leverx.learningmanagementsystem.exception.EntityValidationException.EntityNotFoundException;
 import com.leverx.learningmanagementsystem.exception.EntityValidationException.IncorrectResultSizeException;
+import com.leverx.learningmanagementsystem.exception.EntityValidationException.NotEnoughCoinsException;
 import com.leverx.learningmanagementsystem.mapper.student.StudentMapper;
 import com.leverx.learningmanagementsystem.repository.CourseRepository;
 import com.leverx.learningmanagementsystem.repository.StudentRepository;
+import com.leverx.learningmanagementsystem.service.CourseService;
 import com.leverx.learningmanagementsystem.service.StudentService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,16 +28,21 @@ import java.util.UUID;
 @AllArgsConstructor
 public class StudentServiceImpl implements StudentService {
 
+    private final CourseService courseService;
     private final StudentRepository studentRepository;
     private final CourseRepository courseRepository;
     private final StudentMapper studentMapper;
 
     @Override
+    public Student getEntityById(UUID id) {
+        return studentRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Student with id " + id + " not found"));
+    }
+
+    @Override
     public GetStudentDto getById(UUID id) {
         log.info("Get student by id: {}", id);
-        Student student = studentRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Student with id " + id + " not found"));
-        return studentMapper.toGetStudentDto(student);
+        return studentMapper.toGetStudentDto(getEntityById(id));
     }
 
     @Override
@@ -69,6 +77,30 @@ public class StudentServiceImpl implements StudentService {
         saveStudent(student, updateStudentDto);
 
         return studentMapper.toGetStudentDto(student);
+    }
+
+    @Transactional
+    public void enrollForCourse(UUID studentId, UUID courseId) {
+        Student student = getEntityById(studentId);
+        Course course = courseService.getEntityById(courseId);
+
+        if (student.getCourses().contains(course)) {
+            throw new StudentAlreadyEnrolledException("Student with id " + studentId
+                    + " already enrolled for course with id = " + courseId);
+        }
+
+        if (student.getCoins().compareTo(course.getPrice()) < 0) {
+            throw new NotEnoughCoinsException("Student with id = " + studentId
+                    + " doesn't have enough coins to enroll for course with id = " + courseId);
+        }
+
+        student.setCoins(student.getCoins().subtract(course.getPrice()));
+        student.getCourses().add(course);
+        course.setCoinsPaid(course.getCoinsPaid().add(course.getPrice()));
+        course.getStudents().add(student);
+
+        studentRepository.save(student);
+        courseRepository.save(course);
     }
 
     @Override

@@ -37,11 +37,15 @@ public class CourseServiceImpl implements CourseService {
     private final CourseMapper courseMapper;
 
     @Override
+    public Course getEntityById(UUID id) {
+        return courseRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Course with id = " + id + " not found"));
+    }
+
+    @Override
     public GetCourseDto getById(UUID id) {
         log.info("Get course with id {}", id);
-        Course course = courseRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Course with id = " + id + " not found"));
-        return courseMapper.toGetCourseDto(course);
+        return courseMapper.toGetCourseDto(getEntityById(id));
     }
 
     @Override

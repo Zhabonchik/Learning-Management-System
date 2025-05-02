@@ -24,4 +24,12 @@ public abstract class EntityValidationException extends RuntimeException {
         }
     }
 
+    public static class StudentAlreadyEnrolledException extends EntityValidationException {
+        public StudentAlreadyEnrolledException(String message) { super(message); }
+    }
+
+    public static class NotEnoughCoinsException extends EntityValidationException {
+        public NotEnoughCoinsException(String message) { super(message); }
+    }
+
 }

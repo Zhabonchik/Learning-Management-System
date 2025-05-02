@@ -6,6 +6,7 @@ import com.leverx.learningmanagementsystem.entity.Course;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
@@ -32,6 +33,9 @@ public interface CourseMapper {
     @Mapping(target = "lessons", ignore = true)
     @Mapping(target = "students", ignore = true)
     Course toCourse(CreateCourseDto getCourseDto);
+
+    @Mapping(target = "coinsPaid", source = "newCoinsPaid")
+    CreateCourseDto toCreateCourseDto(GetCourseDto getCourseDto, BigDecimal newCoinsPaid);
 
     List<GetCourseDto> toGetCourseDtoList(List<Course> courses);
 
