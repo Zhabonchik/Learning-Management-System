@@ -49,11 +49,9 @@ public class StudentServiceImpl implements StudentService {
     @Override
     @Transactional
     public Student create(CreateStudentDto createStudentDto) {
-
         Student student = studentMapper.toStudent(createStudentDto);
         log.info("Create student: {}", student);
         saveStudent(student, createStudentDto);
-
         return student;
     }
 
@@ -70,7 +68,6 @@ public class StudentServiceImpl implements StudentService {
 
         log.info("Update student: {}", student);
         saveStudent(student, updateStudentDto);
-
         return student;
     }
 
@@ -106,7 +103,6 @@ public class StudentServiceImpl implements StudentService {
     }
 
     private void saveStudent(Student student, CreateStudentDto createStudentDto) {
-
         log.info("Fetching courses for student with id = {}", student.getId());
         List<Course> courses = courseRepository.findAllById(createStudentDto.courseIds());
 

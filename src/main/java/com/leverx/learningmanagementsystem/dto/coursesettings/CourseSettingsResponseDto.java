@@ -5,12 +5,11 @@ import com.leverx.learningmanagementsystem.utils.DataFormatUtils;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
-
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Builder
-public record GetCourseSettingsDto(
+public record CourseSettingsResponseDto(
         UUID id,
         @NotNull(message = "Start date must not be null") @JsonFormat(pattern = DataFormatUtils.DATE_TIME_FORMAT)
         @FutureOrPresent(message = "Start date must not be in past") LocalDateTime startDate,

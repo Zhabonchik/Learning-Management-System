@@ -74,7 +74,7 @@ public class CourseControllerTest {
     @Transactional
     void testDelete() throws Exception{
         mockMvc.perform(delete("/courses/df1af879-883c-47d7-a827-6a2a21ba0c70"))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
     }
 
     @Test

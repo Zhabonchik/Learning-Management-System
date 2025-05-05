@@ -1,7 +1,7 @@
 package com.leverx.learningmanagementsystem.mapper.lesson;
 
 import com.leverx.learningmanagementsystem.dto.lesson.CreateLessonDto;
-import com.leverx.learningmanagementsystem.dto.lesson.GetLessonDto;
+import com.leverx.learningmanagementsystem.dto.lesson.LessonResponseDto;
 import com.leverx.learningmanagementsystem.entity.Lesson;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -12,14 +12,14 @@ import java.util.List;
 public interface LessonMapper {
 
     @Mapping(target = "courseId", expression = "java(lesson.getCourse().getId())")
-    GetLessonDto toGetLessonDto(Lesson lesson);
+    LessonResponseDto toDto(Lesson lesson);
 
     @Mapping(target = "course", ignore = true)
-    Lesson toLesson(GetLessonDto lessonDto);
+    Lesson toLesson(LessonResponseDto lessonDto);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "course", ignore = true)
     Lesson toLesson(CreateLessonDto createLessonDto);
 
-    List<GetLessonDto> toGetLessonDtoList(List<Lesson> lessons);
+    List<LessonResponseDto> toDtoList(List<Lesson> lessons);
 }

@@ -51,7 +51,6 @@ public class LessonServiceImpl implements LessonService {
 
         lesson.setCourse(course);
         lessonRepository.save(lesson);
-
         return lesson;
     }
 
@@ -73,7 +72,6 @@ public class LessonServiceImpl implements LessonService {
         lesson.setId(id);
         lesson.setCourse(course);
         lessonRepository.save(lesson);
-
         return lesson;
     }
 

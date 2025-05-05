@@ -2,14 +2,13 @@ package com.leverx.learningmanagementsystem.dto.student;
 
 import jakarta.validation.constraints.*;
 import lombok.Builder;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
 @Builder
-public record GetStudentDto(
+public record StudentResponseDto(
         UUID id,
         @NotBlank(message = "First name must not be blank") String firstName,
         @NotBlank(message = "Last name must not be blank") String lastName,

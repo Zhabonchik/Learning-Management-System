@@ -44,7 +44,6 @@ public class CourseServiceImpl implements CourseService {
     @Transactional(readOnly = true)
     public List<Course> getAll() {
         log.info("Get all courses");
-
         List<Course> courses = courseRepository.findAllWithLessons();
         courses = !courses.isEmpty() ? courseRepository.findAllWithStudents() : courses;
         courses = !courses.isEmpty() ? courseRepository.findAllWithSettings() : courses;

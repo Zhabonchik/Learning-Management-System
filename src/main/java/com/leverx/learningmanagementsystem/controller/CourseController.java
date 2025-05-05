@@ -1,17 +1,26 @@
 package com.leverx.learningmanagementsystem.controller;
 
+import com.leverx.learningmanagementsystem.dto.course.CourseResponseDto;
 import com.leverx.learningmanagementsystem.dto.course.CreateCourseDto;
-import com.leverx.learningmanagementsystem.dto.course.GetCourseDto;
 import com.leverx.learningmanagementsystem.mapper.course.CourseMapper;
 import com.leverx.learningmanagementsystem.service.CourseService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.UUID;
 
 import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
 
 
 @RestController
@@ -23,27 +32,28 @@ public class CourseController {
     private final CourseMapper courseMapper;
 
     @GetMapping
-    public List<GetCourseDto> getAll() {
-        return courseMapper.toGetCourseDtoList(courseService.getAll());
+    public List<CourseResponseDto> getAll() {
+        return courseMapper.toDtoList(courseService.getAll());
     }
 
     @GetMapping("/{id}")
-    public GetCourseDto getById(@PathVariable("id") UUID id) {
-        return courseMapper.toGetCourseDto(courseService.getById(id));
+    public CourseResponseDto getById(@PathVariable("id") UUID id) {
+        return courseMapper.toDto(courseService.getById(id));
     }
 
     @PostMapping
     @ResponseStatus(CREATED)
-    public GetCourseDto create(@RequestBody @Valid CreateCourseDto createCourseDto) {
-        return courseMapper.toGetCourseDto(courseService.create(createCourseDto));
+    public CourseResponseDto create(@RequestBody @Valid CreateCourseDto createCourseDto) {
+        return courseMapper.toDto(courseService.create(createCourseDto));
     }
 
     @PutMapping("/{id}")
-    public GetCourseDto update(@PathVariable("id") UUID id, @RequestBody @Valid CreateCourseDto updateCourseDto) {
-        return courseMapper.toGetCourseDto(courseService.update(id, updateCourseDto));
+    public CourseResponseDto updateById(@PathVariable("id") UUID id, @RequestBody @Valid CreateCourseDto updateCourseDto) {
+        return courseMapper.toDto(courseService.update(id, updateCourseDto));
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(NO_CONTENT)
     public void delete(@PathVariable("id") UUID id) {
         courseService.delete(id);
     }

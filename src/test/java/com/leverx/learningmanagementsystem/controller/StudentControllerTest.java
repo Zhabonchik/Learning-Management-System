@@ -79,7 +79,7 @@ public class StudentControllerTest {
     @Transactional
     void testDelete() throws Exception{
         mockMvc.perform(delete("/students/ccb8634d-af2e-4681-aa02-221f4dbf37a7"))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
     }
 
     @Test
