@@ -35,13 +35,13 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public Course getById(UUID id) {
-        log.info("Get course with id {}", id);
+        log.info("Get course [id = {}]", id);
         return courseRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Course with id = " + id + " not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Course not found [id = {%s}]".formatted(id)));
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
     public List<Course> getAll() {
         log.info("Get all courses");
         List<Course> courses = courseRepository.findAllWithLessons();
@@ -52,11 +52,10 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    @Transactional
     public Course create(CreateCourseDto createCourseDto) {
         Course course = courseMapper.toModel(createCourseDto);
 
-        log.info("Create course with id {}", course.getId());
+        log.info("Create course: {}", course);
         save(course, createCourseDto);
 
         return course;
@@ -65,15 +64,14 @@ public class CourseServiceImpl implements CourseService {
     @Override
     @Transactional
     public Course update(UUID id, CreateCourseDto updateCourseDto) {
-
         if (courseRepository.findById(id).isEmpty()) {
-            throw new EntityNotFoundException("Course with id = " + id + " not found");
+            throw new EntityNotFoundException("Course not found [id = {%s}]".formatted(id));
         }
 
         Course course = courseMapper.toModel(updateCourseDto);
         course.setId(id);
 
-        log.info("Update course with id {}", course.getId());
+        log.info("Update course [id = {}]", course.getId());
         save(course, updateCourseDto);
 
         return course;
@@ -87,7 +85,7 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public void delete(UUID id) {
         getById(id);
-        log.info("Delete course with id {}", id);
+        log.info("Delete course [id = {}]", id);
         courseRepository.deleteById(id);
     }
 
@@ -118,9 +116,9 @@ public class CourseServiceImpl implements CourseService {
 
         UUID settingsId = createCourseDto.courseSettingsId();
         if (settingsId != null) {
-            log.info("Fetching course settings with id = {}", settingsId);
+            log.info("Fetching course settings [id = {}]", settingsId);
             CourseSettings courseSettings = courseSettingsRepository.findById(settingsId)
-                    .orElseThrow(() -> new EntityNotFoundException("Course settings with id = " + settingsId + " not found"));
+                    .orElseThrow(() -> new EntityNotFoundException("Course settings not found [id = {%s}]".formatted(settingsId)));
             course.setSettings(courseSettings);
         } else {
             course.setSettings(null);

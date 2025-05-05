@@ -27,10 +27,10 @@ public class LessonServiceImpl implements LessonService {
 
     @Override
     public Lesson getById(UUID id) {
-        log.info("Get Lesson by id: {}", id);
+        log.info("Get Lesson [id = {}]", id);
         return lessonRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(
-                        "Lesson with id = " + id + " not found"));
+                        "Lesson not found [id = {%s}]".formatted(id)));
     }
 
     @Override
@@ -47,7 +47,7 @@ public class LessonServiceImpl implements LessonService {
         log.info("Create lesson: {}", lesson);
         Course course = courseRepository.findById(createLessonDto.courseId())
                 .orElseThrow(() -> new EntityNotFoundException(
-                        "Course with id = " + createLessonDto.courseId() + " not found"));
+                        "Course not found [id = {%s}]".formatted(createLessonDto.courseId())));
 
         lesson.setCourse(course);
         lessonRepository.save(lesson);
@@ -57,17 +57,16 @@ public class LessonServiceImpl implements LessonService {
     @Override
     @Transactional
     public Lesson update(UUID id, CreateLessonDto updateLessonDto) {
-
         if (lessonRepository.findById(id).isEmpty()) {
-            throw new EntityNotFoundException("Lesson with id = " + id + " not found");
+            throw new EntityNotFoundException("Lesson not found [id = {%s}]".formatted(id));
         }
 
         Lesson lesson = lessonMapper.toModel(updateLessonDto);
 
-        log.info("Update lesson: {}", lesson);
+        log.info("Update lesson [id = {}]", id);
         Course course = courseRepository.findById(updateLessonDto.courseId())
                 .orElseThrow(() -> new EntityNotFoundException(
-                        "Course with id = " + updateLessonDto.courseId() + " not found"));
+                        "Course not found [id = {%s}]".formatted(updateLessonDto.courseId())));
 
         lesson.setId(id);
         lesson.setCourse(course);
@@ -78,7 +77,7 @@ public class LessonServiceImpl implements LessonService {
     @Override
     public void delete(UUID id) {
         getById(id);
-        log.info("Delete Lesson by id: {}", id);
+        log.info("Delete Lesson [id = {}]", id);
         lessonRepository.deleteById(id);
     }
 }

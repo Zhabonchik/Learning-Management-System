@@ -27,10 +27,10 @@ public class CourseSettingsServiceImpl implements CourseSettingsService {
 
     @Override
     public CourseSettings getById(UUID id) {
-        log.info("Get course settings by id: {}", id);
+        log.info("Get course settings [id = {}]", id);
         return courseSettingsRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(
-                        "Course settings with id = " + id + " not found"));
+                        "Course settings not found [id = {%s}]".formatted(id)));
     }
 
     @Override
@@ -40,7 +40,6 @@ public class CourseSettingsServiceImpl implements CourseSettingsService {
     }
 
     @Override
-    @Transactional
     public CourseSettings create(CreateCourseSettingsDto createCourseDto) {
         CourseSettings courseSettings = courseSettingsMapper.toModel(createCourseDto);
 
@@ -55,9 +54,8 @@ public class CourseSettingsServiceImpl implements CourseSettingsService {
     @Override
     @Transactional
     public CourseSettings update(UUID id, CreateCourseSettingsDto updateCourseDto) {
-
         if (courseSettingsRepository.findById(id).isEmpty()) {
-            throw new EntityNotFoundException("Course settings with id = " + id + " not found");
+            throw new EntityNotFoundException("Course settings not found [id = {%s}]".formatted(id));
         }
 
         CourseSettings courseSettings = courseSettingsMapper.toModel(updateCourseDto);
@@ -74,12 +72,11 @@ public class CourseSettingsServiceImpl implements CourseSettingsService {
     @Override
     public void delete(UUID id) {
         getById(id);
-        log.info("Delete course settings by id: {}", id);
+        log.info("Delete course settings [id = {}]", id);
         courseSettingsRepository.deleteById(id);
     }
 
     private void checkDate(CourseSettings courseSettings) {
-
         if (courseSettings.getStartDate() == null || courseSettings.getEndDate() == null) {
             throw new InvalidCourseDatesException(
                     "Invalid date format, expected format: " + DATE_TIME_FORMAT);

@@ -32,20 +32,18 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Student getById(UUID id) {
-        log.info("Get student by id: {}", id);
+        log.info("Get student [id = {}]", id);
         return studentRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Student with id " + id + " not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Student not found [id = {%s}]".formatted(id)));
     }
 
     @Override
-    @Transactional
     public List<Student> getAll() {
         log.info("Get all students");
         return studentRepository.findAll();
     }
 
     @Override
-    @Transactional
     public Student create(CreateStudentDto createStudentDto) {
         Student student = studentMapper.toModel(createStudentDto);
         log.info("Create student: {}", student);
@@ -58,30 +56,33 @@ public class StudentServiceImpl implements StudentService {
     public Student update(UUID id, CreateStudentDto updateStudentDto) {
 
         if (studentRepository.findById(id).isEmpty()) {
-            throw new EntityNotFoundException("Student with id " + id + " not found");
+            throw new EntityNotFoundException("Student not found [id = {%s}]".formatted(id));
         }
 
         Student student = studentMapper.toModel(updateStudentDto);
         student.setId(id);
 
-        log.info("Update student: {}", student);
+        log.info("Update student [id = {}]", id);
         saveStudent(student, updateStudentDto);
         return student;
     }
 
+    @Override
     @Transactional
     public void enrollForCourse(UUID studentId, UUID courseId) {
         Student student = getById(studentId);
         Course course = courseService.getById(courseId);
 
         if (student.getCourses().contains(course)) {
-            throw new StudentAlreadyEnrolledException("Student with id " + studentId
-                    + " already enrolled for course with id = " + courseId);
+            throw new StudentAlreadyEnrolledException(
+                    "Student already enrolled for course [studentId = {%s}, courseId = {%s}]"
+                            .formatted(studentId, courseId));
         }
 
         if (student.getCoins().compareTo(course.getPrice()) < 0) {
-            throw new NotEnoughCoinsException("Student with id = " + studentId
-                    + " doesn't have enough coins to enroll for course with id = " + courseId);
+            throw new NotEnoughCoinsException(
+                    "Student doesn't have enough coins to enroll for course [studentId = {%s}, courseId = {%s}]"
+                            .formatted(studentId, courseId));
         }
 
         student.setCoins(student.getCoins().subtract(course.getPrice()));
@@ -96,12 +97,12 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public void delete(UUID id) {
         getById(id);
-        log.info("Delete student: {}", id);
+        log.info("Delete student [id = {}]", id);
         studentRepository.deleteById(id);
     }
 
     private void saveStudent(Student student, CreateStudentDto createStudentDto) {
-        log.info("Fetching courses for student with id = {}", student.getId());
+        log.info("Fetching courses for student [id = {}]", student.getId());
         List<Course> courses = courseRepository.findAllByIdIn(createStudentDto.courseIds());
 
         if (createStudentDto.courseIds() != null && courses.size() != createStudentDto.courseIds().size()) {
