@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,17 +39,17 @@ public class StudentControllerTest {
     }
 
     @Test
+    @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     void testGetAll() throws Exception{
         mockMvc.perform(get("/students"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value(4))
+                .andExpect(jsonPath("$.length()").value(2))
                 .andExpect(jsonPath("$[0].firstName").value("Abap"))
-                .andExpect(jsonPath("$[1].firstName").value("Ha"))
-                .andExpect(jsonPath("$[2].firstName").value("Hah"))
-                .andExpect(jsonPath("$[3].firstName").value("Haha"));
+                .andExpect(jsonPath("$[1].firstName").value("Ha"));
     }
 
     @Test
+    @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     void testGetById() throws Exception{
         mockMvc.perform(get("/students/5a231280-1988-410f-98d9-852b8dc9caf1"))
                 .andExpect(status().isOk())
@@ -57,15 +58,16 @@ public class StudentControllerTest {
     }
 
     @Test
+    @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     void testGetByIdThrowsEntityNotFoundException() throws Exception{
         mockMvc.perform(get("/students/2bcd9463-3c57-421b-91d0-047b315d60ce"))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.message").value(
-                        "Student with id 2bcd9463-3c57-421b-91d0-047b315d60ce not found"));
+                        "Student not found [id = {2bcd9463-3c57-421b-91d0-047b315d60ce}]"));
     }
 
     @Test
-    @Transactional
+    @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     void testCreate() throws Exception{
         mockMvc.perform(post("/students")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -76,14 +78,14 @@ public class StudentControllerTest {
     }
 
     @Test
-    @Transactional
+    @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     void testDelete() throws Exception{
-        mockMvc.perform(delete("/students/ccb8634d-af2e-4681-aa02-221f4dbf37a7"))
+        mockMvc.perform(delete("/students/8ce93381-f58d-4563-8866-34a0ed878c74"))
                 .andExpect(status().isNoContent());
     }
 
     @Test
-    @Transactional
+    @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     void testDeleteNotFound() throws Exception{
         mockMvc.perform(delete("/students/ccf99c5d-9ce8-45c4-aaa7-c936baa51415"))
                 .andExpect(status().isNotFound());

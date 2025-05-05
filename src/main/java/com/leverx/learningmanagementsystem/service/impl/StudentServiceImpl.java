@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -72,26 +73,16 @@ public class StudentServiceImpl implements StudentService {
     public void enrollForCourse(UUID studentId, UUID courseId) {
         Student student = getById(studentId);
         Course course = courseService.getById(courseId);
+        BigDecimal coursePrice = course.getPrice();
+        BigDecimal studentBalance = student.getCoins();
 
-        if (student.getCourses().contains(course)) {
-            throw new StudentAlreadyEnrolledException(
-                    "Student already enrolled for course [studentId = {%s}, courseId = {%s}]"
-                            .formatted(studentId, courseId));
-        }
+        validateCourseEnrollment(course, studentId);
+        validateStudentBalance(studentBalance, coursePrice);
 
-        if (student.getCoins().compareTo(course.getPrice()) < 0) {
-            throw new NotEnoughCoinsException(
-                    "Student doesn't have enough coins to enroll for course [studentId = {%s}, courseId = {%s}]"
-                            .formatted(studentId, courseId));
-        }
+        transferCoins(course, student);
 
-        student.setCoins(student.getCoins().subtract(course.getPrice()));
-        student.getCourses().add(course);
-        course.setCoinsPaid(course.getCoinsPaid().add(course.getPrice()));
         course.getStudents().add(student);
-
-        studentRepository.save(student);
-        courseRepository.save(course);
+        student.getCourses().add(course);
     }
 
     @Override
@@ -111,5 +102,29 @@ public class StudentServiceImpl implements StudentService {
 
         student.setCourses(courses);
         studentRepository.save(student);
+    }
+
+    private void validateCourseEnrollment(Course course, UUID studentId) {
+        if (isStudentEnrolledInCourse(course, studentId)) {
+            throw new StudentAlreadyEnrolledException(
+                    "Student already enrolled for course [studentId = {%s}, courseId = {%s}]"
+                            .formatted(studentId, course.getId()));
+        }
+    }
+
+    private boolean isStudentEnrolledInCourse(Course course, UUID studentId) {
+        return course.getStudents().stream().anyMatch(student -> studentId.equals(student.getId()));
+    }
+
+    private void validateStudentBalance(BigDecimal studentBalance, BigDecimal coursePrice) {
+        if (studentBalance.compareTo(coursePrice) < 0) {
+            throw new NotEnoughCoinsException(
+                    "Student doesn't have enough coins to enroll for course.");
+        }
+    }
+
+    private void transferCoins(Course course, Student student) {
+        student.setCoins(student.getCoins().subtract(course.getPrice()));
+        course.setCoinsPaid(course.getCoinsPaid().add(course.getPrice()));
     }
 }

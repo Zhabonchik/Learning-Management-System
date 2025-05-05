@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
@@ -18,7 +19,6 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@Transactional
 public class CourseServiceTest {
 
     @Autowired
@@ -33,22 +33,25 @@ public class CourseServiceTest {
     }
 
     @Test
+    @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     public void testGetAll() {
         List<Course> courses = courseService.getAll();
-        assertEquals(6, courses.size());
+        assertEquals(2, courses.size());
     }
 
     @Test
+    @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     public void testGetById() {
-        Course course = courseService.getById(UUID.fromString("f74405a1-25e9-4b19-b366-bf4be157d138"));
+        Course course = courseService.getById(UUID.fromString("b902261b-d1b9-4c58-869f-b04a5bbff4c9"));
         assertAll(
                 () -> assertNotNull(course),
-                () -> assertEquals(UUID.fromString("f74405a1-25e9-4b19-b366-bf4be157d138"), course.getId()),
-                () -> assertEquals("Test course 5", course.getTitle())
+                () -> assertEquals(UUID.fromString("b902261b-d1b9-4c58-869f-b04a5bbff4c9"), course.getId()),
+                () -> assertEquals("Test course 1", course.getTitle())
         );
     }
 
     @Test
+    @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     public void testCreate() {
         Course course = courseService.create(createCourseDto);
         assertAll(
@@ -61,15 +64,16 @@ public class CourseServiceTest {
     }
 
     @Test
+    @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     public void testUpdate() {
         Course updatedCourse = courseService.update(
-                UUID.fromString("f74405a1-25e9-4b19-b366-bf4be157d138"),
+                UUID.fromString("64852c52-ed64-4438-b095-2ca10f6b4be0"),
                 createCourseDto
         );
         int coursesCount = courseService.getAll().size();
         assertAll(
-                () -> assertEquals(6, coursesCount),
-                () -> assertEquals(UUID.fromString("f74405a1-25e9-4b19-b366-bf4be157d138"), updatedCourse.getId()),
+                () -> assertEquals(2, coursesCount),
+                () -> assertEquals(UUID.fromString("64852c52-ed64-4438-b095-2ca10f6b4be0"), updatedCourse.getId()),
                 () -> assertEquals(createCourseDto.title(), updatedCourse.getTitle()),
                 () -> assertEquals(createCourseDto.description(), updatedCourse.getDescription()),
                 () -> assertEquals(createCourseDto.price(), updatedCourse.getPrice()),
@@ -78,15 +82,16 @@ public class CourseServiceTest {
     }
 
     @Test
+    @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     public void testUpdateThrowIncorrectResultSizeExceptionAndRollbackTransaction() {
         Exception ex = assertThrows(IncorrectResultSizeException.class,
                 () -> {
                     createCourseDto.lessonIds().add(UUID.fromString("ad019adb-c069-44c0-9624-f4d6b2de620b"));
-                    courseService.update(UUID.fromString("f74405a1-25e9-4b19-b366-bf4be157d138"), createCourseDto);
+                    courseService.update(UUID.fromString("64852c52-ed64-4438-b095-2ca10f6b4be0"), createCourseDto);
                 }
         );
         assertEquals("Some of requested lessons don't exist", ex.getMessage());
-        Course course = courseService.getById(UUID.fromString("f74405a1-25e9-4b19-b366-bf4be157d138"));
+        Course course = courseService.getById(UUID.fromString("64852c52-ed64-4438-b095-2ca10f6b4be0"));
         assertAll(
                 () -> assertNotEquals(createCourseDto.title(), course.getTitle()),
                 () -> assertFalse(course.getLessons().stream()

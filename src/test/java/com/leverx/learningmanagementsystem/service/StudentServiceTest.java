@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
@@ -17,7 +18,6 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@Transactional
 public class StudentServiceTest {
 
     @Autowired
@@ -32,6 +32,7 @@ public class StudentServiceTest {
     }
 
     @Test
+    @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     public void testGetStudentById() {
         Student student = studentService.getById(UUID.fromString("5a231280-1988-410f-98d9-852b8dc9caf1"));
         assertNotNull (student);
@@ -39,12 +40,14 @@ public class StudentServiceTest {
     }
 
     @Test
+    @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     public void testGetAll() {
         List<Student> students = studentService.getAll();
-        assertEquals (4, students.size());
+        assertEquals (2, students.size());
     }
 
     @Test
+    @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     public void testCreate() {
         Student createdStudent = studentService.create(createStudentDto);
         assertAll(
@@ -58,13 +61,14 @@ public class StudentServiceTest {
     }
 
     @Test
+    @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     public void testUpdate() {
         Student updatedStudent = studentService.update(
                 UUID.fromString("5a231280-1988-410f-98d9-852b8dc9caf1"),
                 createStudentDto);
         int studentsAmount = studentService.getAll().size();
         assertAll(
-                () -> assertEquals(4, studentsAmount),
+                () -> assertEquals(2, studentsAmount),
                 () -> assertEquals(UUID.fromString("5a231280-1988-410f-98d9-852b8dc9caf1"), updatedStudent.getId()),
                 () -> assertEquals(updatedStudent.getFirstName(), createStudentDto.firstName()),
                 () -> assertEquals(updatedStudent.getLastName(), createStudentDto.lastName()),
@@ -75,6 +79,7 @@ public class StudentServiceTest {
     }
 
     @Test
+    @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     public void testUpdateThrowsIncorrectResultSizeExceptionAndRollbacksTransaction() {
         Exception ex = assertThrows(IncorrectResultSizeException.class,
                 () -> {

@@ -3,10 +3,10 @@ package com.leverx.learningmanagementsystem.service.impl;
 import com.leverx.learningmanagementsystem.dto.coursesettings.CreateCourseSettingsDto;
 import com.leverx.learningmanagementsystem.entity.CourseSettings;
 import com.leverx.learningmanagementsystem.exception.EntityNotFoundException;
-import com.leverx.learningmanagementsystem.exception.InvalidCourseDatesException;
 import com.leverx.learningmanagementsystem.mapper.coursesettings.CourseSettingsMapper;
 import com.leverx.learningmanagementsystem.repository.CourseSettingsRepository;
 import com.leverx.learningmanagementsystem.service.CourseSettingsService;
+import com.leverx.learningmanagementsystem.utils.CourseSettingsValidator;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -14,8 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
-
-import static com.leverx.learningmanagementsystem.utils.DataFormatUtils.DATE_TIME_FORMAT;
 
 @Slf4j
 @Service
@@ -43,7 +41,7 @@ public class CourseSettingsServiceImpl implements CourseSettingsService {
     public CourseSettings create(CreateCourseSettingsDto createCourseDto) {
         CourseSettings courseSettings = courseSettingsMapper.toModel(createCourseDto);
 
-        checkDate(courseSettings);
+        CourseSettingsValidator.validateCourseDates(courseSettings);
 
         log.info("Create course settings: {}", courseSettings);
         courseSettingsRepository.save(courseSettings);
@@ -61,7 +59,7 @@ public class CourseSettingsServiceImpl implements CourseSettingsService {
         CourseSettings courseSettings = courseSettingsMapper.toModel(updateCourseDto);
         courseSettings.setId(id);
 
-        checkDate(courseSettings);
+        CourseSettingsValidator.validateCourseDates(courseSettings);
 
         log.info("Update course settings: {}", courseSettings);
         courseSettingsRepository.save(courseSettings);
@@ -74,17 +72,5 @@ public class CourseSettingsServiceImpl implements CourseSettingsService {
         getById(id);
         log.info("Delete course settings [id = {}]", id);
         courseSettingsRepository.deleteById(id);
-    }
-
-    private void checkDate(CourseSettings courseSettings) {
-        if (courseSettings.getStartDate() == null || courseSettings.getEndDate() == null) {
-            throw new InvalidCourseDatesException(
-                    "Invalid date format, expected format: " + DATE_TIME_FORMAT);
-        }
-
-        if (courseSettings.getStartDate().isAfter(courseSettings.getEndDate())) {
-            throw new InvalidCourseDatesException(
-                    "Course start date is after course end date");
-        }
     }
 }
