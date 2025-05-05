@@ -2,8 +2,7 @@ package com.leverx.learningmanagementsystem.controller;
 
 import com.leverx.learningmanagementsystem.dto.lesson.CreateLessonDto;
 import com.leverx.learningmanagementsystem.dto.lesson.LessonResponseDto;
-import com.leverx.learningmanagementsystem.mapper.lesson.LessonMapper;
-import com.leverx.learningmanagementsystem.service.LessonService;
+import com.leverx.learningmanagementsystem.webfacade.LessonWebFacade;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,33 +26,32 @@ import static org.springframework.http.HttpStatus.NO_CONTENT;
 @AllArgsConstructor
 public class LessonController {
 
-    private final LessonService lessonService;
-    private final LessonMapper lessonMapper;
+    private final LessonWebFacade lessonWebFacade;
 
     @GetMapping
     public List<LessonResponseDto> getAll() {
-        return lessonMapper.toDtos(lessonService.getAll());
+        return lessonWebFacade.getAll();
     }
 
     @GetMapping("/{id}")
     public LessonResponseDto getById(@PathVariable("id") UUID id) {
-        return lessonMapper.toDto(lessonService.getById(id));
+        return lessonWebFacade.getById(id);
     }
 
     @PostMapping
     @ResponseStatus(CREATED)
     public LessonResponseDto create(@RequestBody @Valid CreateLessonDto createLessonDto) {
-        return lessonMapper.toDto(lessonService.create(createLessonDto));
+        return lessonWebFacade.create(createLessonDto);
     }
 
     @PutMapping("/{id}")
     public LessonResponseDto updateById(@PathVariable("id") UUID id, @RequestBody @Valid CreateLessonDto createLessonDto) {
-        return lessonMapper.toDto(lessonService.update(id, createLessonDto));
+        return lessonWebFacade.updateById(id, createLessonDto);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(NO_CONTENT)
-    public void delete(@PathVariable("id") UUID id) {
-        lessonService.delete(id);
+    public void deleteById(@PathVariable("id") UUID id) {
+        lessonWebFacade.deleteById(id);
     }
 }

@@ -1,6 +1,5 @@
 package com.leverx.learningmanagementsystem.service;
 
-import com.leverx.learningmanagementsystem.dto.coursesettings.CreateCourseSettingsDto;
 import com.leverx.learningmanagementsystem.entity.CourseSettings;
 
 import java.util.List;
@@ -12,10 +11,10 @@ public interface CourseSettingsService {
 
     List<CourseSettings> getAll();
 
-    CourseSettings create(CreateCourseSettingsDto createCourseDto);
+    CourseSettings create(CourseSettings courseSettings);
 
-    CourseSettings update(UUID id, CreateCourseSettingsDto updateCourseDto);
+    CourseSettings updateById(CourseSettings courseSettings);
 
-    void delete(UUID id);
+    void deleteById(UUID id);
 
 }

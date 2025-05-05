@@ -2,8 +2,7 @@ package com.leverx.learningmanagementsystem.controller;
 
 import com.leverx.learningmanagementsystem.dto.coursesettings.CreateCourseSettingsDto;
 import com.leverx.learningmanagementsystem.dto.coursesettings.CourseSettingsResponseDto;
-import com.leverx.learningmanagementsystem.mapper.coursesettings.CourseSettingsMapper;
-import com.leverx.learningmanagementsystem.service.CourseSettingsService;
+import com.leverx.learningmanagementsystem.webfacade.CourseSettingsWebFacade;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,40 +21,38 @@ import java.util.UUID;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 
-
 @RestController
 @RequestMapping("/course-settings")
 @AllArgsConstructor
 public class CourseSettingsController {
 
-    private final CourseSettingsService courseSettingsService;
-    private final CourseSettingsMapper courseSettingsMapper;
+    private final CourseSettingsWebFacade courseSettingsWebFacade;
 
     @GetMapping
     public List<CourseSettingsResponseDto> getAll() {
-        return courseSettingsMapper.toDtos(courseSettingsService.getAll());
+        return courseSettingsWebFacade.getAll();
     }
 
     @GetMapping("/{id}")
     public CourseSettingsResponseDto getById(@PathVariable("id") UUID id) {
-        return courseSettingsMapper.toDto(courseSettingsService.getById(id));
+        return courseSettingsWebFacade.getById(id);
     }
 
     @PostMapping
     @ResponseStatus(CREATED)
     public CourseSettingsResponseDto create(@RequestBody @Valid CreateCourseSettingsDto createCourseSettingsDto) {
-        return courseSettingsMapper.toDto(courseSettingsService.create(createCourseSettingsDto));
+        return courseSettingsWebFacade.create(createCourseSettingsDto);
     }
 
     @PutMapping("/{id}")
     public CourseSettingsResponseDto updateById(@PathVariable("id") UUID id,
                                                 @RequestBody @Valid CreateCourseSettingsDto createCourseSettingsDto) {
-        return courseSettingsMapper.toDto(courseSettingsService.update(id, createCourseSettingsDto));
+        return courseSettingsWebFacade.updateById(id, createCourseSettingsDto);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(NO_CONTENT)
-    public void delete(@PathVariable("id") UUID id) {
-        courseSettingsService.delete(id);
+    public void deleteById(@PathVariable("id") UUID id) {
+        courseSettingsWebFacade.deleteById(id);
     }
 }

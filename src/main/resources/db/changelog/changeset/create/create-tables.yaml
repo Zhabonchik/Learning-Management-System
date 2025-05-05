@@ -98,6 +98,8 @@ databaseChangeLog:
               - column:
                   name: settings_id
                   type: uuid
+                  constraints:
+                    nullable: true
 
         - addForeignKeyConstraint:
             baseTableName: course
@@ -105,6 +107,7 @@ databaseChangeLog:
             constraintName: fk_course_settings
             referencedTableName: course_settings
             referencedColumnNames: id
+            onDelete: SET NULL
 
         - createTable:
             tableName: lesson

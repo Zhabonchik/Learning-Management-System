@@ -1,7 +1,5 @@
 package com.leverx.learningmanagementsystem.service.impl;
 
-import com.leverx.learningmanagementsystem.dto.lesson.CreateLessonDto;
-import com.leverx.learningmanagementsystem.entity.Course;
 import com.leverx.learningmanagementsystem.entity.Lesson;
 import com.leverx.learningmanagementsystem.exception.EntityNotFoundException;
 import com.leverx.learningmanagementsystem.mapper.lesson.LessonMapper;
@@ -41,41 +39,25 @@ public class LessonServiceImpl implements LessonService {
 
     @Override
     @Transactional
-    public Lesson create(CreateLessonDto createLessonDto) {
-        Lesson lesson = lessonMapper.toModel(createLessonDto);
-
+    public Lesson create(Lesson lesson) {
         log.info("Create lesson: {}", lesson);
-        Course course = courseRepository.findById(createLessonDto.courseId())
-                .orElseThrow(() -> new EntityNotFoundException(
-                        "Course not found [id = {%s}]".formatted(createLessonDto.courseId())));
-
-        lesson.setCourse(course);
         lessonRepository.save(lesson);
         return lesson;
     }
 
     @Override
     @Transactional
-    public Lesson update(UUID id, CreateLessonDto updateLessonDto) {
-        if (lessonRepository.findById(id).isEmpty()) {
-            throw new EntityNotFoundException("Lesson not found [id = {%s}]".formatted(id));
+    public Lesson updateById(Lesson lesson) {
+        if (lessonRepository.findById(lesson.getId()).isEmpty()) {
+            throw new EntityNotFoundException("Lesson not found [id = {%s}]".formatted(lesson.getId()));
         }
-
-        Lesson lesson = lessonMapper.toModel(updateLessonDto);
-
-        log.info("Update lesson [id = {}]", id);
-        Course course = courseRepository.findById(updateLessonDto.courseId())
-                .orElseThrow(() -> new EntityNotFoundException(
-                        "Course not found [id = {%s}]".formatted(updateLessonDto.courseId())));
-
-        lesson.setId(id);
-        lesson.setCourse(course);
+        log.info("Update lesson [id = {}]", lesson.getId());
         lessonRepository.save(lesson);
         return lesson;
     }
 
     @Override
-    public void delete(UUID id) {
+    public void deleteById(UUID id) {
         getById(id);
         log.info("Delete Lesson [id = {}]", id);
         lessonRepository.deleteById(id);

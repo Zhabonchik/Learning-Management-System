@@ -38,9 +38,7 @@ public class CourseSettingsServiceImpl implements CourseSettingsService {
     }
 
     @Override
-    public CourseSettings create(CreateCourseSettingsDto createCourseDto) {
-        CourseSettings courseSettings = courseSettingsMapper.toModel(createCourseDto);
-
+    public CourseSettings create(CourseSettings courseSettings) {
         CourseSettingsValidator.validateCourseDates(courseSettings);
 
         log.info("Create course settings: {}", courseSettings);
@@ -51,13 +49,10 @@ public class CourseSettingsServiceImpl implements CourseSettingsService {
 
     @Override
     @Transactional
-    public CourseSettings update(UUID id, CreateCourseSettingsDto updateCourseDto) {
-        if (courseSettingsRepository.findById(id).isEmpty()) {
-            throw new EntityNotFoundException("Course settings not found [id = {%s}]".formatted(id));
+    public CourseSettings updateById(CourseSettings courseSettings) {
+        if (courseSettingsRepository.findById(courseSettings.getId()).isEmpty()) {
+            throw new EntityNotFoundException("Course settings not found [id = {%s}]".formatted(courseSettings.getId()));
         }
-
-        CourseSettings courseSettings = courseSettingsMapper.toModel(updateCourseDto);
-        courseSettings.setId(id);
 
         CourseSettingsValidator.validateCourseDates(courseSettings);
 
@@ -68,7 +63,7 @@ public class CourseSettingsServiceImpl implements CourseSettingsService {
     }
 
     @Override
-    public void delete(UUID id) {
+    public void deleteById(UUID id) {
         getById(id);
         log.info("Delete course settings [id = {}]", id);
         courseSettingsRepository.deleteById(id);

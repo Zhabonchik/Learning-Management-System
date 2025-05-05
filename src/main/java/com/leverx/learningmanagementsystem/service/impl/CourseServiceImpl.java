@@ -20,7 +20,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -63,7 +65,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     @Transactional
-    public Course update(UUID id, CreateCourseDto updateCourseDto) {
+    public Course updateById(UUID id, CreateCourseDto updateCourseDto) {
         if (courseRepository.findById(id).isEmpty()) {
             throw new EntityNotFoundException("Course not found [id = {%s}]".formatted(id));
         }
@@ -83,7 +85,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public void delete(UUID id) {
+    public void deleteById(UUID id) {
         getById(id);
         log.info("Delete course [id = {}]", id);
         courseRepository.deleteById(id);

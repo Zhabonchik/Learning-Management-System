@@ -14,10 +14,10 @@ public interface StudentService {
 
     Student create(CreateStudentDto createStudentDto);
 
-    Student update(UUID id, CreateStudentDto updateStudentDto);
+    Student updateById(UUID id, CreateStudentDto updateStudentDto);
 
     void enrollForCourse(UUID studentId, UUID courseId);
 
-    void delete(UUID id);
+    void deleteById(UUID id);
 
 }

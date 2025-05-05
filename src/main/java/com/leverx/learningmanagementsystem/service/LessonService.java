@@ -1,6 +1,5 @@
 package com.leverx.learningmanagementsystem.service;
 
-import com.leverx.learningmanagementsystem.dto.lesson.CreateLessonDto;
 import com.leverx.learningmanagementsystem.entity.Lesson;
 
 import java.util.List;
@@ -12,9 +11,9 @@ public interface LessonService {
 
     List<Lesson> getAll();
 
-    Lesson create(CreateLessonDto createLessonDto);
+    Lesson create(Lesson lesson);
 
-    Lesson update(UUID id, CreateLessonDto updateLessonDto);
+    Lesson updateById(Lesson lesson);
 
-    void delete(UUID id);
+    void deleteById(UUID id);
 }

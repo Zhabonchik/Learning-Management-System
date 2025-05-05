@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class CourseControllerTest {
+class CourseControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -32,15 +32,15 @@ public class CourseControllerTest {
 
     private static CreateCourseDto createCourseDto;
 
-    @BeforeAll
-    public static void setUp() {
+    @BeforeEach
+    void setUpCreateCourseDto() {
         createCourseDto = new CreateCourseDto("Test course", "This is a test course",
                 BigDecimal.valueOf(143), BigDecimal.valueOf(1430), null, new ArrayList<>(), new ArrayList<>());
     }
 
     @Test
     @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    public void testGetAll() throws Exception {
+    void testGetAll() throws Exception {
         mockMvc.perform(get("/courses"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(2));
@@ -48,7 +48,7 @@ public class CourseControllerTest {
 
     @Test
     @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    public void testGetById() throws Exception {
+    void testGetById() throws Exception {
         mockMvc.perform(get("/courses/64852c52-ed64-4438-b095-2ca10f6b4be0"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(8))

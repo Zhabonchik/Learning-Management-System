@@ -54,7 +54,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     @Transactional
-    public Student update(UUID id, CreateStudentDto updateStudentDto) {
+    public Student updateById(UUID id, CreateStudentDto updateStudentDto) {
 
         if (studentRepository.findById(id).isEmpty()) {
             throw new EntityNotFoundException("Student not found [id = {%s}]".formatted(id));
@@ -86,7 +86,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public void delete(UUID id) {
+    public void deleteById(UUID id) {
         getById(id);
         log.info("Delete student [id = {}]", id);
         studentRepository.deleteById(id);

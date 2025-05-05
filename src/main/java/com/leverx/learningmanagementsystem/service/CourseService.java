@@ -15,10 +15,10 @@ public interface CourseService {
 
     Course create(CreateCourseDto createCourseDto);
 
-    Course update(UUID id, CreateCourseDto updateCourseDto);
+    Course updateById(UUID id, CreateCourseDto updateCourseDto);
 
     List<Course> getAllStartingBetweenDates(LocalDateTime startDate, LocalDateTime endDate);
 
-    void delete(UUID id);
+    void deleteById(UUID id);
 
 }

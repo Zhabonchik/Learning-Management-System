@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class StudentControllerTest {
+class StudentControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -33,7 +33,7 @@ public class StudentControllerTest {
     private static CreateStudentDto createStudentDto;
 
     @BeforeAll
-    public static void setUp() {
+    static void setUp() {
         createStudentDto = new CreateStudentDto("A", "B", "email@gmail.com",
                 LocalDate.of(2005, 7, 23), new BigDecimal(1548), new ArrayList<>());
     }

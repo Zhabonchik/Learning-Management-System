@@ -54,12 +54,12 @@ public class StudentController {
 
     @PutMapping("/{id}")
     public StudentResponseDto updateById(@PathVariable("id") UUID id, @RequestBody @Valid CreateStudentDto updateStudentDto) {
-        return studentMapper.toDto(studentService.update(id, updateStudentDto));
+        return studentMapper.toDto(studentService.updateById(id, updateStudentDto));
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(NO_CONTENT)
-    public void delete(@PathVariable("id") UUID id) {
-        studentService.delete(id);
+    public void deleteById(@PathVariable("id") UUID id) {
+        studentService.deleteById(id);
     }
 }

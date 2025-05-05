@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-public class CourseServiceTest {
+class CourseServiceTest {
 
     @Autowired
     private CourseService courseService;
@@ -27,21 +27,21 @@ public class CourseServiceTest {
     private CreateCourseDto createCourseDto;
 
     @BeforeEach
-    public void init() {
+    void init() {
         createCourseDto = new CreateCourseDto("Test course", "This is a test course",
                 BigDecimal.valueOf(143), BigDecimal.valueOf(1430), null, new ArrayList<>(), new ArrayList<>());
     }
 
     @Test
     @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    public void testGetAll() {
+    void testGetAll() {
         List<Course> courses = courseService.getAll();
         assertEquals(2, courses.size());
     }
 
     @Test
     @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    public void testGetById() {
+    void testGetById() {
         Course course = courseService.getById(UUID.fromString("b902261b-d1b9-4c58-869f-b04a5bbff4c9"));
         assertAll(
                 () -> assertNotNull(course),
@@ -52,7 +52,7 @@ public class CourseServiceTest {
 
     @Test
     @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    public void testCreate() {
+    void testCreate() {
         Course course = courseService.create(createCourseDto);
         assertAll(
                 () -> assertNotNull(course),
@@ -65,8 +65,8 @@ public class CourseServiceTest {
 
     @Test
     @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    public void testUpdate() {
-        Course updatedCourse = courseService.update(
+    void testUpdate() {
+        Course updatedCourse = courseService.updateById(
                 UUID.fromString("64852c52-ed64-4438-b095-2ca10f6b4be0"),
                 createCourseDto
         );
@@ -83,11 +83,11 @@ public class CourseServiceTest {
 
     @Test
     @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    public void testUpdateThrowIncorrectResultSizeExceptionAndRollbackTransaction() {
+    void testUpdateThrowIncorrectResultSizeExceptionAndRollbackTransaction() {
         Exception ex = assertThrows(IncorrectResultSizeException.class,
                 () -> {
                     createCourseDto.lessonIds().add(UUID.fromString("ad019adb-c069-44c0-9624-f4d6b2de620b"));
-                    courseService.update(UUID.fromString("64852c52-ed64-4438-b095-2ca10f6b4be0"), createCourseDto);
+                    courseService.updateById(UUID.fromString("64852c52-ed64-4438-b095-2ca10f6b4be0"), createCourseDto);
                 }
         );
         assertEquals("Some of requested lessons don't exist", ex.getMessage());

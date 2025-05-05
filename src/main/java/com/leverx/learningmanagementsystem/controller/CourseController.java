@@ -49,13 +49,13 @@ public class CourseController {
 
     @PutMapping("/{id}")
     public CourseResponseDto updateById(@PathVariable("id") UUID id, @RequestBody @Valid CreateCourseDto updateCourseDto) {
-        return courseMapper.toDto(courseService.update(id, updateCourseDto));
+        return courseMapper.toDto(courseService.updateById(id, updateCourseDto));
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(NO_CONTENT)
-    public void delete(@PathVariable("id") UUID id) {
-        courseService.delete(id);
+    public void deleteById(@PathVariable("id") UUID id) {
+        courseService.deleteById(id);
     }
 
 }

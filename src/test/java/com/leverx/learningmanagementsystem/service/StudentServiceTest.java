@@ -18,7 +18,7 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-public class StudentServiceTest {
+class StudentServiceTest {
 
     @Autowired
     StudentService studentService;
@@ -26,14 +26,14 @@ public class StudentServiceTest {
     CreateStudentDto createStudentDto;
 
     @BeforeEach
-    public void init() {
+    void init() {
         createStudentDto = new CreateStudentDto("A", "B", "email@gmail.com",
                 LocalDate.of(2005, 7, 23), new BigDecimal(1548), new ArrayList<>());
     }
 
     @Test
     @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    public void testGetStudentById() {
+    void testGetStudentById() {
         Student student = studentService.getById(UUID.fromString("5a231280-1988-410f-98d9-852b8dc9caf1"));
         assertNotNull (student);
         assertEquals (UUID.fromString("5a231280-1988-410f-98d9-852b8dc9caf1"), student.getId());
@@ -41,14 +41,14 @@ public class StudentServiceTest {
 
     @Test
     @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    public void testGetAll() {
+    void testGetAll() {
         List<Student> students = studentService.getAll();
         assertEquals (2, students.size());
     }
 
     @Test
     @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    public void testCreate() {
+    void testCreate() {
         Student createdStudent = studentService.create(createStudentDto);
         assertAll(
                 () -> assertNotNull(createdStudent.getId()),
@@ -62,8 +62,8 @@ public class StudentServiceTest {
 
     @Test
     @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    public void testUpdate() {
-        Student updatedStudent = studentService.update(
+    void testUpdate() {
+        Student updatedStudent = studentService.updateById(
                 UUID.fromString("5a231280-1988-410f-98d9-852b8dc9caf1"),
                 createStudentDto);
         int studentsAmount = studentService.getAll().size();
@@ -80,11 +80,11 @@ public class StudentServiceTest {
 
     @Test
     @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    public void testUpdateThrowsIncorrectResultSizeExceptionAndRollbacksTransaction() {
+    void testUpdateThrowsIncorrectResultSizeExceptionAndRollbacksTransaction() {
         Exception ex = assertThrows(IncorrectResultSizeException.class,
                 () -> {
                     createStudentDto.courseIds().add(UUID.fromString("ddf747d2-f5de-4a2e-b8b9-66d8bd7e357e"));
-                    studentService.update(
+                    studentService.updateById(
                             UUID.fromString("5a231280-1988-410f-98d9-852b8dc9caf1"),
                             createStudentDto);
                 });
