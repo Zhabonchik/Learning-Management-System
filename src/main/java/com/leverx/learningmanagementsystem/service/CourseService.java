@@ -13,6 +13,8 @@ public interface CourseService {
 
     List<Course> getAll();
 
+    List<Course> getAllByIdIn(List<UUID> ids);
+
     Course create(CreateCourseDto createCourseDto);
 
     Course updateById(UUID id, CreateCourseDto updateCourseDto);

@@ -12,9 +12,9 @@ public interface StudentService {
 
     List<Student> getAll();
 
-    Student create(CreateStudentDto createStudentDto);
+    Student create(Student student);
 
-    Student updateById(UUID id, CreateStudentDto updateStudentDto);
+    Student update(Student student);
 
     void enrollForCourse(UUID studentId, UUID courseId);
 

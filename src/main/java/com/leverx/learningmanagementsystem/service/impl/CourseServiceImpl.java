@@ -54,6 +54,15 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    public List<Course> getAllByIdIn(List<UUID> ids) {
+        List<Course> courses =  courseRepository.findAllByIdIn(ids);
+        if (ids != null && ids.size() != courses.size()) {
+            throw new IncorrectResultSizeException("Some of requested courses don't exist");
+        }
+        return courses;
+    }
+
+    @Override
     public Course create(CreateCourseDto createCourseDto) {
         Course course = courseMapper.toModel(createCourseDto);
 

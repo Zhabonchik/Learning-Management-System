@@ -8,6 +8,7 @@ import com.leverx.learningmanagementsystem.service.CourseSettingsService;
 import com.leverx.learningmanagementsystem.webfacade.CourseSettingsWebFacade;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -32,6 +33,7 @@ public class CourseSettingsWebFacadeImpl implements CourseSettingsWebFacade {
     }
 
     @Override
+    @Transactional
     public CourseSettingsResponseDto create(CreateCourseSettingsDto createCourseSettingsDto) {
         CourseSettings courseSettings = courseSettingsMapper.toModel(createCourseSettingsDto);
         CourseSettings createdCourseSettings = courseSettingsService.create(courseSettings);
@@ -39,6 +41,7 @@ public class CourseSettingsWebFacadeImpl implements CourseSettingsWebFacade {
     }
 
     @Override
+    @Transactional
     public CourseSettingsResponseDto updateById(UUID id, CreateCourseSettingsDto createCourseSettingsDto) {
         CourseSettings courseSettings = courseSettingsMapper.toModel(createCourseSettingsDto);
         courseSettings.setId(id);

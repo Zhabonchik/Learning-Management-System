@@ -1,14 +1,10 @@
 package com.leverx.learningmanagementsystem.service.impl;
 
-import com.leverx.learningmanagementsystem.dto.student.CreateStudentDto;
 import com.leverx.learningmanagementsystem.entity.Course;
 import com.leverx.learningmanagementsystem.entity.Student;
 import com.leverx.learningmanagementsystem.exception.EntityNotFoundException;
-import com.leverx.learningmanagementsystem.exception.IncorrectResultSizeException;
 import com.leverx.learningmanagementsystem.exception.NotEnoughCoinsException;
 import com.leverx.learningmanagementsystem.exception.StudentAlreadyEnrolledException;
-import com.leverx.learningmanagementsystem.mapper.student.StudentMapper;
-import com.leverx.learningmanagementsystem.repository.CourseRepository;
 import com.leverx.learningmanagementsystem.repository.StudentRepository;
 import com.leverx.learningmanagementsystem.service.CourseService;
 import com.leverx.learningmanagementsystem.service.StudentService;
@@ -28,8 +24,6 @@ public class StudentServiceImpl implements StudentService {
 
     private final CourseService courseService;
     private final StudentRepository studentRepository;
-    private final CourseRepository courseRepository;
-    private final StudentMapper studentMapper;
 
     @Override
     public Student getById(UUID id) {
@@ -45,26 +39,20 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Student create(CreateStudentDto createStudentDto) {
-        Student student = studentMapper.toModel(createStudentDto);
+    public Student create(Student student) {
         log.info("Create student: {}", student);
-        saveStudent(student, createStudentDto);
+        saveStudent(student);
         return student;
     }
 
     @Override
     @Transactional
-    public Student updateById(UUID id, CreateStudentDto updateStudentDto) {
-
-        if (studentRepository.findById(id).isEmpty()) {
-            throw new EntityNotFoundException("Student not found [id = {%s}]".formatted(id));
+    public Student update(Student student) {
+        if (studentRepository.findById(student.getId()).isEmpty()) {
+            throw new EntityNotFoundException("Student not found [id = {%s}]".formatted(student.getId()));
         }
-
-        Student student = studentMapper.toModel(updateStudentDto);
-        student.setId(id);
-
-        log.info("Update student [id = {}]", id);
-        saveStudent(student, updateStudentDto);
+        log.info("Update student [id = {}]", student.getId());
+        saveStudent(student);
         return student;
     }
 
@@ -92,15 +80,8 @@ public class StudentServiceImpl implements StudentService {
         studentRepository.deleteById(id);
     }
 
-    private void saveStudent(Student student, CreateStudentDto createStudentDto) {
+    private void saveStudent(Student student) {
         log.info("Fetching courses for student [id = {}]", student.getId());
-        List<Course> courses = courseRepository.findAllByIdIn(createStudentDto.courseIds());
-
-        if (createStudentDto.courseIds() != null && courses.size() != createStudentDto.courseIds().size()) {
-            throw new IncorrectResultSizeException("Some of requested courses don't exist");
-        }
-
-        student.setCourses(courses);
         studentRepository.save(student);
     }
 
