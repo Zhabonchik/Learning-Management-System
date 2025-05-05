@@ -81,7 +81,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public List<Course> getAllStartingBetweenDates(LocalDateTime startDate, LocalDateTime endDate) {
-        return courseRepository.findAllStartingTheFollowingDay(startDate, endDate);
+        return courseRepository.findAllBySettingsStartDateBetween(startDate, endDate);
     }
 
     @Override
@@ -97,7 +97,7 @@ public class CourseServiceImpl implements CourseService {
 
         if (createCourseDto.lessonIds() != null && CollectionUtils.isNotEmpty(createCourseDto.lessonIds())) {
             log.info("Fetching course's lessons");
-            lessons = lessonRepository.findAllById(createCourseDto.lessonIds());
+            lessons = lessonRepository.findAllByIdIn(createCourseDto.lessonIds());
             if (lessons.size() != createCourseDto.lessonIds().size()) {
                 throw new IncorrectResultSizeException(
                         "Some of requested lessons don't exist");
@@ -107,7 +107,7 @@ public class CourseServiceImpl implements CourseService {
         }
         if (createCourseDto.studentIds() != null && CollectionUtils.isNotEmpty(createCourseDto.studentIds())) {
             log.info("Fetching course's students");
-            students = studentRepository.findAllById(createCourseDto.studentIds());
+            students = studentRepository.findAllByIdIn(createCourseDto.studentIds());
             if (students.size() != createCourseDto.studentIds().size()) {
                 throw new IncorrectResultSizeException(
                         "Some of requested students don't exist");

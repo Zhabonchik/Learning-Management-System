@@ -2,9 +2,7 @@ package com.leverx.learningmanagementsystem.repository;
 
 import com.leverx.learningmanagementsystem.entity.Lesson;
 import org.springframework.data.jpa.repository.EntityGraph;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +16,5 @@ public interface LessonRepository extends CrudRepository<Lesson, UUID> {
     @EntityGraph(attributePaths = "course")
     List<Lesson> findAll();
 
-    @Query("SELECT l FROM Lesson l WHERE l.id IN :ids")
-    List<Lesson> findAllById(@Param("ids") List<UUID> ids);
+    List<Lesson> findAllByIdIn(List<UUID> uuids);
 }
