@@ -32,7 +32,7 @@ public class LessonController {
 
     @GetMapping
     public List<LessonResponseDto> getAll() {
-        return lessonMapper.toDtoList(lessonService.getAll());
+        return lessonMapper.toDtos(lessonService.getAll());
     }
 
     @GetMapping("/{id}")

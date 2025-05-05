@@ -42,7 +42,7 @@ public class LessonServiceImpl implements LessonService {
     @Override
     @Transactional
     public Lesson create(CreateLessonDto createLessonDto) {
-        Lesson lesson = lessonMapper.toLesson(createLessonDto);
+        Lesson lesson = lessonMapper.toModel(createLessonDto);
 
         log.info("Create lesson: {}", lesson);
         Course course = courseRepository.findById(createLessonDto.courseId())
@@ -62,7 +62,7 @@ public class LessonServiceImpl implements LessonService {
             throw new EntityNotFoundException("Lesson with id = " + id + " not found");
         }
 
-        Lesson lesson = lessonMapper.toLesson(updateLessonDto);
+        Lesson lesson = lessonMapper.toModel(updateLessonDto);
 
         log.info("Update lesson: {}", lesson);
         Course course = courseRepository.findById(updateLessonDto.courseId())

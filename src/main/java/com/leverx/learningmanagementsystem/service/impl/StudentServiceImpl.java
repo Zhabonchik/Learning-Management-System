@@ -47,7 +47,7 @@ public class StudentServiceImpl implements StudentService {
     @Override
     @Transactional
     public Student create(CreateStudentDto createStudentDto) {
-        Student student = studentMapper.toStudent(createStudentDto);
+        Student student = studentMapper.toModel(createStudentDto);
         log.info("Create student: {}", student);
         saveStudent(student, createStudentDto);
         return student;
@@ -61,7 +61,7 @@ public class StudentServiceImpl implements StudentService {
             throw new EntityNotFoundException("Student with id " + id + " not found");
         }
 
-        Student student = studentMapper.toStudent(updateStudentDto);
+        Student student = studentMapper.toModel(updateStudentDto);
         student.setId(id);
 
         log.info("Update student: {}", student);

@@ -33,7 +33,7 @@ public class CourseController {
 
     @GetMapping
     public List<CourseResponseDto> getAll() {
-        return courseMapper.toDtoList(courseService.getAll());
+        return courseMapper.toDtos(courseService.getAll());
     }
 
     @GetMapping("/{id}")

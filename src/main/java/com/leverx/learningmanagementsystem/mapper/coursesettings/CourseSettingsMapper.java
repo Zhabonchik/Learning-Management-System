@@ -13,10 +13,10 @@ public interface CourseSettingsMapper {
 
     CourseSettingsResponseDto toDto(CourseSettings courseSettings);
 
-    CourseSettings toCourseSettings(CourseSettingsResponseDto courseSettingsResponseDto);
+    CourseSettings toModel(CourseSettingsResponseDto courseSettingsResponseDto);
 
     @Mapping(target = "id", ignore = true)
-    CourseSettings toCourseSettings(CreateCourseSettingsDto createCourseSettingsDto);
+    CourseSettings toModel(CreateCourseSettingsDto createCourseSettingsDto);
 
-    List<CourseSettingsResponseDto> toDtoList(List<CourseSettings> courseSettingsList);
+    List<CourseSettingsResponseDto> toDtos(List<CourseSettings> courseSettingsList);
 }

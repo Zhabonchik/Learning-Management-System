@@ -17,11 +17,11 @@ public interface StudentMapper {
     StudentResponseDto toDto(Student student);
 
     @Mapping(target = "courses", ignore = true)
-    Student toStudent(StudentResponseDto studentResponseDto);
+    Student toModel(StudentResponseDto studentResponseDto);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "courses", ignore = true)
-    Student toStudent(CreateStudentDto createStudentDto);
+    Student toModel(CreateStudentDto createStudentDto);
 
-    List<StudentResponseDto> toDtoList(List<Student> students);
+    List<StudentResponseDto> toDtos(List<Student> students);
 }

@@ -25,14 +25,14 @@ public interface CourseMapper {
     @Mapping(target = "settings", ignore = true)
     @Mapping(target = "lessons", ignore = true)
     @Mapping(target = "students", ignore = true)
-    Course toCourse(CourseResponseDto courseResponseDto);
+    Course toModel(CourseResponseDto courseResponseDto);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "settings", ignore = true)
     @Mapping(target = "lessons", ignore = true)
     @Mapping(target = "students", ignore = true)
-    Course toCourse(CreateCourseDto createCourseDto);
+    Course toModel(CreateCourseDto createCourseDto);
 
-    List<CourseResponseDto> toDtoList(List<Course> courses);
+    List<CourseResponseDto> toDtos(List<Course> courses);
 
 }

@@ -42,7 +42,7 @@ public class CourseSettingsServiceImpl implements CourseSettingsService {
     @Override
     @Transactional
     public CourseSettings create(CreateCourseSettingsDto createCourseDto) {
-        CourseSettings courseSettings = courseSettingsMapper.toCourseSettings(createCourseDto);
+        CourseSettings courseSettings = courseSettingsMapper.toModel(createCourseDto);
 
         checkDate(courseSettings);
 
@@ -60,7 +60,7 @@ public class CourseSettingsServiceImpl implements CourseSettingsService {
             throw new EntityNotFoundException("Course settings with id = " + id + " not found");
         }
 
-        CourseSettings courseSettings = courseSettingsMapper.toCourseSettings(updateCourseDto);
+        CourseSettings courseSettings = courseSettingsMapper.toModel(updateCourseDto);
         courseSettings.setId(id);
 
         checkDate(courseSettings);

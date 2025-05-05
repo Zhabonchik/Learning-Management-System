@@ -15,11 +15,11 @@ public interface LessonMapper {
     LessonResponseDto toDto(Lesson lesson);
 
     @Mapping(target = "course", ignore = true)
-    Lesson toLesson(LessonResponseDto lessonDto);
+    Lesson toModel(LessonResponseDto lessonDto);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "course", ignore = true)
-    Lesson toLesson(CreateLessonDto createLessonDto);
+    Lesson toModel(CreateLessonDto createLessonDto);
 
-    List<LessonResponseDto> toDtoList(List<Lesson> lessons);
+    List<LessonResponseDto> toDtos(List<Lesson> lessons);
 }

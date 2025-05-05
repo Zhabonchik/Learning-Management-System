@@ -54,7 +54,7 @@ public class CourseServiceImpl implements CourseService {
     @Override
     @Transactional
     public Course create(CreateCourseDto createCourseDto) {
-        Course course = courseMapper.toCourse(createCourseDto);
+        Course course = courseMapper.toModel(createCourseDto);
 
         log.info("Create course with id {}", course.getId());
         save(course, createCourseDto);
@@ -70,7 +70,7 @@ public class CourseServiceImpl implements CourseService {
             throw new EntityNotFoundException("Course with id = " + id + " not found");
         }
 
-        Course course = courseMapper.toCourse(updateCourseDto);
+        Course course = courseMapper.toModel(updateCourseDto);
         course.setId(id);
 
         log.info("Update course with id {}", course.getId());

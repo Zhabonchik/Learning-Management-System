@@ -33,7 +33,7 @@ public class CourseSettingsController {
 
     @GetMapping
     public List<CourseSettingsResponseDto> getAll() {
-        return courseSettingsMapper.toDtoList(courseSettingsService.getAll());
+        return courseSettingsMapper.toDtos(courseSettingsService.getAll());
     }
 
     @GetMapping("/{id}")
