@@ -3,7 +3,7 @@ package com.leverx.learningmanagementsystem.service;
 import com.leverx.learningmanagementsystem.dto.student.CreateStudentDto;
 import com.leverx.learningmanagementsystem.entity.Course;
 import com.leverx.learningmanagementsystem.entity.Student;
-import com.leverx.learningmanagementsystem.exception.EntityValidationException.IncorrectResultSizeException;
+import com.leverx.learningmanagementsystem.exception.IncorrectResultSizeException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -3,7 +3,7 @@ package com.leverx.learningmanagementsystem.service.impl;
 import com.leverx.learningmanagementsystem.dto.lesson.CreateLessonDto;
 import com.leverx.learningmanagementsystem.entity.Course;
 import com.leverx.learningmanagementsystem.entity.Lesson;
-import com.leverx.learningmanagementsystem.exception.EntityValidationException.EntityNotFoundException;
+import com.leverx.learningmanagementsystem.exception.EntityNotFoundException;
 import com.leverx.learningmanagementsystem.mapper.lesson.LessonMapper;
 import com.leverx.learningmanagementsystem.repository.CourseRepository;
 import com.leverx.learningmanagementsystem.repository.LessonRepository;

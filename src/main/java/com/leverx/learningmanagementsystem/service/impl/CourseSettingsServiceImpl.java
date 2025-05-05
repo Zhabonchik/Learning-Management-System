@@ -2,8 +2,8 @@ package com.leverx.learningmanagementsystem.service.impl;
 
 import com.leverx.learningmanagementsystem.dto.coursesettings.CreateCourseSettingsDto;
 import com.leverx.learningmanagementsystem.entity.CourseSettings;
-import com.leverx.learningmanagementsystem.exception.EntityValidationException.InvalidCourseDatesException;
-import com.leverx.learningmanagementsystem.exception.EntityValidationException.EntityNotFoundException;
+import com.leverx.learningmanagementsystem.exception.EntityNotFoundException;
+import com.leverx.learningmanagementsystem.exception.InvalidCourseDatesException;
 import com.leverx.learningmanagementsystem.mapper.coursesettings.CourseSettingsMapper;
 import com.leverx.learningmanagementsystem.repository.CourseSettingsRepository;
 import com.leverx.learningmanagementsystem.service.CourseSettingsService;
