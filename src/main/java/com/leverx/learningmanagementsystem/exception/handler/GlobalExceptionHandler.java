@@ -19,8 +19,6 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.CONFLICT;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
-
-
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -58,16 +56,16 @@ public class GlobalExceptionHandler {
     @ResponseStatus(BAD_REQUEST)
     public ErrorResponse handleMessageNotReadableException(HttpMessageNotReadableException ex) {
         Throwable cause = ex.getCause();
-        if (cause instanceof InvalidFormatException &&
-                ((InvalidFormatException) cause).getTargetType() == java.util.UUID.class) {
+        if (cause instanceof InvalidFormatException invalidFormatException &&
+                invalidFormatException.getTargetType() == java.util.UUID.class) {
             return new ErrorResponse(BAD_REQUEST.value(),
                     "Invalid UUID format. UUID must be in standard 36-character representation.");
-        } else if (cause instanceof InvalidFormatException &&
-                ((InvalidFormatException) cause).getTargetType() == java.time.LocalDateTime.class) {
+        } else if (cause instanceof InvalidFormatException invalidFormatException &&
+                invalidFormatException.getTargetType() == java.time.LocalDateTime.class) {
             return new ErrorResponse(BAD_REQUEST.value(),
                     "Invalid DateTime format. Expected format: " + DATE_TIME_FORMAT);
-        } else if (cause instanceof InvalidFormatException &&
-                ((InvalidFormatException) cause).getTargetType() == java.time.LocalDate.class) {
+        } else if (cause instanceof InvalidFormatException invalidFormatException &&
+                invalidFormatException.getTargetType() == java.time.LocalDate.class) {
             return new ErrorResponse(BAD_REQUEST.value(),
                     "Invalid Date format. Expected format: " + DATE_FORMAT);
         }
@@ -77,10 +75,9 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     @ResponseStatus(BAD_REQUEST)
     public ErrorResponse handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException ex) {
-        if (ex.getRequiredType() == java.util.UUID.class) {
-            return new ErrorResponse(BAD_REQUEST.value(), "Invalid UUID format: " + ex.getValue());
-        }
-        return new ErrorResponse(BAD_REQUEST.value(), "Invalid parameter type.");
+        return (ex.getRequiredType() == java.util.UUID.class)
+                ? new ErrorResponse(BAD_REQUEST.value(), "Invalid UUID format: " + ex.getValue())
+                : new ErrorResponse(BAD_REQUEST.value(), "Invalid parameter type.");
     }
 
 
