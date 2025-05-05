@@ -2,12 +2,10 @@ package com.leverx.learningmanagementsystem.service;
 
 import com.leverx.learningmanagementsystem.dto.student.CreateStudentDto;
 import com.leverx.learningmanagementsystem.entity.Student;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
-@Service
 public interface StudentService {
 
     Student getById(UUID id);
