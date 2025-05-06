@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: insert-into-tables
+      id: changeset-1.0.0_006
       author: Mikita Shapel
       changes:
         - loadData:
