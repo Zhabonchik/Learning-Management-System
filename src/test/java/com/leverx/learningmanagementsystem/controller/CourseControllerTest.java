@@ -30,7 +30,7 @@ class CourseControllerTest {
     @Autowired
     ObjectMapper objectMapper;
 
-    private static CreateCourseDto createCourseDto;
+    private CreateCourseDto createCourseDto;
 
     @BeforeEach
     void setUpCreateCourseDto() {

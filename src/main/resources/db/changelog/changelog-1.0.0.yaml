@@ -150,6 +150,7 @@ databaseChangeLog:
             constraintName: fk_lesson_course
             referencedTableName: course
             referencedColumnNames: id
+            onDelete: SET NULL
 
   - changeSet:
       id: changeset-1.0.0_005

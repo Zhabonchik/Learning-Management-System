@@ -2,7 +2,7 @@ package com.leverx.learningmanagementsystem.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.leverx.learningmanagementsystem.dto.student.CreateStudentDto;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -31,10 +31,10 @@ class StudentControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    private static CreateStudentDto createStudentDto;
+    private CreateStudentDto createStudentDto;
 
-    @BeforeAll
-    static void setUp() {
+    @BeforeEach
+    void setUp() {
         createStudentDto = new CreateStudentDto("A", "B", "email@gmail.com",
                 LocalDate.of(2005, 7, 23), new BigDecimal(1548), new ArrayList<>());
     }
