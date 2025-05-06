@@ -1,11 +1,8 @@
 package com.leverx.learningmanagementsystem.service.impl;
 
-import com.leverx.learningmanagementsystem.dto.lesson.CreateLessonDto;
-import com.leverx.learningmanagementsystem.entity.Course;
 import com.leverx.learningmanagementsystem.entity.Lesson;
-import com.leverx.learningmanagementsystem.exception.EntityValidationException.EntityNotFoundException;
-import com.leverx.learningmanagementsystem.mapper.lesson.LessonMapper;
-import com.leverx.learningmanagementsystem.repository.CourseRepository;
+import com.leverx.learningmanagementsystem.exception.EntityNotFoundException;
+import com.leverx.learningmanagementsystem.exception.IncorrectResultSizeException;
 import com.leverx.learningmanagementsystem.repository.LessonRepository;
 import com.leverx.learningmanagementsystem.service.LessonService;
 import lombok.AllArgsConstructor;
@@ -22,15 +19,13 @@ import java.util.UUID;
 public class LessonServiceImpl implements LessonService {
 
     private final LessonRepository lessonRepository;
-    private final CourseRepository courseRepository;
-    private final LessonMapper lessonMapper;
 
     @Override
     public Lesson getById(UUID id) {
-        log.info("Get Lesson by id: {}", id);
+        log.info("Get Lesson [id = {}]", id);
         return lessonRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(
-                        "Lesson with id = " + id + " not found"));
+                        "Lesson not found [id = {%s}]".formatted(id)));
     }
 
     @Override
@@ -40,47 +35,35 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
-    @Transactional
-    public Lesson create(CreateLessonDto createLessonDto) {
-        Lesson lesson = lessonMapper.toLesson(createLessonDto);
-
-        log.info("Create lesson: {}", lesson);
-        Course course = courseRepository.findById(createLessonDto.courseId())
-                .orElseThrow(() -> new EntityNotFoundException(
-                        "Course with id = " + createLessonDto.courseId() + " not found"));
-
-        lesson.setCourse(course);
-        lessonRepository.save(lesson);
-
-        return lesson;
-    }
-
-    @Override
-    @Transactional
-    public Lesson update(UUID id, CreateLessonDto updateLessonDto) {
-
-        if (lessonRepository.findById(id).isEmpty()) {
-            throw new EntityNotFoundException("Lesson with id = " + id + " not found");
+    public List<Lesson> getAllByIdIn(List<UUID> ids) {
+        List<Lesson> lessons = lessonRepository.findAllByIdIn(ids);
+        if (lessons.size() != ids.size()) {
+            throw new IncorrectResultSizeException("Some of requested lessons don't exist");
         }
-
-        Lesson lesson = lessonMapper.toLesson(updateLessonDto);
-
-        log.info("Update lesson: {}", lesson);
-        Course course = courseRepository.findById(updateLessonDto.courseId())
-                .orElseThrow(() -> new EntityNotFoundException(
-                        "Course with id = " + updateLessonDto.courseId() + " not found"));
-
-        lesson.setId(id);
-        lesson.setCourse(course);
-        lessonRepository.save(lesson);
-
-        return lesson;
+        return lessons;
     }
 
     @Override
-    public void delete(UUID id) {
+    @Transactional
+    public Lesson create(Lesson lesson) {
+        log.info("Create lesson: {}", lesson);
+        return lessonRepository.save(lesson);
+    }
+
+    @Override
+    @Transactional
+    public Lesson updateById(Lesson lesson) {
+        if (lessonRepository.findById(lesson.getId()).isEmpty()) {
+            throw new EntityNotFoundException("Lesson not found [id = {%s}]".formatted(lesson.getId()));
+        }
+        log.info("Update lesson [id = {}]", lesson.getId());
+        return lessonRepository.save(lesson);
+    }
+
+    @Override
+    public void deleteById(UUID id) {
         getById(id);
-        log.info("Delete Lesson by id: {}", id);
+        log.info("Delete Lesson [id = {}]", id);
         lessonRepository.deleteById(id);
     }
 }

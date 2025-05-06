@@ -1,14 +1,11 @@
 package com.leverx.learningmanagementsystem.service.impl;
 
-import com.leverx.learningmanagementsystem.dto.student.CreateStudentDto;
 import com.leverx.learningmanagementsystem.entity.Course;
 import com.leverx.learningmanagementsystem.entity.Student;
-import com.leverx.learningmanagementsystem.exception.EntityValidationException.StudentAlreadyEnrolledException;
-import com.leverx.learningmanagementsystem.exception.EntityValidationException.EntityNotFoundException;
-import com.leverx.learningmanagementsystem.exception.EntityValidationException.IncorrectResultSizeException;
-import com.leverx.learningmanagementsystem.exception.EntityValidationException.NotEnoughCoinsException;
-import com.leverx.learningmanagementsystem.mapper.student.StudentMapper;
-import com.leverx.learningmanagementsystem.repository.CourseRepository;
+import com.leverx.learningmanagementsystem.exception.EntityNotFoundException;
+import com.leverx.learningmanagementsystem.exception.IncorrectResultSizeException;
+import com.leverx.learningmanagementsystem.exception.NotEnoughCoinsException;
+import com.leverx.learningmanagementsystem.exception.StudentAlreadyEnrolledException;
 import com.leverx.learningmanagementsystem.repository.StudentRepository;
 import com.leverx.learningmanagementsystem.service.CourseService;
 import com.leverx.learningmanagementsystem.service.StudentService;
@@ -17,9 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
+import java.math.BigDecimal;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 @Slf4j
@@ -29,14 +25,12 @@ public class StudentServiceImpl implements StudentService {
 
     private final CourseService courseService;
     private final StudentRepository studentRepository;
-    private final CourseRepository courseRepository;
-    private final StudentMapper studentMapper;
 
     @Override
     public Student getById(UUID id) {
-        log.info("Get student by id: {}", id);
+        log.info("Get student [id = {}]", id);
         return studentRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Student with id " + id + " not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Student not found [id = {%s}]".formatted(id)));
     }
 
     @Override
@@ -46,74 +40,75 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    @Transactional
-    public Student create(CreateStudentDto createStudentDto) {
+    public List<Student> getAllByIdIn(List<UUID> ids) {
+        List<Student> students = studentRepository.findAllByIdIn(ids);
+        if (students.size() != ids.size()) {
+            throw new IncorrectResultSizeException("Some of requested students don't exist");
+        }
+        return students;
+    }
 
-        Student student = studentMapper.toStudent(createStudentDto);
+    @Override
+    public Student create(Student student) {
         log.info("Create student: {}", student);
-        saveStudent(student, createStudentDto);
-
-        return student;
+        return studentRepository.save(student);
     }
 
     @Override
     @Transactional
-    public Student update(UUID id, CreateStudentDto updateStudentDto) {
-
-        if (studentRepository.findById(id).isEmpty()) {
-            throw new EntityNotFoundException("Student with id " + id + " not found");
+    public Student update(Student student) {
+        if (studentRepository.findById(student.getId()).isEmpty()) {
+            throw new EntityNotFoundException("Student not found [id = {%s}]".formatted(student.getId()));
         }
-
-        Student student = studentMapper.toStudent(updateStudentDto);
-        student.setId(id);
-
-        log.info("Update student: {}", student);
-        saveStudent(student, updateStudentDto);
-
-        return student;
+        log.info("Update student [id = {}]", student.getId());
+        return studentRepository.save(student);
     }
 
+    @Override
     @Transactional
     public void enrollForCourse(UUID studentId, UUID courseId) {
         Student student = getById(studentId);
         Course course = courseService.getById(courseId);
+        BigDecimal coursePrice = course.getPrice();
+        BigDecimal studentBalance = student.getCoins();
 
-        if (student.getCourses().contains(course)) {
-            throw new StudentAlreadyEnrolledException("Student with id " + studentId
-                    + " already enrolled for course with id = " + courseId);
-        }
+        validateCourseEnrollment(course, studentId);
+        validateStudentBalance(studentBalance, coursePrice);
 
-        if (student.getCoins().compareTo(course.getPrice()) < 0) {
-            throw new NotEnoughCoinsException("Student with id = " + studentId
-                    + " doesn't have enough coins to enroll for course with id = " + courseId);
-        }
+        transferCoins(course, student);
 
-        student.setCoins(student.getCoins().subtract(course.getPrice()));
-        student.getCourses().add(course);
-        course.setCoinsPaid(course.getCoinsPaid().add(course.getPrice()));
         course.getStudents().add(student);
-
-        studentRepository.save(student);
-        courseRepository.save(course);
+        student.getCourses().add(course);
     }
 
     @Override
-    public void delete(UUID id) {
+    public void deleteById(UUID id) {
         getById(id);
-        log.info("Delete student: {}", id);
+        log.info("Delete student [id = {}]", id);
         studentRepository.deleteById(id);
     }
 
-    private void saveStudent(Student student, CreateStudentDto createStudentDto) {
-
-        log.info("Fetching courses for student with id = {}", student.getId());
-        Set<Course> courses = new HashSet<>(courseRepository.findAllById(createStudentDto.courseIds()));
-
-        if (createStudentDto.courseIds() != null && courses.size() != createStudentDto.courseIds().size()) {
-            throw new IncorrectResultSizeException("Some of requested courses don't exist");
+    private void validateCourseEnrollment(Course course, UUID studentId) {
+        if (isStudentEnrolledInCourse(course, studentId)) {
+            throw new StudentAlreadyEnrolledException(
+                    "Student already enrolled for course [studentId = {%s}, courseId = {%s}]"
+                            .formatted(studentId, course.getId()));
         }
+    }
 
-        student.setCourses(courses);
-        studentRepository.save(student);
+    private boolean isStudentEnrolledInCourse(Course course, UUID studentId) {
+        return course.getStudents().stream().anyMatch(student -> studentId.equals(student.getId()));
+    }
+
+    private void validateStudentBalance(BigDecimal studentBalance, BigDecimal coursePrice) {
+        if (studentBalance.compareTo(coursePrice) < 0) {
+            throw new NotEnoughCoinsException(
+                    "Student doesn't have enough coins to enroll for course.");
+        }
+    }
+
+    private void transferCoins(Course course, Student student) {
+        student.setCoins(student.getCoins().subtract(course.getPrice()));
+        course.setCoinsPaid(course.getCoinsPaid().add(course.getPrice()));
     }
 }

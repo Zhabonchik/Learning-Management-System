@@ -1,49 +1,57 @@
 package com.leverx.learningmanagementsystem.controller;
 
 import com.leverx.learningmanagementsystem.dto.lesson.CreateLessonDto;
-import com.leverx.learningmanagementsystem.dto.lesson.GetLessonDto;
-import com.leverx.learningmanagementsystem.mapper.lesson.LessonMapper;
-import com.leverx.learningmanagementsystem.service.LessonService;
+import com.leverx.learningmanagementsystem.dto.lesson.LessonResponseDto;
+import com.leverx.learningmanagementsystem.webfacade.LessonWebFacade;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.UUID;
 
 import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
 
 @RestController
 @RequestMapping("/lessons")
 @AllArgsConstructor
 public class LessonController {
 
-    private final LessonService lessonService;
-    private final LessonMapper lessonMapper;
+    private final LessonWebFacade lessonWebFacade;
 
     @GetMapping
-    public List<GetLessonDto> getAll() {
-        return lessonMapper.toGetLessonDtoList(lessonService.getAll());
+    public List<LessonResponseDto> getAll() {
+        return lessonWebFacade.getAll();
     }
 
     @GetMapping("/{id}")
-    public GetLessonDto getById(@PathVariable("id") UUID id) {
-        return lessonMapper.toGetLessonDto(lessonService.getById(id));
+    public LessonResponseDto getById(@PathVariable("id") UUID id) {
+        return lessonWebFacade.getById(id);
     }
 
     @PostMapping
     @ResponseStatus(CREATED)
-    public GetLessonDto create(@RequestBody @Valid CreateLessonDto createLessonDto) {
-        return  lessonMapper.toGetLessonDto(lessonService.create(createLessonDto));
+    public LessonResponseDto create(@RequestBody @Valid CreateLessonDto createLessonDto) {
+        return lessonWebFacade.create(createLessonDto);
     }
 
     @PutMapping("/{id}")
-    public GetLessonDto update(@PathVariable("id") UUID id, @RequestBody @Valid CreateLessonDto createLessonDto) {
-        return  lessonMapper.toGetLessonDto(lessonService.update(id, createLessonDto));
+    public LessonResponseDto updateById(@PathVariable("id") UUID id, @RequestBody @Valid CreateLessonDto createLessonDto) {
+        return lessonWebFacade.updateById(id, createLessonDto);
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable("id") UUID id) {
-        lessonService.delete(id);
+    @ResponseStatus(NO_CONTENT)
+    public void deleteById(@PathVariable("id") UUID id) {
+        lessonWebFacade.deleteById(id);
     }
 }

@@ -1,6 +1,10 @@
 package com.leverx.learningmanagementsystem.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -8,6 +12,8 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
+
+import static jakarta.persistence.GenerationType.UUID;
 
 @Entity
 @Table(name = "course_settings")
@@ -18,7 +24,7 @@ import java.util.UUID;
 public class CourseSettings {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = UUID)
     private UUID id;
 
     @Column(name = "start_date")

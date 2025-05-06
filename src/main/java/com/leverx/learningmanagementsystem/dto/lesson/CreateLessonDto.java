@@ -2,7 +2,6 @@ package com.leverx.learningmanagementsystem.dto.lesson;
 
 import jakarta.validation.constraints.*;
 import lombok.Builder;
-
 import java.util.UUID;
 
 @Builder

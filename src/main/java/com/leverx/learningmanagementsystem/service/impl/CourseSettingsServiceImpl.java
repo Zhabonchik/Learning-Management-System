@@ -1,12 +1,10 @@
 package com.leverx.learningmanagementsystem.service.impl;
 
-import com.leverx.learningmanagementsystem.dto.coursesettings.CreateCourseSettingsDto;
 import com.leverx.learningmanagementsystem.entity.CourseSettings;
-import com.leverx.learningmanagementsystem.exception.EntityValidationException.InvalidCourseDatesException;
-import com.leverx.learningmanagementsystem.exception.EntityValidationException.EntityNotFoundException;
-import com.leverx.learningmanagementsystem.mapper.coursesettings.CourseSettingsMapper;
+import com.leverx.learningmanagementsystem.exception.EntityNotFoundException;
 import com.leverx.learningmanagementsystem.repository.CourseSettingsRepository;
 import com.leverx.learningmanagementsystem.service.CourseSettingsService;
+import com.leverx.learningmanagementsystem.utils.CourseSettingsValidator;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -15,22 +13,19 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.UUID;
 
-import static com.leverx.learningmanagementsystem.utils.DataFormatUtils.DATE_TIME_FORMAT;
-
 @Slf4j
 @Service
 @AllArgsConstructor
 public class CourseSettingsServiceImpl implements CourseSettingsService {
 
     private final CourseSettingsRepository courseSettingsRepository;
-    private final CourseSettingsMapper courseSettingsMapper;
 
     @Override
     public CourseSettings getById(UUID id) {
-        log.info("Get course settings by id: {}", id);
+        log.info("Get course settings [id = {}]", id);
         return courseSettingsRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(
-                        "Course settings with id = " + id + " not found"));
+                        "Course settings not found [id = {%s}]".formatted(id)));
     }
 
     @Override
@@ -40,54 +35,30 @@ public class CourseSettingsServiceImpl implements CourseSettingsService {
     }
 
     @Override
-    @Transactional
-    public CourseSettings create(CreateCourseSettingsDto createCourseDto) {
-        CourseSettings courseSettings = courseSettingsMapper.toCourseSettings(createCourseDto);
-
-        checkDate(courseSettings);
+    public CourseSettings create(CourseSettings courseSettings) {
+        CourseSettingsValidator.validateCourseDates(courseSettings);
 
         log.info("Create course settings: {}", courseSettings);
-        courseSettingsRepository.save(courseSettings);
-
-        return courseSettings;
+        return courseSettingsRepository.save(courseSettings);
     }
 
     @Override
     @Transactional
-    public CourseSettings update(UUID id, CreateCourseSettingsDto updateCourseDto) {
-
-        if (courseSettingsRepository.findById(id).isEmpty()) {
-            throw new EntityNotFoundException("Course settings with id = " + id + " not found");
+    public CourseSettings updateById(CourseSettings courseSettings) {
+        if (courseSettingsRepository.findById(courseSettings.getId()).isEmpty()) {
+            throw new EntityNotFoundException("Course settings not found [id = {%s}]".formatted(courseSettings.getId()));
         }
 
-        CourseSettings courseSettings = courseSettingsMapper.toCourseSettings(updateCourseDto);
-        courseSettings.setId(id);
-
-        checkDate(courseSettings);
+        CourseSettingsValidator.validateCourseDates(courseSettings);
 
         log.info("Update course settings: {}", courseSettings);
-        courseSettingsRepository.save(courseSettings);
-
-        return courseSettings;
+        return courseSettingsRepository.save(courseSettings);
     }
 
     @Override
-    public void delete(UUID id) {
+    public void deleteById(UUID id) {
         getById(id);
-        log.info("Delete course settings by id: {}", id);
+        log.info("Delete course settings [id = {}]", id);
         courseSettingsRepository.deleteById(id);
-    }
-
-    private void checkDate(CourseSettings courseSettings) {
-
-        if (courseSettings.getStartDate() == null || courseSettings.getEndDate() == null) {
-            throw new InvalidCourseDatesException(
-                    "Invalid date format, expected format: " + DATE_TIME_FORMAT);
-        }
-
-        if (courseSettings.getStartDate().isAfter(courseSettings.getEndDate())) {
-            throw new InvalidCourseDatesException(
-                    "Course start date is after course end date");
-        }
     }
 }
