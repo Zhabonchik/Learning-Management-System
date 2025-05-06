@@ -1,9 +1,7 @@
 package com.leverx.learningmanagementsystem.service.impl;
 
-import com.leverx.learningmanagementsystem.dto.coursesettings.CreateCourseSettingsDto;
 import com.leverx.learningmanagementsystem.entity.CourseSettings;
 import com.leverx.learningmanagementsystem.exception.EntityNotFoundException;
-import com.leverx.learningmanagementsystem.mapper.coursesettings.CourseSettingsMapper;
 import com.leverx.learningmanagementsystem.repository.CourseSettingsRepository;
 import com.leverx.learningmanagementsystem.service.CourseSettingsService;
 import com.leverx.learningmanagementsystem.utils.CourseSettingsValidator;
@@ -21,7 +19,6 @@ import java.util.UUID;
 public class CourseSettingsServiceImpl implements CourseSettingsService {
 
     private final CourseSettingsRepository courseSettingsRepository;
-    private final CourseSettingsMapper courseSettingsMapper;
 
     @Override
     public CourseSettings getById(UUID id) {
@@ -42,9 +39,7 @@ public class CourseSettingsServiceImpl implements CourseSettingsService {
         CourseSettingsValidator.validateCourseDates(courseSettings);
 
         log.info("Create course settings: {}", courseSettings);
-        courseSettingsRepository.save(courseSettings);
-
-        return courseSettings;
+        return courseSettingsRepository.save(courseSettings);
     }
 
     @Override
@@ -57,9 +52,7 @@ public class CourseSettingsServiceImpl implements CourseSettingsService {
         CourseSettingsValidator.validateCourseDates(courseSettings);
 
         log.info("Update course settings: {}", courseSettings);
-        courseSettingsRepository.save(courseSettings);
-
-        return courseSettings;
+        return courseSettingsRepository.save(courseSettings);
     }
 
     @Override

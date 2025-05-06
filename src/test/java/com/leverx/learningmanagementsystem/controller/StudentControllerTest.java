@@ -15,7 +15,9 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -39,7 +41,7 @@ class StudentControllerTest {
 
     @Test
     @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    void testGetAll() throws Exception{
+    void getAll_shouldReturnAllStudentsAnd200() throws Exception{
         mockMvc.perform(get("/students"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(2))
@@ -49,7 +51,7 @@ class StudentControllerTest {
 
     @Test
     @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    void testGetById() throws Exception{
+    void getById_GivenId_shouldReturnStudentAnd200() throws Exception{
         mockMvc.perform(get("/students/5a231280-1988-410f-98d9-852b8dc9caf1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(7))
@@ -58,7 +60,7 @@ class StudentControllerTest {
 
     @Test
     @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    void testGetByIdThrowsEntityNotFoundException() throws Exception{
+    void getById_givenId_shouldReturnEntityNotFoundExceptionAnd404() throws Exception{
         mockMvc.perform(get("/students/2bcd9463-3c57-421b-91d0-047b315d60ce"))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.message").value(
@@ -67,7 +69,7 @@ class StudentControllerTest {
 
     @Test
     @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    void testCreate() throws Exception{
+    void create_givenCreateStudentDto_shouldReturnCreatedStudentAnd201() throws Exception{
         mockMvc.perform(post("/students")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(createStudentDto)))
@@ -78,14 +80,14 @@ class StudentControllerTest {
 
     @Test
     @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    void testDelete() throws Exception{
+    void delete_givenId_shouldReturn204() throws Exception{
         mockMvc.perform(delete("/students/8ce93381-f58d-4563-8866-34a0ed878c74"))
                 .andExpect(status().isNoContent());
     }
 
     @Test
     @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    void testDeleteNotFound() throws Exception{
+    void delete_givenId_shouldReturn404() throws Exception{
         mockMvc.perform(delete("/students/ccf99c5d-9ce8-45c4-aaa7-c936baa51415"))
                 .andExpect(status().isNotFound());
     }

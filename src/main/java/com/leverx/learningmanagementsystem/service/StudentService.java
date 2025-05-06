@@ -12,6 +12,8 @@ public interface StudentService {
 
     List<Student> getAll();
 
+    List<Student> getAllByIdIn(List<UUID> ids);
+
     Student create(Student student);
 
     Student update(Student student);

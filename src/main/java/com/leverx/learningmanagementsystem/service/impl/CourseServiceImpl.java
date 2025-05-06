@@ -1,26 +1,16 @@
 package com.leverx.learningmanagementsystem.service.impl;
 
-import com.leverx.learningmanagementsystem.dto.course.CreateCourseDto;
 import com.leverx.learningmanagementsystem.entity.Course;
-import com.leverx.learningmanagementsystem.entity.CourseSettings;
-import com.leverx.learningmanagementsystem.entity.Lesson;
-import com.leverx.learningmanagementsystem.entity.Student;
 import com.leverx.learningmanagementsystem.exception.EntityNotFoundException;
 import com.leverx.learningmanagementsystem.exception.IncorrectResultSizeException;
-import com.leverx.learningmanagementsystem.mapper.course.CourseMapper;
 import com.leverx.learningmanagementsystem.repository.CourseRepository;
-import com.leverx.learningmanagementsystem.repository.CourseSettingsRepository;
-import com.leverx.learningmanagementsystem.repository.LessonRepository;
-import com.leverx.learningmanagementsystem.repository.StudentRepository;
 import com.leverx.learningmanagementsystem.service.CourseService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,10 +20,6 @@ import java.util.UUID;
 public class CourseServiceImpl implements CourseService {
 
     private final CourseRepository courseRepository;
-    private final LessonRepository lessonRepository;
-    private final StudentRepository studentRepository;
-    private final CourseSettingsRepository courseSettingsRepository;
-    private final CourseMapper courseMapper;
 
     @Override
     public Course getById(UUID id) {
@@ -56,36 +42,27 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public List<Course> getAllByIdIn(List<UUID> ids) {
         List<Course> courses =  courseRepository.findAllByIdIn(ids);
-        if (ids != null && ids.size() != courses.size()) {
+        if (ids.size() != courses.size()) {
             throw new IncorrectResultSizeException("Some of requested courses don't exist");
         }
         return courses;
     }
 
     @Override
-    public Course create(CreateCourseDto createCourseDto) {
-        Course course = courseMapper.toModel(createCourseDto);
-
+    public Course create(Course course) {
         log.info("Create course: {}", course);
-        save(course, createCourseDto);
-
-        return course;
+        return courseRepository.save(course);
     }
 
     @Override
     @Transactional
-    public Course updateById(UUID id, CreateCourseDto updateCourseDto) {
-        if (courseRepository.findById(id).isEmpty()) {
-            throw new EntityNotFoundException("Course not found [id = {%s}]".formatted(id));
+    public Course update(Course course) {
+        if (courseRepository.findById(course.getId()).isEmpty()) {
+            throw new EntityNotFoundException("Course not found [id = {%s}]".formatted(course.getId()));
         }
 
-        Course course = courseMapper.toModel(updateCourseDto);
-        course.setId(id);
-
         log.info("Update course [id = {}]", course.getId());
-        save(course, updateCourseDto);
-
-        return course;
+        return courseRepository.save(course);
     }
 
     @Override
@@ -98,46 +75,5 @@ public class CourseServiceImpl implements CourseService {
         getById(id);
         log.info("Delete course [id = {}]", id);
         courseRepository.deleteById(id);
-    }
-
-    private void save(Course course, CreateCourseDto createCourseDto) {
-        List<Lesson> lessons;
-        List<Student> students;
-
-        if (createCourseDto.lessonIds() != null && CollectionUtils.isNotEmpty(createCourseDto.lessonIds())) {
-            log.info("Fetching course's lessons");
-            lessons = lessonRepository.findAllByIdIn(createCourseDto.lessonIds());
-            if (lessons.size() != createCourseDto.lessonIds().size()) {
-                throw new IncorrectResultSizeException(
-                        "Some of requested lessons don't exist");
-            }
-        } else {
-            lessons = Collections.emptyList();
-        }
-        if (createCourseDto.studentIds() != null && CollectionUtils.isNotEmpty(createCourseDto.studentIds())) {
-            log.info("Fetching course's students");
-            students = studentRepository.findAllByIdIn(createCourseDto.studentIds());
-            if (students.size() != createCourseDto.studentIds().size()) {
-                throw new IncorrectResultSizeException(
-                        "Some of requested students don't exist");
-            }
-        } else {
-            students = Collections.emptyList();
-        }
-
-        UUID settingsId = createCourseDto.courseSettingsId();
-        if (settingsId != null) {
-            log.info("Fetching course settings [id = {}]", settingsId);
-            CourseSettings courseSettings = courseSettingsRepository.findById(settingsId)
-                    .orElseThrow(() -> new EntityNotFoundException("Course settings not found [id = {%s}]".formatted(settingsId)));
-            course.setSettings(courseSettings);
-        } else {
-            course.setSettings(null);
-        }
-
-        course.setLessons(lessons);
-        course.setStudents(students);
-
-        courseRepository.save(course);
     }
 }

@@ -1,6 +1,5 @@
 package com.leverx.learningmanagementsystem.service;
 
-import com.leverx.learningmanagementsystem.dto.course.CreateCourseDto;
 import com.leverx.learningmanagementsystem.entity.Course;
 
 import java.time.LocalDateTime;
@@ -15,9 +14,9 @@ public interface CourseService {
 
     List<Course> getAllByIdIn(List<UUID> ids);
 
-    Course create(CreateCourseDto createCourseDto);
+    Course create(Course course);
 
-    Course updateById(UUID id, CreateCourseDto updateCourseDto);
+    Course update(Course course);
 
     List<Course> getAllStartingBetweenDates(LocalDateTime startDate, LocalDateTime endDate);
 

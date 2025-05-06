@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class CourseSettingsTest {
+public class CourseSettingsControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -35,8 +35,8 @@ public class CourseSettingsTest {
     @BeforeEach
     void setUp() {
         createCourseSettingsDto = new CreateCourseSettingsDto(
-                LocalDateTime.of(2025,5, 6, 10,0,0),
-                LocalDateTime.of(2025,6, 1, 10,0,0),true);
+                LocalDateTime.of(2026,5, 6, 10,0,0),
+                LocalDateTime.of(2026,6, 1, 10,0,0),true);
     }
 
     @Test
@@ -60,38 +60,38 @@ public class CourseSettingsTest {
 
     @Test
     @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    void create_givenCreateCourseSettingsDto_ShouldReturnCreatedCourseSettingsAnd201() throws Exception {
+    void create_givenCreateCourseSettingsDto_shouldReturnCreatedCourseSettingsAnd201() throws Exception {
         mockMvc.perform(post("/course-settings")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createCourseSettingsDto)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.length()").value(4))
-                .andExpect(jsonPath("$.startDate").value("2025-05-06 10:00:00"))
-                .andExpect(jsonPath("$.endDate").value("2025-06-01 10:00:00"));
+                .andExpect(jsonPath("$.startDate").value("2026-05-06 10:00:00"))
+                .andExpect(jsonPath("$.endDate").value("2026-06-01 10:00:00"));
     }
 
     @Test
     @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    void updateById_givenCourseSettingsIdAndCreateCourseSettingsDto_ShouldReturnUpdatedCourseSettingsAnd200() throws Exception {
+    void updateById_givenCourseSettingsIdAndCreateCourseSettingsDto_shouldReturnUpdatedCourseSettingsAnd200() throws Exception {
         mockMvc.perform(put("/course-settings/34b56d95-5d74-44b1-b473-3ab2fd36cc5f")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createCourseSettingsDto)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(4))
-                .andExpect(jsonPath("$.startDate").value("2025-05-06 10:00:00"))
-                .andExpect(jsonPath("$.endDate").value("2025-06-01 10:00:00"));
+                .andExpect(jsonPath("$.startDate").value("2026-05-06 10:00:00"))
+                .andExpect(jsonPath("$.endDate").value("2026-06-01 10:00:00"));
     }
 
     @Test
     @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    void delete_givenId_ShouldReturnStatus204() throws Exception {
+    void delete_givenId_shouldReturnStatus204() throws Exception {
         mockMvc.perform(delete("/course-settings/34b56d95-5d74-44b1-b473-3ab2fd36cc5f"))
                 .andExpect(status().isNoContent());
     }
 
     @Test
     @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    void delete_givenId_ShouldReturnNotFound() throws Exception {
+    void delete_givenId_shouldReturnNotFound() throws Exception {
         mockMvc.perform(delete("/course-settings/891eed08-bc3a-4f57-85f5-bd1fb8b6eed6"))
                 .andExpect(status().isNotFound());
     }

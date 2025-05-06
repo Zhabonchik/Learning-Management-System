@@ -3,6 +3,7 @@ package com.leverx.learningmanagementsystem.service.impl;
 import com.leverx.learningmanagementsystem.entity.Course;
 import com.leverx.learningmanagementsystem.entity.Student;
 import com.leverx.learningmanagementsystem.exception.EntityNotFoundException;
+import com.leverx.learningmanagementsystem.exception.IncorrectResultSizeException;
 import com.leverx.learningmanagementsystem.exception.NotEnoughCoinsException;
 import com.leverx.learningmanagementsystem.exception.StudentAlreadyEnrolledException;
 import com.leverx.learningmanagementsystem.repository.StudentRepository;
@@ -39,10 +40,18 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    public List<Student> getAllByIdIn(List<UUID> ids) {
+        List<Student> students = studentRepository.findAllByIdIn(ids);
+        if (students.size() != ids.size()) {
+            throw new IncorrectResultSizeException("Some of requested students don't exist");
+        }
+        return students;
+    }
+
+    @Override
     public Student create(Student student) {
         log.info("Create student: {}", student);
-        saveStudent(student);
-        return student;
+        return studentRepository.save(student);
     }
 
     @Override
@@ -52,8 +61,7 @@ public class StudentServiceImpl implements StudentService {
             throw new EntityNotFoundException("Student not found [id = {%s}]".formatted(student.getId()));
         }
         log.info("Update student [id = {}]", student.getId());
-        saveStudent(student);
-        return student;
+        return studentRepository.save(student);
     }
 
     @Override
@@ -78,11 +86,6 @@ public class StudentServiceImpl implements StudentService {
         getById(id);
         log.info("Delete student [id = {}]", id);
         studentRepository.deleteById(id);
-    }
-
-    private void saveStudent(Student student) {
-        log.info("Fetching courses for student [id = {}]", student.getId());
-        studentRepository.save(student);
     }
 
     private void validateCourseEnrollment(Course course, UUID studentId) {

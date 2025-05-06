@@ -57,7 +57,6 @@ public class SendCourseNotificationJob {
         } catch (MessagingException | MailException ex) {
             log.error(ex.getMessage());
         }
-
     }
 
 }

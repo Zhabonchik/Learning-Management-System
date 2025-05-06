@@ -2,7 +2,6 @@ package com.leverx.learningmanagementsystem.service;
 
 import com.leverx.learningmanagementsystem.entity.Course;
 import com.leverx.learningmanagementsystem.entity.Student;
-import com.leverx.learningmanagementsystem.exception.IncorrectResultSizeException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +10,17 @@ import org.springframework.test.context.jdbc.Sql;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 
 @SpringBootTest
 class StudentServiceTest {
@@ -37,7 +44,7 @@ class StudentServiceTest {
 
     @Test
     @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    void testGetStudentById() {
+    void getById_givenId_shouldReturnStudent() {
         Student student = studentService.getById(UUID.fromString("5a231280-1988-410f-98d9-852b8dc9caf1"));
         assertNotNull(student);
         assertEquals(UUID.fromString("5a231280-1988-410f-98d9-852b8dc9caf1"), student.getId());
@@ -45,14 +52,14 @@ class StudentServiceTest {
 
     @Test
     @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    void testGetAll() {
+    void getAll_shouldReturnAllStudents() {
         List<Student> students = studentService.getAll();
         assertEquals(2, students.size());
     }
 
     @Test
     @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    void testCreate() {
+    void create_givenStudent_shouldReturnCreatedStudent() {
         Student createdStudent = studentService.create(createStudent);
         assertAll(
                 () -> assertNotNull(createdStudent.getId()),
@@ -66,7 +73,7 @@ class StudentServiceTest {
 
     @Test
     @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    void testUpdate() {
+    void update_givenStudent_shouldReturnUpdatedStudent() {
         createStudent.setId(UUID.fromString("5a231280-1988-410f-98d9-852b8dc9caf1"));
         Student updatedStudent = studentService.update(createStudent);
         int studentsAmount = studentService.getAll().size();
@@ -83,7 +90,7 @@ class StudentServiceTest {
 
     @Test
     @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    void testUpdateThrowsIncorrectResultSizeExceptionAndRollbacksTransaction() {
+    void update_givenStudent_shouldThrowExceptionAndRollbackTransaction() {
 
         Course course = Course.builder()
                 .id(UUID.fromString("ddf747d2-f5de-4a2e-b8b9-66d8bd7e357e"))

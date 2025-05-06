@@ -2,8 +2,7 @@ package com.leverx.learningmanagementsystem.controller;
 
 import com.leverx.learningmanagementsystem.dto.course.CourseResponseDto;
 import com.leverx.learningmanagementsystem.dto.course.CreateCourseDto;
-import com.leverx.learningmanagementsystem.mapper.course.CourseMapper;
-import com.leverx.learningmanagementsystem.service.CourseService;
+import com.leverx.learningmanagementsystem.webfacade.CourseWebFacade;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,34 +27,33 @@ import static org.springframework.http.HttpStatus.NO_CONTENT;
 @AllArgsConstructor
 public class CourseController {
 
-    private final CourseService courseService;
-    private final CourseMapper courseMapper;
+    private final CourseWebFacade courseWebFacade;
 
     @GetMapping
     public List<CourseResponseDto> getAll() {
-        return courseMapper.toDtos(courseService.getAll());
+        return courseWebFacade.getAll();
     }
 
     @GetMapping("/{id}")
     public CourseResponseDto getById(@PathVariable("id") UUID id) {
-        return courseMapper.toDto(courseService.getById(id));
+        return courseWebFacade.getById(id);
     }
 
     @PostMapping
     @ResponseStatus(CREATED)
     public CourseResponseDto create(@RequestBody @Valid CreateCourseDto createCourseDto) {
-        return courseMapper.toDto(courseService.create(createCourseDto));
+        return courseWebFacade.create(createCourseDto);
     }
 
     @PutMapping("/{id}")
     public CourseResponseDto updateById(@PathVariable("id") UUID id, @RequestBody @Valid CreateCourseDto updateCourseDto) {
-        return courseMapper.toDto(courseService.updateById(id, updateCourseDto));
+        return courseWebFacade.updateById(id, updateCourseDto);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(NO_CONTENT)
     public void deleteById(@PathVariable("id") UUID id) {
-        courseService.deleteById(id);
+        courseWebFacade.deleteById(id);
     }
 
 }

@@ -39,8 +39,8 @@ public class StudentWebFacadeImpl implements StudentWebFacade {
     @Transactional
     public StudentResponseDto create(CreateStudentDto createStudentDto) {
         Student student = studentMapper.toModel(createStudentDto);
-        List<Course> courses = courseService.getAllByIdIn(createStudentDto.courseIds());
-        student.setCourses(courses);
+
+        constructStudent(student, createStudentDto);
 
         Student createdStudent = studentService.create(student);
         return studentMapper.toDto(createdStudent);
@@ -55,9 +55,9 @@ public class StudentWebFacadeImpl implements StudentWebFacade {
     @Transactional
     public StudentResponseDto updateById(UUID id, CreateStudentDto createStudentDto) {
         Student student = studentMapper.toModel(createStudentDto);
+
+        constructStudent(student, createStudentDto);
         student.setId(id);
-        List<Course> courses = courseService.getAllByIdIn(createStudentDto.courseIds());
-        student.setCourses(courses);
 
         Student updatedStudent = studentService.update(student);
         return studentMapper.toDto(updatedStudent);
@@ -66,5 +66,16 @@ public class StudentWebFacadeImpl implements StudentWebFacade {
     @Override
     public void deleteById(UUID id) {
         studentService.deleteById(id);
+    }
+
+    private void constructStudent(Student student, CreateStudentDto createStudentDto) {
+        List<Course> courses = courseService.getAllByIdIn(createStudentDto.courseIds());
+        student.setCourses(courses);
+
+        courses.forEach(course -> {
+            if (!course.getStudents().contains(student)) {
+                course.getStudents().add(student);
+            }
+        });
     }
 }

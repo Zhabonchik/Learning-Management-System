@@ -2,8 +2,6 @@ package com.leverx.learningmanagementsystem.controller;
 
 import com.leverx.learningmanagementsystem.dto.student.CreateStudentDto;
 import com.leverx.learningmanagementsystem.dto.student.StudentResponseDto;
-import com.leverx.learningmanagementsystem.mapper.student.StudentMapper;
-import com.leverx.learningmanagementsystem.service.StudentService;
 import com.leverx.learningmanagementsystem.webfacade.StudentWebFacade;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;

@@ -58,7 +58,7 @@ public class LessonControllerTest {
 
     @Test
     @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    void create_givenCreateLessonDto_ShouldReturnCreatedLessonAnd201() throws Exception {
+    void create_givenCreateLessonDto_shouldReturnCreatedLessonAnd201() throws Exception {
         mockMvc.perform(post("/lessons")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(createLessonDto)))
@@ -70,7 +70,7 @@ public class LessonControllerTest {
 
     @Test
     @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    void updateById_givenLessonIdAndCreateLessonDto_ShouldReturnUpdatedLessonAnd200() throws Exception {
+    void updateById_givenLessonIdAndCreateLessonDto_shouldReturnUpdatedLessonAnd200() throws Exception {
         mockMvc.perform(put("/lessons/373e60bb-c872-4207-982c-859b4dfdb4f7")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(createLessonDto)))
@@ -82,14 +82,14 @@ public class LessonControllerTest {
 
     @Test
     @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    void delete_givenId_ShouldReturnStatus204() throws Exception {
+    void delete_givenId_shouldReturnStatus204() throws Exception {
         mockMvc.perform(delete("/lessons/373e60bb-c872-4207-982c-859b4dfdb4f7"))
                 .andExpect(status().isNoContent());
     }
 
     @Test
     @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    void delete_givenId_ShouldReturnNotFound() throws Exception {
+    void delete_givenId_shouldReturnNotFound() throws Exception {
         mockMvc.perform(delete("/lessons/891eed08-bc3a-4f57-85f5-bd1fb8b6eed6"))
                 .andExpect(status().isNotFound());
     }

@@ -2,8 +2,7 @@ package com.leverx.learningmanagementsystem.service.impl;
 
 import com.leverx.learningmanagementsystem.entity.Lesson;
 import com.leverx.learningmanagementsystem.exception.EntityNotFoundException;
-import com.leverx.learningmanagementsystem.mapper.lesson.LessonMapper;
-import com.leverx.learningmanagementsystem.repository.CourseRepository;
+import com.leverx.learningmanagementsystem.exception.IncorrectResultSizeException;
 import com.leverx.learningmanagementsystem.repository.LessonRepository;
 import com.leverx.learningmanagementsystem.service.LessonService;
 import lombok.AllArgsConstructor;
@@ -20,8 +19,6 @@ import java.util.UUID;
 public class LessonServiceImpl implements LessonService {
 
     private final LessonRepository lessonRepository;
-    private final CourseRepository courseRepository;
-    private final LessonMapper lessonMapper;
 
     @Override
     public Lesson getById(UUID id) {
@@ -38,11 +35,19 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
+    public List<Lesson> getAllByIdIn(List<UUID> ids) {
+        List<Lesson> lessons = lessonRepository.findAllByIdIn(ids);
+        if (lessons.size() != ids.size()) {
+            throw new IncorrectResultSizeException("Some of requested lessons don't exist");
+        }
+        return lessons;
+    }
+
+    @Override
     @Transactional
     public Lesson create(Lesson lesson) {
         log.info("Create lesson: {}", lesson);
-        lessonRepository.save(lesson);
-        return lesson;
+        return lessonRepository.save(lesson);
     }
 
     @Override
@@ -52,8 +57,7 @@ public class LessonServiceImpl implements LessonService {
             throw new EntityNotFoundException("Lesson not found [id = {%s}]".formatted(lesson.getId()));
         }
         log.info("Update lesson [id = {}]", lesson.getId());
-        lessonRepository.save(lesson);
-        return lesson;
+        return lessonRepository.save(lesson);
     }
 
     @Override
