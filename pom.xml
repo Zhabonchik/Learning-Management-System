@@ -12,7 +12,7 @@
 
     <groupId>com.LeverX</groupId>
     <artifactId>LearningManagementSystem</artifactId>
-    <version>1.1.0-SNAPSHOT</version>
+    <version>1.1.0</version>
     <name>LearningManagementSystem</name>
     <description>LearningManagementSystem</description>
 
@@ -24,7 +24,22 @@
         <lombok-mapstruct.version>0.2.0</lombok-mapstruct.version>
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <buildnumber-maven-plugin.version>3.2.1</buildnumber-maven-plugin.version>
+        <hana-jdbc.verion>2.24.7</hana-jdbc.verion>
+        <liquibase-hanadb.version>4.31.1</liquibase-hanadb.version>
     </properties>
+
+    <profiles>
+        <profile>
+            <id>hana</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <skipTests>true</skipTests>
+            </properties>
+        </profile>
+    </profiles>
+
 
     <dependencies>
         <!-- Spring starters -->
@@ -62,10 +77,20 @@
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.sap.cloud.db.jdbc</groupId>
+            <artifactId>ngdbc</artifactId>
+            <version>${hana-jdbc.verion}</version>
+        </dependency>
         <!-- DB migration -->
         <dependency>
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.liquibase.ext</groupId>
+            <artifactId>liquibase-hanadb</artifactId>
+            <version>${liquibase-hanadb.version}</version>
         </dependency>
         <!-- Annotation processing -->
         <dependency>

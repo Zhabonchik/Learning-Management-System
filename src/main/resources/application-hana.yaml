@@ -1,0 +1,6 @@
+spring:
+  datasource:
+    url: ${vcap.services.hana_schema.credentials.url}
+    username: ${vcap.services.hana_schema.credentials.user}
+    password: ${vcap.services.hana_schema.credentials.password}
+    driver-class-name: ${vcap.services.hana_schema.credentials.driver}

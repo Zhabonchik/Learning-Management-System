@@ -1,19 +1,26 @@
 spring:
+  profiles:
+    active: hana
   application:
     name: LearningManagementSystem
   config:
     import: optional:file:src/main/resources/application-secret.yaml
   liquibase:
     enabled: true
-  datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:learning-management-system
   h2:
     console:
       enabled: true
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     open-in-view: false
+  mail:
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: false
 
 management:
   endpoints:

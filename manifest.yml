@@ -1,0 +1,14 @@
+applications:
+  - name: learning_management_system
+    instances: 1
+    memory: 1G
+    disk_quota: 512M
+    path: target/LearningManagementSystem-1.1.0.jar
+    buildpacks:
+      - https://github.com/cloudfoundry/java-buildpack.git
+    services:
+      - destination-service
+      - feature-flags-service
+      - logging-service
+      - hana-database
+      - hanaschema
