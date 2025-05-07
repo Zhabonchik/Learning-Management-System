@@ -1,0 +1,30 @@
+databaseChangeLog:
+  - changeSet:
+      id: changeset-1.0.0_006
+      author: Mikita Shapel
+      changes:
+        - loadData:
+            file: data/student.csv
+            tableName: student
+            separator: ","
+            encoding: UTF-8
+        - loadData:
+            file: data/course_settings.csv
+            tableName: course_settings
+            separator: ","
+            encoding: UTF-8
+        - loadData:
+            file: data/course.csv
+            tableName: course
+            separator: ","
+            encoding: UTF-8
+        - loadData:
+            file: data/lesson.csv
+            tableName: lesson
+            separator: ","
+            encoding: UTF-8
+        - loadData:
+            file: data/student_course.csv
+            tableName: student_course
+            separator: ","
+            encoding: UTF-8
