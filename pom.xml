@@ -24,22 +24,9 @@
         <lombok-mapstruct.version>0.2.0</lombok-mapstruct.version>
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <buildnumber-maven-plugin.version>3.2.1</buildnumber-maven-plugin.version>
-        <hana-jdbc.verion>2.24.7</hana-jdbc.verion>
+        <hana-jdbc.version>2.24.7</hana-jdbc.version>
         <liquibase-hanadb.version>4.31.1</liquibase-hanadb.version>
     </properties>
-
-    <profiles>
-        <profile>
-            <id>hana</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <skipTests>true</skipTests>
-            </properties>
-        </profile>
-    </profiles>
-
 
     <dependencies>
         <!-- Spring starters -->
@@ -80,7 +67,7 @@
         <dependency>
             <groupId>com.sap.cloud.db.jdbc</groupId>
             <artifactId>ngdbc</artifactId>
-            <version>${hana-jdbc.verion}</version>
+            <version>${hana-jdbc.version}</version>
         </dependency>
         <!-- DB migration -->
         <dependency>

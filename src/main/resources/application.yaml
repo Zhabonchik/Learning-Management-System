@@ -1,6 +1,4 @@
 spring:
-  profiles:
-    active: hana
   application:
     name: LearningManagementSystem
   config:
@@ -39,3 +37,12 @@ info:
     name: Learning Managements System
     description: Application provides functionality for creation of courses and students' further enrollment
     version: @project.version@
+
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: debug
+      type:
+        descriptor:
+          sql: trace

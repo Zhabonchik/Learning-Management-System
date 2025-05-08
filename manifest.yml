@@ -1,11 +1,15 @@
 applications:
-  - name: learning_management_system
-    instances: 1
-    memory: 1G
-    disk_quota: 512M
-    path: target/LearningManagementSystem-1.1.0.jar
+  - name: learning-management-system
+    random-route: true
+    memory: 1024M
+    path: ./target/LearningManagementSystem-1.1.0.jar
     buildpacks:
-      - https://github.com/cloudfoundry/java-buildpack.git
+      - sap_java_buildpack_jakarta
+    env:
+      SPRING_PROFILES_ACTIVE: hana
+      TARGET_RUNTIME: tomcat
+      JBP_CONFIG_COMPONENTS: "jres: ['com.sap.xs.java.buildpack.jdk.SAPMachineJDK']"
+      JBP_CONFIG_SAP_MACHINE_JDK: "{ version: 21.+ }"
     services:
       - destination-service
       - feature-flags-service
