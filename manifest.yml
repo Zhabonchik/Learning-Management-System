@@ -14,5 +14,4 @@ applications:
       - destination-service
       - feature-flags-service
       - logging-service
-      - hana-database
       - hanaschema

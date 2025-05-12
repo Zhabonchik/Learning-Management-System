@@ -6,3 +6,23 @@ spring:
     driver-class-name: com.sap.db.jdbc.Driver
   jpa:
     database-platform: org.hibernate.dialect.HANAColumnStoreDialect
+
+feature-flags:
+  uri: ${vcap.services.feature-flags-service.credentials.uri}
+  username: ${vcap.services.feature-flags-service.credentials.username}
+  password: ${vcap.services.feature-flags-service.credentials.password}
+
+destination:
+  url: ${vcap.services.destination-service.credentials.url}
+  uri: ${vcap.services.destination-service.credentials.uri}
+  clientId: ${vcap.services.destination-service.credentials.clientid}
+  clientSecret: ${vcap.services.destination-service.credentials.clientsecret}
+
+user-provided:
+  mail:
+    smtp:
+      from: ${vcap.services.smtpconfig.credentials.mail.smtp.from}
+      host: ${vcap.services.smtpconfig.credentials.mail.smtp.host}
+      port: ${vcap.services.smtpconfig.credentials.mail.smtp.port}
+      protocol: ${vcap.services.smtpconfig.credentials.mail.transport.protocol}
+      password: ${vcap.services.smtpconfig.credentials.mail.smtp.password}
