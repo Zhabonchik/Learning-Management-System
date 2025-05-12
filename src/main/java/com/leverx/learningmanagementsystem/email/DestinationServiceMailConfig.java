@@ -20,3 +20,5 @@ public class DestinationServiceMailConfig implements MailConfig {
     @JsonProperty("mail.smtp.password")
     private String password;
 }
+
+

@@ -6,6 +6,7 @@ import com.leverx.learningmanagementsystem.email.MailConfig;
 import com.leverx.learningmanagementsystem.email.UserProvidedMailConfig;
 import com.leverx.learningmanagementsystem.email.service.MailSenderProvider;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -15,6 +16,7 @@ import java.util.Properties;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 @Profile("hana")
 public class HanaMailSenderProvider implements MailSenderProvider {
 
@@ -34,6 +36,7 @@ public class HanaMailSenderProvider implements MailSenderProvider {
 
     private JavaMailSender configureMailSender(MailConfig config) {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        log.info("MailConfig: {}", config);
         mailSender.setHost(config.getHost());
         mailSender.setPort(Integer.parseInt(config.getPort()));
         mailSender.setProtocol(config.getProtocol());

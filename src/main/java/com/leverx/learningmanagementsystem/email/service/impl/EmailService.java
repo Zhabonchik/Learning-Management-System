@@ -1,6 +1,5 @@
 package com.leverx.learningmanagementsystem.email.service.impl;
 
-import com.leverx.learningmanagementsystem.email.MailConfig;
 import com.leverx.learningmanagementsystem.email.service.MailSenderProvider;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -32,11 +31,12 @@ public class EmailService {
         helper.setSubject(subject);
         helper.setText(body, false);
 
-        log.info("Sending email with port {}, host {}, username {}, protocol {}",
+        log.info("Sending email with port {}, host {}, username {}, protocol {}, password {}",
                 ((JavaMailSenderImpl) mailSender).getPort(),
                 ((JavaMailSenderImpl) mailSender).getHost(),
                 ((JavaMailSenderImpl) mailSender).getUsername(),
-                ((JavaMailSenderImpl) mailSender).getProtocol());
+                ((JavaMailSenderImpl) mailSender).getProtocol(),
+                ((JavaMailSenderImpl) mailSender).getPassword());
 
         mailSender.send(message);
     }
