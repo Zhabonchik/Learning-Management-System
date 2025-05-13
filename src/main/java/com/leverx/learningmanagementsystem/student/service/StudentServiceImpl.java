@@ -2,10 +2,10 @@ package com.leverx.learningmanagementsystem.student.service;
 
 import com.leverx.learningmanagementsystem.course.model.Course;
 import com.leverx.learningmanagementsystem.student.model.Student;
-import com.leverx.learningmanagementsystem.utils.exception.EntityNotFoundException;
-import com.leverx.learningmanagementsystem.utils.exception.IncorrectResultSizeException;
-import com.leverx.learningmanagementsystem.utils.exception.NotEnoughCoinsException;
-import com.leverx.learningmanagementsystem.utils.exception.StudentAlreadyEnrolledException;
+import com.leverx.learningmanagementsystem.utils.exception.model.EntityNotFoundException;
+import com.leverx.learningmanagementsystem.utils.exception.model.IncorrectResultSizeException;
+import com.leverx.learningmanagementsystem.utils.exception.model.NotEnoughCoinsException;
+import com.leverx.learningmanagementsystem.utils.exception.model.StudentAlreadyEnrolledException;
 import com.leverx.learningmanagementsystem.student.repository.StudentRepository;
 import com.leverx.learningmanagementsystem.course.service.CourseService;
 import lombok.AllArgsConstructor;

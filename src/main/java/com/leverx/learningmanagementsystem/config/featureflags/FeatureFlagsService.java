@@ -1,6 +1,6 @@
 package com.leverx.learningmanagementsystem.config.featureflags;
 
-import com.leverx.learningmanagementsystem.utils.exception.FeatureFlagsException;
+import com.leverx.learningmanagementsystem.utils.exception.model.FeatureFlagsException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.client.RestTemplateBuilder;

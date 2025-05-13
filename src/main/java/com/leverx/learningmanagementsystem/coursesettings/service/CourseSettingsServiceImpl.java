@@ -1,7 +1,7 @@
 package com.leverx.learningmanagementsystem.coursesettings.service;
 
 import com.leverx.learningmanagementsystem.coursesettings.model.CourseSettings;
-import com.leverx.learningmanagementsystem.utils.exception.EntityNotFoundException;
+import com.leverx.learningmanagementsystem.utils.exception.model.EntityNotFoundException;
 import com.leverx.learningmanagementsystem.coursesettings.repository.CourseSettingsRepository;
 import com.leverx.learningmanagementsystem.utils.validator.CourseSettingsValidator;
 import lombok.AllArgsConstructor;

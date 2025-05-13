@@ -1,6 +1,5 @@
 package com.leverx.learningmanagementsystem.student.dto;
 
-import jakarta.validation.constraints.*;
 import lombok.Builder;
 import lombok.NonNull;
 
@@ -11,11 +10,11 @@ import java.util.UUID;
 
 @Builder
 public record StudentResponseDto(
-        UUID id,
-        @NotBlank(message = "First name must not be blank") String firstName,
-        @NotBlank(message = "Last name must not be blank") String lastName,
-        @Email String email,
-        @Past(message = "Date of birth must be in past") LocalDate dateOfBirth,
-        @PositiveOrZero(message = "Coins must be >= 0") BigDecimal coins,
+        @NonNull UUID id,
+        @NonNull String firstName,
+        @NonNull String lastName,
+        @NonNull String email,
+        @NonNull LocalDate dateOfBirth,
+        @NonNull BigDecimal coins,
         @NonNull List<UUID> courseIds) {
 }
