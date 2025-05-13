@@ -2,6 +2,8 @@ package com.leverx.learningmanagementsystem.student.dto;
 
 import jakarta.validation.constraints.*;
 import lombok.Builder;
+import lombok.NonNull;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -15,5 +17,5 @@ public record StudentResponseDto(
         @Email String email,
         @Past(message = "Date of birth must be in past") LocalDate dateOfBirth,
         @PositiveOrZero(message = "Coins must be >= 0") BigDecimal coins,
-        List<UUID> courseIds) {
+        @NonNull List<UUID> courseIds) {
 }

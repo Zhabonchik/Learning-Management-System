@@ -1,10 +1,10 @@
-package com.leverx.learningmanagementsystem.course_settings.webfacade;
+package com.leverx.learningmanagementsystem.coursesettings.webfacade;
 
-import com.leverx.learningmanagementsystem.course_settings.dto.CourseSettingsResponseDto;
-import com.leverx.learningmanagementsystem.course_settings.dto.CreateCourseSettingsDto;
-import com.leverx.learningmanagementsystem.course_settings.model.CourseSettings;
-import com.leverx.learningmanagementsystem.course_settings.mapper.CourseSettingsMapper;
-import com.leverx.learningmanagementsystem.course_settings.service.CourseSettingsService;
+import com.leverx.learningmanagementsystem.coursesettings.dto.CourseSettingsResponseDto;
+import com.leverx.learningmanagementsystem.coursesettings.dto.CreateCourseSettingsDto;
+import com.leverx.learningmanagementsystem.coursesettings.model.CourseSettings;
+import com.leverx.learningmanagementsystem.coursesettings.mapper.CourseSettingsMapper;
+import com.leverx.learningmanagementsystem.coursesettings.service.CourseSettingsService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

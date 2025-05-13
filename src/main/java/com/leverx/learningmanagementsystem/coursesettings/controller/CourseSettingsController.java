@@ -1,8 +1,8 @@
-package com.leverx.learningmanagementsystem.course_settings.controller;
+package com.leverx.learningmanagementsystem.coursesettings.controller;
 
-import com.leverx.learningmanagementsystem.course_settings.dto.CreateCourseSettingsDto;
-import com.leverx.learningmanagementsystem.course_settings.dto.CourseSettingsResponseDto;
-import com.leverx.learningmanagementsystem.course_settings.webfacade.CourseSettingsWebFacade;
+import com.leverx.learningmanagementsystem.coursesettings.dto.CreateCourseSettingsDto;
+import com.leverx.learningmanagementsystem.coursesettings.dto.CourseSettingsResponseDto;
+import com.leverx.learningmanagementsystem.coursesettings.webfacade.CourseSettingsWebFacade;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;

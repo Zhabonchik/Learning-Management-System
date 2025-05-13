@@ -1,5 +1,6 @@
 package com.leverx.learningmanagementsystem.student.dto;
 
+import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.*;
 import lombok.Builder;
 import java.math.BigDecimal;
@@ -14,5 +15,5 @@ public record CreateStudentDto(
         @Email String email,
         @Past(message = "Date of birth must be in past") LocalDate dateOfBirth,
         @PositiveOrZero(message = "Coins must be >= 0") BigDecimal coins,
-        List<UUID> courseIds) {
+        @Nullable List<UUID> courseIds) {
 }

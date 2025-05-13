@@ -1,6 +1,6 @@
-package com.leverx.learningmanagementsystem.course_settings.repository;
+package com.leverx.learningmanagementsystem.coursesettings.repository;
 
-import com.leverx.learningmanagementsystem.course_settings.model.CourseSettings;
+import com.leverx.learningmanagementsystem.coursesettings.model.CourseSettings;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;

@@ -1,7 +1,7 @@
-package com.leverx.learningmanagementsystem.course_settings.controller;
+package com.leverx.learningmanagementsystem.coursesettings.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.leverx.learningmanagementsystem.course_settings.dto.CreateCourseSettingsDto;
+import com.leverx.learningmanagementsystem.coursesettings.dto.CreateCourseSettingsDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

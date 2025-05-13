@@ -1,4 +1,4 @@
-package com.leverx.learningmanagementsystem.course_settings.model;
+package com.leverx.learningmanagementsystem.coursesettings.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,11 +9,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
-
-import static jakarta.persistence.GenerationType.UUID;
 
 @Entity
 @Table(name = "course_settings")
@@ -24,7 +24,9 @@ import static jakarta.persistence.GenerationType.UUID;
 public class CourseSettings {
 
     @Id
-    @GeneratedValue(strategy = UUID)
+    @GeneratedValue
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    @Column(length = 36, nullable = false, updatable = false)
     private UUID id;
 
     @Column(name = "start_date")

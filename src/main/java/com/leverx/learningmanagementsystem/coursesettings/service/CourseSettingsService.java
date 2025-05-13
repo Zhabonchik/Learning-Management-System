@@ -1,6 +1,6 @@
-package com.leverx.learningmanagementsystem.course_settings.service;
+package com.leverx.learningmanagementsystem.coursesettings.service;
 
-import com.leverx.learningmanagementsystem.course_settings.model.CourseSettings;
+import com.leverx.learningmanagementsystem.coursesettings.model.CourseSettings;
 
 import java.util.List;
 import java.util.UUID;

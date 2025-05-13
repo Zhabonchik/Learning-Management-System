@@ -1,7 +1,7 @@
-package com.leverx.learningmanagementsystem.course_settings.webfacade;
+package com.leverx.learningmanagementsystem.coursesettings.webfacade;
 
-import com.leverx.learningmanagementsystem.course_settings.dto.CourseSettingsResponseDto;
-import com.leverx.learningmanagementsystem.course_settings.dto.CreateCourseSettingsDto;
+import com.leverx.learningmanagementsystem.coursesettings.dto.CourseSettingsResponseDto;
+import com.leverx.learningmanagementsystem.coursesettings.dto.CreateCourseSettingsDto;
 
 import java.util.List;
 import java.util.UUID;

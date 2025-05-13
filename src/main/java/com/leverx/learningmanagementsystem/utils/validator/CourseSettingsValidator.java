@@ -1,6 +1,6 @@
 package com.leverx.learningmanagementsystem.utils.validator;
 
-import com.leverx.learningmanagementsystem.course_settings.model.CourseSettings;
+import com.leverx.learningmanagementsystem.coursesettings.model.CourseSettings;
 import com.leverx.learningmanagementsystem.utils.exception.InvalidCourseDatesException;
 
 import static com.leverx.learningmanagementsystem.utils.DataFormatUtils.DATE_TIME_FORMAT;

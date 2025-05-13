@@ -1,8 +1,8 @@
-package com.leverx.learningmanagementsystem.course_settings.mapper;
+package com.leverx.learningmanagementsystem.coursesettings.mapper;
 
-import com.leverx.learningmanagementsystem.course_settings.dto.CourseSettingsResponseDto;
-import com.leverx.learningmanagementsystem.course_settings.dto.CreateCourseSettingsDto;
-import com.leverx.learningmanagementsystem.course_settings.model.CourseSettings;
+import com.leverx.learningmanagementsystem.coursesettings.dto.CourseSettingsResponseDto;
+import com.leverx.learningmanagementsystem.coursesettings.dto.CreateCourseSettingsDto;
+import com.leverx.learningmanagementsystem.coursesettings.model.CourseSettings;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

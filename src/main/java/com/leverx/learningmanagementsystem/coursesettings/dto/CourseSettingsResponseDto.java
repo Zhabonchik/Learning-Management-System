@@ -1,16 +1,18 @@
-package com.leverx.learningmanagementsystem.course_settings.dto;
+package com.leverx.learningmanagementsystem.coursesettings.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.leverx.learningmanagementsystem.utils.DataFormatUtils;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
+import lombok.NonNull;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Builder
 public record CourseSettingsResponseDto(
-        UUID id,
+        @NonNull UUID id,
         @NotNull(message = "Start date must not be null") @JsonFormat(pattern = DataFormatUtils.DATE_TIME_FORMAT)
         @FutureOrPresent(message = "Start date must not be in past") LocalDateTime startDate,
         @NotNull(message = "End date must not be null") @JsonFormat(pattern = DataFormatUtils.DATE_TIME_FORMAT)

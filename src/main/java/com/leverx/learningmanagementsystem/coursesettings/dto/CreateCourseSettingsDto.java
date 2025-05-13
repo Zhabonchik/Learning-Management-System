@@ -1,4 +1,4 @@
-package com.leverx.learningmanagementsystem.course_settings.dto;
+package com.leverx.learningmanagementsystem.coursesettings.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.leverx.learningmanagementsystem.utils.DataFormatUtils;
