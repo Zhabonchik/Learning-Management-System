@@ -1,20 +1,21 @@
 package com.leverx.learningmanagementsystem.course.dto;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.annotation.Nullable;
 import lombok.Builder;
+import lombok.NonNull;
+
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
 @Builder
 public record CourseResponseDto(
-        UUID id,
-        @NotBlank(message = "Title must not be blank") String title,
-        @NotBlank(message = "Description must not be blank") String description,
-        @PositiveOrZero(message = "Price must be >= 0") BigDecimal price,
-        @PositiveOrZero(message = "Coins paid must be >= 0") BigDecimal coinsPaid,
-        UUID courseSettingsId,
-        List<UUID> lessonIds,
-        List<UUID> studentIds) {
+        @NonNull UUID id,
+        @NonNull String title,
+        @NonNull String description,
+        @NonNull BigDecimal price,
+        @NonNull BigDecimal coinsPaid,
+        @Nullable UUID courseSettingsId,
+        @Nullable List<UUID> lessonIds,
+        @Nullable List<UUID> studentIds) {
 }

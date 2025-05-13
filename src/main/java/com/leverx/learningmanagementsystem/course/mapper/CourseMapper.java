@@ -3,23 +3,23 @@ package com.leverx.learningmanagementsystem.course.mapper;
 import com.leverx.learningmanagementsystem.course.dto.CourseResponseDto;
 import com.leverx.learningmanagementsystem.course.dto.CreateCourseDto;
 import com.leverx.learningmanagementsystem.course.model.Course;
+import com.leverx.learningmanagementsystem.coursesettings.model.CourseSettings;
+import com.leverx.learningmanagementsystem.lesson.model.Lesson;
+import com.leverx.learningmanagementsystem.student.model.Student;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Named;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 @Mapper(componentModel = "spring")
 public interface CourseMapper {
 
-    @Mapping(target = "courseSettingsId", expression = "java(course.getSettings() != null ? course.getSettings().getId() : null)")
-    @Mapping(target = "lessonIds",
-            expression = "java(course.getLessons().stream()"
-                    + ".map(com.leverx.learningmanagementsystem.lesson.model.Lesson::getId)"
-                    + ".collect(java.util.stream.Collectors.toList()))")
-    @Mapping(target = "studentIds",
-            expression = "java(course.getStudents().stream()"
-                    + ".map(com.leverx.learningmanagementsystem.student.model.Student::getId)"
-                    + ".collect(java.util.stream.Collectors.toList()))")
+    @Mapping(target = "courseSettingsId", source = "settings", qualifiedByName = "mapToSettingsId")
+    @Mapping(target = "lessonIds", source = "lessons", qualifiedByName = "mapToLessonIds")
+    @Mapping(target = "studentIds", source = "students", qualifiedByName = "mapToStudentIds")
     CourseResponseDto toDto(Course course);
 
     @Mapping(target = "settings", ignore = true)
@@ -35,4 +35,22 @@ public interface CourseMapper {
 
     List<CourseResponseDto> toDtos(List<Course> courses);
 
+    @Named("mapToSettingsId")
+    default UUID mapToSettingsId(CourseSettings courseSettings) {
+        return (Objects.isNull(courseSettings)) ? null : courseSettings.getId();
+    }
+
+    @Named("mapToLessonIds")
+    default List<UUID> mapToLessonIds(List<Lesson> lessons) {
+        return lessons.stream()
+                .map(Lesson::getId)
+                .toList();
+    }
+
+    @Named("mapToStudentIds")
+    default List<UUID> mapToStudentIds(List<Student> students) {
+        return students.stream()
+                .map(Student::getId)
+                .toList();
+    }
 }

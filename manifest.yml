@@ -1,7 +1,7 @@
 applications:
   - name: learning-management-system
     random-route: true
-    memory: 1024M
+    memory: 2048M
     path: ./target/LearningManagementSystem-1.1.0.jar
     buildpacks:
       - sap_java_buildpack_jakarta
@@ -9,10 +9,10 @@ applications:
       SPRING_PROFILES_ACTIVE: hana
       TARGET_RUNTIME: tomcat
       JBP_CONFIG_COMPONENTS: "jres: ['com.sap.xs.java.buildpack.jdk.SAPMachineJDK']"
-      JBP_CONFIG_SAP_MACHINE_JDK: "{ version: 21.+ }"
+      JBP_CONFIG_SAP_MACHINE_JDK: "{ version: 21.+, default_debug_agent_active: false }"
+      JBP_CONFIG_JAVA_OPTS: "[from_environment: false, java_opts: '-Xms1300M -XX:NewSize=950M -Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=8000,suspend=n']"
     services:
       - destination-service
       - feature-flags-service
       - logging-service
-      - hana-database
       - hanaschema

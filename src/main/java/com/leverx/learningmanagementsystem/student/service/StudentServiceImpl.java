@@ -1,11 +1,13 @@
 package com.leverx.learningmanagementsystem.student.service;
 
+import com.leverx.learningmanagementsystem.course.dto.CourseId;
 import com.leverx.learningmanagementsystem.course.model.Course;
+import com.leverx.learningmanagementsystem.student.dto.StudentId;
 import com.leverx.learningmanagementsystem.student.model.Student;
-import com.leverx.learningmanagementsystem.utils.exception.EntityNotFoundException;
-import com.leverx.learningmanagementsystem.utils.exception.IncorrectResultSizeException;
-import com.leverx.learningmanagementsystem.utils.exception.NotEnoughCoinsException;
-import com.leverx.learningmanagementsystem.utils.exception.StudentAlreadyEnrolledException;
+import com.leverx.learningmanagementsystem.utils.exception.model.EntityNotFoundException;
+import com.leverx.learningmanagementsystem.utils.exception.model.IncorrectResultSizeException;
+import com.leverx.learningmanagementsystem.utils.exception.model.NotEnoughCoinsException;
+import com.leverx.learningmanagementsystem.utils.exception.model.StudentAlreadyEnrolledException;
 import com.leverx.learningmanagementsystem.student.repository.StudentRepository;
 import com.leverx.learningmanagementsystem.course.service.CourseService;
 import lombok.AllArgsConstructor;
@@ -56,22 +58,22 @@ public class StudentServiceImpl implements StudentService {
     @Override
     @Transactional
     public Student update(Student student) {
-        if (studentRepository.findById(student.getId()).isEmpty()) {
-            throw new EntityNotFoundException("Student not found [id = {%s}]".formatted(student.getId()));
-        }
+        log.info("Check if student exists [id = {}]", student.getId());
+        getById(student.getId());
+
         log.info("Update student [id = {}]", student.getId());
         return studentRepository.save(student);
     }
 
     @Override
     @Transactional
-    public void enrollForCourse(UUID studentId, UUID courseId) {
-        Student student = getById(studentId);
-        Course course = courseService.getById(courseId);
+    public void enrollForCourse(StudentId studentId, CourseId courseId) {
+        Student student = getById(studentId.id());
+        Course course = courseService.getById(courseId.id());
         BigDecimal coursePrice = course.getPrice();
         BigDecimal studentBalance = student.getCoins();
 
-        validateCourseEnrollment(course, studentId);
+        validateCourseEnrollment(course, studentId.id());
         validateStudentBalance(studentBalance, coursePrice);
 
         transferCoins(course, student);

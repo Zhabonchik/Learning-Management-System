@@ -3,12 +3,12 @@ package com.leverx.learningmanagementsystem.course.webfacade;
 import com.leverx.learningmanagementsystem.course.dto.CourseResponseDto;
 import com.leverx.learningmanagementsystem.course.dto.CreateCourseDto;
 import com.leverx.learningmanagementsystem.course.model.Course;
-import com.leverx.learningmanagementsystem.course_settings.model.CourseSettings;
+import com.leverx.learningmanagementsystem.coursesettings.model.CourseSettings;
 import com.leverx.learningmanagementsystem.lesson.model.Lesson;
 import com.leverx.learningmanagementsystem.student.model.Student;
 import com.leverx.learningmanagementsystem.course.mapper.CourseMapper;
 import com.leverx.learningmanagementsystem.course.service.CourseService;
-import com.leverx.learningmanagementsystem.course_settings.service.CourseSettingsService;
+import com.leverx.learningmanagementsystem.coursesettings.service.CourseSettingsService;
 import com.leverx.learningmanagementsystem.lesson.service.LessonService;
 import com.leverx.learningmanagementsystem.student.service.StudentService;
 import lombok.AllArgsConstructor;
@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Component
@@ -42,7 +43,6 @@ public class CourseWebFacadeImpl implements CourseWebFacade {
     }
 
     @Override
-    @Transactional
     public CourseResponseDto create(CreateCourseDto createCourseDto) {
         Course course = courseMapper.toModel(createCourseDto);
 
@@ -70,11 +70,11 @@ public class CourseWebFacadeImpl implements CourseWebFacade {
     }
 
     private void constructCourse(Course course, CreateCourseDto createCourseDto) {
-        CourseSettings courseSettings = (createCourseDto.courseSettingsId() == null) ? null
+        CourseSettings courseSettings = (Objects.isNull(createCourseDto.courseSettingsId())) ? null
                 : courseSettingsService.getById(course.getId());
-        List<Student> students = (createCourseDto.studentIds() == null) ? new ArrayList<>()
+        List<Student> students = (Objects.isNull(createCourseDto.studentIds())) ? new ArrayList<>()
                 : studentService.getAllByIdIn(createCourseDto.studentIds());
-        List<Lesson> lessons = (createCourseDto.lessonIds() == null) ? new ArrayList<>()
+        List<Lesson> lessons = (Objects.isNull(createCourseDto.lessonIds())) ? new ArrayList<>()
                 : lessonService.getAllByIdIn(createCourseDto.lessonIds());
 
         course.setSettings(courseSettings);

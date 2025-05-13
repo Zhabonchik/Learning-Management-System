@@ -1,8 +1,8 @@
 package com.leverx.learningmanagementsystem.lesson.service;
 
 import com.leverx.learningmanagementsystem.lesson.model.Lesson;
-import com.leverx.learningmanagementsystem.utils.exception.EntityNotFoundException;
-import com.leverx.learningmanagementsystem.utils.exception.IncorrectResultSizeException;
+import com.leverx.learningmanagementsystem.utils.exception.model.EntityNotFoundException;
+import com.leverx.learningmanagementsystem.utils.exception.model.IncorrectResultSizeException;
 import com.leverx.learningmanagementsystem.lesson.repository.LessonRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,7 +43,6 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
-    @Transactional
     public Lesson create(Lesson lesson) {
         log.info("Create lesson: {}", lesson);
         return lessonRepository.save(lesson);

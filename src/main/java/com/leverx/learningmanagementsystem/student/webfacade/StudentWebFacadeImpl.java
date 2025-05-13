@@ -1,6 +1,8 @@
 package com.leverx.learningmanagementsystem.student.webfacade;
 
+import com.leverx.learningmanagementsystem.course.dto.CourseId;
 import com.leverx.learningmanagementsystem.student.dto.CreateStudentDto;
+import com.leverx.learningmanagementsystem.student.dto.StudentId;
 import com.leverx.learningmanagementsystem.student.dto.StudentResponseDto;
 import com.leverx.learningmanagementsystem.course.model.Course;
 import com.leverx.learningmanagementsystem.student.model.Student;
@@ -9,7 +11,6 @@ import com.leverx.learningmanagementsystem.course.service.CourseService;
 import com.leverx.learningmanagementsystem.student.service.StudentService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -35,7 +36,6 @@ public class StudentWebFacadeImpl implements StudentWebFacade {
     }
 
     @Override
-    @Transactional
     public StudentResponseDto create(CreateStudentDto createStudentDto) {
         Student student = studentMapper.toModel(createStudentDto);
 
@@ -46,12 +46,11 @@ public class StudentWebFacadeImpl implements StudentWebFacade {
     }
 
     @Override
-    public void enrollForCourse(UUID studentId, UUID courseId) {
+    public void enrollForCourse(StudentId studentId, CourseId courseId) {
         studentService.enrollForCourse(studentId, courseId);
     }
 
     @Override
-    @Transactional
     public StudentResponseDto updateById(UUID id, CreateStudentDto createStudentDto) {
         Student student = studentMapper.toModel(createStudentDto);
 

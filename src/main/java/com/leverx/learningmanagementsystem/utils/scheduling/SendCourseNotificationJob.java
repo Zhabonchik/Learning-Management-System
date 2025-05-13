@@ -3,10 +3,10 @@ package com.leverx.learningmanagementsystem.utils.scheduling;
 import com.leverx.learningmanagementsystem.course.model.Course;
 import com.leverx.learningmanagementsystem.student.model.Student;
 import com.leverx.learningmanagementsystem.course.service.CourseService;
-import com.leverx.learningmanagementsystem.utils.mailing.EmailService;
+import com.leverx.learningmanagementsystem.email.service.impl.EmailService;
 import jakarta.mail.MessagingException;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -16,20 +16,16 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Component
+@AllArgsConstructor
 @Slf4j
 public class SendCourseNotificationJob {
 
     private final CourseService courseService;
     private final EmailService emailService;
 
-    @Autowired
-    public SendCourseNotificationJob(CourseService courseService, EmailService emailService) {
-        this.courseService = courseService;
-        this.emailService = emailService;
-    }
-
-    @Scheduled(cron = "@daily")
+    @Scheduled(cron = "*/15 * * * * *")
     public void execute() {
+        log.info("Fetching courses that start tomorrow");
         List<Course> courses = getCoursesStartingTomorrow();
         courses.forEach(this::prepareAndSendNotification);
     }
@@ -47,7 +43,7 @@ public class SendCourseNotificationJob {
         String subject = course.getTitle();
         String body = "Dear student, course %s is starting soon. The exact date is %s."
                 .formatted(course.getTitle(), course.getSettings().getStartDate());
-
+        log.info("Trying to send notification");
         tryToSendCourseNotification(emails, subject, body);
     }
 

@@ -41,16 +41,18 @@ public class LessonControllerTest {
     @Test
     @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     void getAll_shouldReturnAllLessonsAnd200() throws Exception {
-        mockMvc.perform(get("/lessons"))
-                .andExpect(status().isOk())
+        var response = mockMvc.perform(get("/lessons"));
+
+        response.andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(2));
     }
 
     @Test
     @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     void getById_givenLessonId_shouldReturnLessonAnd200() throws Exception {
-        mockMvc.perform(get("/lessons/373e60bb-c872-4207-982c-859b4dfdb4f7"))
-                .andExpect(status().isOk())
+        var response = mockMvc.perform(get("/lessons/373e60bb-c872-4207-982c-859b4dfdb4f7"));
+
+        response.andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(4))
                 .andExpect(jsonPath("$.id").value("373e60bb-c872-4207-982c-859b4dfdb4f7"))
                 .andExpect(jsonPath("$.title").value("Linear algebra"));
@@ -59,10 +61,11 @@ public class LessonControllerTest {
     @Test
     @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     void create_givenCreateLessonDto_shouldReturnCreatedLessonAnd201() throws Exception {
-        mockMvc.perform(post("/lessons")
+        var response = mockMvc.perform(post("/lessons")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(createLessonDto)))
-                .andExpect(status().isCreated())
+                .content(objectMapper.writeValueAsString(createLessonDto)));
+
+        response.andExpect(status().isCreated())
                 .andExpect(jsonPath("$.length()").value(4))
                 .andExpect(jsonPath("$.title").value("Test Lesson"))
                 .andExpect(jsonPath("$.courseId").value("64852c52-ed64-4438-b095-2ca10f6b4be0"));
@@ -71,10 +74,11 @@ public class LessonControllerTest {
     @Test
     @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     void updateById_givenLessonIdAndCreateLessonDto_shouldReturnUpdatedLessonAnd200() throws Exception {
-        mockMvc.perform(put("/lessons/373e60bb-c872-4207-982c-859b4dfdb4f7")
+        var response = mockMvc.perform(put("/lessons/373e60bb-c872-4207-982c-859b4dfdb4f7")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(createLessonDto)))
-                .andExpect(status().isOk())
+                .content(objectMapper.writeValueAsString(createLessonDto)));
+
+        response.andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(4))
                 .andExpect(jsonPath("$.title").value("Test Lesson"))
                 .andExpect(jsonPath("$.courseId").value("64852c52-ed64-4438-b095-2ca10f6b4be0"));
@@ -83,14 +87,16 @@ public class LessonControllerTest {
     @Test
     @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     void delete_givenId_shouldReturnStatus204() throws Exception {
-        mockMvc.perform(delete("/lessons/373e60bb-c872-4207-982c-859b4dfdb4f7"))
-                .andExpect(status().isNoContent());
+        var response = mockMvc.perform(delete("/lessons/373e60bb-c872-4207-982c-859b4dfdb4f7"));
+
+        response.andExpect(status().isNoContent());
     }
 
     @Test
     @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     void delete_givenId_shouldReturnNotFound() throws Exception {
-        mockMvc.perform(delete("/lessons/891eed08-bc3a-4f57-85f5-bd1fb8b6eed6"))
-                .andExpect(status().isNotFound());
+        var response = mockMvc.perform(delete("/lessons/891eed08-bc3a-4f57-85f5-bd1fb8b6eed6"));
+
+        response.andExpect(status().isNotFound());
     }
 }

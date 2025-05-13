@@ -1,6 +1,8 @@
 package com.leverx.learningmanagementsystem.student.webfacade;
 
+import com.leverx.learningmanagementsystem.course.dto.CourseId;
 import com.leverx.learningmanagementsystem.student.dto.CreateStudentDto;
+import com.leverx.learningmanagementsystem.student.dto.StudentId;
 import com.leverx.learningmanagementsystem.student.dto.StudentResponseDto;
 
 import java.util.List;
@@ -14,7 +16,7 @@ public interface StudentWebFacade {
 
     StudentResponseDto create(CreateStudentDto createStudentDto);
 
-    void enrollForCourse(UUID studentId, UUID courseId);
+    void enrollForCourse(StudentId studentId, CourseId courseId);
 
     StudentResponseDto updateById(UUID id, CreateStudentDto createStudentDto);
 
