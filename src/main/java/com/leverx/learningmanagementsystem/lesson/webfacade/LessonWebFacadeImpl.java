@@ -49,10 +49,11 @@ public class LessonWebFacadeImpl implements LessonWebFacade {
     @Override
     @Transactional
     public LessonResponseDto updateById(UUID id, CreateLessonDto dto) {
-        Lesson lesson = lessonMapper.toModel(dto);
         Course course = courseService.getById(dto.courseId());
+        Lesson lesson = lessonMapper.toModel(dto);
         lesson.setCourse(course);
         lesson.setId(id);
+
         Lesson updatedLesson = lessonService.updateById(lesson);
         return lessonMapper.toDto(updatedLesson);
     }

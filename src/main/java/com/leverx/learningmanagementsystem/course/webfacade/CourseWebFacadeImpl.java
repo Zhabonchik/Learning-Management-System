@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Component
@@ -42,7 +43,6 @@ public class CourseWebFacadeImpl implements CourseWebFacade {
     }
 
     @Override
-    @Transactional
     public CourseResponseDto create(CreateCourseDto createCourseDto) {
         Course course = courseMapper.toModel(createCourseDto);
 
@@ -70,11 +70,11 @@ public class CourseWebFacadeImpl implements CourseWebFacade {
     }
 
     private void constructCourse(Course course, CreateCourseDto createCourseDto) {
-        CourseSettings courseSettings = (createCourseDto.courseSettingsId() == null) ? null
+        CourseSettings courseSettings = (Objects.isNull(createCourseDto.courseSettingsId())) ? null
                 : courseSettingsService.getById(course.getId());
-        List<Student> students = (createCourseDto.studentIds() == null) ? new ArrayList<>()
+        List<Student> students = (Objects.isNull(createCourseDto.studentIds())) ? new ArrayList<>()
                 : studentService.getAllByIdIn(createCourseDto.studentIds());
-        List<Lesson> lessons = (createCourseDto.lessonIds() == null) ? new ArrayList<>()
+        List<Lesson> lessons = (Objects.isNull(createCourseDto.lessonIds())) ? new ArrayList<>()
                 : lessonService.getAllByIdIn(createCourseDto.lessonIds());
 
         course.setSettings(courseSettings);

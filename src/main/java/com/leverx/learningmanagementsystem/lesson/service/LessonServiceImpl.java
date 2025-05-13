@@ -43,7 +43,6 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
-    @Transactional
     public Lesson create(Lesson lesson) {
         log.info("Create lesson: {}", lesson);
         return lessonRepository.save(lesson);

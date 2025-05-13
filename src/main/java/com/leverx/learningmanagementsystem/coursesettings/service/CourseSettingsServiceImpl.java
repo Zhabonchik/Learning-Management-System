@@ -18,6 +18,7 @@ import java.util.UUID;
 public class CourseSettingsServiceImpl implements CourseSettingsService {
 
     private final CourseSettingsRepository courseSettingsRepository;
+    private final CourseSettingsValidator courseSettingsValidator;
 
     @Override
     public CourseSettings getById(UUID id) {
@@ -35,7 +36,7 @@ public class CourseSettingsServiceImpl implements CourseSettingsService {
 
     @Override
     public CourseSettings create(CourseSettings courseSettings) {
-        CourseSettingsValidator.validateCourseDates(courseSettings);
+        courseSettingsValidator.validateCourseDates(courseSettings);
 
         log.info("Create course settings: {}", courseSettings);
         return courseSettingsRepository.save(courseSettings);
@@ -48,7 +49,7 @@ public class CourseSettingsServiceImpl implements CourseSettingsService {
             throw new EntityNotFoundException("Course settings not found [id = {%s}]".formatted(courseSettings.getId()));
         }
 
-        CourseSettingsValidator.validateCourseDates(courseSettings);
+        courseSettingsValidator.validateCourseDates(courseSettings);
 
         log.info("Update course settings: {}", courseSettings);
         return courseSettingsRepository.save(courseSettings);

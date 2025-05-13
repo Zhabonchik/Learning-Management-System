@@ -17,8 +17,6 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.nio.charset.StandardCharsets;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -41,18 +39,8 @@ public class DestinationService {
         HttpEntity<Void> entity = new HttpEntity<>(headers);
 
         RestTemplate restTemplate = new RestTemplate();
-        restTemplate.setInterceptors(List.of((request, body, execution) -> {
-            log.info("=== HTTP REQUEST ===");
-            log.info("URI     : {}", request.getURI());
-            log.info("Method  : {}", request.getMethod());
-            log.info("Headers : {}", request.getHeaders());
-            if (body.length > 0) {
-                log.info("Body    : {}", new String(body, StandardCharsets.UTF_8));
-            }
-            return execution.execute(request, body);
-        }));
 
-        log.info("Getting email config from {}, with authToken: {}", uri, authToken);
+        log.info("Getting email config from {}", uri);
         ResponseEntity<DestinationServiceResponse> response = restTemplate
                 .exchange(uri, HttpMethod.GET, entity, DestinationServiceResponse.class);
 
@@ -72,9 +60,8 @@ public class DestinationService {
         RestTemplate restTemplate = configureAuthenticationRestTemplate();
 
         log.info("Get auth token");
-        log.info("Url: {}, request:{}", authUrl, request);
         ResponseEntity<Map> response = restTemplate.postForEntity(authUrl, request, Map.class);
-        log.info("Token received: {}", Objects.requireNonNull(response.getBody()).get("access_token").toString());
+
         return Objects.requireNonNull(response.getBody())
                 .get("access_token")
                 .toString()
@@ -97,18 +84,6 @@ public class DestinationService {
     private RestTemplate configureAuthenticationRestTemplate() {
         return restTemplateBuilder
                 .basicAuthentication(destinationConfig.getClientId(), destinationConfig.getClientSecret())
-                .additionalInterceptors((request, body, execution) -> {
-                    log.info("=== HTTP REQUEST ===");
-                    log.info("URI      : {}", request.getURI());
-                    log.info("Method   : {}", request.getMethod());
-                    log.info("Headers  : {}", request.getHeaders());
-
-                    if (body.length > 0) {
-                        log.info("Body     : {}", new String(body, StandardCharsets.UTF_8));
-                    }
-
-                    return execution.execute(request, body);
-                })
                 .build();
     }
 

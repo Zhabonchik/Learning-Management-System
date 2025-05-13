@@ -1,6 +1,8 @@
 package com.leverx.learningmanagementsystem.student.controller;
 
+import com.leverx.learningmanagementsystem.course.dto.CourseId;
 import com.leverx.learningmanagementsystem.student.dto.CreateStudentDto;
+import com.leverx.learningmanagementsystem.student.dto.StudentId;
 import com.leverx.learningmanagementsystem.student.dto.StudentResponseDto;
 import com.leverx.learningmanagementsystem.student.webfacade.StudentWebFacade;
 import jakarta.validation.Valid;
@@ -47,7 +49,7 @@ public class StudentController {
     @PostMapping("/{studentId}/courses/{courseId}")
     @ResponseStatus(CREATED)
     public void addCourse(@PathVariable("studentId") UUID studentId, @PathVariable("courseId") UUID courseId) {
-        studentWebFacade.enrollForCourse(studentId, courseId);
+        studentWebFacade.enrollForCourse(new StudentId(studentId), new CourseId(courseId));
     }
 
     @PutMapping("/{id}")

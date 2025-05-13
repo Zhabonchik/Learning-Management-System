@@ -42,16 +42,18 @@ public class CourseSettingsControllerTest {
     @Test
     @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     void getAll_shouldReturnAllCourseSettingsAnd200() throws Exception {
-        mockMvc.perform(get("/course-settings"))
-                .andExpect(status().isOk())
+        var response = mockMvc.perform(get("/course-settings"));
+
+        response.andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(2));
     }
 
     @Test
     @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     void getById_givenCourseSettingsId_shouldReturnCourseSettingsAnd200() throws Exception {
-        mockMvc.perform(get("/course-settings/38811913-ce40-4ef4-a596-f24d94356949"))
-                .andExpect(status().isOk())
+        var response = mockMvc.perform(get("/course-settings/38811913-ce40-4ef4-a596-f24d94356949"));
+
+        response.andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(4))
                 .andExpect(jsonPath("$.id").value("38811913-ce40-4ef4-a596-f24d94356949"))
                 .andExpect(jsonPath("$.startDate").value("2025-05-13 09:30:00"))
@@ -61,10 +63,11 @@ public class CourseSettingsControllerTest {
     @Test
     @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     void create_givenCreateCourseSettingsDto_shouldReturnCreatedCourseSettingsAnd201() throws Exception {
-        mockMvc.perform(post("/course-settings")
+        var response = mockMvc.perform(post("/course-settings")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(createCourseSettingsDto)))
-                .andExpect(status().isCreated())
+                        .content(objectMapper.writeValueAsString(createCourseSettingsDto)));
+
+        response.andExpect(status().isCreated())
                 .andExpect(jsonPath("$.length()").value(4))
                 .andExpect(jsonPath("$.startDate").value("2026-05-06 10:00:00"))
                 .andExpect(jsonPath("$.endDate").value("2026-06-01 10:00:00"));
@@ -73,10 +76,11 @@ public class CourseSettingsControllerTest {
     @Test
     @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     void updateById_givenCourseSettingsIdAndCreateCourseSettingsDto_shouldReturnUpdatedCourseSettingsAnd200() throws Exception {
-        mockMvc.perform(put("/course-settings/34b56d95-5d74-44b1-b473-3ab2fd36cc5f")
+        var response = mockMvc.perform(put("/course-settings/34b56d95-5d74-44b1-b473-3ab2fd36cc5f")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(createCourseSettingsDto)))
-                .andExpect(status().isOk())
+                        .content(objectMapper.writeValueAsString(createCourseSettingsDto)));
+
+        response.andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(4))
                 .andExpect(jsonPath("$.startDate").value("2026-05-06 10:00:00"))
                 .andExpect(jsonPath("$.endDate").value("2026-06-01 10:00:00"));
@@ -85,14 +89,16 @@ public class CourseSettingsControllerTest {
     @Test
     @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     void delete_givenId_shouldReturnStatus204() throws Exception {
-        mockMvc.perform(delete("/course-settings/34b56d95-5d74-44b1-b473-3ab2fd36cc5f"))
-                .andExpect(status().isNoContent());
+        var response = mockMvc.perform(delete("/course-settings/34b56d95-5d74-44b1-b473-3ab2fd36cc5f"));
+
+        response.andExpect(status().isNoContent());
     }
 
     @Test
     @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     void delete_givenId_shouldReturnNotFound() throws Exception {
-        mockMvc.perform(delete("/course-settings/891eed08-bc3a-4f57-85f5-bd1fb8b6eed6"))
-                .andExpect(status().isNotFound());
+        var response = mockMvc.perform(delete("/course-settings/891eed08-bc3a-4f57-85f5-bd1fb8b6eed6"));
+
+        response.andExpect(status().isNotFound());
     }
 }

@@ -41,51 +41,57 @@ class CourseControllerTest {
     @Test
     @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     void getAll_shouldReturnAllCourses() throws Exception {
-        mockMvc.perform(get("/courses"))
-                .andExpect(status().isOk())
+        var response = mockMvc.perform(get("/courses"));
+
+        response.andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(2));
     }
 
     @Test
     @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     void getById_givenId_shouldReturnCourseAnd200() throws Exception {
-        mockMvc.perform(get("/courses/64852c52-ed64-4438-b095-2ca10f6b4be0"))
-                .andExpect(status().isOk())
+        var response = mockMvc.perform(get("/courses/64852c52-ed64-4438-b095-2ca10f6b4be0"));
+
+        response.andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(8))
                 .andExpect(jsonPath("$.title").value("Applied Math"));
     }
 
     @Test
     @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    void getById_givenId_shouldThrowEntityNotFoundExceptionAnd404() throws Exception{
-        mockMvc.perform(get("/courses/2bcd9463-3c57-421b-91d0-047b315d60ce"))
-                .andExpect(status().isNotFound())
+    void getById_givenId_shouldThrowEntityNotFoundExceptionAnd404() throws Exception {
+        var response = mockMvc.perform(get("/courses/2bcd9463-3c57-421b-91d0-047b315d60ce"));
+
+        response.andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.message").value(
                         "Course not found [id = {2bcd9463-3c57-421b-91d0-047b315d60ce}]"));
     }
 
     @Test
     @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    void create_givenCreateCourseDto_shouldReturnCreatedCourseAnd201() throws Exception{
-        mockMvc.perform(post("/courses")
+    void create_givenCreateCourseDto_shouldReturnCreatedCourseAnd201() throws Exception {
+        var response = mockMvc.perform(post("/courses")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(createCourseDto)))
-                .andExpect(status().isCreated())
+                        .content(objectMapper.writeValueAsString(createCourseDto)));
+
+        response.andExpect(status().isCreated())
                 .andExpect(jsonPath("$.title").value("Test course"))
                 .andExpect(jsonPath("$.description").value("This is a test course"));
     }
 
     @Test
     @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    void delete_givenId_shouldReturn204() throws Exception{
-        mockMvc.perform(delete("/courses/b902261b-d1b9-4c58-869f-b04a5bbff4c9"))
-                .andExpect(status().isNoContent());
+    void delete_givenId_shouldReturn204() throws Exception {
+        var response = mockMvc.perform(delete("/courses/b902261b-d1b9-4c58-869f-b04a5bbff4c9"));
+
+        response.andExpect(status().isNoContent());
     }
 
     @Test
     @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    void delete_givenId_shouldReturn404() throws Exception{
-        mockMvc.perform(delete("/courses/d8b4bcc9-10d2-406d-ae74-7ee9b60522d2"))
-                .andExpect(status().isNotFound());
+    void delete_givenId_shouldReturn404() throws Exception {
+        var response = mockMvc.perform(delete("/courses/d8b4bcc9-10d2-406d-ae74-7ee9b60522d2"));
+
+        response.andExpect(status().isNotFound());
     }
 }

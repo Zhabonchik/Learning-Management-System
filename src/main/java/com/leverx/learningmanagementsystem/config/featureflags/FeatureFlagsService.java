@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.Objects;
+
 @Service
 @AllArgsConstructor
 @Slf4j
@@ -24,9 +26,10 @@ public class FeatureFlagsService {
 
         log.info("Get flag {}", flagName);
         FeatureFlagsResponse response = restTemplate.getForObject(url, FeatureFlagsResponse.class);
-        if (response == null) {
+        if (Objects.isNull(response)) {
             throw new FeatureFlagsException("Feature flag '" + flagName + "' not found");
         }
+
         validateResponse(response);
 
         log.info("Flag {} is {}", flagName, response.variation());
@@ -46,7 +49,7 @@ public class FeatureFlagsService {
     }
 
     private void validateResponse(FeatureFlagsResponse response) {
-        if (response.httpStatus() == null || response.httpStatus() != 200) {
+        if (Objects.isNull(response.httpStatus()) || response.httpStatus() != 200) {
             log.info("Feature flag validation failed");
             throw new FeatureFlagsException("Could not get feature flag response. Request status: " + response.httpStatus());
         }
