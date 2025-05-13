@@ -5,7 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Profile;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -20,6 +24,11 @@ public class FeatureFlagsService {
     private final FeatureFlagsConfig featureFlagsConfig;
     private final RestTemplateBuilder restTemplateBuilder;
 
+    @Retryable(
+            retryFor = { HttpClientErrorException.class, ResourceAccessException.class },
+            maxAttempts = 3,
+            backoff = @Backoff(delay = 2000)
+    )
     public boolean getFlag(String flagName) {
         RestTemplate restTemplate = getRestTemplate(flagName);
         String url = getUrl(flagName);

@@ -23,7 +23,7 @@ public class SendCourseNotificationJob {
     private final CourseService courseService;
     private final EmailService emailService;
 
-    @Scheduled(cron = "0 0 0 */1 * *")
+    @Scheduled(cron = "*/15 * * * * *")
     public void execute() {
         log.info("Fetching courses that start tomorrow");
         List<Course> courses = getCoursesStartingTomorrow();
