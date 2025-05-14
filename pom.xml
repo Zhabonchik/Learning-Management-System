@@ -12,7 +12,7 @@
 
     <groupId>com.LeverX</groupId>
     <artifactId>LearningManagementSystem</artifactId>
-    <version>1.1.0-SNAPSHOT</version>
+    <version>1.1.0</version>
     <name>LearningManagementSystem</name>
     <description>LearningManagementSystem</description>
 
@@ -24,6 +24,8 @@
         <lombok-mapstruct.version>0.2.0</lombok-mapstruct.version>
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <buildnumber-maven-plugin.version>3.2.1</buildnumber-maven-plugin.version>
+        <hana-jdbc.version>2.24.7</hana-jdbc.version>
+        <liquibase-hanadb.version>4.31.1</liquibase-hanadb.version>
     </properties>
 
     <dependencies>
@@ -57,15 +59,34 @@
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>${springdoc.version}</version>
         </dependency>
+        <!-- Retrying and caching -->
+        <dependency>
+            <groupId>org.springframework.retry</groupId>
+            <artifactId>spring-retry</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
+        </dependency>
         <!-- DB -->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.sap.cloud.db.jdbc</groupId>
+            <artifactId>ngdbc</artifactId>
+            <version>${hana-jdbc.version}</version>
+        </dependency>
         <!-- DB migration -->
         <dependency>
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.liquibase.ext</groupId>
+            <artifactId>liquibase-hanadb</artifactId>
+            <version>${liquibase-hanadb.version}</version>
         </dependency>
         <!-- Annotation processing -->
         <dependency>

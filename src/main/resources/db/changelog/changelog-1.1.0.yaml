@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - changeSet:
+      id: changeset-1.1.0_001
+      author: Mikita Shapel
+      changes:
+        - dropNotNullConstraint:
+            columnName: course_id
+            tableName: lesson
+            columnDataType: uuid
