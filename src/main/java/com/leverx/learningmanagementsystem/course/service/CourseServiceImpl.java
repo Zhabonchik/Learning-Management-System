@@ -28,6 +28,13 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    public Course getByIdForUpdate(UUID id) {
+        log.info("Get course for update [id = {}]", id);
+        return courseRepository.findByIdForUpdate(id)
+                .orElseThrow(() -> new EntityNotFoundException("Course not found [id = {%s}]".formatted(id)));
+    }
+
+    @Override
     @Transactional
     public List<Course> getAll() {
         log.info("Get all courses");

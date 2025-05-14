@@ -35,6 +35,14 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    public Student getByIdForUpdate(UUID id) {
+        log.info("Get student for update [id = {}]", id);
+        return studentRepository.findByIdForUpdate(id)
+                .orElseThrow(() -> new EntityNotFoundException("Student not found [id = {%s}]".formatted(id)));
+    }
+
+
+    @Override
     public List<Student> getAll() {
         log.info("Get all students");
         return studentRepository.findAll();
@@ -68,8 +76,8 @@ public class StudentServiceImpl implements StudentService {
     @Override
     @Transactional
     public void enrollForCourse(StudentId studentId, CourseId courseId) {
-        Student student = getById(studentId.id());
-        Course course = courseService.getById(courseId.id());
+        Student student = getByIdForUpdate(studentId.id());
+        Course course = courseService.getByIdForUpdate(courseId.id());
         BigDecimal coursePrice = course.getPrice();
         BigDecimal studentBalance = student.getCoins();
 

@@ -20,6 +20,8 @@ import org.hibernate.type.SqlTypes;
 
 import java.util.UUID;
 
+import static jakarta.persistence.GenerationType.UUID;
+
 @Entity
 @Table(name = "lesson")
 @Getter
@@ -32,9 +34,8 @@ import java.util.UUID;
 public class Lesson {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = UUID)
     @JdbcTypeCode(SqlTypes.VARCHAR)
-    @Column(length = 36, nullable = false, updatable = false)
     private UUID id;
 
     @Column(name = "title")

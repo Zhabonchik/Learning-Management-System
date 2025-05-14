@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.Properties;
 
 @Service
-@Profile("!hana")
+@Profile("!cloud")
 public class DevMailSenderProvider implements MailSenderProvider {
 
     @Value("${spring.mail.host}")
@@ -38,6 +38,5 @@ public class DevMailSenderProvider implements MailSenderProvider {
         props.put("mail.smtp.starttls.enable", "true");
 
         return mailSender;
-
     }
 }

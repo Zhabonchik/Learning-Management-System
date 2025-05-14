@@ -2,6 +2,7 @@ package com.leverx.learningmanagementsystem.course.repository;
 
 import com.leverx.learningmanagementsystem.course.model.Course;
 import org.springframework.data.jpa.repository.EntityGraph;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
@@ -10,11 +11,17 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static jakarta.persistence.LockModeType.PESSIMISTIC_WRITE;
+
 public interface CourseRepository extends CrudRepository<Course, UUID> {
 
     @Override
     @EntityGraph(attributePaths = {"lessons", "students", "settings"})
     Optional<Course> findById(UUID id);
+
+    @Lock(PESSIMISTIC_WRITE)
+    @Query("SELECT c FROM Course c LEFT JOIN FETCH c.students WHERE c.id = :id")
+    Optional<Course> findByIdForUpdate(UUID id);
 
     @Query("SELECT DISTINCT c FROM Course c LEFT JOIN FETCH c.lessons")
     List<Course> findAllWithLessons();

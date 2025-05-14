@@ -8,7 +8,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @EnableScheduling
-@EnableCaching
 @EnableRetry
 public class LearningManagementSystemApplication {
     public static void main(String[] args) {

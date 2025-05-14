@@ -26,23 +26,23 @@ public class CourseSettingsWebFacadeImpl implements CourseSettingsWebFacade {
 
     @Override
     public CourseSettingsResponseDto getById(UUID id) {
-        CourseSettings courseSettings = courseSettingsService.getById(id);
+        var courseSettings = courseSettingsService.getById(id);
         return courseSettingsMapper.toDto(courseSettings);
     }
 
     @Override
     public CourseSettingsResponseDto create(CreateCourseSettingsDto createCourseSettingsDto) {
-        CourseSettings courseSettings = courseSettingsMapper.toModel(createCourseSettingsDto);
-        CourseSettings createdCourseSettings = courseSettingsService.create(courseSettings);
+        var courseSettings = courseSettingsMapper.toModel(createCourseSettingsDto);
+        var createdCourseSettings = courseSettingsService.create(courseSettings);
         return courseSettingsMapper.toDto(createdCourseSettings);
     }
 
     @Override
     public CourseSettingsResponseDto updateById(UUID id, CreateCourseSettingsDto createCourseSettingsDto) {
-        CourseSettings courseSettings = courseSettingsMapper.toModel(createCourseSettingsDto);
+        var courseSettings = courseSettingsMapper.toModel(createCourseSettingsDto);
         courseSettings.setId(id);
 
-        CourseSettings updatedCourseSettings = courseSettingsService.updateById(courseSettings);
+        var updatedCourseSettings = courseSettingsService.updateById(courseSettings);
         return courseSettingsMapper.toDto(updatedCourseSettings);
     }
 

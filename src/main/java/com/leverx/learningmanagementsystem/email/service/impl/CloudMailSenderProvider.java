@@ -2,8 +2,8 @@ package com.leverx.learningmanagementsystem.email.service.impl;
 
 import com.leverx.learningmanagementsystem.config.destination.DestinationService;
 import com.leverx.learningmanagementsystem.config.featureflags.FeatureFlagsService;
-import com.leverx.learningmanagementsystem.email.MailConfig;
-import com.leverx.learningmanagementsystem.email.UserProvidedMailConfig;
+import com.leverx.learningmanagementsystem.email.mailconfig.MailConfig;
+import com.leverx.learningmanagementsystem.email.mailconfig.UserProvidedMailConfig;
 import com.leverx.learningmanagementsystem.email.service.MailSenderProvider;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,8 +17,8 @@ import java.util.Properties;
 @Service
 @AllArgsConstructor
 @Slf4j
-@Profile("hana")
-public class HanaMailSenderProvider implements MailSenderProvider {
+@Profile("cloud")
+public class CloudMailSenderProvider implements MailSenderProvider {
 
     private final DestinationService destinationService;
     private final FeatureFlagsService featureFlagsService;
@@ -27,7 +27,7 @@ public class HanaMailSenderProvider implements MailSenderProvider {
     public JavaMailSender getMailSender() {
         MailConfig mailConfig;
         if (featureFlagsService.getFlag("smtp")) {
-            mailConfig = destinationService.getEmailConfig("SmtpDestination");
+            mailConfig = destinationService.getByName("SmtpDestination");
         } else {
             mailConfig = userProvidedMailConfig;
         }

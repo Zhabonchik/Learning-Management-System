@@ -1,4 +1,4 @@
-package com.leverx.learningmanagementsystem.email;
+package com.leverx.learningmanagementsystem.email.mailconfig;
 
 public interface MailConfig {
     String getFrom();

@@ -3,7 +3,6 @@ package com.leverx.learningmanagementsystem.course.webfacade;
 import com.leverx.learningmanagementsystem.course.dto.CourseResponseDto;
 import com.leverx.learningmanagementsystem.course.dto.CreateCourseDto;
 import com.leverx.learningmanagementsystem.course.model.Course;
-import com.leverx.learningmanagementsystem.coursesettings.model.CourseSettings;
 import com.leverx.learningmanagementsystem.lesson.model.Lesson;
 import com.leverx.learningmanagementsystem.student.model.Student;
 import com.leverx.learningmanagementsystem.course.mapper.CourseMapper;
@@ -17,8 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
+
+import static java.util.Objects.isNull;
 
 @Component
 @AllArgsConstructor
@@ -38,29 +38,29 @@ public class CourseWebFacadeImpl implements CourseWebFacade {
 
     @Override
     public CourseResponseDto getById(UUID id) {
-        Course course = courseService.getById(id);
+        var course = courseService.getById(id);
         return courseMapper.toDto(course);
     }
 
     @Override
     public CourseResponseDto create(CreateCourseDto createCourseDto) {
-        Course course = courseMapper.toModel(createCourseDto);
+        var course = courseMapper.toModel(createCourseDto);
 
         constructCourse(course, createCourseDto);
 
-        Course createdCourse = courseService.create(course);
+        var createdCourse = courseService.create(course);
         return courseMapper.toDto(createdCourse);
     }
 
     @Override
     @Transactional
     public CourseResponseDto updateById(UUID id, CreateCourseDto createCourseDto) {
-        Course course = courseMapper.toModel(createCourseDto);
+        var course = courseMapper.toModel(createCourseDto);
 
         constructCourse(course, createCourseDto);
         course.setId(id);
 
-        Course createdCourse = courseService.create(course);
+        var createdCourse = courseService.create(course);
         return courseMapper.toDto(createdCourse);
     }
 
@@ -70,11 +70,11 @@ public class CourseWebFacadeImpl implements CourseWebFacade {
     }
 
     private void constructCourse(Course course, CreateCourseDto createCourseDto) {
-        CourseSettings courseSettings = (Objects.isNull(createCourseDto.courseSettingsId())) ? null
-                : courseSettingsService.getById(course.getId());
-        List<Student> students = (Objects.isNull(createCourseDto.studentIds())) ? new ArrayList<>()
+        var courseSettings = (isNull(createCourseDto.courseSettingsId())) ? null
+                : courseSettingsService.getById(createCourseDto.courseSettingsId());
+        List<Student> students = (isNull(createCourseDto.studentIds())) ? new ArrayList<>()
                 : studentService.getAllByIdIn(createCourseDto.studentIds());
-        List<Lesson> lessons = (Objects.isNull(createCourseDto.lessonIds())) ? new ArrayList<>()
+        List<Lesson> lessons = (isNull(createCourseDto.lessonIds())) ? new ArrayList<>()
                 : lessonService.getAllByIdIn(createCourseDto.lessonIds());
 
         course.setSettings(courseSettings);

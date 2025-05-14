@@ -4,15 +4,14 @@ import com.leverx.learningmanagementsystem.coursesettings.model.CourseSettings;
 import com.leverx.learningmanagementsystem.utils.exception.model.InvalidCourseDatesException;
 import org.springframework.stereotype.Component;
 
-import java.util.Objects;
-
 import static com.leverx.learningmanagementsystem.utils.DataFormatUtils.DATE_TIME_FORMAT;
+import static java.util.Objects.isNull;
 
 @Component
 public class CourseSettingsValidator {
 
     public void validateCourseDates(CourseSettings courseSettings) {
-        if (Objects.isNull(courseSettings.getStartDate()) || Objects.isNull(courseSettings.getEndDate())) {
+        if (isNull(courseSettings.getStartDate()) || isNull(courseSettings.getEndDate())) {
             throw new InvalidCourseDatesException(
                     "Invalid date format, expected format: " + DATE_TIME_FORMAT);
         }

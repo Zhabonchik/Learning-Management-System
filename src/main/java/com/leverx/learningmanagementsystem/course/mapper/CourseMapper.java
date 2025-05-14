@@ -11,8 +11,9 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
+
+import static java.util.Objects.isNull;
 
 @Mapper(componentModel = "spring")
 public interface CourseMapper {
@@ -37,7 +38,7 @@ public interface CourseMapper {
 
     @Named("mapToSettingsId")
     default UUID mapToSettingsId(CourseSettings courseSettings) {
-        return (Objects.isNull(courseSettings)) ? null : courseSettings.getId();
+        return (isNull(courseSettings)) ? null : courseSettings.getId();
     }
 
     @Named("mapToLessonIds")

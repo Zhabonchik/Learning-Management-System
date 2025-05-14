@@ -2,7 +2,6 @@ package com.leverx.learningmanagementsystem.lesson.webfacade;
 
 import com.leverx.learningmanagementsystem.lesson.dto.CreateLessonDto;
 import com.leverx.learningmanagementsystem.lesson.dto.LessonResponseDto;
-import com.leverx.learningmanagementsystem.course.model.Course;
 import com.leverx.learningmanagementsystem.lesson.model.Lesson;
 import com.leverx.learningmanagementsystem.lesson.mapper.LessonMapper;
 import com.leverx.learningmanagementsystem.course.service.CourseService;
@@ -13,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
+
+import static java.util.Objects.isNull;
 
 @Component
 @AllArgsConstructor
@@ -30,36 +31,40 @@ public class LessonWebFacadeImpl implements LessonWebFacade {
 
     @Override
     public LessonResponseDto getById(UUID id) {
-        Lesson lesson = lessonService.getById(id);
+        var lesson = lessonService.getById(id);
         return lessonMapper.toDto(lesson);
     }
 
     @Override
     @Transactional
     public LessonResponseDto create(CreateLessonDto dto) {
-        Lesson lesson = lessonMapper.toModel(dto);
+        var lesson = lessonMapper.toModel(dto);
 
-        Course course = courseService.getById(dto.courseId());
-        lesson.setCourse(course);
+        constructLesson(lesson, dto);
 
-        Lesson createdLesson = lessonService.create(lesson);
+        var createdLesson = lessonService.create(lesson);
         return lessonMapper.toDto(createdLesson);
     }
 
     @Override
     @Transactional
     public LessonResponseDto updateById(UUID id, CreateLessonDto dto) {
-        Course course = courseService.getById(dto.courseId());
-        Lesson lesson = lessonMapper.toModel(dto);
-        lesson.setCourse(course);
+        var lesson = lessonMapper.toModel(dto);
         lesson.setId(id);
 
-        Lesson updatedLesson = lessonService.updateById(lesson);
+        constructLesson(lesson, dto);
+
+        var updatedLesson = lessonService.updateById(lesson);
         return lessonMapper.toDto(updatedLesson);
     }
 
     @Override
     public void deleteById(UUID id) {
         lessonService.deleteById(id);
+    }
+
+    private void constructLesson(Lesson lesson, CreateLessonDto dto) {
+        var course = (isNull(dto.courseId())) ? null : courseService.getById(dto.courseId());
+        lesson.setCourse(course);
     }
 }

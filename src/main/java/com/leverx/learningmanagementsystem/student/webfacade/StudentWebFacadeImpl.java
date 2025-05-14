@@ -12,8 +12,11 @@ import com.leverx.learningmanagementsystem.student.service.StudentService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
+
+import static java.util.Objects.isNull;
 
 @Component
 @AllArgsConstructor
@@ -31,17 +34,17 @@ public class StudentWebFacadeImpl implements StudentWebFacade {
 
     @Override
     public StudentResponseDto getById(UUID id) {
-        Student student = studentService.getById(id);
+        var student = studentService.getById(id);
         return studentMapper.toDto(student);
     }
 
     @Override
     public StudentResponseDto create(CreateStudentDto createStudentDto) {
-        Student student = studentMapper.toModel(createStudentDto);
+        var student = studentMapper.toModel(createStudentDto);
 
         constructStudent(student, createStudentDto);
 
-        Student createdStudent = studentService.create(student);
+        var createdStudent = studentService.create(student);
         return studentMapper.toDto(createdStudent);
     }
 
@@ -52,12 +55,12 @@ public class StudentWebFacadeImpl implements StudentWebFacade {
 
     @Override
     public StudentResponseDto updateById(UUID id, CreateStudentDto createStudentDto) {
-        Student student = studentMapper.toModel(createStudentDto);
+        var student = studentMapper.toModel(createStudentDto);
 
         constructStudent(student, createStudentDto);
         student.setId(id);
 
-        Student updatedStudent = studentService.update(student);
+        var updatedStudent = studentService.update(student);
         return studentMapper.toDto(updatedStudent);
     }
 
@@ -67,7 +70,10 @@ public class StudentWebFacadeImpl implements StudentWebFacade {
     }
 
     private void constructStudent(Student student, CreateStudentDto createStudentDto) {
-        List<Course> courses = courseService.getAllByIdIn(createStudentDto.courseIds());
+        List<Course> courses = (isNull(createStudentDto.courseIds()))
+                ? Collections.emptyList()
+                : courseService.getAllByIdIn(createStudentDto.courseIds());
+
         student.setCourses(courses);
 
         courses.forEach(course -> {

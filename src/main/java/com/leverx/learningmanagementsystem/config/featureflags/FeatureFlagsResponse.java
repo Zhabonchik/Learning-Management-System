@@ -2,7 +2,9 @@ package com.leverx.learningmanagementsystem.config.featureflags;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.context.annotation.Profile;
 
+@Profile("cloud")
 public record FeatureFlagsResponse (
         @NotNull Integer httpStatus,
         @NotEmpty String featureName,

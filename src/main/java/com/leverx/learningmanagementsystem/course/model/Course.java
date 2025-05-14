@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static jakarta.persistence.CascadeType.ALL;
+import static jakarta.persistence.GenerationType.UUID;
 
 @Entity
 @Table(name = "course")
@@ -38,9 +39,8 @@ import static jakarta.persistence.CascadeType.ALL;
 public class Course {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = UUID)
     @JdbcTypeCode(SqlTypes.VARCHAR)
-    @Column(length = 36, nullable = false, updatable = false)
     private UUID id;
 
     @Column(name = "title")

@@ -1,4 +1,4 @@
-package com.leverx.learningmanagementsystem.config.destination;
+package com.leverx.learningmanagementsystem.config.featureflags;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -6,12 +6,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 @Configuration
-@ConfigurationProperties("destination")
+@ConfigurationProperties("feature-flags")
 @Data
-@Profile("hana")
-public class DestinationConfig {
+@Profile("cloud")
+public class FeatureFlagsConfiguration {
     private String uri;
-    private String url;
-    private String clientId;
-    private String clientSecret;
+    private String username;
+    private String password;
 }
