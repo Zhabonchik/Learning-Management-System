@@ -15,5 +15,5 @@ applications:
       - destination-service
       - feature-flags-service
       - logging-service
-      - hanaschema
-      - smtpconfig
+      - hana-schema
+      - user-service
