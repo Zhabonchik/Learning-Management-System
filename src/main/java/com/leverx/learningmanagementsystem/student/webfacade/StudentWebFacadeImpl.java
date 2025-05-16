@@ -1,6 +1,8 @@
 package com.leverx.learningmanagementsystem.student.webfacade;
 
+import com.leverx.learningmanagementsystem.course.dto.CourseId;
 import com.leverx.learningmanagementsystem.student.dto.CreateStudentDto;
+import com.leverx.learningmanagementsystem.student.dto.StudentId;
 import com.leverx.learningmanagementsystem.student.dto.StudentResponseDto;
 import com.leverx.learningmanagementsystem.course.model.Course;
 import com.leverx.learningmanagementsystem.student.model.Student;
@@ -9,10 +11,12 @@ import com.leverx.learningmanagementsystem.course.service.CourseService;
 import com.leverx.learningmanagementsystem.student.service.StudentService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
+
+import static java.util.Objects.isNull;
 
 @Component
 @AllArgsConstructor
@@ -30,35 +34,33 @@ public class StudentWebFacadeImpl implements StudentWebFacade {
 
     @Override
     public StudentResponseDto getById(UUID id) {
-        Student student = studentService.getById(id);
+        var student = studentService.getById(id);
         return studentMapper.toDto(student);
     }
 
     @Override
-    @Transactional
     public StudentResponseDto create(CreateStudentDto createStudentDto) {
-        Student student = studentMapper.toModel(createStudentDto);
+        var student = studentMapper.toModel(createStudentDto);
 
         constructStudent(student, createStudentDto);
 
-        Student createdStudent = studentService.create(student);
+        var createdStudent = studentService.create(student);
         return studentMapper.toDto(createdStudent);
     }
 
     @Override
-    public void enrollForCourse(UUID studentId, UUID courseId) {
+    public void enrollForCourse(StudentId studentId, CourseId courseId) {
         studentService.enrollForCourse(studentId, courseId);
     }
 
     @Override
-    @Transactional
     public StudentResponseDto updateById(UUID id, CreateStudentDto createStudentDto) {
-        Student student = studentMapper.toModel(createStudentDto);
+        var student = studentMapper.toModel(createStudentDto);
 
         constructStudent(student, createStudentDto);
         student.setId(id);
 
-        Student updatedStudent = studentService.update(student);
+        var updatedStudent = studentService.update(student);
         return studentMapper.toDto(updatedStudent);
     }
 
@@ -68,7 +70,10 @@ public class StudentWebFacadeImpl implements StudentWebFacade {
     }
 
     private void constructStudent(Student student, CreateStudentDto createStudentDto) {
-        List<Course> courses = courseService.getAllByIdIn(createStudentDto.courseIds());
+        List<Course> courses = (isNull(createStudentDto.courseIds()))
+                ? Collections.emptyList()
+                : courseService.getAllByIdIn(createStudentDto.courseIds());
+
         student.setCourses(courses);
 
         courses.forEach(course -> {

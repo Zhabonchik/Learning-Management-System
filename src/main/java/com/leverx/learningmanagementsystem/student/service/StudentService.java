@@ -1,5 +1,7 @@
 package com.leverx.learningmanagementsystem.student.service;
 
+import com.leverx.learningmanagementsystem.course.dto.CourseId;
+import com.leverx.learningmanagementsystem.student.dto.StudentId;
 import com.leverx.learningmanagementsystem.student.model.Student;
 
 import java.util.List;
@@ -9,6 +11,8 @@ public interface StudentService {
 
     Student getById(UUID id);
 
+    Student getByIdForUpdate(UUID id);
+
     List<Student> getAll();
 
     List<Student> getAllByIdIn(List<UUID> ids);
@@ -17,7 +21,7 @@ public interface StudentService {
 
     Student update(Student student);
 
-    void enrollForCourse(UUID studentId, UUID courseId);
+    void enrollForCourse(StudentId studentId, CourseId courseId);
 
     void deleteById(UUID id);
 

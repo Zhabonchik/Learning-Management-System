@@ -1,6 +1,6 @@
 package com.leverx.learningmanagementsystem.course.model;
 
-import com.leverx.learningmanagementsystem.course_settings.model.CourseSettings;
+import com.leverx.learningmanagementsystem.coursesettings.model.CourseSettings;
 import com.leverx.learningmanagementsystem.lesson.model.Lesson;
 import com.leverx.learningmanagementsystem.student.model.Student;
 import jakarta.persistence.GeneratedValue;
@@ -18,6 +18,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -38,6 +40,7 @@ public class Course {
 
     @Id
     @GeneratedValue(strategy = UUID)
+    @JdbcTypeCode(SqlTypes.VARCHAR)
     private UUID id;
 
     @Column(name = "title")

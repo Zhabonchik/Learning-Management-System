@@ -1,14 +1,15 @@
 package com.leverx.learningmanagementsystem.lesson.dto;
 
-import jakarta.validation.constraints.*;
+import jakarta.annotation.Nullable;
 import lombok.Builder;
+import lombok.NonNull;
+
 import java.util.UUID;
 
 @Builder
 public record LessonResponseDto(
-        UUID id,
-        @NotBlank(message = "Title must not be blank") String title,
-        @NotNull(message = "Duration must not be null") @Min(value = 0, message = "Duration must be >= 0")
-        @Max(value = 90, message = "Duration must be <= 90") Integer durationInMinutes,
-        @NotNull(message = "Course id must not be null") UUID courseId) {
+        @NonNull UUID id,
+        @NonNull String title,
+        @NonNull Integer durationInMinutes,
+        @Nullable UUID courseId) {
 }

@@ -45,6 +45,7 @@ class CourseServiceTest {
     @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     void getAll_shouldReturnAllCourses() {
         List<Course> courses = courseService.getAll();
+
         assertEquals(2, courses.size());
     }
 
@@ -52,6 +53,7 @@ class CourseServiceTest {
     @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     void getById_givenId_shouldReturnCourse() {
         Course course = courseService.getById(UUID.fromString("b902261b-d1b9-4c58-869f-b04a5bbff4c9"));
+
         assertAll(
                 () -> assertNotNull(course),
                 () -> assertEquals(UUID.fromString("b902261b-d1b9-4c58-869f-b04a5bbff4c9"), course.getId()),
@@ -63,6 +65,7 @@ class CourseServiceTest {
     @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     void create_givenCourse_shouldReturnCreatedCourse() {
         Course course = courseService.create(createCourse);
+
         assertAll(
                 () -> assertNotNull(course),
                 () -> assertEquals("Test course", course.getTitle()),
@@ -76,9 +79,10 @@ class CourseServiceTest {
     @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     void update_givenCourse_shouldReturnUpdatedCourse() {
         createCourse.setId(UUID.fromString("64852c52-ed64-4438-b095-2ca10f6b4be0"));
-        Course updatedCourse = courseService.update(createCourse);
 
+        Course updatedCourse = courseService.update(createCourse);
         int coursesCount = courseService.getAll().size();
+
         assertAll(
                 () -> assertEquals(2, coursesCount),
                 () -> assertEquals(UUID.fromString("64852c52-ed64-4438-b095-2ca10f6b4be0"), updatedCourse.getId()),
@@ -108,6 +112,7 @@ class CourseServiceTest {
         );
 
         Course course = courseService.getById(UUID.fromString("64852c52-ed64-4438-b095-2ca10f6b4be0"));
+
         assertAll(
                 () -> assertNotEquals(createCourse.getTitle(), course.getTitle()),
                 () -> assertFalse(course.getLessons().stream()

@@ -5,5 +5,3 @@ databaseChangeLog:
       file: db/changelog/changelog-1.0.1.yaml
   - include:
       file: db/changelog/changelog-1.1.0.yaml
-  - include:
-      file: db/changelog/changelog-1.1.1.yaml

@@ -3,27 +3,7 @@ databaseChangeLog:
       id: changeset-1.1.0_001
       author: Mikita Shapel
       changes:
-        - modifyDataType:
-            tableName: student
-            columnName: id
-            newDataType: varchar(36)
-        - modifyDataType:
-            tableName: course
-            columnName: id
-            newDataType: varchar(36)
-        - modifyDataType:
-            tableName: course_settings
-            columnName: id
-            newDataType: varchar(36)
-        - modifyDataType:
-            tableName: lesson
-            columnName: id
-            newDataType: varchar(36)
-        - modifyDataType:
-            tableName: student_course
-            columnName: student_id
-            newDataType: varchar(36)
-        - modifyDataType:
-            tableName: student_course
+        - dropNotNullConstraint:
             columnName: course_id
-            newDataType: varchar(36)
+            tableName: lesson
+            columnDataType: uuid

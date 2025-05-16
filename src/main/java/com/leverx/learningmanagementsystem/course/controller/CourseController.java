@@ -55,5 +55,4 @@ public class CourseController {
     public void deleteById(@PathVariable("id") UUID id) {
         courseWebFacade.deleteById(id);
     }
-
 }

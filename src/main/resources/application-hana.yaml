@@ -1,8 +1,0 @@
-spring:
-  datasource:
-    url: ${vcap.services.hanaschema.credentials.url}
-    username: ${vcap.services.hanaschema.credentials.user}
-    password: ${vcap.services.hanaschema.credentials.password}
-    driver-class-name: com.sap.db.jdbc.Driver
-  jpa:
-    database-platform: org.hibernate.dialect.HANAColumnStoreDialect

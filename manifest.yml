@@ -15,3 +15,4 @@ applications:
       - feature-flags-service
       - logging-service
       - hanaschema
+      - smtpconfig

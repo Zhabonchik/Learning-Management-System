@@ -46,6 +46,7 @@ class StudentServiceTest {
     @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     void getById_givenId_shouldReturnStudent() {
         Student student = studentService.getById(UUID.fromString("5a231280-1988-410f-98d9-852b8dc9caf1"));
+
         assertNotNull(student);
         assertEquals(UUID.fromString("5a231280-1988-410f-98d9-852b8dc9caf1"), student.getId());
     }
@@ -54,6 +55,7 @@ class StudentServiceTest {
     @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     void getAll_shouldReturnAllStudents() {
         List<Student> students = studentService.getAll();
+
         assertEquals(2, students.size());
     }
 
@@ -61,6 +63,7 @@ class StudentServiceTest {
     @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     void create_givenStudent_shouldReturnCreatedStudent() {
         Student createdStudent = studentService.create(createStudent);
+
         assertAll(
                 () -> assertNotNull(createdStudent.getId()),
                 () -> assertEquals(createStudent.getFirstName(), createdStudent.getFirstName()),
@@ -75,8 +78,10 @@ class StudentServiceTest {
     @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     void update_givenStudent_shouldReturnUpdatedStudent() {
         createStudent.setId(UUID.fromString("5a231280-1988-410f-98d9-852b8dc9caf1"));
+
         Student updatedStudent = studentService.update(createStudent);
         int studentsAmount = studentService.getAll().size();
+
         assertAll(
                 () -> assertEquals(2, studentsAmount),
                 () -> assertEquals(UUID.fromString("5a231280-1988-410f-98d9-852b8dc9caf1"), updatedStudent.getId()),
@@ -111,6 +116,7 @@ class StudentServiceTest {
                 });
 
         Student student = studentService.getById(UUID.fromString("5a231280-1988-410f-98d9-852b8dc9caf1"));
+
         assertAll(
                 () -> assertNotEquals(createStudent.getFirstName(), student.getFirstName()),
                 () -> assertFalse(student.getCourses().stream()
