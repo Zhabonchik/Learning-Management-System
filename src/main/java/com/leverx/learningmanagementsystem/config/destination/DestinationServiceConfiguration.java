@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Profile;
 @Profile("cloud")
 public class DestinationServiceConfiguration {
     private String uri;
-    private String tokenUrl;
+    private String url;
     private String clientId;
     private String clientSecret;
 }

@@ -76,7 +76,7 @@ public class DestinationService {
 
     private TokenRequest buildTokenRequest() {
         return new TokenRequest(
-                destinationServiceConfiguration.getTokenUrl(),
+                destinationServiceConfiguration.getUrl(),
                 destinationServiceConfiguration.getClientId(),
                 destinationServiceConfiguration.getClientSecret()
         );

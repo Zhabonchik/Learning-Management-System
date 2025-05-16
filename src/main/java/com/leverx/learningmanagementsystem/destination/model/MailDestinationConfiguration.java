@@ -22,9 +22,6 @@ public class MailDestinationConfiguration extends DestinationConfiguration imple
     private String from;
 
     @JsonProperty("mail.smtp.password")
-    private String smtpPassword;
-
-    @JsonProperty("mail.password")
     private String password;
 
     @JsonProperty("mail.user")
