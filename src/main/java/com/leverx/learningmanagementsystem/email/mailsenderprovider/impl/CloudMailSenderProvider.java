@@ -1,10 +1,11 @@
-package com.leverx.learningmanagementsystem.email.service.impl;
+package com.leverx.learningmanagementsystem.email.mailsenderprovider.impl;
 
-import com.leverx.learningmanagementsystem.config.destination.DestinationService;
-import com.leverx.learningmanagementsystem.config.featureflags.FeatureFlagsService;
+import com.leverx.learningmanagementsystem.destination.model.MailDestinationConfiguration;
+import com.leverx.learningmanagementsystem.destination.service.DestinationService;
+import com.leverx.learningmanagementsystem.email.mailsenderprovider.MailSenderProvider;
+import com.leverx.learningmanagementsystem.featureflags.service.FeatureFlagsService;
 import com.leverx.learningmanagementsystem.email.mailconfig.MailConfig;
 import com.leverx.learningmanagementsystem.email.mailconfig.UserProvidedMailConfig;
-import com.leverx.learningmanagementsystem.email.service.MailSenderProvider;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
@@ -20,17 +21,24 @@ import java.util.Properties;
 @Profile("cloud")
 public class CloudMailSenderProvider implements MailSenderProvider {
 
+    private final String MAIL_SENDER_DESTINATION = "SmtpDestination";
+    private final String SMTP_FLAG = "smtp";
+
     private final DestinationService destinationService;
     private final FeatureFlagsService featureFlagsService;
     private final UserProvidedMailConfig userProvidedMailConfig;
 
     public JavaMailSender getMailSender() {
         MailConfig mailConfig;
-        if (featureFlagsService.getFlag("smtp")) {
-            mailConfig = destinationService.getByName("SmtpDestination");
+
+        if (featureFlagsService.getFlag(SMTP_FLAG)) {
+            mailConfig = (MailDestinationConfiguration) destinationService
+                    .getByName(MAIL_SENDER_DESTINATION)
+                    .getDestinationConfiguration();
         } else {
             mailConfig = userProvidedMailConfig;
         }
+
         return configureMailSender(mailConfig);
     }
 

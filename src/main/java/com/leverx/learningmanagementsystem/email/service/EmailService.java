@@ -1,6 +1,6 @@
-package com.leverx.learningmanagementsystem.email.service.impl;
+package com.leverx.learningmanagementsystem.email.service;
 
-import com.leverx.learningmanagementsystem.email.service.MailSenderProvider;
+import com.leverx.learningmanagementsystem.email.mailsenderprovider.MailSenderProvider;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.AllArgsConstructor;

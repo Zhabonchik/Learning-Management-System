@@ -9,9 +9,9 @@ import org.springframework.context.annotation.Profile;
 @ConfigurationProperties("destination")
 @Data
 @Profile("cloud")
-public class DestinationConfiguration {
+public class DestinationServiceConfiguration {
     private String uri;
-    private String url;
+    private String tokenUrl;
     private String clientId;
     private String clientSecret;
 }

@@ -3,7 +3,7 @@ package com.leverx.learningmanagementsystem.utils.scheduling;
 import com.leverx.learningmanagementsystem.course.model.Course;
 import com.leverx.learningmanagementsystem.student.model.Student;
 import com.leverx.learningmanagementsystem.course.service.CourseService;
-import com.leverx.learningmanagementsystem.email.service.impl.EmailService;
+import com.leverx.learningmanagementsystem.email.service.EmailService;
 import jakarta.mail.MessagingException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
