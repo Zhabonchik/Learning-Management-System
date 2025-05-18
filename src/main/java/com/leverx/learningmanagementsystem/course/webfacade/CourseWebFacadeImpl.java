@@ -43,6 +43,7 @@ public class CourseWebFacadeImpl implements CourseWebFacade {
     }
 
     @Override
+    @Transactional
     public CourseResponseDto create(CreateCourseDto createCourseDto) {
         var course = courseMapper.toModel(createCourseDto);
 

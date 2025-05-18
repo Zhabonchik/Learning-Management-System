@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: ${vcap.services.hanaschema.credentials.url}
-    username: ${vcap.services.hanaschema.credentials.user}
-    password: ${vcap.services.hanaschema.credentials.password}
+    url: ${vcap.services.hana-schema.credentials.url}
+    username: ${vcap.services.hana-schema.credentials.user}
+    password: ${vcap.services.hana-schema.credentials.password}
     driver-class-name: com.sap.db.jdbc.Driver
   jpa:
     database-platform: org.hibernate.dialect.HANAColumnStoreDialect
@@ -21,8 +21,8 @@ destination:
 user-provided:
   mail:
     smtp:
-      from: ${vcap.services.smtpconfig.credentials.mail.smtp.from}
-      host: ${vcap.services.smtpconfig.credentials.mail.smtp.host}
-      port: ${vcap.services.smtpconfig.credentials.mail.smtp.port}
-      protocol: ${vcap.services.smtpconfig.credentials.mail.transport.protocol}
-      password: ${vcap.services.smtpconfig.credentials.mail.smtp.password}
+      from: ${vcap.services.user-service.credentials.mail.smtp.from}
+      host: ${vcap.services.user-service.credentials.mail.smtp.host}
+      port: ${vcap.services.user-service.credentials.mail.smtp.port}
+      protocol: ${vcap.services.user-service.credentials.mail.transport.protocol}
+      password: ${vcap.services.user-service.credentials.mail.smtp.password}
