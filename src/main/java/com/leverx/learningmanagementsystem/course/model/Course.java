@@ -25,7 +25,8 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
-import static jakarta.persistence.CascadeType.ALL;
+import static jakarta.persistence.CascadeType.MERGE;
+import static jakarta.persistence.CascadeType.REFRESH;
 import static jakarta.persistence.GenerationType.UUID;
 
 @Entity
@@ -55,14 +56,13 @@ public class Course {
     @Column(name = "coins_paid")
     private BigDecimal coinsPaid;
 
-    @OneToOne(cascade = ALL)
+    @OneToOne(cascade = {MERGE, REFRESH})
     @JoinColumn(name = "settings_id", referencedColumnName = "id")
     private CourseSettings settings;
 
-    @OneToMany(mappedBy = "course", cascade = ALL)
+    @OneToMany(mappedBy = "course", cascade = {MERGE, REFRESH})
     private List<Lesson> lessons;
 
     @ManyToMany(mappedBy = "courses")
     private List<Student> students;
-
 }

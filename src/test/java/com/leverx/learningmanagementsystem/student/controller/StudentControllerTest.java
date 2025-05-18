@@ -2,19 +2,26 @@ package com.leverx.learningmanagementsystem.student.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.leverx.learningmanagementsystem.student.dto.CreateStudentDto;
-import org.junit.jupiter.api.BeforeEach;
+import com.leverx.learningmanagementsystem.testutils.StudentTestUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.ArrayList;
-
+import static com.leverx.learningmanagementsystem.testutils.StudentTestUtils.EXISTING_STUDENT_FIRST_NAME;
+import static com.leverx.learningmanagementsystem.testutils.StudentTestUtils.EXISTING_STUDENT_ID;
+import static com.leverx.learningmanagementsystem.testutils.StudentTestUtils.EXISTING_STUDENT_LAST_NAME;
+import static com.leverx.learningmanagementsystem.testutils.StudentTestUtils.NEW_STUDENT_FIRST_NAME;
+import static com.leverx.learningmanagementsystem.testutils.StudentTestUtils.NEW_STUDENT_LAST_NAME;
+import static com.leverx.learningmanagementsystem.testutils.StudentTestUtils.NON_EXISTING_STUDENT_ID;
+import static com.leverx.learningmanagementsystem.testutils.StudentTestUtils.NUMBER_OF_STUDENT_FIELDS;
+import static com.leverx.learningmanagementsystem.testutils.StudentTestUtils.STUDENTS;
+import static com.leverx.learningmanagementsystem.testutils.StudentTestUtils.TOTAL_NUMBER_OF_STUDENTS;
+import static com.leverx.learningmanagementsystem.testutils.TestUtils.CLEAN_SQL;
+import static com.leverx.learningmanagementsystem.testutils.TestUtils.INSERT_SQL;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -31,69 +38,63 @@ class StudentControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    private CreateStudentDto createStudentDto;
-
-    @BeforeEach
-    void setUp() {
-        createStudentDto = new CreateStudentDto("A", "B", "email@gmail.com",
-                LocalDate.of(2005, 7, 23), new BigDecimal(1548), new ArrayList<>());
-    }
-
     @Test
-    @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     void getAll_shouldReturnAllStudentsAnd200() throws Exception{
-        var response = mockMvc.perform(get("/students"));
+        var response = mockMvc.perform(get(STUDENTS));
 
         response.andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value(2))
-                .andExpect(jsonPath("$[0].firstName").value("Abap"))
-                .andExpect(jsonPath("$[1].firstName").value("Ha"));
+                .andExpect(jsonPath("$.length()").value(TOTAL_NUMBER_OF_STUDENTS))
+                .andExpect(jsonPath("$[0].firstName").value(EXISTING_STUDENT_FIRST_NAME))
+                .andExpect(jsonPath("$[0].lastName").value(EXISTING_STUDENT_LAST_NAME));
     }
 
     @Test
-    @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     void getById_GivenId_shouldReturnStudentAnd200() throws Exception{
-        var response = mockMvc.perform(get("/students/5a231280-1988-410f-98d9-852b8dc9caf1"));
+        var response = mockMvc.perform(get(STUDENTS + "/" + EXISTING_STUDENT_ID));
 
         response.andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value(7))
-                .andExpect(jsonPath("$.firstName").value("Abap"));
+                .andExpect(jsonPath("$.length()").value(NUMBER_OF_STUDENT_FIELDS))
+                .andExpect(jsonPath("$.firstName").value(EXISTING_STUDENT_FIRST_NAME));
     }
 
     @Test
-    @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     void getById_givenId_shouldReturnEntityNotFoundExceptionAnd404() throws Exception{
-        var response = mockMvc.perform(get("/students/2bcd9463-3c57-421b-91d0-047b315d60ce"));
+        var response = mockMvc.perform(get(STUDENTS + "/" + NON_EXISTING_STUDENT_ID));
 
         response.andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.message").value(
-                        "Student not found [id = {2bcd9463-3c57-421b-91d0-047b315d60ce}]"));
+                        "Student not found [id = {%s}]".formatted(NON_EXISTING_STUDENT_ID)));
     }
 
     @Test
-    @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     void create_givenCreateStudentDto_shouldReturnCreatedStudentAnd201() throws Exception{
-        var response = mockMvc.perform(post("/students")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(createStudentDto)));
+        CreateStudentDto newStudent = StudentTestUtils.initializeCreateStudentDto();
+
+        var response = mockMvc.perform(post(STUDENTS)
+                .contentType(APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(newStudent)));
 
         response.andExpect(status().isCreated())
-                .andExpect(jsonPath("$.firstName").value("A"))
-                .andExpect(jsonPath("$.lastName").value("B"));
+                .andExpect(jsonPath("$.firstName").value(NEW_STUDENT_FIRST_NAME))
+                .andExpect(jsonPath("$.lastName").value(NEW_STUDENT_LAST_NAME));
     }
 
     @Test
-    @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     void delete_givenId_shouldReturn204() throws Exception{
-        var response = mockMvc.perform(delete("/students/8ce93381-f58d-4563-8866-34a0ed878c74"));
+        var response = mockMvc.perform(delete(STUDENTS + "/" + EXISTING_STUDENT_ID));
 
         response.andExpect(status().isNoContent());
     }
 
     @Test
-    @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     void delete_givenId_shouldReturn404() throws Exception{
-        var response = mockMvc.perform(delete("/students/ccf99c5d-9ce8-45c4-aaa7-c936baa51415"));
+        var response = mockMvc.perform(delete(STUDENTS + "/" + NON_EXISTING_STUDENT_ID));
 
         response.andExpect(status().isNotFound());
     }
