@@ -1,0 +1,31 @@
+databaseChangeLog:
+  - changeSet:
+      id: changeset-1.1.0_001
+      author: Mikita Shapel
+      changes:
+        - dropNotNullConstraint:
+            columnName: course_id
+            tableName: lesson
+            columnDataType: uuid
+  - changeSet:
+      id: changeset-1.1.0_002
+      author: Mikita Shapel
+      changes:
+        - update:
+            tableName: course_settings
+            columns:
+              - column:
+                  name: start_date
+                  valueDate: '2025-06-17 13:00:00'
+            where: id = '8664e02b-91b0-4f2c-b6a5-78527d051ced'
+  - changeSet:
+      id: changeset-1.1.0_003
+      author: Mikita Shapel
+      changes:
+        - update:
+            tableName: course_settings
+            columns:
+              - column:
+                  name: start_date
+                  valueDate: '2025-05-17 13:00:00'
+            where: id = '38811913-ce40-4ef4-a596-f24d94356949'
