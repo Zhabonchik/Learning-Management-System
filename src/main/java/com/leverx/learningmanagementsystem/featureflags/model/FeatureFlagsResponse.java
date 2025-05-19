@@ -1,4 +1,4 @@
-package com.leverx.learningmanagementsystem.config.featureflags;
+package com.leverx.learningmanagementsystem.featureflags.model;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;

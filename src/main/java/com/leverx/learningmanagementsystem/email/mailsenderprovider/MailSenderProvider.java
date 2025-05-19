@@ -1,4 +1,4 @@
-package com.leverx.learningmanagementsystem.email.service;
+package com.leverx.learningmanagementsystem.email.mailsenderprovider;
 
 import org.springframework.mail.javamail.JavaMailSender;
 

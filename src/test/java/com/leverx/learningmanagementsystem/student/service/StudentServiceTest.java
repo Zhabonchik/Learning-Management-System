@@ -2,18 +2,26 @@ package com.leverx.learningmanagementsystem.student.service;
 
 import com.leverx.learningmanagementsystem.course.model.Course;
 import com.leverx.learningmanagementsystem.student.model.Student;
-import org.junit.jupiter.api.BeforeEach;
+import com.leverx.learningmanagementsystem.testutils.CourseTestUtils;
+import com.leverx.learningmanagementsystem.testutils.StudentTestUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
+import static com.leverx.learningmanagementsystem.testutils.CourseTestUtils.NON_EXISTING_COURSE_ID;
+import static com.leverx.learningmanagementsystem.testutils.StudentTestUtils.EXISTING_STUDENT_ID;
+import static com.leverx.learningmanagementsystem.testutils.StudentTestUtils.NEW_STUDENT_COINS;
+import static com.leverx.learningmanagementsystem.testutils.StudentTestUtils.NEW_STUDENT_DATE_OF_BIRTH;
+import static com.leverx.learningmanagementsystem.testutils.StudentTestUtils.NEW_STUDENT_EMAIL;
+import static com.leverx.learningmanagementsystem.testutils.StudentTestUtils.NEW_STUDENT_FIRST_NAME;
+import static com.leverx.learningmanagementsystem.testutils.StudentTestUtils.NEW_STUDENT_LAST_NAME;
+import static com.leverx.learningmanagementsystem.testutils.StudentTestUtils.TOTAL_NUMBER_OF_STUDENTS;
+import static com.leverx.learningmanagementsystem.testutils.TestUtils.CLEAN_SQL;
+import static com.leverx.learningmanagementsystem.testutils.TestUtils.INSERT_SQL;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -28,101 +36,84 @@ class StudentServiceTest {
     @Autowired
     StudentService studentService;
 
-    Student createStudent;
-
-    @BeforeEach
-    void init() {
-        createStudent = Student.builder()
-                .firstName("A")
-                .lastName("B")
-                .email("email@gmail.com")
-                .dateOfBirth(LocalDate.of(2005, 7, 23))
-                .coins(new BigDecimal(1548))
-                .courses(new ArrayList<>())
-                .build();
-    }
-
     @Test
-    @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     void getById_givenId_shouldReturnStudent() {
-        Student student = studentService.getById(UUID.fromString("5a231280-1988-410f-98d9-852b8dc9caf1"));
+        Student student = studentService.getById(EXISTING_STUDENT_ID);
 
         assertNotNull(student);
-        assertEquals(UUID.fromString("5a231280-1988-410f-98d9-852b8dc9caf1"), student.getId());
+        assertEquals(EXISTING_STUDENT_ID, student.getId());
     }
 
     @Test
-    @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     void getAll_shouldReturnAllStudents() {
         List<Student> students = studentService.getAll();
 
-        assertEquals(2, students.size());
+        assertEquals(TOTAL_NUMBER_OF_STUDENTS, students.size());
     }
 
     @Test
-    @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     void create_givenStudent_shouldReturnCreatedStudent() {
-        Student createdStudent = studentService.create(createStudent);
+        Student newStudent = StudentTestUtils.initializeStudent();
+        newStudent.setCourses(new ArrayList<>());
+
+        Student createdStudent = studentService.create(newStudent);
 
         assertAll(
                 () -> assertNotNull(createdStudent.getId()),
-                () -> assertEquals(createStudent.getFirstName(), createdStudent.getFirstName()),
-                () -> assertEquals(createStudent.getLastName(), createdStudent.getLastName()),
-                () -> assertEquals(createStudent.getEmail(), createdStudent.getEmail()),
-                () -> assertEquals(createStudent.getDateOfBirth(), createdStudent.getDateOfBirth()),
-                () -> assertEquals(createStudent.getCoins(), createdStudent.getCoins())
+                () -> assertEquals(NEW_STUDENT_FIRST_NAME, createdStudent.getFirstName()),
+                () -> assertEquals(NEW_STUDENT_LAST_NAME, createdStudent.getLastName()),
+                () -> assertEquals(NEW_STUDENT_EMAIL, createdStudent.getEmail()),
+                () -> assertEquals(NEW_STUDENT_DATE_OF_BIRTH, createdStudent.getDateOfBirth()),
+                () -> assertEquals(NEW_STUDENT_COINS, createdStudent.getCoins())
         );
     }
 
     @Test
-    @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     void update_givenStudent_shouldReturnUpdatedStudent() {
-        createStudent.setId(UUID.fromString("5a231280-1988-410f-98d9-852b8dc9caf1"));
+        Student newStudent = StudentTestUtils.initializeStudent();
+        newStudent.setId(EXISTING_STUDENT_ID);
+        newStudent.setCourses(new ArrayList<>());
 
-        Student updatedStudent = studentService.update(createStudent);
+        Student updatedStudent = studentService.update(newStudent);
         int studentsAmount = studentService.getAll().size();
 
         assertAll(
-                () -> assertEquals(2, studentsAmount),
-                () -> assertEquals(UUID.fromString("5a231280-1988-410f-98d9-852b8dc9caf1"), updatedStudent.getId()),
-                () -> assertEquals(createStudent.getFirstName(), updatedStudent.getFirstName()),
-                () -> assertEquals(createStudent.getLastName(), updatedStudent.getLastName()),
-                () -> assertEquals(createStudent.getEmail(), updatedStudent.getEmail()),
-                () -> assertEquals(createStudent.getDateOfBirth(), updatedStudent.getDateOfBirth()),
-                () -> assertEquals(createStudent.getCoins(), updatedStudent.getCoins())
+                () -> assertEquals(TOTAL_NUMBER_OF_STUDENTS, studentsAmount),
+                () -> assertEquals(EXISTING_STUDENT_ID, updatedStudent.getId()),
+                () -> assertEquals(NEW_STUDENT_FIRST_NAME, updatedStudent.getFirstName()),
+                () -> assertEquals(NEW_STUDENT_LAST_NAME, updatedStudent.getLastName()),
+                () -> assertEquals(NEW_STUDENT_EMAIL, updatedStudent.getEmail()),
+                () -> assertEquals(NEW_STUDENT_DATE_OF_BIRTH, updatedStudent.getDateOfBirth()),
+                () -> assertEquals(NEW_STUDENT_COINS, updatedStudent.getCoins())
         );
     }
 
     @Test
-    @Sql(scripts = {"/sql/clean-db.sql", "/sql/insert-test-data.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     void update_givenStudent_shouldThrowExceptionAndRollbackTransaction() {
-
-        Course course = Course.builder()
-                .id(UUID.fromString("ddf747d2-f5de-4a2e-b8b9-66d8bd7e357e"))
-                .title("Test course")
-                .description("This is a test course")
-                .price(BigDecimal.valueOf(143))
-                .coinsPaid(BigDecimal.valueOf(1430))
-                .settings(null)
-                .lessons(new ArrayList<>())
-                .students(new ArrayList<>())
-                .build();
+        Student newStudent = StudentTestUtils.initializeStudent();
+        Course course = CourseTestUtils.initializeCourse();
+        course.setId(NON_EXISTING_COURSE_ID);
 
         Exception ex = assertThrows(Exception.class,
                 () -> {
-                    createStudent.setId(UUID.fromString("5a231280-1988-410f-98d9-852b8dc9caf1"));
-                    createStudent.getCourses().add(course);
-                    studentService.update(createStudent);
+                    newStudent.setId(EXISTING_STUDENT_ID);
+                    newStudent.getCourses().add(course);
+                    studentService.update(newStudent);
                 });
 
-        Student student = studentService.getById(UUID.fromString("5a231280-1988-410f-98d9-852b8dc9caf1"));
+        Student student = studentService.getById(EXISTING_STUDENT_ID);
 
         assertAll(
-                () -> assertNotEquals(createStudent.getFirstName(), student.getFirstName()),
+                () -> assertNotEquals(NEW_STUDENT_FIRST_NAME, student.getFirstName()),
                 () -> assertFalse(student.getCourses().stream()
                         .map(Course::getId)
                         .toList()
-                        .contains(UUID.fromString("ddf747d2-f5de-4a2e-b8b9-66d8bd7e357e")))
+                        .contains(NON_EXISTING_COURSE_ID))
         );
     }
 }

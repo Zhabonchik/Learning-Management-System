@@ -66,5 +66,8 @@ public class LessonWebFacadeImpl implements LessonWebFacade {
     private void constructLesson(Lesson lesson, CreateLessonDto dto) {
         var course = (isNull(dto.courseId())) ? null : courseService.getById(dto.courseId());
         lesson.setCourse(course);
+        if (!isNull(course)) {
+            course.getLessons().add(lesson);
+        }
     }
 }
