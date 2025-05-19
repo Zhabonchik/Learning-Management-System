@@ -5,11 +5,8 @@ spring:
     import: optional:file:src/main/resources/application-secret.yaml
   liquibase:
     enabled: true
-  h2:
-    console:
-      enabled: true
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     open-in-view: false
   mail:
     properties:
