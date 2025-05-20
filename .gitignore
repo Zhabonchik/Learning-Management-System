@@ -7,7 +7,6 @@ target/
 src/main/resources/application-secret.yaml
 src/main/resources/data
 postgres_data
-learning-management-system.mtar
 ### IntelliJ IDEA ###
 .idea
 *.iws
