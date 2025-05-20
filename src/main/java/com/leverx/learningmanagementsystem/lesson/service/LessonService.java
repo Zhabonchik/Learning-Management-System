@@ -1,0 +1,21 @@
+package com.leverx.learningmanagementsystem.lesson.service;
+
+import com.leverx.learningmanagementsystem.lesson.model.Lesson;
+
+import java.util.List;
+import java.util.UUID;
+
+public interface LessonService {
+
+    Lesson getById(UUID id);
+
+    List<Lesson> getAll();
+
+    List<Lesson> getAllByIdIn(List<UUID> ids);
+
+    Lesson create(Lesson lesson);
+
+    Lesson updateById(Lesson lesson);
+
+    void deleteById(UUID id);
+}
