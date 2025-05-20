@@ -6,6 +6,7 @@ target/
 
 src/main/resources/application-secret.yaml
 src/main/resources/data
+postgres_data
 
 ### IntelliJ IDEA ###
 .idea
