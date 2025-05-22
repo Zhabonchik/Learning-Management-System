@@ -24,7 +24,6 @@ public class SecurityConfiguration {
     public UserDetailsService userDetailsService() {
         UserDetails user = getUser();
         UserDetails manager = getManager();
-
         return new InMemoryUserDetailsManager(user, manager);
     }
 

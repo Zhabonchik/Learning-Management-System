@@ -26,9 +26,9 @@ public class SecurityFilterChainCloud {
     @Order(1)
     public SecurityFilterChain actuatorSecurityFilterChain(HttpSecurity http) throws Exception {
         return http
+                .securityMatcher("/actuator/**")
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
-                .securityMatcher("/actuator/**")
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/actuator/health").permitAll()
                         .anyRequest().hasRole(MANAGER.name()))
@@ -39,9 +39,9 @@ public class SecurityFilterChainCloud {
     @Bean
     public SecurityFilterChain apiSecurityFilterChain(HttpSecurity http) throws Exception {
         return http
+                .securityMatcher("/**")
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
-                .securityMatcher("/**")
                 .authorizeHttpRequests(request -> request
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(oauth2 -> oauth2

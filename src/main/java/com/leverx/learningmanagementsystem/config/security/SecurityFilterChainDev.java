@@ -20,9 +20,9 @@ public class SecurityFilterChainDev {
     @Order(1)
     public SecurityFilterChain actuatorSecurityFilterChain(HttpSecurity http) throws Exception {
         return http
+                .securityMatcher("/actuator/**")
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
-                .securityMatcher("/actuator/**")
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/actuator/health").permitAll()
                         .anyRequest().hasRole(MANAGER.name()))
@@ -33,9 +33,9 @@ public class SecurityFilterChainDev {
     @Bean
     public SecurityFilterChain apiSecurityFilterChain(HttpSecurity http) throws Exception {
         return http
+                .securityMatcher("/**")
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
-                .securityMatcher("/**")
                 .authorizeHttpRequests((requests) -> requests
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
