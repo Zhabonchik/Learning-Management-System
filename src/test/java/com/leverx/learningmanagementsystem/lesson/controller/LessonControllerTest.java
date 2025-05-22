@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -30,6 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc(addFilters = false)
+@ActiveProfiles("dev")
 public class LessonControllerTest {
 
     @Autowired
@@ -40,6 +43,7 @@ public class LessonControllerTest {
 
     @Test
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @WithMockUser(roles="USER")
     void getAll_shouldReturnAllLessonsAnd200() throws Exception {
         var response = mockMvc.perform(get(LESSONS));
 
@@ -49,6 +53,7 @@ public class LessonControllerTest {
 
     @Test
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @WithMockUser(roles="USER")
     void getById_givenLessonId_shouldReturnLessonAnd200() throws Exception {
         var response = mockMvc.perform(get(LESSONS + "/" + EXISTING_LESSON_ID));
 
@@ -60,6 +65,7 @@ public class LessonControllerTest {
 
     @Test
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @WithMockUser(roles="USER")
     void create_givenCreateLessonDto_shouldReturnCreatedLessonAnd201() throws Exception {
         CreateLessonDto newLesson = LessonTestUtils.initializeCreateLessonDto();
 
@@ -75,6 +81,7 @@ public class LessonControllerTest {
 
     @Test
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @WithMockUser(roles="USER")
     void updateById_givenLessonIdAndCreateLessonDto_shouldReturnUpdatedLessonAnd200() throws Exception {
         CreateLessonDto newLesson = LessonTestUtils.initializeCreateLessonDto();
 
@@ -90,6 +97,7 @@ public class LessonControllerTest {
 
     @Test
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @WithMockUser(roles="USER")
     void delete_givenId_shouldReturnStatus204() throws Exception {
         var response = mockMvc.perform(delete(LESSONS + "/" + EXISTING_LESSON_ID));
 
@@ -98,6 +106,7 @@ public class LessonControllerTest {
 
     @Test
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @WithMockUser(roles="USER")
     void delete_givenId_shouldReturnNotFound() throws Exception {
         var response = mockMvc.perform(delete(LESSONS + "/" + NON_EXISTING_LESSON_ID));
 
