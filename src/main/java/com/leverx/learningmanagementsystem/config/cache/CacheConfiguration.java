@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 import static com.leverx.learningmanagementsystem.utils.CacheConfigurationUtils.EXPIRATION_HOURS;
 import static com.leverx.learningmanagementsystem.utils.CacheConfigurationUtils.MAXIMUM_SIZE;
+import static com.leverx.learningmanagementsystem.utils.HttpConstantUtils.AUTHTOKENS;
 
 @Configuration
 @EnableCaching
@@ -24,7 +25,7 @@ public class CacheConfiguration {
                 .expireAfterWrite(EXPIRATION_HOURS, TimeUnit.HOURS)
                 .maximumSize(MAXIMUM_SIZE);
 
-        CaffeineCacheManager cacheManager = new CaffeineCacheManager("authTokens");
+        CaffeineCacheManager cacheManager = new CaffeineCacheManager(AUTHTOKENS);
         cacheManager.setCaffeine(caffeine);
 
         return cacheManager;

@@ -20,6 +20,7 @@ import java.util.Map;
 
 import static com.leverx.learningmanagementsystem.utils.HttpConstantUtils.ACCESS_TOKEN;
 import static com.leverx.learningmanagementsystem.utils.HttpConstantUtils.AUTHORIZATION;
+import static com.leverx.learningmanagementsystem.utils.HttpConstantUtils.AUTHTOKENS;
 import static com.leverx.learningmanagementsystem.utils.HttpConstantUtils.BASIC;
 import static com.leverx.learningmanagementsystem.utils.HttpConstantUtils.CLIENT_CREDENTIALS;
 import static com.leverx.learningmanagementsystem.utils.HttpConstantUtils.GRANT_TYPE;
@@ -36,13 +37,13 @@ public class TokenService {
 
     private final RestClient restClient;
 
-    @Cacheable(value = "authTokens", key = "#tokenRequest.clientId()")
+    @Cacheable(value = AUTHTOKENS, key = "#tokenRequest.clientId()")
     public String getAuthToken(TokenRequest tokenRequest) {
         log.info("Get auth token");
         return requestAuthToken(tokenRequest);
     }
 
-    @CachePut(value = "authTokens", key = "#tokenRequest.clientId()")
+    @CachePut(value = AUTHTOKENS, key = "#tokenRequest.clientId()")
     public String refreshAuthToken(TokenRequest tokenRequest) {
         log.info("Refresh auth token");
         return requestAuthToken(tokenRequest);
@@ -50,7 +51,6 @@ public class TokenService {
 
     private String requestAuthToken(TokenRequest tokenRequest) {
         String authUrl = getAuthUrl(tokenRequest.tokenUrl());
-        //HttpEntity<MultiValueMap<String, String>> request = configureHttpEntity(tokenRequest);
         var headers = configureHeaders(tokenRequest);
         var body = configureBody();
 
