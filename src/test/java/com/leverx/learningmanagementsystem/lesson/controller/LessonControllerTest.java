@@ -1,7 +1,7 @@
 package com.leverx.learningmanagementsystem.lesson.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.leverx.learningmanagementsystem.lesson.dto.Lesson.CreateLessonDto;
+import com.leverx.learningmanagementsystem.lesson.dto.CreateLessonDto;
 import com.leverx.learningmanagementsystem.testutils.LessonTestUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,7 +90,7 @@ public class LessonControllerTest {
                 .content(objectMapper.writeValueAsString(newLesson)));
 
         response.andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value(4))
+                .andExpect(jsonPath("$.length()").value(NUMBER_OF_LESSON_FIELDS))
                 .andExpect(jsonPath("$.title").value(NEW_LESSON_TITLE))
                 .andExpect(jsonPath("$.courseId").value(NEW_LESSON_COURSE_ID.toString()));
     }

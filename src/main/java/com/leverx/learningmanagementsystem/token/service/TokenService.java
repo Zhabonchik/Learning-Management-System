@@ -50,7 +50,6 @@ public class TokenService {
 
     private String requestAuthToken(TokenRequest tokenRequest) {
         String authUrl = getAuthUrl(tokenRequest.tokenUrl());
-        //HttpEntity<MultiValueMap<String, String>> request = configureHttpEntity(tokenRequest);
         var headers = configureHeaders(tokenRequest);
         var body = configureBody();
 
