@@ -2,7 +2,7 @@ spring:
   application:
     name: LearningManagementSystem
   config:
-    import: optional:file:src/main/resources/application-secret.yaml
+    import: classpath:application-secret.yaml
   liquibase:
     enabled: true
   jpa:
