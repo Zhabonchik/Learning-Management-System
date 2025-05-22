@@ -1,7 +1,7 @@
 package com.leverx.learningmanagementsystem.lesson.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.leverx.learningmanagementsystem.lesson.dto.CreateLessonDto;
+import com.leverx.learningmanagementsystem.lesson.dto.Lesson.CreateLessonDto;
 import com.leverx.learningmanagementsystem.testutils.LessonTestUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

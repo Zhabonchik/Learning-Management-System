@@ -30,7 +30,8 @@ public class LessonController {
 
     @GetMapping
     public List<LessonResponseDto> getAll() {
-        return lessonWebFacade.getAll();
+        List<LessonResponseDto> lessons = lessonWebFacade.getAll();
+        return lessons;
     }
 
     @GetMapping("/{id}")

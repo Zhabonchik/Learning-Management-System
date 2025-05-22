@@ -1,7 +1,7 @@
 package com.leverx.learningmanagementsystem.testutils;
 
 import com.leverx.learningmanagementsystem.course.model.Course;
-import com.leverx.learningmanagementsystem.lesson.dto.CreateLessonDto;
+import com.leverx.learningmanagementsystem.lesson.dto.Lesson.CreateLessonDto;
 import com.leverx.learningmanagementsystem.lesson.model.Lesson;
 
 import java.util.UUID;

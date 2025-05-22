@@ -1,0 +1,28 @@
+databaseChangeLog:
+  - changeSet:
+      id: changeset-1.3.0_001
+      author: Mikita Shapel
+      changes:
+        - addColumn:
+            tableName: lesson
+            columns:
+              - column:
+                  name: type
+                  type: varchar(36)
+                  defaultValue: VIDEO
+              - column:
+                  name: location
+                  type: varchar(100)
+                  defaultValue: 'location'
+              - column:
+                  name: capacity
+                  type: integer
+                  defaultValueNumeric: '0'
+              - column:
+                  name: url
+                  type: varchar(100)
+                  defaultValue: 'url'
+              - column:
+                  name: platform
+                  type: varchar(100)
+                  defaultValue: 'platform'

@@ -26,7 +26,8 @@ public class LessonWebFacadeImpl implements LessonWebFacade {
     @Override
     public List<LessonResponseDto> getAll() {
         List<Lesson> lessons = lessonService.getAll();
-        return lessonMapper.toDtos(lessons);
+        List<LessonResponseDto> lessonDtos = lessonMapper.toDtos(lessons);
+        return lessonDtos;
     }
 
     @Override

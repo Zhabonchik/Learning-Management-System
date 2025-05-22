@@ -1,17 +1,17 @@
 package com.leverx.learningmanagementsystem.lesson.dto;
 
-import jakarta.annotation.Nullable;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import lombok.Builder;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.leverx.learningmanagementsystem.lesson.dto.ClassroomLesson.CreateClassroomLessonDto;
+import com.leverx.learningmanagementsystem.lesson.dto.VideoLesson.CreateVideoLessonDto;
+
 import java.util.UUID;
 
-@Builder
-public record CreateLessonDto(
-        @NotBlank(message = "Title must not be blank") String title,
-        @NotNull(message = "Duration must not be null") @Min(value = 0, message = "Duration must be >= 0")
-        @Max(value = 90, message = "Duration must be <= 90") Integer durationInMinutes,
-        @Nullable UUID courseId) {
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = CreateVideoLessonDto.class, name = "VIDEO"),
+        @JsonSubTypes.Type(value = CreateClassroomLessonDto.class, name = "CLASSROOM")
+})
+public interface CreateLessonDto {
+    UUID courseId();
 }
