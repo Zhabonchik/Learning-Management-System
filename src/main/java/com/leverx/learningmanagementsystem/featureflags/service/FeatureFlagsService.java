@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -66,7 +67,7 @@ public class FeatureFlagsService {
     }
 
     private void validateResponse(FeatureFlagsResponse response) {
-        if (isNull(response.httpStatus()) || response.httpStatus() != 200) {
+        if (isNull(response.httpStatus()) || response.httpStatus() != HttpStatus.OK.value()) {
             log.info("Feature flag validation failed");
             throw new FeatureFlagsException("Could not get feature flag response. Request status: " + response.httpStatus());
         }

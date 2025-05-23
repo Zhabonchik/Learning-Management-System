@@ -23,6 +23,10 @@ public class DevMailSenderProvider implements MailSenderProvider {
     private String password;
     @Value("${spring.mail.protocol}")
     private String protocol;
+    @Value("${mail.smtp.auth}")
+    private String smtpAuth;
+    @Value("${mail.smtp.starttls.enable}")
+    private String smtpStarttlsEnable;
 
     @Override
     public JavaMailSender getMailSender() {
@@ -34,8 +38,8 @@ public class DevMailSenderProvider implements MailSenderProvider {
         mailSender.setUsername(username);
 
         Properties props = mailSender.getJavaMailProperties();
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.auth", smtpAuth);
+        props.put("mail.smtp.starttls.enable", smtpStarttlsEnable);
 
         return mailSender;
     }
