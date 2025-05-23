@@ -1,8 +1,11 @@
 package com.leverx.learningmanagementsystem.student.model;
 
 import com.leverx.learningmanagementsystem.course.model.Course;
+import com.leverx.learningmanagementsystem.utils.language.Language;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -54,6 +57,10 @@ public class Student {
 
     @Column(name = "coins")
     private BigDecimal coins;
+
+    @Column(name = "language")
+    @Enumerated(EnumType.STRING)
+    private Language language;
 
     @ManyToMany
     @JoinTable(

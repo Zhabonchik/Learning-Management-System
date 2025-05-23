@@ -27,6 +27,7 @@
         <hana-jdbc.version>2.24.7</hana-jdbc.version>
         <liquibase-hanadb.version>4.31.1</liquibase-hanadb.version>
         <xsuaa-starter.verion>3.6.0</xsuaa-starter.verion>
+        <mustache.version>0.9.14</mustache.version>
     </properties>
 
     <dependencies>
@@ -104,6 +105,12 @@
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
             <scope>provided</scope>
+        </dependency>
+        <!-- Template resolver -->
+        <dependency>
+            <groupId>com.github.spullara.mustache.java</groupId>
+            <artifactId>compiler</artifactId>
+            <version>${mustache.version}</version>
         </dependency>
         <!-- Mapping -->
         <dependency>

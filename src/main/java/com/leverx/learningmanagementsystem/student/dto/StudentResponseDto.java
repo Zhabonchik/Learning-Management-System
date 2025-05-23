@@ -1,5 +1,6 @@
 package com.leverx.learningmanagementsystem.student.dto;
 
+import com.leverx.learningmanagementsystem.utils.language.Language;
 import lombok.Builder;
 import lombok.NonNull;
 
@@ -16,5 +17,6 @@ public record StudentResponseDto(
         @NonNull String email,
         @NonNull LocalDate dateOfBirth,
         @NonNull BigDecimal coins,
+        @NonNull Language language,
         @NonNull List<UUID> courseIds) {
 }
