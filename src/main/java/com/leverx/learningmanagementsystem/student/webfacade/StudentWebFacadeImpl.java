@@ -42,7 +42,7 @@ public class StudentWebFacadeImpl implements StudentWebFacade {
     public StudentResponseDto create(CreateStudentDto createStudentDto) {
         var student = studentMapper.toModel(createStudentDto);
 
-        constructStudent(student, createStudentDto);
+        updateCourses(student, createStudentDto);
 
         var createdStudent = studentService.create(student);
         return studentMapper.toDto(createdStudent);
@@ -55,10 +55,10 @@ public class StudentWebFacadeImpl implements StudentWebFacade {
 
     @Override
     public StudentResponseDto updateById(UUID id, CreateStudentDto createStudentDto) {
-        var student = studentMapper.toModel(createStudentDto);
+        var student = studentService.getById(id);
 
-        constructStudent(student, createStudentDto);
-        student.setId(id);
+        update(student, createStudentDto);
+        updateCourses(student, createStudentDto);
 
         var updatedStudent = studentService.update(student);
         return studentMapper.toDto(updatedStudent);
@@ -69,7 +69,17 @@ public class StudentWebFacadeImpl implements StudentWebFacade {
         studentService.deleteById(id);
     }
 
-    private void constructStudent(Student student, CreateStudentDto createStudentDto) {
+    private void update(Student student, CreateStudentDto createStudentDto) {
+        student.setFirstName(createStudentDto.firstName());
+        student.setLastName(createStudentDto.lastName());
+        student.setEmail(createStudentDto.email());
+        student.setDateOfBirth(createStudentDto.dateOfBirth());
+        student.setCoins(createStudentDto.coins());
+        student.setLanguage(createStudentDto.language());
+    }
+
+    private void updateCourses(Student student, CreateStudentDto createStudentDto) {
+
         List<Course> courses = (isNull(createStudentDto.courseIds()))
                 ? Collections.emptyList()
                 : courseService.getAllByIdIn(createStudentDto.courseIds());

@@ -27,7 +27,7 @@ public class CourseTestUtils {
     public static final String EXISTING_COURSE_TITLE = "Applied Math";
     public static final UUID NON_EXISTING_COURSE_ID = UUID.fromString("2bcd9463-3c57-421b-91d0-047b315d60ce");
     public static final int TOTAL_NUMBER_OF_COURSES = 2;
-    public static final int NUMBER_OF_COURSE_FIELDS = 8;
+    public static final int NUMBER_OF_COURSE_FIELDS = 12;
     public static final String COURSES = "/courses";
 
     public static CreateCourseDto initializeCreateCourseDto() {

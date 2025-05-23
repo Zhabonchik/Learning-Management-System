@@ -39,8 +39,8 @@ public class CourseSettingsWebFacadeImpl implements CourseSettingsWebFacade {
 
     @Override
     public CourseSettingsResponseDto updateById(UUID id, CreateCourseSettingsDto createCourseSettingsDto) {
-        var courseSettings = courseSettingsMapper.toModel(createCourseSettingsDto);
-        courseSettings.setId(id);
+        var courseSettings = courseSettingsService.getById(id);
+        updateEntity(courseSettings, createCourseSettingsDto);
 
         var updatedCourseSettings = courseSettingsService.updateById(courseSettings);
         return courseSettingsMapper.toDto(updatedCourseSettings);
@@ -49,5 +49,11 @@ public class CourseSettingsWebFacadeImpl implements CourseSettingsWebFacade {
     @Override
     public void deleteById(UUID id) {
         courseSettingsService.deleteById(id);
+    }
+
+    private void updateEntity(CourseSettings courseSettings, CreateCourseSettingsDto createCourseSettingsDto) {
+        courseSettings.setStartDate(createCourseSettingsDto.startDate());
+        courseSettings.setEndDate(createCourseSettingsDto.endDate());
+        courseSettings.setIsPublic(createCourseSettingsDto.isPublic());
     }
 }

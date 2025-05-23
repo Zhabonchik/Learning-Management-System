@@ -1,7 +1,6 @@
 package com.leverx.learningmanagementsystem.lesson.dto.VideoLesson;
 
 import com.leverx.learningmanagementsystem.lesson.dto.CreateLessonDto;
-import com.leverx.learningmanagementsystem.lesson.dto.LessonType;
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -16,6 +15,5 @@ public record CreateVideoLessonDto(
         @Max(value = 90, message = "Duration must be <= 90") Integer durationInMinutes,
         @Nullable UUID courseId,
         @NotBlank(message = "Url must not be empty") String url,
-        @NotBlank(message = "Platform must not be empty") String platform,
-        @NotNull(message = "Type must not be blank") LessonType type) implements CreateLessonDto {
+        @NotBlank(message = "Platform must not be empty") String platform) implements CreateLessonDto {
 }

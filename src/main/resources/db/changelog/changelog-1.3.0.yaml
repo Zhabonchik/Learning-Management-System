@@ -37,3 +37,119 @@ databaseChangeLog:
                   name: language
                   type: varchar(36)
                   defaultValue: 'EN'
+  - changeSet:
+      id: changeset-1.3.0_003
+      author: Mikita Shapel
+      changes:
+        - addColumn:
+            tableName: course_settings
+            columns:
+              - column:
+                  name: created
+                  type: timestamp
+                  defaultValueDate: '2025-05-23 00:00:00'
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_by
+                  type: varchar(255)
+                  defaultValue: 'Anonymous'
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_modified
+                  type: timestamp
+                  constraints:
+                    nullable: true
+              - column:
+                  name: last_modified_by
+                  type: varchar(255)
+                  constraints:
+                    nullable: true
+  - changeSet:
+      id: changeset-1.3.0_004
+      author: Mikita Shapel
+      changes:
+        - addColumn:
+            tableName: course
+            columns:
+              - column:
+                  name: created
+                  type: timestamp
+                  defaultValueDate: '2025-05-23 00:00:00'
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_by
+                  type: varchar(255)
+                  defaultValue: 'Anonymous'
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_modified
+                  type: timestamp
+                  constraints:
+                    nullable: true
+              - column:
+                  name: last_modified_by
+                  type: varchar(255)
+                  constraints:
+                    nullable: true
+  - changeSet:
+      id: changeset-1.3.0_005
+      author: Mikita Shapel
+      changes:
+        - addColumn:
+            tableName: lesson
+            columns:
+              - column:
+                  name: created
+                  type: timestamp
+                  defaultValueDate: '2025-05-23 00:00:00'
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_by
+                  type: varchar(255)
+                  defaultValue: 'Anonymous'
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_modified
+                  type: timestamp
+                  constraints:
+                    nullable: true
+              - column:
+                  name: last_modified_by
+                  type: varchar(255)
+                  constraints:
+                    nullable: true
+  - changeSet:
+      id: changeset-1.3.0_006
+      author: Mikita Shapel
+      changes:
+        - addColumn:
+            tableName: student
+            columns:
+              - column:
+                  name: created
+                  type: timestamp
+                  defaultValueDate: '2025-05-23 00:00:00'
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_by
+                  type: varchar(255)
+                  defaultValue: 'Anonymous'
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_modified
+                  type: timestamp
+                  constraints:
+                    nullable: true
+              - column:
+                  name: last_modified_by
+                  type: varchar(255)
+                  constraints:
+                    nullable: true

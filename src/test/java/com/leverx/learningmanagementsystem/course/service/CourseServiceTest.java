@@ -7,6 +7,7 @@ import com.leverx.learningmanagementsystem.testutils.LessonTestUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
 
 import java.util.ArrayList;
@@ -58,6 +59,7 @@ class CourseServiceTest {
 
     @Test
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @WithMockUser(roles="USER")
     void create_givenCourse_shouldReturnCreatedCourse() {
         Course newCourse = CourseTestUtils.initializeCourse();
         newCourse.setLessons(new ArrayList<>());
@@ -75,12 +77,15 @@ class CourseServiceTest {
 
     @Test
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @WithMockUser(roles="USER")
     void update_givenCourse_shouldReturnUpdatedCourse() {
-        Course newCourse = CourseTestUtils.initializeCourse();
-        newCourse.setLessons(new ArrayList<>());
-        newCourse.setId(EXISTING_COURSE_ID);
+        Course courseToUpdate = courseService.getById(EXISTING_COURSE_ID);
+        courseToUpdate.setTitle(NEW_COURSE_TITLE);
+        courseToUpdate.setDescription(NEW_COURSE_DESCRIPTION);
+        courseToUpdate.setPrice(NEW_COURSE_PRICE);
+        courseToUpdate.setCoinsPaid(NEW_COURSE_COINS_PAID);
 
-        Course updatedCourse = courseService.update(newCourse);
+        Course updatedCourse = courseService.update(courseToUpdate);
         int coursesCount = courseService.getAll().size();
 
         assertAll(

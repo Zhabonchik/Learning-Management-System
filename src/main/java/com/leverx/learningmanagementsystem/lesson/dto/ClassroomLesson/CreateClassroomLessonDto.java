@@ -1,7 +1,6 @@
 package com.leverx.learningmanagementsystem.lesson.dto.ClassroomLesson;
 
 import com.leverx.learningmanagementsystem.lesson.dto.CreateLessonDto;
-import com.leverx.learningmanagementsystem.lesson.dto.LessonType;
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -16,6 +15,5 @@ public record CreateClassroomLessonDto(
         @Max(value = 90, message = "Duration must be <= 90") Integer durationInMinutes,
         @Nullable UUID courseId,
         @NotBlank(message = "Location must not be empty") String location,
-        @NotNull(message = "Capacity must not be empty") Integer capacity,
-        @NotNull(message = "Type must not be blank") LessonType type) implements CreateLessonDto {
+        @NotNull(message = "Capacity must not be empty") Integer capacity) implements CreateLessonDto {
 }

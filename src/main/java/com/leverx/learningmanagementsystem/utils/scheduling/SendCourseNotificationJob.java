@@ -33,7 +33,7 @@ public class SendCourseNotificationJob {
     private final String COURSE_TITLE = "course_title";
     private final String START_DATE = "start_date";
 
-    @Scheduled(cron = "*/45 * * * * *")
+    @Scheduled(cron = "0 0 0 * * *")
     public void execute() {
         log.info("Fetching courses that start tomorrow");
         List<Course> courses = getCoursesStartingTomorrow();

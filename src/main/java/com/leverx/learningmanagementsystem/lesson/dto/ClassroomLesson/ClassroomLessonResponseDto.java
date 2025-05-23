@@ -5,6 +5,7 @@ import jakarta.annotation.Nullable;
 import lombok.Builder;
 import lombok.NonNull;
 
+import java.time.Instant;
 import java.util.UUID;
 
 @Builder
@@ -14,5 +15,9 @@ public record ClassroomLessonResponseDto(
         @NonNull Integer durationInMinutes,
         @Nullable UUID courseId,
         @NonNull String location,
-        @NonNull Integer capacity) implements LessonResponseDto {
+        @NonNull Integer capacity,
+        @NonNull Instant created,
+        @NonNull String createdBy,
+        @Nullable Instant lastModified,
+        @Nullable String lastModifiedBy) implements LessonResponseDto {
 }

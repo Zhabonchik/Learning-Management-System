@@ -47,7 +47,7 @@ public class CourseWebFacadeImpl implements CourseWebFacade {
     public CourseResponseDto create(CreateCourseDto createCourseDto) {
         var course = courseMapper.toModel(createCourseDto);
 
-        constructCourse(course, createCourseDto);
+        updateRelations(course, createCourseDto);
 
         var createdCourse = courseService.create(course);
         return courseMapper.toDto(createdCourse);
@@ -56,10 +56,10 @@ public class CourseWebFacadeImpl implements CourseWebFacade {
     @Override
     @Transactional
     public CourseResponseDto updateById(UUID id, CreateCourseDto createCourseDto) {
-        var course = courseMapper.toModel(createCourseDto);
+        var course = courseService.getById(id);
 
-        constructCourse(course, createCourseDto);
-        course.setId(id);
+        update(course, createCourseDto);
+        updateRelations(course, createCourseDto);
 
         var createdCourse = courseService.create(course);
         return courseMapper.toDto(createdCourse);
@@ -70,7 +70,14 @@ public class CourseWebFacadeImpl implements CourseWebFacade {
         courseService.deleteById(id);
     }
 
-    private void constructCourse(Course course, CreateCourseDto createCourseDto) {
+    private void update(Course course, CreateCourseDto createCourseDto) {
+        course.setTitle(createCourseDto.title());
+        course.setDescription(createCourseDto.description());
+        course.setPrice(createCourseDto.price());
+        course.setCoinsPaid(createCourseDto.coinsPaid());
+    }
+
+    private void updateRelations(Course course, CreateCourseDto createCourseDto) {
         var courseSettings = (isNull(createCourseDto.courseSettingsId())) ? null
                 : courseSettingsService.getById(createCourseDto.courseSettingsId());
         List<Student> students = (isNull(createCourseDto.studentIds())) ? new ArrayList<>()

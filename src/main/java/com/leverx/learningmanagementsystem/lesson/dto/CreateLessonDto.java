@@ -14,4 +14,6 @@ import java.util.UUID;
 })
 public interface CreateLessonDto {
     UUID courseId();
+    String title();
+    Integer durationInMinutes();
 }
