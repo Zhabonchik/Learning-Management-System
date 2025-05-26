@@ -62,5 +62,4 @@ public class CourseSettings {
     @LastModifiedBy
     @Column(name = "last_modified_by")
     private String lastModifiedBy;
-
 }

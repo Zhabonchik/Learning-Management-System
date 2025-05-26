@@ -13,5 +13,4 @@ public class AuditingConfiguration {
     AuditorAware<String> auditorAware() {
         return new SecurityAuditorAware();
     }
-
 }

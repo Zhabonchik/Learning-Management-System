@@ -23,7 +23,7 @@ public class CourseSettingsTestUtils {
     public static final int TOTAL_NUMBER_OF_COURSE_SETTINGS = 2;
     public static final String COURSE_SETTINGS = "/course-settings";
 
-    public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    public static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     public static CreateCourseSettingsDto initializeCreateCourseSettingsDto() {
         return new CreateCourseSettingsDto(

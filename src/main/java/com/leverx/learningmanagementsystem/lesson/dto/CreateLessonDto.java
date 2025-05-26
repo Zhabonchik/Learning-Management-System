@@ -7,7 +7,11 @@ import com.leverx.learningmanagementsystem.lesson.dto.VideoLesson.CreateVideoLes
 
 import java.util.UUID;
 
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.PROPERTY,
+        property = "type"
+)
 @JsonSubTypes({
         @JsonSubTypes.Type(value = CreateVideoLessonDto.class, name = "VIDEO"),
         @JsonSubTypes.Type(value = CreateClassroomLessonDto.class, name = "CLASSROOM")

@@ -2,14 +2,11 @@ package com.leverx.learningmanagementsystem.testutils;
 
 import com.leverx.learningmanagementsystem.course.model.Course;
 import com.leverx.learningmanagementsystem.lesson.dto.CreateLessonDto;
-import com.leverx.learningmanagementsystem.lesson.dto.LessonType;
 import com.leverx.learningmanagementsystem.lesson.dto.VideoLesson.CreateVideoLessonDto;
 import com.leverx.learningmanagementsystem.lesson.model.Lesson;
 import com.leverx.learningmanagementsystem.lesson.model.VideoLesson;
 
 import java.util.UUID;
-
-import static com.leverx.learningmanagementsystem.lesson.dto.LessonType.VIDEO;
 
 public class LessonTestUtils {
 

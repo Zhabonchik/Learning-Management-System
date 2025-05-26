@@ -73,21 +73,4 @@ public interface LessonMapper {
     default UUID mapToCourseId(Course course) {
         return (isNull(course)) ? null : course.getId();
     }
-
-    /*@Mapping(target = "courseId", source= "course", qualifiedByName = "mapToCourseId")
-    LessonResponseDto toDto(Lesson lesson);
-
-    @Mapping(target = "course", ignore = true)
-    Lesson toModel(LessonResponseDto lessonDto);
-
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "course", ignore = true)
-    Lesson toModel(CreateLessonDto createLessonDto);
-
-    List<LessonResponseDto> toDtos(List<Lesson> lessons);
-
-    @Named("mapToCourseId")
-    default UUID mapToCourseId(Course course) {
-        return (isNull(course)) ? null : course.getId();
-    }*/
 }
