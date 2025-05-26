@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.NonNull;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,6 +17,10 @@ public record CourseResponseDto(
         @NonNull BigDecimal price,
         @NonNull BigDecimal coinsPaid,
         @Nullable UUID courseSettingsId,
+        @NonNull Instant created,
+        @NonNull String createdBy,
+        @Nullable Instant lastModified,
+        @Nullable String lastModifiedBy,
         @Nullable List<UUID> lessonIds,
         @Nullable List<UUID> studentIds) {
 }

@@ -11,6 +11,8 @@ import com.leverx.learningmanagementsystem.coursesettings.service.CourseSettings
 import com.leverx.learningmanagementsystem.lesson.service.LessonService;
 import com.leverx.learningmanagementsystem.student.service.StudentService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,6 +39,12 @@ public class CourseWebFacadeImpl implements CourseWebFacade {
     }
 
     @Override
+    public Page<CourseResponseDto> getAll(Pageable pageable) {
+        Page<Course> courses = courseService.getAll(pageable);
+        return courses.map(courseMapper::toDto);
+    }
+
+    @Override
     public CourseResponseDto getById(UUID id) {
         var course = courseService.getById(id);
         return courseMapper.toDto(course);
@@ -47,7 +55,7 @@ public class CourseWebFacadeImpl implements CourseWebFacade {
     public CourseResponseDto create(CreateCourseDto createCourseDto) {
         var course = courseMapper.toModel(createCourseDto);
 
-        constructCourse(course, createCourseDto);
+        updateRelations(course, createCourseDto);
 
         var createdCourse = courseService.create(course);
         return courseMapper.toDto(createdCourse);
@@ -56,12 +64,12 @@ public class CourseWebFacadeImpl implements CourseWebFacade {
     @Override
     @Transactional
     public CourseResponseDto updateById(UUID id, CreateCourseDto createCourseDto) {
-        var course = courseMapper.toModel(createCourseDto);
+        var course = courseService.getById(id);
 
-        constructCourse(course, createCourseDto);
-        course.setId(id);
+        update(course, createCourseDto);
+        updateRelations(course, createCourseDto);
 
-        var createdCourse = courseService.create(course);
+        var createdCourse = courseService.update(course);
         return courseMapper.toDto(createdCourse);
     }
 
@@ -70,7 +78,14 @@ public class CourseWebFacadeImpl implements CourseWebFacade {
         courseService.deleteById(id);
     }
 
-    private void constructCourse(Course course, CreateCourseDto createCourseDto) {
+    private void update(Course course, CreateCourseDto createCourseDto) {
+        course.setTitle(createCourseDto.title());
+        course.setDescription(createCourseDto.description());
+        course.setPrice(createCourseDto.price());
+        course.setCoinsPaid(createCourseDto.coinsPaid());
+    }
+
+    private void updateRelations(Course course, CreateCourseDto createCourseDto) {
         var courseSettings = (isNull(createCourseDto.courseSettingsId())) ? null
                 : courseSettingsService.getById(createCourseDto.courseSettingsId());
         List<Student> students = (isNull(createCourseDto.studentIds())) ? new ArrayList<>()
@@ -79,14 +94,35 @@ public class CourseWebFacadeImpl implements CourseWebFacade {
                 : lessonService.getAllByIdIn(createCourseDto.lessonIds());
 
         course.setSettings(courseSettings);
-        course.setStudents(students);
-        course.setLessons(lessons);
+        replaceStudents(course, students);
+        replaceLessons(course, lessons);
+    }
+
+    private void replaceStudents(Course course, List<Student> students) {
+        if (!isNull(course.getStudents())) {
+            course.getStudents().forEach(student -> student.getCourses().remove(course));
+            course.getStudents().clear();
+        } else {
+            course.setStudents(new ArrayList<>());
+        }
 
         students.forEach(student -> {
-            if (!student.getCourses().contains(course)){
-                student.getCourses().add(course);
-            }
+            student.getCourses().add(course);
+            course.getStudents().add(student);
         });
-        lessons.forEach(lesson -> lesson.setCourse(course));
+    }
+
+    private void replaceLessons(Course course, List<Lesson> lessons) {
+        if (!isNull(course.getLessons())) {
+            course.getLessons().forEach(lesson -> lesson.setCourse(null));
+            course.getLessons().clear();
+        } else {
+            course.setLessons(new ArrayList<>());
+        }
+
+        lessons.forEach(lesson -> {
+            lesson.setCourse(course);
+            course.getLessons().add(lesson);
+        });
     }
 }

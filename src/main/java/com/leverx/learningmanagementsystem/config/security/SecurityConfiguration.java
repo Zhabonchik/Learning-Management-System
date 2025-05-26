@@ -34,17 +34,17 @@ public class SecurityConfiguration {
 
     private UserDetails getUser() {
         return User.builder()
-                .username(configuration.getUser().getUsername())
-                .password(bCryptPasswordEncoder().encode(configuration.getUser().getPassword()))
-                .authorities(USER.asRole())
+                .username(configuration.getUser().username())
+                .password(bCryptPasswordEncoder().encode(configuration.getUser().password()))
+                .roles(USER.name())
                 .build();
     }
 
     private UserDetails getManager() {
         return User.builder()
-                .username(configuration.getManager().getUsername())
-                .password(bCryptPasswordEncoder().encode(configuration.getManager().getPassword()))
-                .authorities(MANAGER.asRole())
+                .username(configuration.getManager().username())
+                .password(bCryptPasswordEncoder().encode(configuration.getManager().password()))
+                .roles(MANAGER.name())
                 .build();
     }
 }

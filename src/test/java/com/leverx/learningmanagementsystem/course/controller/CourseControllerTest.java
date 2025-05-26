@@ -22,7 +22,10 @@ import static com.leverx.learningmanagementsystem.testutils.CourseTestUtils.NON_
 import static com.leverx.learningmanagementsystem.testutils.CourseTestUtils.NUMBER_OF_COURSE_FIELDS;
 import static com.leverx.learningmanagementsystem.testutils.CourseTestUtils.TOTAL_NUMBER_OF_COURSES;
 import static com.leverx.learningmanagementsystem.testutils.TestUtils.CLEAN_SQL;
+import static com.leverx.learningmanagementsystem.testutils.TestUtils.DEFAULT_PAGE;
 import static com.leverx.learningmanagementsystem.testutils.TestUtils.INSERT_SQL;
+import static com.leverx.learningmanagementsystem.testutils.TestUtils.PAGE;
+import static com.leverx.learningmanagementsystem.testutils.TestUtils.PAGE_SIZE;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -48,10 +51,12 @@ class CourseControllerTest {
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @WithMockUser(roles="USER")
     void getAll_shouldReturnAllCourses() throws Exception {
-        var response = mockMvc.perform(get(COURSES));
+        var response = mockMvc.perform(get(COURSES)
+                .param(PAGE, DEFAULT_PAGE)
+                .param(PAGE_SIZE, String.valueOf(TOTAL_NUMBER_OF_COURSES)));
 
         response.andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value(TOTAL_NUMBER_OF_COURSES));
+                .andExpect(jsonPath("$.content.size()").value(TOTAL_NUMBER_OF_COURSES));
     }
 
     @Test

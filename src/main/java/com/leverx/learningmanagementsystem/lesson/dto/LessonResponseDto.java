@@ -1,15 +1,18 @@
 package com.leverx.learningmanagementsystem.lesson.dto;
 
-import jakarta.annotation.Nullable;
-import lombok.Builder;
-import lombok.NonNull;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.leverx.learningmanagementsystem.lesson.dto.ClassroomLesson.ClassroomLessonResponseDto;
+import com.leverx.learningmanagementsystem.lesson.dto.VideoLesson.VideoLessonResponseDto;
 
-import java.util.UUID;
-
-@Builder
-public record LessonResponseDto(
-        @NonNull UUID id,
-        @NonNull String title,
-        @NonNull Integer durationInMinutes,
-        @Nullable UUID courseId) {
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.PROPERTY,
+        property = "type"
+)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = VideoLessonResponseDto.class, name = "VIDEO"),
+        @JsonSubTypes.Type(value = ClassroomLessonResponseDto.class, name = "CLASSROOM")
+})
+public interface LessonResponseDto {
 }

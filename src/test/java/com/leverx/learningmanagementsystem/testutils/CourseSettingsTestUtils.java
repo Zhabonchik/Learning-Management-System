@@ -19,7 +19,7 @@ public class CourseSettingsTestUtils {
             LocalDateTime.of(2025, 5,13, 9, 30, 0);
     public static final LocalDateTime EXISTING_COURSE_SETTINGS_END_DATE =
             LocalDateTime.of(2025, 6,23, 15,0,0);
-    public static final int NUMBER_OF_COURSE_SETTINGS_FIELDS = 4;
+    public static final int NUMBER_OF_COURSE_SETTINGS_FIELDS = 8;
     public static final int TOTAL_NUMBER_OF_COURSE_SETTINGS = 2;
     public static final String COURSE_SETTINGS = "/course-settings";
 

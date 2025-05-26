@@ -2,6 +2,8 @@ package com.leverx.learningmanagementsystem.lesson.webfacade;
 
 import com.leverx.learningmanagementsystem.lesson.dto.CreateLessonDto;
 import com.leverx.learningmanagementsystem.lesson.dto.LessonResponseDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.UUID;
@@ -9,6 +11,8 @@ import java.util.UUID;
 public interface LessonWebFacade {
 
     List<LessonResponseDto> getAll();
+
+    Page<LessonResponseDto> getAll(Pageable pageable);
 
     LessonResponseDto getById(UUID id);
 

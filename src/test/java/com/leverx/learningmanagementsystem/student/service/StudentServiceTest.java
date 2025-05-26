@@ -7,6 +7,7 @@ import com.leverx.learningmanagementsystem.testutils.StudentTestUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
 
 import java.util.ArrayList;
@@ -55,6 +56,7 @@ class StudentServiceTest {
 
     @Test
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @WithMockUser(roles="USER")
     void create_givenStudent_shouldReturnCreatedStudent() {
         Student newStudent = StudentTestUtils.initializeStudent();
         newStudent.setCourses(new ArrayList<>());
@@ -73,12 +75,16 @@ class StudentServiceTest {
 
     @Test
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @WithMockUser(roles="USER")
     void update_givenStudent_shouldReturnUpdatedStudent() {
-        Student newStudent = StudentTestUtils.initializeStudent();
-        newStudent.setId(EXISTING_STUDENT_ID);
-        newStudent.setCourses(new ArrayList<>());
+        Student updateStudent = studentService.getById(EXISTING_STUDENT_ID);
+        updateStudent.setFirstName(NEW_STUDENT_FIRST_NAME);
+        updateStudent.setLastName(NEW_STUDENT_LAST_NAME);
+        updateStudent.setEmail(NEW_STUDENT_EMAIL);
+        updateStudent.setDateOfBirth(NEW_STUDENT_DATE_OF_BIRTH);
+        updateStudent.setCoins(NEW_STUDENT_COINS);
 
-        Student updatedStudent = studentService.update(newStudent);
+        Student updatedStudent = studentService.update(updateStudent);
         int studentsAmount = studentService.getAll().size();
 
         assertAll(

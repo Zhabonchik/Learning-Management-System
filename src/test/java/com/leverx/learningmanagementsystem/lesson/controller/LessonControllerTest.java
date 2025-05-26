@@ -21,7 +21,10 @@ import static com.leverx.learningmanagementsystem.testutils.LessonTestUtils.NON_
 import static com.leverx.learningmanagementsystem.testutils.LessonTestUtils.NUMBER_OF_LESSON_FIELDS;
 import static com.leverx.learningmanagementsystem.testutils.LessonTestUtils.TOTAL_NUMBER_OF_LESSONS;
 import static com.leverx.learningmanagementsystem.testutils.TestUtils.CLEAN_SQL;
+import static com.leverx.learningmanagementsystem.testutils.TestUtils.DEFAULT_PAGE;
 import static com.leverx.learningmanagementsystem.testutils.TestUtils.INSERT_SQL;
+import static com.leverx.learningmanagementsystem.testutils.TestUtils.PAGE;
+import static com.leverx.learningmanagementsystem.testutils.TestUtils.PAGE_SIZE;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -45,10 +48,12 @@ public class LessonControllerTest {
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @WithMockUser(roles="USER")
     void getAll_shouldReturnAllLessonsAnd200() throws Exception {
-        var response = mockMvc.perform(get(LESSONS));
+        var response = mockMvc.perform(get(LESSONS)
+                .param(PAGE, DEFAULT_PAGE)
+                .param(PAGE_SIZE, String.valueOf(TOTAL_NUMBER_OF_LESSONS)));
 
         response.andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value(TOTAL_NUMBER_OF_LESSONS));
+                .andExpect(jsonPath("$.content.size()").value(TOTAL_NUMBER_OF_LESSONS));
     }
 
     @Test
@@ -90,7 +95,7 @@ public class LessonControllerTest {
                 .content(objectMapper.writeValueAsString(newLesson)));
 
         response.andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value(4))
+                .andExpect(jsonPath("$.length()").value(NUMBER_OF_LESSON_FIELDS))
                 .andExpect(jsonPath("$.title").value(NEW_LESSON_TITLE))
                 .andExpect(jsonPath("$.courseId").value(NEW_LESSON_COURSE_ID.toString()));
     }
