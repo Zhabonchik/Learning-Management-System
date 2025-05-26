@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.http.HttpResponse;
 import java.util.Base64;
 
 import static com.leverx.learningmanagementsystem.utils.HttpConstantUtils.API;
