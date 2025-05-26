@@ -36,7 +36,7 @@ public class SecurityConfiguration {
         return User.builder()
                 .username(configuration.getUser().username())
                 .password(bCryptPasswordEncoder().encode(configuration.getUser().password()))
-                .authorities(USER.asRole())
+                .roles(USER.name())
                 .build();
     }
 
@@ -44,7 +44,7 @@ public class SecurityConfiguration {
         return User.builder()
                 .username(configuration.getManager().username())
                 .password(bCryptPasswordEncoder().encode(configuration.getManager().password()))
-                .authorities(MANAGER.asRole())
+                .roles(MANAGER.name())
                 .build();
     }
 }

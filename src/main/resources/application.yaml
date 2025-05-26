@@ -40,3 +40,11 @@ mail:
     auth: true
     starttls:
       enable: true
+
+security-entity:
+  user:
+    username: user
+    password: password
+  manager:
+    username: manager
+    password: password
