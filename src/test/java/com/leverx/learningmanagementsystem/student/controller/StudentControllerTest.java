@@ -22,7 +22,10 @@ import static com.leverx.learningmanagementsystem.testutils.StudentTestUtils.NUM
 import static com.leverx.learningmanagementsystem.testutils.StudentTestUtils.STUDENTS;
 import static com.leverx.learningmanagementsystem.testutils.StudentTestUtils.TOTAL_NUMBER_OF_STUDENTS;
 import static com.leverx.learningmanagementsystem.testutils.TestUtils.CLEAN_SQL;
+import static com.leverx.learningmanagementsystem.testutils.TestUtils.DEFAULT_PAGE;
 import static com.leverx.learningmanagementsystem.testutils.TestUtils.INSERT_SQL;
+import static com.leverx.learningmanagementsystem.testutils.TestUtils.PAGE;
+import static com.leverx.learningmanagementsystem.testutils.TestUtils.PAGE_SIZE;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -45,12 +48,14 @@ class StudentControllerTest {
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @WithMockUser(roles="USER")
     void getAll_shouldReturnAllStudentsAnd200() throws Exception{
-        var response = mockMvc.perform(get(STUDENTS));
+        var response = mockMvc.perform(get(STUDENTS)
+                .param(PAGE, DEFAULT_PAGE)
+                .param(PAGE_SIZE, String.valueOf(TOTAL_NUMBER_OF_STUDENTS)));
 
         response.andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value(TOTAL_NUMBER_OF_STUDENTS))
-                .andExpect(jsonPath("$[0].firstName").value(EXISTING_STUDENT_FIRST_NAME))
-                .andExpect(jsonPath("$[0].lastName").value(EXISTING_STUDENT_LAST_NAME));
+                .andExpect(jsonPath("$.content.size()").value(TOTAL_NUMBER_OF_STUDENTS))
+                .andExpect(jsonPath("$.content[0].firstName").value(EXISTING_STUDENT_FIRST_NAME))
+                .andExpect(jsonPath("$.content[0].lastName").value(EXISTING_STUDENT_LAST_NAME));
     }
 
     @Test

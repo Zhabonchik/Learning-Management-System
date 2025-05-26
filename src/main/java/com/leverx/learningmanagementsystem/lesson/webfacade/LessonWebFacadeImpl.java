@@ -1,5 +1,6 @@
 package com.leverx.learningmanagementsystem.lesson.webfacade;
 
+import com.leverx.learningmanagementsystem.course.model.Course;
 import com.leverx.learningmanagementsystem.lesson.dto.ClassroomLesson.CreateClassroomLessonDto;
 import com.leverx.learningmanagementsystem.lesson.dto.CreateLessonDto;
 import com.leverx.learningmanagementsystem.lesson.dto.LessonResponseDto;
@@ -11,7 +12,10 @@ import com.leverx.learningmanagementsystem.course.service.CourseService;
 import com.leverx.learningmanagementsystem.lesson.model.VideoLesson;
 import com.leverx.learningmanagementsystem.lesson.service.LessonService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -33,12 +37,19 @@ public class LessonWebFacadeImpl implements LessonWebFacade {
     }
 
     @Override
+    public Page<LessonResponseDto> getAll(Pageable pageable) {
+        Page<Lesson> lessons = lessonService.getAll(pageable);
+        return lessons.map(lessonMapper::toDto);
+    }
+
+    @Override
     public LessonResponseDto getById(UUID id) {
         var lesson = lessonService.getById(id);
         return lessonMapper.toDto(lesson);
     }
 
     @Override
+    @Transactional
     public LessonResponseDto create(CreateLessonDto dto) {
         var lesson = lessonMapper.toModel(dto);
 
@@ -49,6 +60,7 @@ public class LessonWebFacadeImpl implements LessonWebFacade {
     }
 
     @Override
+    @Transactional
     public LessonResponseDto updateById(UUID id, CreateLessonDto dto) {
         var lesson = lessonService.getById(id);
 
@@ -78,7 +90,16 @@ public class LessonWebFacadeImpl implements LessonWebFacade {
 
     private void updateCourse(Lesson lesson, CreateLessonDto dto) {
         var course = (isNull(dto.courseId())) ? null : courseService.getById(dto.courseId());
+        replaceCourse(lesson, course);
+    }
+
+    private void replaceCourse(Lesson lesson, Course course) {
+        if (!isNull(lesson.getCourse())) {
+            lesson.getCourse().getLessons().remove(lesson);
+        }
+
         lesson.setCourse(course);
+
         if (!isNull(course)) {
             course.getLessons().add(lesson);
         }

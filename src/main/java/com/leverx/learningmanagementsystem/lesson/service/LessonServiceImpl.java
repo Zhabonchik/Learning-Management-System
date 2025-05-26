@@ -6,6 +6,8 @@ import com.leverx.learningmanagementsystem.utils.exception.model.IncorrectResult
 import com.leverx.learningmanagementsystem.lesson.repository.LessonRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +33,12 @@ public class LessonServiceImpl implements LessonService {
     public List<Lesson> getAll() {
         log.info("Get all Lessons");
         return lessonRepository.findAll();
+    }
+
+    @Override
+    public Page<Lesson> getAll(Pageable pageable) {
+        log.info("Get all lessons on page {}, with page size {}", pageable.getPageNumber(), pageable.getPageSize());
+        return lessonRepository.findAll(pageable);
     }
 
     @Override

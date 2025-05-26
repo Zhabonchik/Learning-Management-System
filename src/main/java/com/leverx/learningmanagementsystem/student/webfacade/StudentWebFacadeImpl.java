@@ -10,8 +10,12 @@ import com.leverx.learningmanagementsystem.student.mapper.StudentMapper;
 import com.leverx.learningmanagementsystem.course.service.CourseService;
 import com.leverx.learningmanagementsystem.student.service.StudentService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
@@ -33,12 +37,19 @@ public class StudentWebFacadeImpl implements StudentWebFacade {
     }
 
     @Override
+    public Page<StudentResponseDto> getAll(Pageable pageable) {
+        Page<Student> students = studentService.getAll(pageable);
+        return students.map(studentMapper::toDto);
+    }
+
+    @Override
     public StudentResponseDto getById(UUID id) {
         var student = studentService.getById(id);
         return studentMapper.toDto(student);
     }
 
     @Override
+    @Transactional
     public StudentResponseDto create(CreateStudentDto createStudentDto) {
         var student = studentMapper.toModel(createStudentDto);
 
@@ -54,6 +65,7 @@ public class StudentWebFacadeImpl implements StudentWebFacade {
     }
 
     @Override
+    @Transactional
     public StudentResponseDto updateById(UUID id, CreateStudentDto createStudentDto) {
         var student = studentService.getById(id);
 
@@ -79,17 +91,24 @@ public class StudentWebFacadeImpl implements StudentWebFacade {
     }
 
     private void updateCourses(Student student, CreateStudentDto createStudentDto) {
-
         List<Course> courses = (isNull(createStudentDto.courseIds()))
                 ? Collections.emptyList()
                 : courseService.getAllByIdIn(createStudentDto.courseIds());
 
-        student.setCourses(courses);
+        replaceCourses(student, courses);
+    }
+
+    private void replaceCourses(Student student, List<Course> courses) {
+        if (!isNull(student.getCourses())) {
+            student.getCourses().forEach(course -> course.getStudents().remove(student));
+            student.getCourses().clear();
+        } else {
+            student.setCourses(new ArrayList<>());
+        }
 
         courses.forEach(course -> {
-            if (!course.getStudents().contains(student)) {
-                course.getStudents().add(student);
-            }
+            course.getStudents().add(student);
+            student.getCourses().add(course);
         });
     }
 }

@@ -12,6 +12,8 @@ import com.leverx.learningmanagementsystem.student.repository.StudentRepository;
 import com.leverx.learningmanagementsystem.course.service.CourseService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,6 +48,12 @@ public class StudentServiceImpl implements StudentService {
     public List<Student> getAll() {
         log.info("Get all students");
         return studentRepository.findAll();
+    }
+
+    @Override
+    public Page<Student> getAll(Pageable pageable) {
+        log.info("Get all students on page {}, with page size {}", pageable.getPageNumber(), pageable.getPageSize());
+        return studentRepository.findAll(pageable);
     }
 
     @Override

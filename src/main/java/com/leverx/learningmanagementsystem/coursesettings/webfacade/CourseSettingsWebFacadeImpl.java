@@ -6,6 +6,8 @@ import com.leverx.learningmanagementsystem.coursesettings.model.CourseSettings;
 import com.leverx.learningmanagementsystem.coursesettings.mapper.CourseSettingsMapper;
 import com.leverx.learningmanagementsystem.coursesettings.service.CourseSettingsService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -22,6 +24,12 @@ public class CourseSettingsWebFacadeImpl implements CourseSettingsWebFacade {
     public List<CourseSettingsResponseDto> getAll() {
         List<CourseSettings> courseSettings = courseSettingsService.getAll();
         return courseSettingsMapper.toDtos(courseSettings);
+    }
+
+    @Override
+    public Page<CourseSettingsResponseDto> getAll(Pageable pageable) {
+        Page<CourseSettings> courseSettings = courseSettingsService.getAll(pageable);
+        return courseSettings.map(courseSettingsMapper::toDto);
     }
 
     @Override
