@@ -46,7 +46,7 @@ class StudentControllerTest {
 
     @Test
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @WithMockUser(roles="USER")
+    @WithMockUser(roles = "USER")
     void getAll_shouldReturnAllStudentsAnd200() throws Exception{
         var response = mockMvc.perform(get(STUDENTS)
                 .param(PAGE, DEFAULT_PAGE)
@@ -60,7 +60,7 @@ class StudentControllerTest {
 
     @Test
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @WithMockUser(roles="USER")
+    @WithMockUser(roles = "USER")
     void getById_GivenId_shouldReturnStudentAnd200() throws Exception{
         var response = mockMvc.perform(get(STUDENTS + "/" + EXISTING_STUDENT_ID));
 
@@ -71,7 +71,7 @@ class StudentControllerTest {
 
     @Test
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @WithMockUser(roles="USER")
+    @WithMockUser(roles = "USER")
     void getById_givenId_shouldReturnEntityNotFoundExceptionAnd404() throws Exception{
         var response = mockMvc.perform(get(STUDENTS + "/" + NON_EXISTING_STUDENT_ID));
 
@@ -82,7 +82,7 @@ class StudentControllerTest {
 
     @Test
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @WithMockUser(roles="USER")
+    @WithMockUser(roles = "USER")
     void create_givenCreateStudentDto_shouldReturnCreatedStudentAnd201() throws Exception{
         CreateStudentDto newStudent = StudentTestUtils.initializeCreateStudentDto();
 
@@ -97,7 +97,7 @@ class StudentControllerTest {
 
     @Test
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @WithMockUser(roles="USER")
+    @WithMockUser(roles = "USER")
     void delete_givenId_shouldReturn204() throws Exception{
         var response = mockMvc.perform(delete(STUDENTS + "/" + EXISTING_STUDENT_ID));
 
@@ -106,7 +106,7 @@ class StudentControllerTest {
 
     @Test
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @WithMockUser(roles="USER")
+    @WithMockUser(roles = "USER")
     void delete_givenId_shouldReturn404() throws Exception{
         var response = mockMvc.perform(delete(STUDENTS + "/" + NON_EXISTING_STUDENT_ID));
 
