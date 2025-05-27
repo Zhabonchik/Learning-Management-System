@@ -1,4 +1,4 @@
-package com.leverx.learningmanagementsystem.testutils;
+package testutils;
 
 public class TestUtils {
 
