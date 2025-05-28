@@ -2,6 +2,7 @@ package com.leverx.learningmanagementsystem.integration.student.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.leverx.learningmanagementsystem.student.dto.CreateStudentDto;
+import org.junit.jupiter.api.Tag;
 import testutils.StudentTestUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("dev")
+@Tag("integration-test")
 class StudentControllerTest {
 
     @Autowired

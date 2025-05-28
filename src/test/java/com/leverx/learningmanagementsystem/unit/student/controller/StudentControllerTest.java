@@ -4,6 +4,7 @@ import com.leverx.learningmanagementsystem.student.controller.StudentController;
 import com.leverx.learningmanagementsystem.student.dto.StudentResponseDto;
 import com.leverx.learningmanagementsystem.student.webfacade.StudentWebFacade;
 import com.leverx.learningmanagementsystem.utils.exception.model.EntityNotFoundException;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,7 @@ import static testutils.TestUtils.PAGE;
 import static testutils.TestUtils.PAGE_SIZE;
 
 @WebMvcTest(StudentController.class)
+@Tag("unit-test")
 public class StudentControllerTest {
     @Autowired
     MockMvc mockMvc;

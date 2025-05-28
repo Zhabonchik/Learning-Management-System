@@ -3,6 +3,7 @@ package com.leverx.learningmanagementsystem.integration.student.service;
 import com.leverx.learningmanagementsystem.course.model.Course;
 import com.leverx.learningmanagementsystem.student.model.Student;
 import com.leverx.learningmanagementsystem.student.service.StudentService;
+import org.junit.jupiter.api.Tag;
 import testutils.CourseTestUtils;
 import testutils.StudentTestUtils;
 import org.junit.jupiter.api.Test;
@@ -33,6 +34,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 @SpringBootTest
+@Tag("integration-test")
 class StudentServiceTest {
 
     @Autowired

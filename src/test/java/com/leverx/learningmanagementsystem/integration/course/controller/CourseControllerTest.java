@@ -3,6 +3,7 @@ package com.leverx.learningmanagementsystem.integration.course.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.leverx.learningmanagementsystem.config.security.SecurityEntityConfiguration;
 import com.leverx.learningmanagementsystem.course.dto.CreateCourseDto;
+import org.junit.jupiter.api.Tag;
 import testutils.CourseTestUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("dev")
+@Tag("integration-test")
 class CourseControllerTest {
 
     @Autowired
