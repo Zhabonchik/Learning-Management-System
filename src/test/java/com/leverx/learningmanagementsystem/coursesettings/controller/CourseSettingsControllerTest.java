@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -32,6 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@ActiveProfiles("dev")
 public class CourseSettingsControllerTest {
 
     @Autowired
@@ -42,6 +45,7 @@ public class CourseSettingsControllerTest {
 
     @Test
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @WithMockUser(roles="USER")
     void getAll_shouldReturnAllCourseSettingsAnd200() throws Exception {
         var response = mockMvc.perform(get(COURSE_SETTINGS));
 
@@ -51,6 +55,7 @@ public class CourseSettingsControllerTest {
 
     @Test
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @WithMockUser(roles="USER")
     void getById_givenCourseSettingsId_shouldReturnCourseSettingsAnd200() throws Exception {
         var response = mockMvc.perform(get(COURSE_SETTINGS + "/" + EXISTING_COURSE_SETTINGS_ID));
 
@@ -63,6 +68,7 @@ public class CourseSettingsControllerTest {
 
     @Test
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @WithMockUser(roles="USER")
     void create_givenCreateCourseSettingsDto_shouldReturnCreatedCourseSettingsAnd201() throws Exception {
         CreateCourseSettingsDto newCourseSettings = CourseSettingsTestUtils.initializeCreateCourseSettingsDto();
 
@@ -78,6 +84,7 @@ public class CourseSettingsControllerTest {
 
     @Test
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @WithMockUser(roles="USER")
     void updateById_givenCourseSettingsIdAndCreateCourseSettingsDto_shouldReturnUpdatedCourseSettingsAnd200() throws Exception {
         CreateCourseSettingsDto newCourseSettings = CourseSettingsTestUtils.initializeCreateCourseSettingsDto();
 
@@ -93,6 +100,7 @@ public class CourseSettingsControllerTest {
 
     @Test
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @WithMockUser(roles="USER")
     void delete_givenId_shouldReturnStatus204() throws Exception {
         var response = mockMvc.perform(delete(COURSE_SETTINGS + "/" + EXISTING_COURSE_SETTINGS_ID));
 
@@ -101,6 +109,7 @@ public class CourseSettingsControllerTest {
 
     @Test
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @WithMockUser(roles="USER")
     void delete_givenId_shouldReturnNotFound() throws Exception {
         var response = mockMvc.perform(delete(COURSE_SETTINGS + "/" + NON_EXISTING_COURSE_SETTINGS_ID));
 

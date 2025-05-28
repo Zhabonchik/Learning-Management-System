@@ -49,7 +49,7 @@ public class StudentController {
     @PostMapping("/{studentId}/courses/{courseId}")
     @ResponseStatus(CREATED)
     public void addCourse(@PathVariable("studentId") UUID studentId, @PathVariable("courseId") UUID courseId) {
-        studentWebFacade.enrollForCourse(new StudentId(studentId), new CourseId(courseId));
+        studentWebFacade.enrollForCourse(StudentId.of(studentId), CourseId.of(courseId));
     }
 
     @PutMapping("/{id}")
