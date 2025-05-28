@@ -14,6 +14,7 @@ import static com.leverx.learningmanagementsystem.utils.CacheConfigurationUtils.
 import static com.leverx.learningmanagementsystem.utils.CacheConfigurationUtils.MAXIMUM_SIZE;
 import static com.leverx.learningmanagementsystem.utils.HttpConstantUtils.AUTHTOKENS;
 
+
 @Configuration
 @EnableCaching
 @Profile("cloud")
