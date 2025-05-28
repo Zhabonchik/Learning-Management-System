@@ -89,6 +89,11 @@
             <artifactId>ngdbc</artifactId>
             <version>${hana-jdbc.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.sap.cloud.db.jdbc</groupId>
+            <artifactId>ngdbc</artifactId>
+            <version>${hana-jdbc.version}</version>
+        </dependency>
         <!-- DB migration -->
         <dependency>
             <groupId>org.liquibase</groupId>

@@ -7,6 +7,7 @@ target/
 src/main/resources/application-secret.yaml
 src/main/resources/data
 mta_archives
+
 ### IntelliJ IDEA ###
 .idea
 *.iws
