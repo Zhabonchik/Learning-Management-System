@@ -6,7 +6,6 @@ import com.leverx.learningmanagementsystem.coursesettings.webfacade.CourseSettin
 import com.leverx.learningmanagementsystem.utils.exception.model.EntityNotFoundException;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.data.domain.Page;
@@ -16,6 +15,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -43,14 +43,17 @@ public class CourseSettingsControllerTest {
     @Test
     @WithMockUser(roles = "USER")
     void getAll_shouldReturnAllCourseSettingsAnd200() throws Exception {
+        // given
         Pageable pageable = PageRequest.of(Integer.parseInt(DEFAULT_PAGE), TOTAL_NUMBER_OF_COURSES);
         Page<CourseSettingsResponseDto> page = initializePage(pageable);
-        Mockito.when(courseSettingsWebFacade.getAll(pageable)).thenReturn(page);
+        when(courseSettingsWebFacade.getAll(pageable)).thenReturn(page);
 
+        // when
         var response = mockMvc.perform(get("/course-settings")
                 .param(PAGE, DEFAULT_PAGE)
                 .param(PAGE_SIZE, String.valueOf(TOTAL_NUMBER_OF_COURSE_SETTINGS)));
 
+        // then
         response.andExpect(status().isOk())
                 .andExpect(jsonPath("$.content.size()").value(TOTAL_NUMBER_OF_COURSES))
                 .andExpect(jsonPath("$.content[0].id").value(EXISTING_COURSE_SETTINGS_ID.toString()))
@@ -60,11 +63,14 @@ public class CourseSettingsControllerTest {
     @Test
     @WithMockUser(roles = "USER")
     void getById_givenCourseSettingsId_shouldReturnCourseSettingsAnd200() throws Exception {
+        // given
         CourseSettingsResponseDto responseDto = initializeCourseSettingsResponseDto();
-        Mockito.when(courseSettingsWebFacade.getById(EXISTING_COURSE_SETTINGS_ID)).thenReturn(responseDto);
+        when(courseSettingsWebFacade.getById(EXISTING_COURSE_SETTINGS_ID)).thenReturn(responseDto);
 
+        // when
         var response = mockMvc.perform(get("/course-settings/" + EXISTING_COURSE_SETTINGS_ID));
 
+        // then
         response.andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(EXISTING_COURSE_SETTINGS_ID.toString()));
     }
@@ -72,13 +78,16 @@ public class CourseSettingsControllerTest {
     @Test
     @WithMockUser(roles = "USER")
     void getById_givenId_shouldThrowEntityNotFoundExceptionAnd404() throws Exception {
-        Mockito.when(courseSettingsWebFacade.getById(NON_EXISTING_COURSE_SETTINGS_ID))
+        // given
+        when(courseSettingsWebFacade.getById(NON_EXISTING_COURSE_SETTINGS_ID))
                 .thenThrow(new EntityNotFoundException(
                         "Course settings not found [id = {%s}]".formatted(NON_EXISTING_COURSE_ID)
                 ));
 
+        // when
         var response = mockMvc.perform(get("/course-settings/" + NON_EXISTING_COURSE_SETTINGS_ID));
 
+        //then
         response.andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.message").value(
                         "Course settings not found [id = {%s}]".formatted(NON_EXISTING_COURSE_ID)

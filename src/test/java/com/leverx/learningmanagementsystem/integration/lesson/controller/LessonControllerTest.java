@@ -50,10 +50,12 @@ public class LessonControllerTest {
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @WithMockUser(roles = "USER")
     void getAll_shouldReturnAllLessonsAnd200() throws Exception {
+        // when
         var response = mockMvc.perform(get(LESSONS)
                 .param(PAGE, DEFAULT_PAGE)
                 .param(PAGE_SIZE, String.valueOf(TOTAL_NUMBER_OF_LESSONS)));
 
+        // then
         response.andExpect(status().isOk())
                 .andExpect(jsonPath("$.content.size()").value(TOTAL_NUMBER_OF_LESSONS));
     }
@@ -62,8 +64,10 @@ public class LessonControllerTest {
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @WithMockUser(roles = "USER")
     void getById_givenLessonId_shouldReturnLessonAnd200() throws Exception {
+        // when
         var response = mockMvc.perform(get(LESSONS + "/" + EXISTING_LESSON_ID));
 
+        // then
         response.andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(NUMBER_OF_LESSON_FIELDS))
                 .andExpect(jsonPath("$.id").value(EXISTING_LESSON_ID.toString()))
@@ -74,12 +78,15 @@ public class LessonControllerTest {
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @WithMockUser(roles = "USER")
     void create_givenCreateLessonDto_shouldReturnCreatedLessonAnd201() throws Exception {
+        // given
         CreateLessonDto newLesson = LessonTestUtils.initializeCreateLessonDto();
 
+        // when
         var response = mockMvc.perform(post(LESSONS)
                 .contentType(APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(newLesson)));
 
+        // then
         response.andExpect(status().isCreated())
                 .andExpect(jsonPath("$.length()").value(NUMBER_OF_LESSON_FIELDS))
                 .andExpect(jsonPath("$.title").value(NEW_LESSON_TITLE))
@@ -90,12 +97,15 @@ public class LessonControllerTest {
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @WithMockUser(roles = "USER")
     void updateById_givenLessonIdAndCreateLessonDto_shouldReturnUpdatedLessonAnd200() throws Exception {
+        // given
         CreateLessonDto newLesson = LessonTestUtils.initializeCreateLessonDto();
 
+        // when
         var response = mockMvc.perform(put(LESSONS + "/" + EXISTING_LESSON_ID)
                 .contentType(APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(newLesson)));
 
+        // then
         response.andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(NUMBER_OF_LESSON_FIELDS))
                 .andExpect(jsonPath("$.title").value(NEW_LESSON_TITLE))
@@ -106,8 +116,10 @@ public class LessonControllerTest {
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @WithMockUser(roles = "USER")
     void delete_givenId_shouldReturnStatus204() throws Exception {
+        // when
         var response = mockMvc.perform(delete(LESSONS + "/" + EXISTING_LESSON_ID));
 
+        // then
         response.andExpect(status().isNoContent());
     }
 
@@ -115,8 +127,10 @@ public class LessonControllerTest {
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @WithMockUser(roles = "USER")
     void delete_givenId_shouldReturnNotFound() throws Exception {
+        // when
         var response = mockMvc.perform(delete(LESSONS + "/" + NON_EXISTING_LESSON_ID));
 
+        // then
         response.andExpect(status().isNotFound());
     }
 }
