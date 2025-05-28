@@ -2,10 +2,15 @@ package testutils;
 
 import com.leverx.learningmanagementsystem.course.model.Course;
 import com.leverx.learningmanagementsystem.student.dto.CreateStudentDto;
+import com.leverx.learningmanagementsystem.student.dto.StudentResponseDto;
 import com.leverx.learningmanagementsystem.student.model.Student;
 import com.leverx.learningmanagementsystem.utils.language.Language;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +30,10 @@ public class StudentTestUtils {
     public static final UUID EXISTING_STUDENT_ID = UUID.fromString("5a231280-1988-410f-98d9-852b8dc9caf1");
     public static final String EXISTING_STUDENT_FIRST_NAME = "Abap";
     public static final String EXISTING_STUDENT_LAST_NAME = "Abapov";
+    public static final Instant EXISTING_STUDENT_CREATED = Instant.now();
+    public static final Instant EXISTING_STUDENT_LAST_MODIFIED = Instant.now();
+    public static final String EXISTING_STUDENT_CREATED_BY = "Anonymous user";
+    public static final String EXISTING_STUDENT_LAST_MODIFIED_BY = "Anonymous user";
     public static final String STUDENTS = "/students";
     public static final int TOTAL_NUMBER_OF_STUDENTS = 2;
     public static final int NUMBER_OF_STUDENT_FIELDS = 12;
@@ -51,6 +60,30 @@ public class StudentTestUtils {
                 .language(NEW_STUDENT_LANGUAGE)
                 .courses(NEW_STUDENT_COURSES)
                 .build();
+    }
+
+    public static StudentResponseDto initializeStudentResponseDto() {
+        return StudentResponseDto.builder()
+                .id(EXISTING_STUDENT_ID)
+                .firstName(EXISTING_STUDENT_FIRST_NAME)
+                .lastName(EXISTING_STUDENT_LAST_NAME)
+                .dateOfBirth(NEW_STUDENT_DATE_OF_BIRTH)
+                .email(NEW_STUDENT_EMAIL)
+                .language(NEW_STUDENT_LANGUAGE)
+                .coins(NEW_STUDENT_COINS)
+                .courseIds(NEW_STUDENT_COURSE_IDS)
+                .created(EXISTING_STUDENT_CREATED)
+                .createdBy(EXISTING_STUDENT_CREATED_BY)
+                .lastModified(EXISTING_STUDENT_LAST_MODIFIED)
+                .lastModifiedBy(EXISTING_STUDENT_LAST_MODIFIED_BY)
+                .build();
+    }
+
+    public static Page<StudentResponseDto> initializePage(Pageable pageable) {
+        StudentResponseDto firstDto = initializeStudentResponseDto();
+        StudentResponseDto secondDto = initializeStudentResponseDto();
+        List<StudentResponseDto> dtos = List.of(firstDto, secondDto);
+        return new PageImpl<>(dtos, pageable, TOTAL_NUMBER_OF_STUDENTS);
     }
 
     private StudentTestUtils() {

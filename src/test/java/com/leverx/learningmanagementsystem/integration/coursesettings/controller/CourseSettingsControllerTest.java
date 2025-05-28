@@ -2,6 +2,7 @@ package com.leverx.learningmanagementsystem.integration.coursesettings.controlle
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.leverx.learningmanagementsystem.coursesettings.dto.CreateCourseSettingsDto;
+import org.junit.jupiter.api.Tag;
 import testutils.CourseSettingsTestUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("dev")
+@Tag("integration-test")
 public class CourseSettingsControllerTest {
 
     @Autowired
@@ -48,22 +50,26 @@ public class CourseSettingsControllerTest {
 
     @Test
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @WithMockUser(roles="USER")
+    @WithMockUser(roles = "USER")
     void getAll_shouldReturnAllCourseSettingsAnd200() throws Exception {
+        // when
         var response = mockMvc.perform(get(COURSE_SETTINGS)
                 .param(PAGE, DEFAULT_PAGE)
                 .param(PAGE_SIZE, String.valueOf(TOTAL_NUMBER_OF_COURSE_SETTINGS)));
 
+        // then
         response.andExpect(status().isOk())
                 .andExpect(jsonPath("$.content.size()").value(TOTAL_NUMBER_OF_COURSE_SETTINGS));
     }
 
     @Test
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @WithMockUser(roles="USER")
+    @WithMockUser(roles = "USER")
     void getById_givenCourseSettingsId_shouldReturnCourseSettingsAnd200() throws Exception {
+        // when
         var response = mockMvc.perform(get(COURSE_SETTINGS + "/" + EXISTING_COURSE_SETTINGS_ID));
 
+        // then
         response.andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(NUMBER_OF_COURSE_SETTINGS_FIELDS))
                 .andExpect(jsonPath("$.id").value(EXISTING_COURSE_SETTINGS_ID.toString()))
@@ -73,14 +79,17 @@ public class CourseSettingsControllerTest {
 
     @Test
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @WithMockUser(roles="USER")
+    @WithMockUser(roles = "USER")
     void create_givenCreateCourseSettingsDto_shouldReturnCreatedCourseSettingsAnd201() throws Exception {
+        // given
         CreateCourseSettingsDto newCourseSettings = CourseSettingsTestUtils.initializeCreateCourseSettingsDto();
 
+        // when
         var response = mockMvc.perform(post(COURSE_SETTINGS)
-                        .contentType(APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(newCourseSettings)));
+                .contentType(APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(newCourseSettings)));
 
+        // then
         response.andExpect(status().isCreated())
                 .andExpect(jsonPath("$.length()").value(NUMBER_OF_COURSE_SETTINGS_FIELDS))
                 .andExpect(jsonPath("$.startDate").value(NEW_COURSE_SETTINGS_START_DATE.format(formatter)))
@@ -89,14 +98,17 @@ public class CourseSettingsControllerTest {
 
     @Test
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @WithMockUser(roles="USER")
+    @WithMockUser(roles = "USER")
     void updateById_givenCourseSettingsIdAndCreateCourseSettingsDto_shouldReturnUpdatedCourseSettingsAnd200() throws Exception {
+        // given
         CreateCourseSettingsDto newCourseSettings = CourseSettingsTestUtils.initializeCreateCourseSettingsDto();
 
+        // when
         var response = mockMvc.perform(put(COURSE_SETTINGS + "/" + EXISTING_COURSE_SETTINGS_ID)
-                        .contentType(APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(newCourseSettings)));
+                .contentType(APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(newCourseSettings)));
 
+        // then
         response.andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(NUMBER_OF_COURSE_SETTINGS_FIELDS))
                 .andExpect(jsonPath("$.startDate").value(NEW_COURSE_SETTINGS_START_DATE.format(formatter)))
@@ -105,19 +117,23 @@ public class CourseSettingsControllerTest {
 
     @Test
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @WithMockUser(roles="USER")
+    @WithMockUser(roles = "USER")
     void delete_givenId_shouldReturnStatus204() throws Exception {
+        // when
         var response = mockMvc.perform(delete(COURSE_SETTINGS + "/" + EXISTING_COURSE_SETTINGS_ID));
 
+        // then
         response.andExpect(status().isNoContent());
     }
 
     @Test
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @WithMockUser(roles="USER")
+    @WithMockUser(roles = "USER")
     void delete_givenId_shouldReturnNotFound() throws Exception {
+        // when
         var response = mockMvc.perform(delete(COURSE_SETTINGS + "/" + NON_EXISTING_COURSE_SETTINGS_ID));
 
+        // then
         response.andExpect(status().isNotFound());
     }
 }

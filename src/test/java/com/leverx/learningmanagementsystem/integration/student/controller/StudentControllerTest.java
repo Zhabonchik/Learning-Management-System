@@ -2,6 +2,7 @@ package com.leverx.learningmanagementsystem.integration.student.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.leverx.learningmanagementsystem.student.dto.CreateStudentDto;
+import org.junit.jupiter.api.Tag;
 import testutils.StudentTestUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("dev")
+@Tag("integration-test")
 class StudentControllerTest {
 
     @Autowired
@@ -46,12 +48,14 @@ class StudentControllerTest {
 
     @Test
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @WithMockUser(roles="USER")
-    void getAll_shouldReturnAllStudentsAnd200() throws Exception{
+    @WithMockUser(roles = "USER")
+    void getAll_shouldReturnAllStudentsAnd200() throws Exception {
+        // when
         var response = mockMvc.perform(get(STUDENTS)
                 .param(PAGE, DEFAULT_PAGE)
                 .param(PAGE_SIZE, String.valueOf(TOTAL_NUMBER_OF_STUDENTS)));
 
+        // then
         response.andExpect(status().isOk())
                 .andExpect(jsonPath("$.content.size()").value(TOTAL_NUMBER_OF_STUDENTS))
                 .andExpect(jsonPath("$.content[0].firstName").value(EXISTING_STUDENT_FIRST_NAME))
@@ -60,10 +64,12 @@ class StudentControllerTest {
 
     @Test
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @WithMockUser(roles="USER")
-    void getById_GivenId_shouldReturnStudentAnd200() throws Exception{
+    @WithMockUser(roles = "USER")
+    void getById_GivenId_shouldReturnStudentAnd200() throws Exception {
+        // when
         var response = mockMvc.perform(get(STUDENTS + "/" + EXISTING_STUDENT_ID));
 
+        // then
         response.andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(NUMBER_OF_STUDENT_FIELDS))
                 .andExpect(jsonPath("$.firstName").value(EXISTING_STUDENT_FIRST_NAME));
@@ -71,10 +77,12 @@ class StudentControllerTest {
 
     @Test
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @WithMockUser(roles="USER")
-    void getById_givenId_shouldReturnEntityNotFoundExceptionAnd404() throws Exception{
+    @WithMockUser(roles = "USER")
+    void getById_givenId_shouldReturnEntityNotFoundExceptionAnd404() throws Exception {
+        // when
         var response = mockMvc.perform(get(STUDENTS + "/" + NON_EXISTING_STUDENT_ID));
 
+        // then
         response.andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.message").value(
                         "Student not found [id = {%s}]".formatted(NON_EXISTING_STUDENT_ID)));
@@ -82,14 +90,17 @@ class StudentControllerTest {
 
     @Test
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @WithMockUser(roles="USER")
-    void create_givenCreateStudentDto_shouldReturnCreatedStudentAnd201() throws Exception{
+    @WithMockUser(roles = "USER")
+    void create_givenCreateStudentDto_shouldReturnCreatedStudentAnd201() throws Exception {
+        // given
         CreateStudentDto newStudent = StudentTestUtils.initializeCreateStudentDto();
 
+        // when
         var response = mockMvc.perform(post(STUDENTS)
                 .contentType(APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(newStudent)));
 
+        // then
         response.andExpect(status().isCreated())
                 .andExpect(jsonPath("$.firstName").value(NEW_STUDENT_FIRST_NAME))
                 .andExpect(jsonPath("$.lastName").value(NEW_STUDENT_LAST_NAME));
@@ -97,19 +108,23 @@ class StudentControllerTest {
 
     @Test
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @WithMockUser(roles="USER")
-    void delete_givenId_shouldReturn204() throws Exception{
+    @WithMockUser(roles = "USER")
+    void delete_givenId_shouldReturn204() throws Exception {
+        // when
         var response = mockMvc.perform(delete(STUDENTS + "/" + EXISTING_STUDENT_ID));
 
+        // then
         response.andExpect(status().isNoContent());
     }
 
     @Test
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @WithMockUser(roles="USER")
-    void delete_givenId_shouldReturn404() throws Exception{
+    @WithMockUser(roles = "USER")
+    void delete_givenId_shouldReturn404() throws Exception {
+        // when
         var response = mockMvc.perform(delete(STUDENTS + "/" + NON_EXISTING_STUDENT_ID));
 
+        // then
         response.andExpect(status().isNotFound());
     }
 }
