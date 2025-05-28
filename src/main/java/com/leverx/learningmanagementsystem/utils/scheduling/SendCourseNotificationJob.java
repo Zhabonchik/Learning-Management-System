@@ -28,12 +28,12 @@ public class SendCourseNotificationJob {
     private final EmailService emailService;
     private final MustacheService mustacheService;
 
-    private final String TEMPLATE_PATH = "src/main/resources/templates/email/course_notification_%s.mustache";
+    private final String TEMPLATE_PATH = "templates/email/course_notification_%s.mustache";
     private final String STUDENT_NAME = "student_name";
     private final String COURSE_TITLE = "course_title";
     private final String START_DATE = "start_date";
 
-    @Scheduled(cron = "0 0 0 * * *")
+    @Scheduled(cron = "*/10 * * * * *")
     public void execute() {
         log.info("Fetching courses that start tomorrow");
         List<Course> courses = getCoursesStartingTomorrow();
