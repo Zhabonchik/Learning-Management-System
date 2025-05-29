@@ -15,19 +15,23 @@ public class SecurityAuditorAware implements AuditorAware<String> {
     public Optional<String> getCurrentAuditor() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if (!authentication.isAuthenticated()) {
-            return Optional.of("Anonymous");
-        }
-
-        if (authentication instanceof UsernamePasswordAuthenticationToken) {
-            var username = authentication.getName();
-            return Optional.ofNullable(username);
-        } else if (authentication instanceof JwtAuthenticationToken) {
-            Jwt token = (Jwt) authentication.getPrincipal();
-            String clientId = token.getClaimAsString("client_id");
-            return Optional.of(clientId);
+        if (authentication instanceof UsernamePasswordAuthenticationToken token) {
+            return extractUsername(token);
+        } else if (authentication instanceof JwtAuthenticationToken token) {
+            return extractClientId(token);
         }
 
         return Optional.of("Could not identify user");
+    }
+
+    private Optional<String> extractUsername(UsernamePasswordAuthenticationToken token) {
+        var username = token.getName();
+        return Optional.ofNullable(username);
+    }
+
+    private Optional<String> extractClientId(JwtAuthenticationToken authToken) {
+        Jwt token = (Jwt) authToken.getPrincipal();
+        String clientId = token.getClaimAsString("client_id");
+        return Optional.of(clientId);
     }
 }

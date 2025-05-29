@@ -72,7 +72,6 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    @Transactional
     public Course create(Course course) {
         log.info("Create course: {}", course);
         return courseRepository.save(course);

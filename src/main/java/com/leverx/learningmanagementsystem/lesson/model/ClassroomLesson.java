@@ -1,17 +1,15 @@
 package com.leverx.learningmanagementsystem.lesson.model;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
 
 @Entity
-@Getter
-@Setter
+@Table(name = "classroom_lesson")
+@Data
 @EqualsAndHashCode(callSuper = true)
-@DiscriminatorValue("CLASSROOM")
 public class ClassroomLesson extends Lesson {
 
     @Column(name = "location")
