@@ -20,7 +20,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-@Tag("unit-test")
+@Tag("unit")
 public class CourseSettingsServiceTest {
 
     @Mock

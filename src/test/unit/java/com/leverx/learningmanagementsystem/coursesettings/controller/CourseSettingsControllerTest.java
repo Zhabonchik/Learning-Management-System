@@ -10,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
@@ -21,6 +22,7 @@ import static com.leverx.learningmanagementsystem.utils.CourseSettingsTestUtils.
 import static com.leverx.learningmanagementsystem.utils.CourseSettingsTestUtils.initializePage;
 import static com.leverx.learningmanagementsystem.utils.CourseTestUtils.NON_EXISTING_COURSE_ID;
 import static com.leverx.learningmanagementsystem.utils.CourseTestUtils.TOTAL_NUMBER_OF_COURSES;
+import static com.leverx.learningmanagementsystem.utils.TestUtils.CREATED;
 import static com.leverx.learningmanagementsystem.utils.TestUtils.DEFAULT_PAGE;
 import static com.leverx.learningmanagementsystem.utils.TestUtils.PAGE;
 import static com.leverx.learningmanagementsystem.utils.TestUtils.PAGE_SIZE;
@@ -30,7 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = CourseSettingsController.class)
-@Tag("unit-test")
+@Tag("unit")
 public class CourseSettingsControllerTest {
 
     @Autowired
@@ -43,7 +45,7 @@ public class CourseSettingsControllerTest {
     @WithMockUser(roles = "USER")
     void getAll_shouldReturnAllCourseSettingsAnd200() throws Exception {
         // given
-        Pageable pageable = PageRequest.of(Integer.parseInt(DEFAULT_PAGE), TOTAL_NUMBER_OF_COURSES);
+        Pageable pageable = PageRequest.of(Integer.parseInt(DEFAULT_PAGE), TOTAL_NUMBER_OF_COURSES, Sort.by(CREATED));
         Page<CourseSettingsResponseDto> page = initializePage(pageable);
         when(courseSettingsWebFacade.getAll(pageable)).thenReturn(page);
 

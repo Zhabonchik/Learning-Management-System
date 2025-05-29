@@ -2,7 +2,6 @@ package com.leverx.learningmanagementsystem.utils.scheduling;
 
 import com.leverx.learningmanagementsystem.course.model.Course;
 import com.leverx.learningmanagementsystem.email.service.MustacheService;
-import com.leverx.learningmanagementsystem.student.model.Student;
 import com.leverx.learningmanagementsystem.course.service.CourseService;
 import com.leverx.learningmanagementsystem.email.service.EmailService;
 import com.leverx.learningmanagementsystem.utils.language.Language;
@@ -49,15 +48,18 @@ public class SendCourseNotificationJob {
     }
 
     private void prepareAndSendNotification(Course course) {
-        for (Student student : course.getStudents()) {
-            String body = configureEmailBody(
-                    student.getFirstName(),
-                    student.getLanguage(),
-                    course.getTitle(),
-                    course.getSettings().getStartDate());
+        course.getStudents()
+                .stream()
+                .forEach(student -> {
 
-            tryToSendCourseNotification(student.getEmail(), course.getTitle(), body);
-        }
+                    String body = configureEmailBody(
+                            student.getFirstName(),
+                            student.getLanguage(),
+                            course.getTitle(),
+                            course.getSettings().getStartDate());
+
+                    tryToSendCourseNotification(student.getEmail(), course.getTitle(), body);
+                });
     }
 
     private String configureEmailBody(String studentName, Language language, String courseTitle, LocalDateTime startDate) {

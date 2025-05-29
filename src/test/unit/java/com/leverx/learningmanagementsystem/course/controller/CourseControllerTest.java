@@ -10,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
@@ -20,6 +21,7 @@ import static com.leverx.learningmanagementsystem.utils.CourseTestUtils.NON_EXIS
 import static com.leverx.learningmanagementsystem.utils.CourseTestUtils.TOTAL_NUMBER_OF_COURSES;
 import static com.leverx.learningmanagementsystem.utils.CourseTestUtils.initializeCourseResponseDto;
 import static com.leverx.learningmanagementsystem.utils.CourseTestUtils.initializePage;
+import static com.leverx.learningmanagementsystem.utils.TestUtils.CREATED;
 import static com.leverx.learningmanagementsystem.utils.TestUtils.DEFAULT_PAGE;
 import static com.leverx.learningmanagementsystem.utils.TestUtils.PAGE;
 import static com.leverx.learningmanagementsystem.utils.TestUtils.PAGE_SIZE;
@@ -29,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(CourseController.class)
-@Tag("unit-test")
+@Tag("unit")
 public class CourseControllerTest {
 
     @Autowired
@@ -42,13 +44,13 @@ public class CourseControllerTest {
     @WithMockUser(roles = "USER")
     void getAll_shouldReturnAllCourses() throws Exception {
         // given
-        Pageable pageable = PageRequest.of(Integer.parseInt(DEFAULT_PAGE), TOTAL_NUMBER_OF_COURSES);
+        Pageable pageable = PageRequest.of(Integer.parseInt(DEFAULT_PAGE), TOTAL_NUMBER_OF_COURSES, Sort.by(CREATED));
         Page<CourseResponseDto> page = initializePage(pageable);
         when(courseWebFacade.getAll(pageable)).thenReturn(page);
 
         // when
         var response = this.mockMvc.perform(get("/courses")
-                .param(PAGE, String.valueOf(DEFAULT_PAGE))
+                .param(PAGE, DEFAULT_PAGE)
                 .param(PAGE_SIZE, String.valueOf(TOTAL_NUMBER_OF_COURSES)));
 
         // then

@@ -38,7 +38,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("dev")
-@Tag("integration-test")
+@Tag("integration")
 public class LessonControllerIT {
 
     @Autowired

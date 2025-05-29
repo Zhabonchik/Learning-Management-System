@@ -10,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
@@ -20,6 +21,7 @@ import static com.leverx.learningmanagementsystem.utils.StudentTestUtils.NON_EXI
 import static com.leverx.learningmanagementsystem.utils.StudentTestUtils.TOTAL_NUMBER_OF_STUDENTS;
 import static com.leverx.learningmanagementsystem.utils.StudentTestUtils.initializePage;
 import static com.leverx.learningmanagementsystem.utils.StudentTestUtils.initializeStudentResponseDto;
+import static com.leverx.learningmanagementsystem.utils.TestUtils.CREATED;
 import static com.leverx.learningmanagementsystem.utils.TestUtils.DEFAULT_PAGE;
 import static com.leverx.learningmanagementsystem.utils.TestUtils.PAGE;
 import static com.leverx.learningmanagementsystem.utils.TestUtils.PAGE_SIZE;
@@ -29,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(StudentController.class)
-@Tag("unit-test")
+@Tag("unit")
 public class StudentControllerTest {
     @Autowired
     MockMvc mockMvc;
@@ -41,7 +43,7 @@ public class StudentControllerTest {
     @WithMockUser(roles = "USER")
     void getAll_shouldReturnAllStudentsAnd200() throws Exception {
         // given
-        Pageable pageable = PageRequest.of(Integer.parseInt(DEFAULT_PAGE), TOTAL_NUMBER_OF_STUDENTS);
+        Pageable pageable = PageRequest.of(Integer.parseInt(DEFAULT_PAGE), TOTAL_NUMBER_OF_STUDENTS, Sort.by(CREATED));
         Page page = initializePage(pageable);
         when(studentWebFacade.getAll(pageable)).thenReturn(page);
 

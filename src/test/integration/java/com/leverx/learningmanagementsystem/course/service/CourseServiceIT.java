@@ -33,7 +33,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
-@Tag("integration-test")
+@Tag("integration")
 class CourseServiceIT {
 
     @Autowired
