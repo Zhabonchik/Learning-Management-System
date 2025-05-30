@@ -1,7 +1,10 @@
 package com.leverx.learningmanagementsystem.student.model;
 
+import com.leverx.learningmanagementsystem.audit.model.AuditableEntity;
 import com.leverx.learningmanagementsystem.course.model.Course;
+import com.leverx.learningmanagementsystem.utils.converter.LocaleAttributeConverter;
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -21,6 +24,7 @@ import org.hibernate.type.SqlTypes;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 import static jakarta.persistence.GenerationType.UUID;
@@ -30,10 +34,10 @@ import static jakarta.persistence.GenerationType.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@EqualsAndHashCode(exclude = "courses")
+@EqualsAndHashCode(exclude = "courses", callSuper = false)
 @ToString(exclude = "courses")
 @Builder
-public class Student {
+public class Student extends AuditableEntity {
 
     @Id
     @GeneratedValue(strategy = UUID)
@@ -55,6 +59,10 @@ public class Student {
     @Column(name = "coins")
     private BigDecimal coins;
 
+    @Column(name = "language")
+    @Convert(converter = LocaleAttributeConverter.class)
+    private Locale locale;
+
     @ManyToMany
     @JoinTable(
             name = "student_course",
@@ -62,5 +70,4 @@ public class Student {
             inverseJoinColumns = @JoinColumn(name = "course_id")
     )
     private List<Course> courses;
-
 }

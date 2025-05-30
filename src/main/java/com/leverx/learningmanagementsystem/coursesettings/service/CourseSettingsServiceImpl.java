@@ -6,6 +6,8 @@ import com.leverx.learningmanagementsystem.coursesettings.repository.CourseSetti
 import com.leverx.learningmanagementsystem.utils.validator.CourseSettingsValidator;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,6 +34,12 @@ public class CourseSettingsServiceImpl implements CourseSettingsService {
     public List<CourseSettings> getAll() {
         log.info("Get all course settings");
         return courseSettingsRepository.findAll();
+    }
+
+    @Override
+    public Page<CourseSettings> getAll(Pageable pageable) {
+        log.info("Get all course settings on page {}, with page size {}", pageable.getPageNumber(), pageable.getPageSize());
+        return courseSettingsRepository.findAll(pageable);
     }
 
     @Override

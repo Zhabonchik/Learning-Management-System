@@ -20,7 +20,6 @@ import static com.leverx.learningmanagementsystem.utils.HttpConstantUtils.EVALUA
 import static com.leverx.learningmanagementsystem.utils.HttpConstantUtils.V2;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.isNull;
-import static org.springframework.http.HttpMethod.GET;
 
 @Service
 @AllArgsConstructor

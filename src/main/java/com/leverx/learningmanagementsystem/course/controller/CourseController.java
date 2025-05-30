@@ -5,6 +5,9 @@ import com.leverx.learningmanagementsystem.course.dto.CreateCourseDto;
 import com.leverx.learningmanagementsystem.course.webfacade.CourseWebFacade;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -15,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import java.util.List;
 import java.util.UUID;
 
 import static org.springframework.http.HttpStatus.CREATED;
@@ -30,8 +32,8 @@ public class CourseController {
     private final CourseWebFacade courseWebFacade;
 
     @GetMapping
-    public List<CourseResponseDto> getAll() {
-        return courseWebFacade.getAll();
+    public Page<CourseResponseDto> getAll(@PageableDefault(size = 3, page = 0, sort = "created") Pageable pageable) {
+        return courseWebFacade.getAll(pageable);
     }
 
     @GetMapping("/{id}")

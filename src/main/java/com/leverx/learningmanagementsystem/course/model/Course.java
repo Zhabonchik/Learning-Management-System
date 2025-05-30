@@ -1,5 +1,6 @@
 package com.leverx.learningmanagementsystem.course.model;
 
+import com.leverx.learningmanagementsystem.audit.model.AuditableEntity;
 import com.leverx.learningmanagementsystem.coursesettings.model.CourseSettings;
 import com.leverx.learningmanagementsystem.lesson.model.Lesson;
 import com.leverx.learningmanagementsystem.student.model.Student;
@@ -34,11 +35,10 @@ import static jakarta.persistence.GenerationType.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@EqualsAndHashCode(exclude = {"settings", "lessons", "students"})
+@EqualsAndHashCode(exclude = {"settings", "lessons", "students"}, callSuper = false)
 @ToString(exclude = {"settings", "lessons", "students"})
 @Builder
-public class Course {
-
+public class Course extends AuditableEntity {
     @Id
     @GeneratedValue(strategy = UUID)
     @JdbcTypeCode(SqlTypes.VARCHAR)

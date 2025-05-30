@@ -6,6 +6,9 @@ import com.leverx.learningmanagementsystem.utils.exception.model.IncorrectResult
 import com.leverx.learningmanagementsystem.course.repository.CourseRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,6 +46,20 @@ public class CourseServiceImpl implements CourseService {
         courses = !courses.isEmpty() ? courseRepository.findAllWithSettings() : courses;
 
         return courses;
+    }
+
+    @Override
+    @Transactional
+    public Page<Course> getAll(Pageable pageable) {
+        log.info("Get all courses on page {}, with page size {}", pageable.getPageNumber(), pageable.getPageSize());
+        Page<Course> courses = courseRepository.findAll(pageable);
+        List<Course> content = courses.getContent();
+
+        content = !content.isEmpty() ? courseRepository.findAllWithLessons(content) : content;
+        content = !content.isEmpty() ? courseRepository.findAllWithSettings(content) : content;
+        content = !content.isEmpty() ? courseRepository.findAllWithStudents(content) : content;
+
+        return new PageImpl<>(content, pageable, courses.getTotalElements());
     }
 
     @Override

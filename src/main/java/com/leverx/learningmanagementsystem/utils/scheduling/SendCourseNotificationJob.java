@@ -1,7 +1,7 @@
 package com.leverx.learningmanagementsystem.utils.scheduling;
 
 import com.leverx.learningmanagementsystem.course.model.Course;
-import com.leverx.learningmanagementsystem.student.model.Student;
+import com.leverx.learningmanagementsystem.email.service.MustacheService;
 import com.leverx.learningmanagementsystem.course.service.CourseService;
 import com.leverx.learningmanagementsystem.email.service.EmailService;
 import jakarta.mail.MessagingException;
@@ -13,7 +13,10 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 @Component
 @AllArgsConstructor
@@ -22,8 +25,14 @@ public class SendCourseNotificationJob {
 
     private final CourseService courseService;
     private final EmailService emailService;
+    private final MustacheService mustacheService;
 
-    @Scheduled(cron = "*/15 * * * * *")
+    private final String TEMPLATE_PATH = "templates/email/course_notification_%s.mustache";
+    private final String STUDENT_NAME = "student_name";
+    private final String COURSE_TITLE = "course_title";
+    private final String START_DATE = "start_date";
+
+    @Scheduled(cron = "*/10 * * * * *")
     public void execute() {
         log.info("Fetching courses that start tomorrow");
         List<Course> courses = getCoursesStartingTomorrow();
@@ -39,20 +48,34 @@ public class SendCourseNotificationJob {
     }
 
     private void prepareAndSendNotification(Course course) {
-        List<String> emails = course.getStudents().stream().map(Student::getEmail).toList();
-        String subject = course.getTitle();
-        String body = "Dear student, course %s is starting soon. The exact date is %s."
-                .formatted(course.getTitle(), course.getSettings().getStartDate());
-        log.info("Trying to send notification");
-        tryToSendCourseNotification(emails, subject, body);
+        course.getStudents()
+                .forEach(student -> {
+
+                    String body = configureEmailBody(
+                            student.getFirstName(),
+                            student.getLocale(),
+                            course.getTitle(),
+                            course.getSettings().getStartDate());
+
+                    tryToSendCourseNotification(student.getEmail(), course.getTitle(), body);
+                });
     }
 
-    private void tryToSendCourseNotification(List<String> emails, String subject, String body) {
+    private String configureEmailBody(String studentName, Locale locale, String courseTitle, LocalDateTime startDate) {
+        Map<String, Object> model = new HashMap<>();
+        model.put(STUDENT_NAME, studentName);
+        model.put(COURSE_TITLE, courseTitle);
+        model.put(START_DATE, startDate);
+
+        String templatePath = TEMPLATE_PATH.formatted(locale.getLanguage());
+        return mustacheService.processTemplate(templatePath, model);
+    }
+
+    private void tryToSendCourseNotification(String email, String subject, String body) {
         try {
-            emailService.sendEmail(emails, subject, body);
+            emailService.sendEmail(email, subject, body);
         } catch (MessagingException | MailException ex) {
             log.error(ex.getMessage());
         }
     }
-
 }

@@ -1,5 +1,6 @@
 package com.leverx.learningmanagementsystem.coursesettings.model;
 
+import com.leverx.learningmanagementsystem.audit.model.AuditableEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -8,6 +9,7 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
@@ -20,10 +22,11 @@ import static jakarta.persistence.GenerationType.UUID;
 @Entity
 @Table(name = "course_settings")
 @Data
+@EqualsAndHashCode(callSuper = false)
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CourseSettings {
+public class CourseSettings extends AuditableEntity {
 
     @Id
     @GeneratedValue(strategy = UUID)
@@ -38,5 +41,4 @@ public class CourseSettings {
 
     @Column(name = "is_public")
     private Boolean isPublic;
-
 }
