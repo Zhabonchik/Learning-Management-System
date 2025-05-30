@@ -4,7 +4,6 @@ import com.leverx.learningmanagementsystem.course.model.Course;
 import com.leverx.learningmanagementsystem.student.dto.CreateStudentDto;
 import com.leverx.learningmanagementsystem.student.dto.StudentResponseDto;
 import com.leverx.learningmanagementsystem.student.model.Student;
-import com.leverx.learningmanagementsystem.utils.language.Language;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -14,6 +13,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 public class StudentTestUtils {
@@ -24,7 +24,7 @@ public class StudentTestUtils {
     public static final LocalDate NEW_STUDENT_DATE_OF_BIRTH = LocalDate.of(2005, 7, 23);
     public static final BigDecimal NEW_STUDENT_COINS = new BigDecimal(1548);
     public static final List<Course> NEW_STUDENT_COURSES = new ArrayList<>();
-    public static final Language NEW_STUDENT_LANGUAGE = Language.RU;
+    public static final Locale NEW_STUDENT_LOCALE = Locale.ENGLISH;
     public static final List<UUID> NEW_STUDENT_COURSE_IDS = new ArrayList<>();
     public static final UUID NON_EXISTING_STUDENT_ID = UUID.fromString("2bcd9463-3c57-421b-91d0-047b315d60ce");
     public static final UUID EXISTING_STUDENT_ID = UUID.fromString("5a231280-1988-410f-98d9-852b8dc9caf1");
@@ -45,7 +45,7 @@ public class StudentTestUtils {
                 NEW_STUDENT_EMAIL,
                 NEW_STUDENT_DATE_OF_BIRTH,
                 NEW_STUDENT_COINS,
-                NEW_STUDENT_LANGUAGE,
+                NEW_STUDENT_LOCALE,
                 NEW_STUDENT_COURSE_IDS
         );
     }
@@ -57,7 +57,7 @@ public class StudentTestUtils {
                 .email(NEW_STUDENT_EMAIL)
                 .dateOfBirth(NEW_STUDENT_DATE_OF_BIRTH)
                 .coins(NEW_STUDENT_COINS)
-                .language(NEW_STUDENT_LANGUAGE)
+                .locale(NEW_STUDENT_LOCALE)
                 .courses(NEW_STUDENT_COURSES)
                 .build();
     }
@@ -69,7 +69,7 @@ public class StudentTestUtils {
                 .lastName(EXISTING_STUDENT_LAST_NAME)
                 .dateOfBirth(NEW_STUDENT_DATE_OF_BIRTH)
                 .email(NEW_STUDENT_EMAIL)
-                .language(NEW_STUDENT_LANGUAGE)
+                .locale(NEW_STUDENT_LOCALE)
                 .coins(NEW_STUDENT_COINS)
                 .courseIds(NEW_STUDENT_COURSE_IDS)
                 .created(EXISTING_STUDENT_CREATED)

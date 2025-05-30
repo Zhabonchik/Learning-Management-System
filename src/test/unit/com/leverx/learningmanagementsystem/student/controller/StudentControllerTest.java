@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import static com.leverx.learningmanagementsystem.utils.StudentTestUtils.EXISTING_STUDENT_FIRST_NAME;
 import static com.leverx.learningmanagementsystem.utils.StudentTestUtils.EXISTING_STUDENT_ID;
 import static com.leverx.learningmanagementsystem.utils.StudentTestUtils.NON_EXISTING_STUDENT_ID;
+import static com.leverx.learningmanagementsystem.utils.StudentTestUtils.STUDENTS;
 import static com.leverx.learningmanagementsystem.utils.StudentTestUtils.TOTAL_NUMBER_OF_STUDENTS;
 import static com.leverx.learningmanagementsystem.utils.StudentTestUtils.initializePage;
 import static com.leverx.learningmanagementsystem.utils.StudentTestUtils.initializeStudentResponseDto;
@@ -48,7 +49,7 @@ public class StudentControllerTest {
         when(studentWebFacade.getAll(pageable)).thenReturn(page);
 
         // when
-        var response = this.mockMvc.perform(get("/students")
+        var response = this.mockMvc.perform(get(STUDENTS)
                 .param(PAGE, DEFAULT_PAGE)
                 .param(PAGE_SIZE, String.valueOf(TOTAL_NUMBER_OF_STUDENTS)));
 
@@ -67,7 +68,7 @@ public class StudentControllerTest {
         when(studentWebFacade.getById(EXISTING_STUDENT_ID)).thenReturn(responseDto);
 
         // when
-        var response = this.mockMvc.perform(get("/students/" + EXISTING_STUDENT_ID));
+        var response = this.mockMvc.perform(get(STUDENTS + "/" + EXISTING_STUDENT_ID));
 
         // then
         response.andExpect(status().isOk())
@@ -85,7 +86,7 @@ public class StudentControllerTest {
                 ));
 
         // when
-        var response = this.mockMvc.perform(get("/students/" + NON_EXISTING_STUDENT_ID));
+        var response = this.mockMvc.perform(get(STUDENTS + "/" + NON_EXISTING_STUDENT_ID));
 
         // then
         response.andExpect(status().isNotFound())

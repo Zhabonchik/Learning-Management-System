@@ -15,6 +15,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static com.leverx.learningmanagementsystem.utils.CourseTestUtils.COURSES;
 import static com.leverx.learningmanagementsystem.utils.CourseTestUtils.EXISTING_COURSE_ID;
 import static com.leverx.learningmanagementsystem.utils.CourseTestUtils.EXISTING_COURSE_TITLE;
 import static com.leverx.learningmanagementsystem.utils.CourseTestUtils.NON_EXISTING_COURSE_ID;
@@ -49,7 +50,7 @@ public class CourseControllerTest {
         when(courseWebFacade.getAll(pageable)).thenReturn(page);
 
         // when
-        var response = this.mockMvc.perform(get("/courses")
+        var response = this.mockMvc.perform(get(COURSES)
                 .param(PAGE, DEFAULT_PAGE)
                 .param(PAGE_SIZE, String.valueOf(TOTAL_NUMBER_OF_COURSES)));
 
@@ -68,7 +69,7 @@ public class CourseControllerTest {
         when(courseWebFacade.getById(EXISTING_COURSE_ID)).thenReturn(responseDto);
 
         //when
-        var response = this.mockMvc.perform(get("/courses/" + EXISTING_COURSE_ID));
+        var response = this.mockMvc.perform(get(COURSES + "/" + EXISTING_COURSE_ID));
 
         // then
         response.andExpect(status().isOk())
@@ -85,7 +86,7 @@ public class CourseControllerTest {
                         .formatted(NON_EXISTING_COURSE_ID)));
 
         // when
-        var response = this.mockMvc.perform(get("/courses/" + NON_EXISTING_COURSE_ID));
+        var response = this.mockMvc.perform(get(COURSES + "/" + NON_EXISTING_COURSE_ID));
 
         // then
         response.andExpect(status().isNotFound())

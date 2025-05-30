@@ -15,6 +15,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static com.leverx.learningmanagementsystem.utils.CourseSettingsTestUtils.COURSE_SETTINGS;
 import static com.leverx.learningmanagementsystem.utils.CourseSettingsTestUtils.EXISTING_COURSE_SETTINGS_ID;
 import static com.leverx.learningmanagementsystem.utils.CourseSettingsTestUtils.NON_EXISTING_COURSE_SETTINGS_ID;
 import static com.leverx.learningmanagementsystem.utils.CourseSettingsTestUtils.TOTAL_NUMBER_OF_COURSE_SETTINGS;
@@ -50,7 +51,7 @@ public class CourseSettingsControllerTest {
         when(courseSettingsWebFacade.getAll(pageable)).thenReturn(page);
 
         // when
-        var response = mockMvc.perform(get("/course-settings")
+        var response = mockMvc.perform(get(COURSE_SETTINGS)
                 .param(PAGE, DEFAULT_PAGE)
                 .param(PAGE_SIZE, String.valueOf(TOTAL_NUMBER_OF_COURSE_SETTINGS)));
 
@@ -69,7 +70,7 @@ public class CourseSettingsControllerTest {
         when(courseSettingsWebFacade.getById(EXISTING_COURSE_SETTINGS_ID)).thenReturn(responseDto);
 
         // when
-        var response = mockMvc.perform(get("/course-settings/" + EXISTING_COURSE_SETTINGS_ID));
+        var response = mockMvc.perform(get(COURSE_SETTINGS + "/" + EXISTING_COURSE_SETTINGS_ID));
 
         // then
         response.andExpect(status().isOk())
@@ -86,7 +87,7 @@ public class CourseSettingsControllerTest {
                 ));
 
         // when
-        var response = mockMvc.perform(get("/course-settings/" + NON_EXISTING_COURSE_SETTINGS_ID));
+        var response = mockMvc.perform(get(COURSE_SETTINGS + "/" + NON_EXISTING_COURSE_SETTINGS_ID));
 
         //then
         response.andExpect(status().isNotFound())

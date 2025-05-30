@@ -4,7 +4,6 @@ import com.leverx.learningmanagementsystem.course.model.Course;
 import com.leverx.learningmanagementsystem.email.service.MustacheService;
 import com.leverx.learningmanagementsystem.course.service.CourseService;
 import com.leverx.learningmanagementsystem.email.service.EmailService;
-import com.leverx.learningmanagementsystem.utils.language.Language;
 import jakarta.mail.MessagingException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +15,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 @Component
@@ -49,12 +49,11 @@ public class SendCourseNotificationJob {
 
     private void prepareAndSendNotification(Course course) {
         course.getStudents()
-                .stream()
                 .forEach(student -> {
 
                     String body = configureEmailBody(
                             student.getFirstName(),
-                            student.getLanguage(),
+                            student.getLocale(),
                             course.getTitle(),
                             course.getSettings().getStartDate());
 
@@ -62,13 +61,13 @@ public class SendCourseNotificationJob {
                 });
     }
 
-    private String configureEmailBody(String studentName, Language language, String courseTitle, LocalDateTime startDate) {
+    private String configureEmailBody(String studentName, Locale locale, String courseTitle, LocalDateTime startDate) {
         Map<String, Object> model = new HashMap<>();
         model.put(STUDENT_NAME, studentName);
         model.put(COURSE_TITLE, courseTitle);
         model.put(START_DATE, startDate);
 
-        String templatePath = TEMPLATE_PATH.formatted(language.name().toLowerCase());
+        String templatePath = TEMPLATE_PATH.formatted(locale.getLanguage());
         return mustacheService.processTemplate(templatePath, model);
     }
 

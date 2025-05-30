@@ -16,6 +16,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static com.leverx.learningmanagementsystem.utils.LessonTestUtils.EXISTING_LESSON_ID;
+import static com.leverx.learningmanagementsystem.utils.LessonTestUtils.LESSONS;
 import static com.leverx.learningmanagementsystem.utils.LessonTestUtils.NEW_VIDEO_LESSON_PLATFORM;
 import static com.leverx.learningmanagementsystem.utils.LessonTestUtils.NON_EXISTING_LESSON_ID;
 import static com.leverx.learningmanagementsystem.utils.LessonTestUtils.TOTAL_NUMBER_OF_LESSONS;
@@ -49,7 +50,7 @@ public class LessonControllerTest {
         when(lessonWebFacade.getAll(pageable)).thenReturn(page);
 
         // when
-        var response = mockMvc.perform(get("/lessons")
+        var response = mockMvc.perform(get(LESSONS)
                 .param(PAGE, DEFAULT_PAGE)
                 .param(PAGE_SIZE, String.valueOf(TOTAL_NUMBER_OF_LESSONS)));
 
@@ -68,7 +69,7 @@ public class LessonControllerTest {
         when(lessonWebFacade.getById(EXISTING_LESSON_ID)).thenReturn(responseDto);
 
         // when
-        var response = mockMvc.perform(get("/lessons/" + EXISTING_LESSON_ID));
+        var response = mockMvc.perform(get(LESSONS + "/" + EXISTING_LESSON_ID));
 
         // then
         response.andExpect(status().isOk())
@@ -86,7 +87,7 @@ public class LessonControllerTest {
                 );
 
         // when
-        var response = mockMvc.perform(get("/lessons/" + NON_EXISTING_LESSON_ID));
+        var response = mockMvc.perform(get(LESSONS + "/" + NON_EXISTING_LESSON_ID));
 
         // then
         response.andExpect(status().isNotFound())

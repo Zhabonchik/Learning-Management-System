@@ -87,7 +87,7 @@ public class StudentWebFacadeImpl implements StudentWebFacade {
         student.setEmail(createStudentDto.email());
         student.setDateOfBirth(createStudentDto.dateOfBirth());
         student.setCoins(createStudentDto.coins());
-        student.setLanguage(createStudentDto.language());
+        student.setLocale(createStudentDto.locale());
     }
 
     private void updateCourses(Student student, CreateStudentDto createStudentDto) {
