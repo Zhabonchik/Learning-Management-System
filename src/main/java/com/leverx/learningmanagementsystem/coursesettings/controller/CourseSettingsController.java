@@ -2,7 +2,7 @@ package com.leverx.learningmanagementsystem.coursesettings.controller;
 
 import com.leverx.learningmanagementsystem.coursesettings.dto.CreateCourseSettingsDto;
 import com.leverx.learningmanagementsystem.coursesettings.dto.CourseSettingsResponseDto;
-import com.leverx.learningmanagementsystem.coursesettings.webfacade.CourseSettingsWebFacade;
+import com.leverx.learningmanagementsystem.coursesettings.facade.CourseSettingsWebFacade;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;

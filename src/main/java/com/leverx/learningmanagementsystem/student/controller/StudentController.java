@@ -4,7 +4,7 @@ import com.leverx.learningmanagementsystem.course.dto.CourseId;
 import com.leverx.learningmanagementsystem.student.dto.CreateStudentDto;
 import com.leverx.learningmanagementsystem.student.dto.StudentId;
 import com.leverx.learningmanagementsystem.student.dto.StudentResponseDto;
-import com.leverx.learningmanagementsystem.student.webfacade.StudentWebFacade;
+import com.leverx.learningmanagementsystem.student.facade.StudentWebFacade;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;

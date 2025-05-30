@@ -1,6 +1,6 @@
 package com.leverx.learningmanagementsystem.lesson.model;
 
-import com.leverx.learningmanagementsystem.audit.model.AuditableEntity;
+import com.leverx.learningmanagementsystem.core.audit.model.AuditableEntity;
 import com.leverx.learningmanagementsystem.course.model.Course;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

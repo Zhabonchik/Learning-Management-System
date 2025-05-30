@@ -1,7 +1,7 @@
 package com.leverx.learningmanagementsystem.course.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.leverx.learningmanagementsystem.config.security.SecurityEntityConfiguration;
+import com.leverx.learningmanagementsystem.web.security.config.SecurityEntityConfiguration;
 import com.leverx.learningmanagementsystem.course.dto.CreateCourseDto;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;

@@ -1,6 +1,6 @@
 package com.leverx.learningmanagementsystem.course.model;
 
-import com.leverx.learningmanagementsystem.audit.model.AuditableEntity;
+import com.leverx.learningmanagementsystem.core.audit.model.AuditableEntity;
 import com.leverx.learningmanagementsystem.coursesettings.model.CourseSettings;
 import com.leverx.learningmanagementsystem.lesson.model.Lesson;
 import com.leverx.learningmanagementsystem.student.model.Student;

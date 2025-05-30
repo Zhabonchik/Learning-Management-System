@@ -1,7 +1,7 @@
 package com.leverx.learningmanagementsystem.coursesettings.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.leverx.learningmanagementsystem.utils.DataFormatUtils;
+import com.leverx.learningmanagementsystem.core.utils.DataFormatUtils;
 import jakarta.annotation.Nullable;
 import lombok.Builder;
 import lombok.NonNull;

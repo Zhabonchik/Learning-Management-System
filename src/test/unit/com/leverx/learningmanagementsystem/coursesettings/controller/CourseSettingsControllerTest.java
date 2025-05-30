@@ -1,8 +1,8 @@
 package com.leverx.learningmanagementsystem.coursesettings.controller;
 
 import com.leverx.learningmanagementsystem.coursesettings.dto.CourseSettingsResponseDto;
-import com.leverx.learningmanagementsystem.coursesettings.webfacade.CourseSettingsWebFacade;
-import com.leverx.learningmanagementsystem.utils.exception.model.EntityNotFoundException;
+import com.leverx.learningmanagementsystem.coursesettings.facade.CourseSettingsWebFacade;
+import com.leverx.learningmanagementsystem.core.exception.model.EntityNotFoundException;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
