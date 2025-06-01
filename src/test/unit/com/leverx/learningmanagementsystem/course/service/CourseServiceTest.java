@@ -1,13 +1,12 @@
 package com.leverx.learningmanagementsystem.course.service;
 
+import com.leverx.learningmanagementsystem.AbstractTest;
 import com.leverx.learningmanagementsystem.course.model.Course;
 import com.leverx.learningmanagementsystem.course.repository.CourseRepository;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,9 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class)
-@Tag("unit")
-public class CourseServiceTest {
+public class CourseServiceTest extends AbstractTest {
 
     @Mock
     CourseRepository courseRepository;
@@ -32,6 +29,7 @@ public class CourseServiceTest {
     CourseServiceImpl courseService;
 
     @Test
+    @Tag("unit")
     void getAll_ShouldReturnAllCourses() {
         // given
         Course firstCourse = initializeCourse();
@@ -52,6 +50,7 @@ public class CourseServiceTest {
     }
 
     @Test
+    @Tag("unit")
     void getById_givenId_ShouldReturnCourse() {
         // given
         Course existingCourse = initializeCourse();
@@ -65,6 +64,7 @@ public class CourseServiceTest {
     }
 
     @Test
+    @Tag("unit")
     void create_givenCourse_ShouldReturnCourse() {
         // given
         Course newCourse = initializeCourse();

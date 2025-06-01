@@ -1,16 +1,11 @@
 package com.leverx.learningmanagementsystem.student.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.leverx.learningmanagementsystem.AbstractIT;
 import com.leverx.learningmanagementsystem.student.dto.CreateStudentDto;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.web.servlet.MockMvc;
 
 import static com.leverx.learningmanagementsystem.utils.StudentITUtils.EXISTING_STUDENT_FIRST_NAME;
 import static com.leverx.learningmanagementsystem.utils.StudentITUtils.EXISTING_STUDENT_ID;
@@ -25,35 +20,23 @@ import static com.leverx.learningmanagementsystem.utils.StudentITUtils.initializ
 import static com.leverx.learningmanagementsystem.utils.ITUtils.CLEAN_SQL;
 import static com.leverx.learningmanagementsystem.utils.ITUtils.DEFAULT_PAGE;
 import static com.leverx.learningmanagementsystem.utils.ITUtils.INSERT_SQL;
-import static com.leverx.learningmanagementsystem.utils.ITUtils.PAGE;
-import static com.leverx.learningmanagementsystem.utils.ITUtils.PAGE_SIZE;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-@ActiveProfiles("dev")
-@Tag("integration")
-class StudentControllerIT {
-
-    @Autowired
-    private MockMvc mockMvc;
-
-    @Autowired
-    private ObjectMapper objectMapper;
+class StudentControllerIT extends AbstractIT {
 
     @Test
+    @Tag("integration")
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @WithMockUser(roles = "USER")
     void getAll_shouldReturnAllStudentsAnd200() throws Exception {
+        // given
+        var request = buildGetAllRequest(STUDENTS, DEFAULT_PAGE, String.valueOf(TOTAL_NUMBER_OF_STUDENTS));
+
         // when
-        var response = mockMvc.perform(get(STUDENTS)
-                .param(PAGE, DEFAULT_PAGE)
-                .param(PAGE_SIZE, String.valueOf(TOTAL_NUMBER_OF_STUDENTS)));
+        var response = mockMvc.perform(request);
 
         // then
         response.andExpect(status().isOk())
@@ -63,11 +46,15 @@ class StudentControllerIT {
     }
 
     @Test
+    @Tag("integration")
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @WithMockUser(roles = "USER")
     void getById_GivenId_shouldReturnStudentAnd200() throws Exception {
+        // given
+        var request = buildGetByIdRequest(STUDENTS, String.valueOf(EXISTING_STUDENT_ID));
+
         // when
-        var response = mockMvc.perform(get(STUDENTS + "/" + EXISTING_STUDENT_ID));
+        var response = mockMvc.perform(request);
 
         // then
         response.andExpect(status().isOk())
@@ -76,11 +63,15 @@ class StudentControllerIT {
     }
 
     @Test
+    @Tag("integration")
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @WithMockUser(roles = "USER")
     void getById_givenId_shouldReturnEntityNotFoundExceptionAnd404() throws Exception {
+        // given
+        var request = buildGetByIdRequest(STUDENTS, String.valueOf(NON_EXISTING_STUDENT_ID));
+
         // when
-        var response = mockMvc.perform(get(STUDENTS + "/" + NON_EXISTING_STUDENT_ID));
+        var response = mockMvc.perform(request);
 
         // then
         response.andExpect(status().isNotFound())
@@ -89,6 +80,7 @@ class StudentControllerIT {
     }
 
     @Test
+    @Tag("integration")
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @WithMockUser(roles = "USER")
     void create_givenCreateStudentDto_shouldReturnCreatedStudentAnd201() throws Exception {
@@ -107,22 +99,30 @@ class StudentControllerIT {
     }
 
     @Test
+    @Tag("integration")
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @WithMockUser(roles = "USER")
     void delete_givenId_shouldReturn204() throws Exception {
+        // given
+        var request = buildDeleteByIdRequest(STUDENTS, String.valueOf(EXISTING_STUDENT_ID));
+
         // when
-        var response = mockMvc.perform(delete(STUDENTS + "/" + EXISTING_STUDENT_ID));
+        var response = mockMvc.perform(request);
 
         // then
         response.andExpect(status().isNoContent());
     }
 
     @Test
+    @Tag("integration")
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @WithMockUser(roles = "USER")
     void delete_givenId_shouldReturn404() throws Exception {
+        // given
+        var request = buildDeleteByIdRequest(STUDENTS, String.valueOf(NON_EXISTING_STUDENT_ID));
+
         // when
-        var response = mockMvc.perform(delete(STUDENTS + "/" + NON_EXISTING_STUDENT_ID));
+        var response = mockMvc.perform(request);
 
         // then
         response.andExpect(status().isNotFound());

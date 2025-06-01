@@ -1,13 +1,12 @@
 package com.leverx.learningmanagementsystem.student.service;
 
+import com.leverx.learningmanagementsystem.AbstractTest;
 import com.leverx.learningmanagementsystem.student.model.Student;
 import com.leverx.learningmanagementsystem.student.repository.StudentRepository;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,9 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class)
-@Tag("unit")
-public class StudentServiceTest {
+public class StudentServiceTest extends AbstractTest {
 
     @Mock
     StudentRepository studentRepository;
@@ -32,6 +29,7 @@ public class StudentServiceTest {
     StudentServiceImpl studentService;
 
     @Test
+    @Tag("unit")
     void getAll_shouldReturnAllStudents() {
         // given
         Student firstStudent = initializeStudent();
@@ -50,6 +48,7 @@ public class StudentServiceTest {
     }
 
     @Test
+    @Tag("unit")
     void getById_givenId_shouldReturnStudent() {
         // given
         Student existingStudent = initializeStudent();
@@ -64,6 +63,7 @@ public class StudentServiceTest {
     }
 
     @Test
+    @Tag("unit")
     void create_givenStudent_shouldReturnStudent() {
         // given
         Student newStudent = initializeStudent();

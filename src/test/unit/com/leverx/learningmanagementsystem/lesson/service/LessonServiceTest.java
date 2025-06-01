@@ -1,13 +1,12 @@
 package com.leverx.learningmanagementsystem.lesson.service;
 
+import com.leverx.learningmanagementsystem.AbstractTest;
 import com.leverx.learningmanagementsystem.lesson.model.Lesson;
 import com.leverx.learningmanagementsystem.lesson.repository.LessonRepository;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,9 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class)
-@Tag("unit")
-public class LessonServiceTest {
+public class LessonServiceTest extends AbstractTest {
 
     @Mock
     LessonRepository lessonRepository;
@@ -32,6 +29,7 @@ public class LessonServiceTest {
     LessonServiceImpl lessonService;
 
     @Test
+    @Tag("unit")
     void getAll_shouldReturnAllLessons() {
         // given
         Lesson firstLesson = initializeLesson();
@@ -50,6 +48,7 @@ public class LessonServiceTest {
     }
 
     @Test
+    @Tag("unit")
     void getById_givenId_shouldReturnLesson() {
         // given
         Lesson existingLesson = initializeLesson();
@@ -64,6 +63,7 @@ public class LessonServiceTest {
     }
 
     @Test
+    @Tag("unit")
     void create_givenLesson_shouldReturnLesson() {
         // given
         Lesson newLesson = initializeLesson();

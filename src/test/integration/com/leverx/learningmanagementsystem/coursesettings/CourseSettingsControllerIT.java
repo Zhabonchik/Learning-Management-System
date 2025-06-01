@@ -1,14 +1,12 @@
 package com.leverx.learningmanagementsystem.coursesettings;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.leverx.learningmanagementsystem.AbstractIT;
 import com.leverx.learningmanagementsystem.coursesettings.dto.CreateCourseSettingsDto;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -27,21 +25,13 @@ import static com.leverx.learningmanagementsystem.utils.CourseSettingsITUtils.fo
 import static com.leverx.learningmanagementsystem.utils.ITUtils.CLEAN_SQL;
 import static com.leverx.learningmanagementsystem.utils.ITUtils.DEFAULT_PAGE;
 import static com.leverx.learningmanagementsystem.utils.ITUtils.INSERT_SQL;
-import static com.leverx.learningmanagementsystem.utils.ITUtils.PAGE;
-import static com.leverx.learningmanagementsystem.utils.ITUtils.PAGE_SIZE;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-@ActiveProfiles("dev")
-@Tag("integration")
-public class CourseSettingsControllerIT {
+public class CourseSettingsControllerIT extends AbstractIT {
 
     @Autowired
     private MockMvc mockMvc;
@@ -50,13 +40,15 @@ public class CourseSettingsControllerIT {
     ObjectMapper objectMapper;
 
     @Test
+    @Tag("integration")
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @WithMockUser(roles = "USER")
     void getAll_shouldReturnAllCourseSettingsAnd200() throws Exception {
+        // given
+        var request = buildGetAllRequest(COURSE_SETTINGS, DEFAULT_PAGE, String.valueOf(TOTAL_NUMBER_OF_COURSE_SETTINGS));
+
         // when
-        var response = mockMvc.perform(get(COURSE_SETTINGS)
-                .param(PAGE, DEFAULT_PAGE)
-                .param(PAGE_SIZE, String.valueOf(TOTAL_NUMBER_OF_COURSE_SETTINGS)));
+        var response = mockMvc.perform(request);
 
         // then
         response.andExpect(status().isOk())
@@ -64,11 +56,15 @@ public class CourseSettingsControllerIT {
     }
 
     @Test
+    @Tag("integration")
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @WithMockUser(roles = "USER")
     void getById_givenCourseSettingsId_shouldReturnCourseSettingsAnd200() throws Exception {
+        // given
+        var request = buildGetByIdRequest(COURSE_SETTINGS, String.valueOf(EXISTING_COURSE_SETTINGS_ID));
+
         // when
-        var response = mockMvc.perform(get(COURSE_SETTINGS + "/" + EXISTING_COURSE_SETTINGS_ID));
+        var response = mockMvc.perform(request);
 
         // then
         response.andExpect(status().isOk())
@@ -79,6 +75,7 @@ public class CourseSettingsControllerIT {
     }
 
     @Test
+    @Tag("integration")
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @WithMockUser(roles = "USER")
     void create_givenCreateCourseSettingsDto_shouldReturnCreatedCourseSettingsAnd201() throws Exception {
@@ -98,6 +95,7 @@ public class CourseSettingsControllerIT {
     }
 
     @Test
+    @Tag("integration")
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @WithMockUser(roles = "USER")
     void updateById_givenCourseSettingsIdAndCreateCourseSettingsDto_shouldReturnUpdatedCourseSettingsAnd200() throws Exception {
@@ -117,22 +115,30 @@ public class CourseSettingsControllerIT {
     }
 
     @Test
+    @Tag("integration")
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @WithMockUser(roles = "USER")
     void delete_givenId_shouldReturnStatus204() throws Exception {
+        // given
+        var request = buildDeleteByIdRequest(COURSE_SETTINGS, String.valueOf(EXISTING_COURSE_SETTINGS_ID));
+
         // when
-        var response = mockMvc.perform(delete(COURSE_SETTINGS + "/" + EXISTING_COURSE_SETTINGS_ID));
+        var response = mockMvc.perform(request);
 
         // then
         response.andExpect(status().isNoContent());
     }
 
     @Test
+    @Tag("integration")
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @WithMockUser(roles = "USER")
     void delete_givenId_shouldReturnNotFound() throws Exception {
+        // given
+        var request = buildDeleteByIdRequest(COURSE_SETTINGS, String.valueOf(NON_EXISTING_COURSE_SETTINGS_ID));
+
         // when
-        var response = mockMvc.perform(delete(COURSE_SETTINGS + "/" + NON_EXISTING_COURSE_SETTINGS_ID));
+        var response = mockMvc.perform(request);
 
         // then
         response.andExpect(status().isNotFound());

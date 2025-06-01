@@ -1,11 +1,11 @@
 package com.leverx.learningmanagementsystem.course.service;
 
+import com.leverx.learningmanagementsystem.AbstractIT;
 import com.leverx.learningmanagementsystem.course.model.Course;
 import com.leverx.learningmanagementsystem.lesson.model.Lesson;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
 
@@ -32,14 +32,13 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@SpringBootTest
-@Tag("integration")
-class CourseServiceIT {
+class CourseServiceIT extends AbstractIT {
 
     @Autowired
     private CourseService courseService;
 
     @Test
+    @Tag("integration")
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     void getAll_shouldReturnAllCourses() {
         // when
@@ -50,6 +49,7 @@ class CourseServiceIT {
     }
 
     @Test
+    @Tag("integration")
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     void getById_givenId_shouldReturnCourse() {
         // when
@@ -64,6 +64,7 @@ class CourseServiceIT {
     }
 
     @Test
+    @Tag("integration")
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @WithMockUser(roles = "USER")
     void create_givenCourse_shouldReturnCreatedCourse() {
@@ -85,6 +86,7 @@ class CourseServiceIT {
     }
 
     @Test
+    @Tag("integration")
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @WithMockUser(roles = "USER")
     void update_givenCourse_shouldReturnUpdatedCourse() {
@@ -111,6 +113,7 @@ class CourseServiceIT {
     }
 
     @Test
+    @Tag("integration")
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     void update_givenCourse_shouldThrowExceptionAndRollbackTransaction() {
         // given
