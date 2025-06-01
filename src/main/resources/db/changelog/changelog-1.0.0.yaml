@@ -143,7 +143,7 @@ databaseChangeLog:
                   name: course_id
                   type: varchar(36)
                   constraints:
-                    nullable: false
+                    nullable: true
         - addForeignKeyConstraint:
             baseTableName: lesson
             baseColumnNames: course_id

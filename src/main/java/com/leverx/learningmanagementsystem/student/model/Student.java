@@ -59,7 +59,7 @@ public class Student extends AuditableEntity {
     @Column(name = "coins")
     private BigDecimal coins;
 
-    @Column(name = "language")
+    @Column(name = "locale")
     @Convert(converter = LocaleAttributeConverter.class)
     private Locale locale;
 
