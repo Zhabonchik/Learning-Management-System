@@ -6,6 +6,7 @@ import com.leverx.learningmanagementsystem.course.model.Course;
 import com.leverx.learningmanagementsystem.coursesettings.model.CourseSettings;
 import com.leverx.learningmanagementsystem.lesson.model.Lesson;
 import com.leverx.learningmanagementsystem.student.model.Student;
+import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import static lombok.AccessLevel.PRIVATE;
+
+@NoArgsConstructor(access = PRIVATE)
 public class CourseTestUtils {
 
     public static final String NEW_COURSE_TITLE = "Test course";
@@ -85,8 +89,5 @@ public class CourseTestUtils {
         CourseResponseDto secondResponseDto = initializeCourseResponseDto();
         List<CourseResponseDto> response = List.of(firstResponseDto, secondResponseDto);
         return new PageImpl<>(response, pageable, response.size());
-    }
-
-    private CourseTestUtils() {
     }
 }

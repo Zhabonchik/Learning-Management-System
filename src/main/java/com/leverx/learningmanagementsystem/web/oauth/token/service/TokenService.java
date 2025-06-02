@@ -1,6 +1,6 @@
 package com.leverx.learningmanagementsystem.web.oauth.token.service;
 
-import com.leverx.learningmanagementsystem.web.oauth.token.model.TokenRequest;
+import com.leverx.learningmanagementsystem.btp.destinationservice.model.DestinationTokenRequest;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CachePut;
@@ -18,14 +18,14 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.Base64;
 import java.util.Map;
 
-import static com.leverx.learningmanagementsystem.web.http.utils.HttpConstantUtils.ACCESS_TOKEN;
-import static com.leverx.learningmanagementsystem.web.http.utils.HttpConstantUtils.AUTHORIZATION;
-import static com.leverx.learningmanagementsystem.web.http.utils.HttpConstantUtils.AUTHTOKENS;
-import static com.leverx.learningmanagementsystem.web.http.utils.HttpConstantUtils.BASIC;
-import static com.leverx.learningmanagementsystem.web.http.utils.HttpConstantUtils.CLIENT_CREDENTIALS;
-import static com.leverx.learningmanagementsystem.web.http.utils.HttpConstantUtils.GRANT_TYPE;
-import static com.leverx.learningmanagementsystem.web.http.utils.HttpConstantUtils.OAUTH;
-import static com.leverx.learningmanagementsystem.web.http.utils.HttpConstantUtils.TOKEN;
+import static com.leverx.learningmanagementsystem.web.oauth.token.utils.TokenUtils.ACCESS_TOKEN;
+import static com.leverx.learningmanagementsystem.web.oauth.token.utils.TokenUtils.AUTHORIZATION;
+import static com.leverx.learningmanagementsystem.web.oauth.token.utils.TokenUtils.AUTHTOKENS;
+import static com.leverx.learningmanagementsystem.web.oauth.token.utils.TokenUtils.BASIC;
+import static com.leverx.learningmanagementsystem.web.oauth.token.utils.TokenUtils.CLIENT_CREDENTIALS;
+import static com.leverx.learningmanagementsystem.web.oauth.token.utils.TokenUtils.GRANT_TYPE;
+import static com.leverx.learningmanagementsystem.web.oauth.token.utils.TokenUtils.OAUTH;
+import static com.leverx.learningmanagementsystem.web.oauth.token.utils.TokenUtils.TOKEN;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED;
 
@@ -37,21 +37,21 @@ public class TokenService {
 
     private final RestClient restClient;
 
-    @Cacheable(value = AUTHTOKENS, key = "#tokenRequest.clientId()")
-    public String getAuthToken(TokenRequest tokenRequest) {
+    @Cacheable(value = AUTHTOKENS, key = "#destinationTokenRequest.clientId()")
+    public String getAuthToken(DestinationTokenRequest destinationTokenRequest) {
         log.info("Get auth token");
-        return requestAuthToken(tokenRequest);
+        return requestAuthToken(destinationTokenRequest);
     }
 
-    @CachePut(value = AUTHTOKENS, key = "#tokenRequest.clientId()")
-    public String refreshAuthToken(TokenRequest tokenRequest) {
+    @CachePut(value = AUTHTOKENS, key = "#destinationTokenRequest.clientId()")
+    public String refreshAuthToken(DestinationTokenRequest destinationTokenRequest) {
         log.info("Refresh auth token");
-        return requestAuthToken(tokenRequest);
+        return requestAuthToken(destinationTokenRequest);
     }
 
-    private String requestAuthToken(TokenRequest tokenRequest) {
-        String authUrl = getAuthUrl(tokenRequest.tokenUrl());
-        var headers = configureHeaders(tokenRequest);
+    private String requestAuthToken(DestinationTokenRequest destinationTokenRequest) {
+        String authUrl = getAuthUrl(destinationTokenRequest.tokenUrl());
+        var headers = configureHeaders(destinationTokenRequest);
         var body = configureBody();
 
         log.info("Request auth token");
@@ -76,19 +76,19 @@ public class TokenService {
                 .toUriString();
     }
 
-    private HttpEntity<MultiValueMap<String, String>> configureHttpEntity(TokenRequest tokenRequest) {
+    private HttpEntity<MultiValueMap<String, String>> configureHttpEntity(DestinationTokenRequest destinationTokenRequest) {
         log.info("Configure http entity");
-        HttpHeaders headers = configureHeaders(tokenRequest);
+        HttpHeaders headers = configureHeaders(destinationTokenRequest);
         MultiValueMap<String, String> body = configureBody();
         return new HttpEntity<>(body, headers);
     }
 
-    private HttpHeaders configureHeaders(TokenRequest tokenRequest) {
+    private HttpHeaders configureHeaders(DestinationTokenRequest destinationTokenRequest) {
         log.info("Configure headers");
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(APPLICATION_FORM_URLENCODED);
 
-        String auth = "%s:%s".formatted(tokenRequest.clientId(), tokenRequest.clientSecret());
+        String auth = "%s:%s".formatted(destinationTokenRequest.clientId(), destinationTokenRequest.clientSecret());
         String encodedAuth = Base64.getEncoder().encodeToString(auth.getBytes(UTF_8));
 
         headers.set(AUTHORIZATION, BASIC + " " + encodedAuth);

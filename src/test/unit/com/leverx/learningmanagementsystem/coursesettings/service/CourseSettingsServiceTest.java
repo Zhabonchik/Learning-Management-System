@@ -1,12 +1,14 @@
 package com.leverx.learningmanagementsystem.coursesettings.service;
 
-import com.leverx.learningmanagementsystem.AbstractTest;
 import com.leverx.learningmanagementsystem.coursesettings.model.CourseSettings;
 import com.leverx.learningmanagementsystem.coursesettings.repository.CourseSettingsRepository;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,7 +20,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-public class CourseSettingsServiceTest extends AbstractTest {
+@ActiveProfiles("test")
+@ExtendWith(MockitoExtension.class)
+public class CourseSettingsServiceTest {
 
     @Mock
     CourseSettingsRepository courseSettingsRepository;

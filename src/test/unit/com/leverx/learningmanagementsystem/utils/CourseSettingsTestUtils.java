@@ -2,6 +2,7 @@ package com.leverx.learningmanagementsystem.utils;
 
 import com.leverx.learningmanagementsystem.coursesettings.dto.CourseSettingsResponseDto;
 import com.leverx.learningmanagementsystem.coursesettings.dto.CreateCourseSettingsDto;
+import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -12,6 +13,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
 
+import static lombok.AccessLevel.PRIVATE;
+
+@NoArgsConstructor(access = PRIVATE)
 public class CourseSettingsTestUtils {
 
     public static final LocalDateTime NEW_COURSE_SETTINGS_START_DATE =
@@ -61,9 +65,5 @@ public class CourseSettingsTestUtils {
         CourseSettingsResponseDto secondDto = initializeCourseSettingsResponseDto();
         List<CourseSettingsResponseDto> responseDtos = List.of(firstDto, secondDto);
         return new PageImpl<>(responseDtos, pageable, responseDtos.size());
-    }
-
-    private CourseSettingsTestUtils() {
-
     }
 }

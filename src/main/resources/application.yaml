@@ -1,12 +1,15 @@
+info:
+  app:
+    name: Learning Managements System
+    description: Application provides functionality for creation of courses and students' further enrollment
+    version: @project.version@
+
 spring:
   application:
     name: LearningManagementSystem
-  config:
-    import: classpath:application-secret.yaml
   liquibase:
     enabled: true
   jpa:
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
     open-in-view: false
   mail:
     properties:
@@ -28,23 +31,3 @@ management:
   info:
     env:
       enabled: true
-
-info:
-  app:
-    name: Learning Managements System
-    description: Application provides functionality for creation of courses and students' further enrollment
-    version: @project.version@
-
-mail:
-  smtp:
-    auth: true
-    starttls:
-      enable: true
-
-security-entity:
-  user:
-    username: user
-    password: password
-  manager:
-    username: manager
-    password: password

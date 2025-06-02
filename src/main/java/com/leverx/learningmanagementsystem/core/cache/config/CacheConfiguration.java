@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 import static com.leverx.learningmanagementsystem.core.cache.utils.CacheConfigurationUtils.EXPIRATION_HOURS;
 import static com.leverx.learningmanagementsystem.core.cache.utils.CacheConfigurationUtils.MAXIMUM_SIZE;
-import static com.leverx.learningmanagementsystem.web.http.utils.HttpConstantUtils.AUTHTOKENS;
+import static com.leverx.learningmanagementsystem.web.oauth.token.utils.TokenUtils.AUTHTOKENS;
 
 @Configuration
 @EnableCaching

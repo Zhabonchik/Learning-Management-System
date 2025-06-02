@@ -15,8 +15,8 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 
 import lombok.NonNull;
 
-import static com.leverx.learningmanagementsystem.core.utils.DataFormatUtils.DATE_FORMAT;
-import static com.leverx.learningmanagementsystem.core.utils.DataFormatUtils.DATE_TIME_FORMAT;
+import static com.leverx.learningmanagementsystem.core.utils.DateFormatUtils.DATE_FORMAT;
+import static com.leverx.learningmanagementsystem.core.utils.DateFormatUtils.DATE_TIME_FORMAT;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.CONFLICT;

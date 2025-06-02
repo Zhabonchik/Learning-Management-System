@@ -17,7 +17,10 @@ import java.util.UUID;
         @JsonSubTypes.Type(value = CreateClassroomLessonDto.class, name = "CLASSROOM")
 })
 public interface CreateLessonDto {
+
     UUID courseId();
+
     String title();
+
     Integer durationInMinutes();
 }

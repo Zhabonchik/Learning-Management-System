@@ -1,12 +1,10 @@
 package com.leverx.learningmanagementsystem.student.service;
 
-import com.leverx.learningmanagementsystem.AbstractIT;
+import com.leverx.learningmanagementsystem.AbstractCommonIT;
 import com.leverx.learningmanagementsystem.course.model.Course;
 import com.leverx.learningmanagementsystem.student.model.Student;
-import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.leverx.learningmanagementsystem.utils.CourseITUtils;
@@ -32,10 +30,12 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class StudentServiceIT extends AbstractIT {
+class StudentServiceIT extends AbstractCommonIT {
+
+    @Autowired
+    private StudentService studentService;
 
     @Test
-    @Tag("integration")
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     void getById_givenId_shouldReturnStudent() {
         // when
@@ -47,7 +47,6 @@ class StudentServiceIT extends AbstractIT {
     }
 
     @Test
-    @Tag("integration")
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     void getAll_shouldReturnAllStudents() {
         // when
@@ -58,9 +57,7 @@ class StudentServiceIT extends AbstractIT {
     }
 
     @Test
-    @Tag("integration")
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @WithMockUser(roles = "USER")
     void create_givenStudent_shouldReturnCreatedStudent() {
         // given
         Student newStudent = initializeStudent();
@@ -81,9 +78,7 @@ class StudentServiceIT extends AbstractIT {
     }
 
     @Test
-    @Tag("integration")
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @WithMockUser(roles = "USER")
     void update_givenStudent_shouldReturnUpdatedStudent() {
         // given
         Student updateStudent = studentService.getById(EXISTING_STUDENT_ID);
@@ -110,7 +105,6 @@ class StudentServiceIT extends AbstractIT {
     }
 
     @Test
-    @Tag("integration")
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     void update_givenStudent_shouldThrowExceptionAndRollbackTransaction() {
         // given

@@ -4,6 +4,7 @@ import com.leverx.learningmanagementsystem.course.model.Course;
 import com.leverx.learningmanagementsystem.student.dto.CreateStudentDto;
 import com.leverx.learningmanagementsystem.student.dto.StudentResponseDto;
 import com.leverx.learningmanagementsystem.student.model.Student;
+import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +17,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 
+import static lombok.AccessLevel.PRIVATE;
+
+@NoArgsConstructor(access = PRIVATE)
 public class StudentTestUtils {
 
     public static final String NEW_STUDENT_FIRST_NAME = "A";
@@ -84,9 +88,5 @@ public class StudentTestUtils {
         StudentResponseDto secondDto = initializeStudentResponseDto();
         List<StudentResponseDto> dtos = List.of(firstDto, secondDto);
         return new PageImpl<>(dtos, pageable, TOTAL_NUMBER_OF_STUDENTS);
-    }
-
-    private StudentTestUtils() {
-
     }
 }

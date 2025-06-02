@@ -7,9 +7,11 @@ import com.leverx.learningmanagementsystem.student.dto.StudentResponseDto;
 import com.leverx.learningmanagementsystem.student.facade.StudentWebFacade;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -31,10 +33,12 @@ import static org.springframework.http.HttpStatus.NO_CONTENT;
 public class StudentController {
 
     private final StudentWebFacade studentWebFacade;
+    private final PagedResourcesAssembler<StudentResponseDto> assembler;
 
     @GetMapping
-    public Page<StudentResponseDto> getAll(@PageableDefault(size = 3, page = 0, sort = "created") Pageable pageable) {
-        return studentWebFacade.getAll(pageable);
+    public PagedModel<EntityModel<StudentResponseDto>> getAll(@PageableDefault(size = 3, page = 0, sort = "created") Pageable pageable) {
+        var page = studentWebFacade.getAll(pageable);
+        return assembler.toModel(page, EntityModel::of);
     }
 
     @GetMapping("/{id}")

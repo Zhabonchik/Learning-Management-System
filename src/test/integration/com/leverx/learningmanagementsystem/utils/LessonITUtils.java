@@ -7,6 +7,7 @@ import com.leverx.learningmanagementsystem.lesson.dto.VideoLesson.CreateVideoLes
 import com.leverx.learningmanagementsystem.lesson.dto.VideoLesson.VideoLessonResponseDto;
 import com.leverx.learningmanagementsystem.lesson.model.Lesson;
 import com.leverx.learningmanagementsystem.lesson.model.VideoLesson;
+import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +16,9 @@ import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
+import static lombok.AccessLevel.PRIVATE;
+
+@NoArgsConstructor(access = PRIVATE)
 public class LessonITUtils {
 
     public static final String NEW_LESSON_TITLE = "New Lesson";
@@ -31,6 +35,8 @@ public class LessonITUtils {
     public static final String EXISTING_LESSON_CREATED_BY = "Anonymous user";
     public static final String EXISTING_LESSON_LAST_MODIFIED_BY = "Anonymous user";
     public static final int TOTAL_NUMBER_OF_LESSONS = 2;
+    public static final int TOTAL_NUMBER_OF_VIDEO_LESSONS = 1;
+    public static final int TOTAL_NUMBER_OF_CLASSROOM_LESSONS = 1;
     public static final int NUMBER_OF_LESSON_FIELDS = 11;
     public static final String LESSONS = "/lessons";
 
@@ -72,8 +78,5 @@ public class LessonITUtils {
         LessonResponseDto secondDto = initializeLessonResponseDto();
         List<LessonResponseDto> dtos = List.of(firstDto, secondDto);
         return new PageImpl<>(dtos, pageable, dtos.size());
-    }
-
-    private LessonITUtils() {
     }
 }

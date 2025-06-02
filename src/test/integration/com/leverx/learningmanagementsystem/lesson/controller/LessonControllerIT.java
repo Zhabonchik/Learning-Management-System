@@ -1,12 +1,10 @@
 package com.leverx.learningmanagementsystem.lesson.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.leverx.learningmanagementsystem.AbstractIT;
+import com.leverx.learningmanagementsystem.AbstractCommonIT;
+import com.leverx.learningmanagementsystem.lesson.builder.LessonRequestBuilder;
 import com.leverx.learningmanagementsystem.lesson.dto.CreateLessonDto;
-import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -19,45 +17,44 @@ import static com.leverx.learningmanagementsystem.utils.LessonITUtils.NEW_LESSON
 import static com.leverx.learningmanagementsystem.utils.LessonITUtils.NEW_LESSON_TITLE;
 import static com.leverx.learningmanagementsystem.utils.LessonITUtils.NON_EXISTING_LESSON_ID;
 import static com.leverx.learningmanagementsystem.utils.LessonITUtils.NUMBER_OF_LESSON_FIELDS;
+import static com.leverx.learningmanagementsystem.utils.LessonITUtils.TOTAL_NUMBER_OF_CLASSROOM_LESSONS;
 import static com.leverx.learningmanagementsystem.utils.LessonITUtils.TOTAL_NUMBER_OF_LESSONS;
 import static com.leverx.learningmanagementsystem.utils.ITUtils.CLEAN_SQL;
 import static com.leverx.learningmanagementsystem.utils.ITUtils.DEFAULT_PAGE;
 import static com.leverx.learningmanagementsystem.utils.ITUtils.INSERT_SQL;
+import static com.leverx.learningmanagementsystem.utils.LessonITUtils.TOTAL_NUMBER_OF_VIDEO_LESSONS;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class LessonControllerIT extends AbstractIT {
+public class LessonControllerIT extends AbstractCommonIT {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
-    ObjectMapper objectMapper;
+    private LessonRequestBuilder requestBuilder;
 
     @Test
-    @Tag("integration")
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @WithMockUser(roles = "USER")
     void getAll_shouldReturnAllLessonsAnd200() throws Exception {
         // given
-        var request = buildGetAllRequest(LESSONS, DEFAULT_PAGE, String.valueOf(TOTAL_NUMBER_OF_LESSONS));
+        var request = requestBuilder.buildGetAllRequest(LESSONS, DEFAULT_PAGE, String.valueOf(TOTAL_NUMBER_OF_LESSONS));
 
         // when
         var response = mockMvc.perform(request);
 
         // then
         response.andExpect(status().isOk())
-                .andExpect(jsonPath("$.content.size()").value(TOTAL_NUMBER_OF_LESSONS));
+                .andExpect(jsonPath("$._embedded.videoLessonResponseDtoList.size()").value(TOTAL_NUMBER_OF_VIDEO_LESSONS))
+                .andExpect(jsonPath("$._embedded.classroomLessonResponseDtoList.size()").value(TOTAL_NUMBER_OF_CLASSROOM_LESSONS));
     }
 
     @Test
-    @Tag("integration")
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @WithMockUser(roles = "USER")
     void getById_givenLessonId_shouldReturnLessonAnd200() throws Exception {
         // given
-        var request = buildGetByIdRequest(LESSONS, String.valueOf(EXISTING_LESSON_ID));
+        var request = requestBuilder.buildGetByIdRequest(LESSONS, String.valueOf(EXISTING_LESSON_ID));
 
         // when
         var response = mockMvc.perform(request);
@@ -70,13 +67,11 @@ public class LessonControllerIT extends AbstractIT {
     }
 
     @Test
-    @Tag("integration")
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @WithMockUser(roles = "USER")
     void create_givenCreateLessonDto_shouldReturnCreatedLessonAnd201() throws Exception {
         // given
         CreateLessonDto newLesson = LessonITUtils.initializeCreateLessonDto();
-        var request = buildCreateRequest(LESSONS, APPLICATION_JSON, newLesson);
+        var request = requestBuilder.buildCreateRequest(LESSONS, APPLICATION_JSON, newLesson);
 
         // when
         var response = mockMvc.perform(request);
@@ -89,13 +84,11 @@ public class LessonControllerIT extends AbstractIT {
     }
 
     @Test
-    @Tag("integration")
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @WithMockUser(roles = "USER")
     void updateById_givenLessonIdAndCreateLessonDto_shouldReturnUpdatedLessonAnd200() throws Exception {
         // given
         CreateLessonDto newLesson = LessonITUtils.initializeCreateLessonDto();
-        var request = buildUpdateByIdRequest(LESSONS, String.valueOf(EXISTING_LESSON_ID), APPLICATION_JSON, newLesson);
+        var request = requestBuilder.buildUpdateByIdRequest(LESSONS, String.valueOf(EXISTING_LESSON_ID), APPLICATION_JSON, newLesson);
 
         // when
         var response = mockMvc.perform(request);
@@ -108,12 +101,10 @@ public class LessonControllerIT extends AbstractIT {
     }
 
     @Test
-    @Tag("integration")
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @WithMockUser(roles = "USER")
     void delete_givenId_shouldReturnStatus204() throws Exception {
         // given
-        var request = buildDeleteByIdRequest(LESSONS, String.valueOf(EXISTING_LESSON_ID));
+        var request = requestBuilder.buildDeleteByIdRequest(LESSONS, String.valueOf(EXISTING_LESSON_ID));
 
         // when
         var response = mockMvc.perform(request);
@@ -123,12 +114,10 @@ public class LessonControllerIT extends AbstractIT {
     }
 
     @Test
-    @Tag("integration")
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @WithMockUser(roles = "USER")
     void delete_givenId_shouldReturnNotFound() throws Exception {
         // given
-        var request = buildDeleteByIdRequest(LESSONS, String.valueOf(NON_EXISTING_LESSON_ID));
+        var request = requestBuilder.buildDeleteByIdRequest(LESSONS, String.valueOf(NON_EXISTING_LESSON_ID));
 
         // when
         var response = mockMvc.perform(request);

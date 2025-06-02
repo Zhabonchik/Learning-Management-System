@@ -4,7 +4,7 @@ import com.leverx.learningmanagementsystem.coursesettings.model.CourseSettings;
 import com.leverx.learningmanagementsystem.core.exception.model.InvalidCourseDatesException;
 import org.springframework.stereotype.Component;
 
-import static com.leverx.learningmanagementsystem.core.utils.DataFormatUtils.DATE_TIME_FORMAT;
+import static com.leverx.learningmanagementsystem.core.utils.DateFormatUtils.DATE_TIME_FORMAT;
 import static java.util.Objects.isNull;
 
 @Component

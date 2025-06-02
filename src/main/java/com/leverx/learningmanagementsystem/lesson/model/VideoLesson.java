@@ -14,6 +14,7 @@ import lombok.Setter;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class VideoLesson extends Lesson {
+
     @Column(name = "url")
     private String url;
 

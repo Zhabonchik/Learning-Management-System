@@ -11,14 +11,19 @@ import org.springframework.context.annotation.Profile;
 @Data
 @Profile("cloud")
 public class MailConfigUserProvided implements MailConfig {
+
     @JsonProperty("mail.transport.protocol")
     private String protocol;
+
     @JsonProperty("mail.smtp.port")
     private String port;
+
     @JsonProperty("mail.smtp.host")
     private String host;
+
     @JsonProperty("mail.smtp.from")
     private String from;
+
     @JsonProperty("mail.smtp.password")
     private String password;
 }

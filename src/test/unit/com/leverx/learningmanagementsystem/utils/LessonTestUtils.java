@@ -7,6 +7,7 @@ import com.leverx.learningmanagementsystem.lesson.dto.VideoLesson.CreateVideoLes
 import com.leverx.learningmanagementsystem.lesson.dto.VideoLesson.VideoLessonResponseDto;
 import com.leverx.learningmanagementsystem.lesson.model.Lesson;
 import com.leverx.learningmanagementsystem.lesson.model.VideoLesson;
+import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +16,9 @@ import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
+import static lombok.AccessLevel.PRIVATE;
+
+@NoArgsConstructor(access = PRIVATE)
 public class LessonTestUtils {
 
     public static final String NEW_LESSON_TITLE = "New Lesson";
@@ -72,8 +76,5 @@ public class LessonTestUtils {
         LessonResponseDto secondDto = initializeLessonResponseDto();
         List<LessonResponseDto> dtos = List.of(firstDto, secondDto);
         return new PageImpl<>(dtos, pageable, dtos.size());
-    }
-
-    private LessonTestUtils() {
     }
 }

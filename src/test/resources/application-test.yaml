@@ -1,13 +1,34 @@
+info:
+  app:
+    name: Learning Managements System
+    description: Application provides functionality for creation of courses and students' further enrollment
+    version: 1.0.0
+
 spring:
   application:
     name: LearningManagementSystem
-  config:
-    import: optional:file:src/main/resources/application-secret.yaml
   liquibase:
     enabled: true
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-    open-in-view: false
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/lms
+    username: user
+    password: password
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: tikva838@gmail.com
+    password: isbg brui uwfp ixdl
+    protocol: smtp
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: false
 
 management:
   endpoints:
@@ -21,8 +42,10 @@ management:
     env:
       enabled: true
 
-info:
-  app:
-    name: Learning Managements System
-    description: Application provides functionality for creation of courses and students' further enrollment
-    version: 1.0.0
+security-entity:
+  user:
+    username: user
+    password: password
+  manager:
+    username: manager
+    password: password

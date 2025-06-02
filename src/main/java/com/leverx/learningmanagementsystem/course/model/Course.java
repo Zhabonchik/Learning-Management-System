@@ -39,6 +39,7 @@ import static jakarta.persistence.GenerationType.UUID;
 @ToString(exclude = {"settings", "lessons", "students"})
 @Builder
 public class Course extends AuditableEntity {
+
     @Id
     @GeneratedValue(strategy = UUID)
     @JdbcTypeCode(SqlTypes.VARCHAR)

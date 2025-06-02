@@ -1,10 +1,10 @@
 package com.leverx.learningmanagementsystem.course.controller;
 
-import com.leverx.learningmanagementsystem.AbstractIT;
+import com.leverx.learningmanagementsystem.AbstractCommonIT;
+import com.leverx.learningmanagementsystem.course.builder.CourseRequestBuilder;
 import com.leverx.learningmanagementsystem.course.dto.CreateCourseDto;
-import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import static com.leverx.learningmanagementsystem.utils.CourseITUtils.COURSES;
@@ -23,31 +23,30 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-class CourseControllerIT extends AbstractIT {
+class CourseControllerIT extends AbstractCommonIT {
+
+    @Autowired
+    CourseRequestBuilder requestBuilder;
 
     @Test
-    @Tag("integration")
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @WithMockUser(roles = "USER")
     void getAll_shouldReturnAllCourses() throws Exception {
         // given
-        var request = buildGetAllRequest(COURSES, DEFAULT_PAGE, String.valueOf(TOTAL_NUMBER_OF_COURSES));
+        var request = requestBuilder.buildGetAllRequest(COURSES, DEFAULT_PAGE, String.valueOf(TOTAL_NUMBER_OF_COURSES));
 
         // when
         var response = mockMvc.perform(request);
 
         // then
         response.andExpect(status().isOk())
-                .andExpect(jsonPath("$.content.size()").value(TOTAL_NUMBER_OF_COURSES));
+                .andExpect(jsonPath("$._embedded.courseResponseDtoList.size()").value(TOTAL_NUMBER_OF_COURSES));
     }
 
     @Test
-    @Tag("integration")
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @WithMockUser(roles = "USER")
     void getById_givenId_shouldReturnCourseAnd200() throws Exception {
         // given
-        var request = buildGetByIdRequest(COURSES, String.valueOf(EXISTING_COURSE_ID));
+        var request = requestBuilder.buildGetByIdRequest(COURSES, String.valueOf(EXISTING_COURSE_ID));
 
         //when
         var response = mockMvc.perform(request);
@@ -59,12 +58,10 @@ class CourseControllerIT extends AbstractIT {
     }
 
     @Test
-    @Tag("integration")
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @WithMockUser(roles = "USER")
     void getById_givenId_shouldThrowEntityNotFoundExceptionAnd404() throws Exception {
         // given
-        var request = buildGetByIdRequest(COURSES, String.valueOf(NON_EXISTING_COURSE_ID));
+        var request = requestBuilder.buildGetByIdRequest(COURSES, String.valueOf(NON_EXISTING_COURSE_ID));
 
         //when
         var response = mockMvc.perform(request);
@@ -76,13 +73,11 @@ class CourseControllerIT extends AbstractIT {
     }
 
     @Test
-    @Tag("integration")
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @WithMockUser(roles = "USER")
     void create_givenCreateCourseDto_shouldReturnCreatedCourseAnd201() throws Exception {
         // given
         CreateCourseDto newCourse = initializeCreateCourseDto();
-        var request = buildCreateRequest(COURSES, APPLICATION_JSON, newCourse);
+        var request = requestBuilder.buildCreateRequest(COURSES, APPLICATION_JSON, newCourse);
 
         // when
         var response = mockMvc.perform(request);
@@ -94,12 +89,10 @@ class CourseControllerIT extends AbstractIT {
     }
 
     @Test
-    @Tag("integration")
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @WithMockUser(roles = "USER")
     void delete_givenId_shouldReturn204() throws Exception {
         // given
-        var request = buildDeleteByIdRequest(COURSES, String.valueOf(EXISTING_COURSE_ID));
+        var request = requestBuilder.buildDeleteByIdRequest(COURSES, String.valueOf(EXISTING_COURSE_ID));
 
         // when
         var response = mockMvc.perform(request);
@@ -109,12 +102,10 @@ class CourseControllerIT extends AbstractIT {
     }
 
     @Test
-    @Tag("integration")
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @WithMockUser(roles = "USER")
     void delete_givenId_shouldReturn404() throws Exception {
         // given
-        var request = buildDeleteByIdRequest(COURSES, String.valueOf(NON_EXISTING_COURSE_ID));
+        var request = requestBuilder.buildDeleteByIdRequest(COURSES, String.valueOf(NON_EXISTING_COURSE_ID));
 
         // when
         var response = mockMvc.perform(request);
