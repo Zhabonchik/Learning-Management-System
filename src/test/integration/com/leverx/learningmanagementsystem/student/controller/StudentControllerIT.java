@@ -21,7 +21,6 @@ import static com.leverx.learningmanagementsystem.utils.ITUtils.CLEAN_SQL;
 import static com.leverx.learningmanagementsystem.utils.ITUtils.DEFAULT_PAGE;
 import static com.leverx.learningmanagementsystem.utils.ITUtils.INSERT_SQL;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -86,11 +85,10 @@ class StudentControllerIT extends AbstractIT {
     void create_givenCreateStudentDto_shouldReturnCreatedStudentAnd201() throws Exception {
         // given
         CreateStudentDto newStudent = initializeCreateStudentDto();
+        var request = buildCreateRequest(STUDENTS, APPLICATION_JSON, newStudent);
 
         // when
-        var response = mockMvc.perform(post(STUDENTS)
-                .contentType(APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(newStudent)));
+        var response = mockMvc.perform(request);
 
         // then
         response.andExpect(status().isCreated())

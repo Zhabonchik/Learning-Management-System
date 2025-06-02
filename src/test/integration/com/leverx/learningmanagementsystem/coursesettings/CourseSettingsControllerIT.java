@@ -26,8 +26,6 @@ import static com.leverx.learningmanagementsystem.utils.ITUtils.CLEAN_SQL;
 import static com.leverx.learningmanagementsystem.utils.ITUtils.DEFAULT_PAGE;
 import static com.leverx.learningmanagementsystem.utils.ITUtils.INSERT_SQL;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -81,11 +79,10 @@ public class CourseSettingsControllerIT extends AbstractIT {
     void create_givenCreateCourseSettingsDto_shouldReturnCreatedCourseSettingsAnd201() throws Exception {
         // given
         CreateCourseSettingsDto newCourseSettings = CourseSettingsITUtils.initializeCreateCourseSettingsDto();
+        var request = buildCreateRequest(COURSE_SETTINGS, APPLICATION_JSON, newCourseSettings);
 
         // when
-        var response = mockMvc.perform(post(COURSE_SETTINGS)
-                .contentType(APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(newCourseSettings)));
+        var response = mockMvc.perform(request);
 
         // then
         response.andExpect(status().isCreated())
@@ -101,11 +98,11 @@ public class CourseSettingsControllerIT extends AbstractIT {
     void updateById_givenCourseSettingsIdAndCreateCourseSettingsDto_shouldReturnUpdatedCourseSettingsAnd200() throws Exception {
         // given
         CreateCourseSettingsDto newCourseSettings = CourseSettingsITUtils.initializeCreateCourseSettingsDto();
+        var request = buildUpdateByIdRequest(COURSE_SETTINGS, String.valueOf(EXISTING_COURSE_SETTINGS_ID),
+                APPLICATION_JSON, newCourseSettings);
 
         // when
-        var response = mockMvc.perform(put(COURSE_SETTINGS + "/" + EXISTING_COURSE_SETTINGS_ID)
-                .contentType(APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(newCourseSettings)));
+        var response = mockMvc.perform(request);
 
         // then
         response.andExpect(status().isOk())
