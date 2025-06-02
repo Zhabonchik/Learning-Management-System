@@ -1,12 +1,16 @@
 package com.leverx.learningmanagementsystem.student.controller;
 
 import com.leverx.learningmanagementsystem.AbstractIT;
+import com.leverx.learningmanagementsystem.course.model.Course;
 import com.leverx.learningmanagementsystem.student.dto.CreateStudentDto;
+import com.leverx.learningmanagementsystem.student.model.Student;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
 
+import static com.leverx.learningmanagementsystem.utils.CourseITUtils.COURSES;
+import static com.leverx.learningmanagementsystem.utils.CourseITUtils.EXISTING_COURSE_ID;
 import static com.leverx.learningmanagementsystem.utils.StudentITUtils.EXISTING_STUDENT_FIRST_NAME;
 import static com.leverx.learningmanagementsystem.utils.StudentITUtils.EXISTING_STUDENT_ID;
 import static com.leverx.learningmanagementsystem.utils.StudentITUtils.EXISTING_STUDENT_LAST_NAME;
@@ -20,6 +24,9 @@ import static com.leverx.learningmanagementsystem.utils.StudentITUtils.initializ
 import static com.leverx.learningmanagementsystem.utils.ITUtils.CLEAN_SQL;
 import static com.leverx.learningmanagementsystem.utils.ITUtils.DEFAULT_PAGE;
 import static com.leverx.learningmanagementsystem.utils.ITUtils.INSERT_SQL;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -94,6 +101,31 @@ class StudentControllerIT extends AbstractIT {
         response.andExpect(status().isCreated())
                 .andExpect(jsonPath("$.firstName").value(NEW_STUDENT_FIRST_NAME))
                 .andExpect(jsonPath("$.lastName").value(NEW_STUDENT_LAST_NAME));
+    }
+
+    @Test
+    @Tag("integration")
+    @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @WithMockUser(roles = "USER")
+    void addCourse_givenStudentIdAndCourseId_shouldEnrollStudentForCourseAndReturn204() throws Exception {
+        // given
+        Student studentWithoutCourse = studentService.getById(EXISTING_STUDENT_ID);
+        Course courseWithoutStudent = courseService.getById(EXISTING_COURSE_ID);
+        var request = buildPostRequest(STUDENTS + "/" + EXISTING_STUDENT_ID + COURSES + "/" + EXISTING_COURSE_ID);
+
+        // when
+        var response = mockMvc.perform(request);
+
+        // then
+        Student studentWithCourse = studentService.getById(EXISTING_STUDENT_ID);
+        Course courseWithStudent = courseService.getById(EXISTING_COURSE_ID);
+        response.andExpect(status().isCreated());
+        assertAll(
+                () -> assertTrue(studentWithCourse.getCourses().stream().map(Course::getId).toList().contains(EXISTING_COURSE_ID)),
+                () -> assertTrue(courseWithStudent.getStudents().stream().map(Student::getId).toList().contains(EXISTING_STUDENT_ID)),
+                () -> assertEquals(courseWithoutStudent.getCoinsPaid().add(courseWithoutStudent.getPrice()), courseWithStudent.getCoinsPaid()),
+                () -> assertEquals(studentWithoutCourse.getCoins().subtract(courseWithoutStudent.getPrice()), studentWithCourse.getCoins())
+        );
     }
 
     @Test

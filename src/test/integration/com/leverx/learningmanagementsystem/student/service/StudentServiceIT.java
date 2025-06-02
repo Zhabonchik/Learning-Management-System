@@ -34,9 +34,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class StudentServiceIT extends AbstractIT {
 
-    @Autowired
-    StudentService studentService;
-
     @Test
     @Tag("integration")
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)

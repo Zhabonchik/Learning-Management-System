@@ -2,6 +2,8 @@ package com.leverx.learningmanagementsystem;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.leverx.learningmanagementsystem.course.service.CourseService;
+import com.leverx.learningmanagementsystem.student.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -28,6 +30,12 @@ public abstract class AbstractIT {
     @Autowired
     protected ObjectMapper objectMapper;
 
+    @Autowired
+    protected StudentService studentService;
+
+    @Autowired
+    protected CourseService courseService;
+
     public MockHttpServletRequestBuilder buildGetAllRequest(String path, String page, String pageSize) {
         return get(path)
                 .param(PAGE, page)
@@ -42,6 +50,10 @@ public abstract class AbstractIT {
         return post(path)
                 .contentType(contentType)
                 .content(objectMapper.writeValueAsString(content));
+    }
+
+    public MockHttpServletRequestBuilder buildPostRequest(String path) {
+        return post(path);
     }
 
     public MockHttpServletRequestBuilder buildUpdateByIdRequest(String path, String id, MediaType contentType, Object content) throws JsonProcessingException {
