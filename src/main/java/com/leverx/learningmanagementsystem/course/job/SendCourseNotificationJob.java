@@ -1,7 +1,7 @@
 package com.leverx.learningmanagementsystem.course.job;
 
 import com.leverx.learningmanagementsystem.course.model.Course;
-import com.leverx.learningmanagementsystem.core.template.service.MustacheService;
+import com.leverx.learningmanagementsystem.course.job.service.MustacheService;
 import com.leverx.learningmanagementsystem.course.service.CourseService;
 import com.leverx.learningmanagementsystem.email.service.impl.EmailService;
 import jakarta.mail.MessagingException;
@@ -27,7 +27,7 @@ public class SendCourseNotificationJob {
     private final EmailService emailService;
     private final MustacheService mustacheService;
 
-    private final String TEMPLATE_PATH = "templates/email/course_notification_%s.mustache";
+    private final String TEMPLATE_PATH = "templates/email_template.mustache";
     private final String STUDENT_NAME = "student_name";
     private final String COURSE_TITLE = "course_title";
     private final String START_DATE = "start_date";
@@ -67,8 +67,7 @@ public class SendCourseNotificationJob {
         model.put(COURSE_TITLE, courseTitle);
         model.put(START_DATE, startDate);
 
-        String templatePath = TEMPLATE_PATH.formatted(locale.getLanguage());
-        return mustacheService.processTemplate(templatePath, model);
+        return mustacheService.processTemplate(TEMPLATE_PATH, model, locale);
     }
 
     private void tryToSendCourseNotification(String email, String subject, String body) {
