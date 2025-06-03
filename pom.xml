@@ -19,7 +19,7 @@
     <properties>
         <java.version>21</java.version>
 
-        <xsuaa-starter.verion>3.6.0</xsuaa-starter.verion>
+        <xsuaa-starter.version>3.6.0</xsuaa-starter.version>
         <springdoc.version>2.8.6</springdoc.version>
 
         <hana-jdbc.version>2.24.7</hana-jdbc.version>
@@ -62,7 +62,7 @@
         <dependency>
             <groupId>com.sap.cloud.security.xsuaa</groupId>
             <artifactId>xsuaa-spring-boot-starter</artifactId>
-            <version>${xsuaa-starter.verion}</version>
+            <version>${xsuaa-starter.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

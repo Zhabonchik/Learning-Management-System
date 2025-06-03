@@ -1,0 +1,2056 @@
+{
+	"info": {
+		"_postman_id": "8bb47783-5721-4e5c-8bca-82d6869ae031",
+		"name": "Learning Management System",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "43816035",
+		"_collection_link": "https://zhabonchik-3023301.postman.co/workspace/Zhabonchik's-Workspace~06c5e27a-6f74-40a7-88f6-ee867509e0b4/collection/43816035-8bb47783-5721-4e5c-8bca-82d6869ae031?action=share&source=collection_link&creator=43816035"
+	},
+	"item": [
+		{
+			"name": "local",
+			"item": [
+				{
+					"name": "students",
+					"item": [
+						{
+							"name": "All",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "user",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/students",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"students"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "By id",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "user",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/students/5a231280-1988-410f-98d9-852b8dc9caf1",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"students",
+										"5a231280-1988-410f-98d9-852b8dc9caf1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "user",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"firstName\": \"Test\",\r\n    \"lastName\": \"Testov\",\r\n    \"email\": \"test@gmail.com\",\r\n    \"dateOfBirth\": \"2010-05-13\",\r\n    \"coins\": 1004.00,\r\n    \"locale\": \"en\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/students",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"students"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add course",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "user",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/students/5a231280-1988-410f-98d9-852b8dc9caf1/courses/b902261b-d1b9-4c58-869f-b04a5bbff4c9",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"students",
+										"5a231280-1988-410f-98d9-852b8dc9caf1",
+										"courses",
+										"b902261b-d1b9-4c58-869f-b04a5bbff4c9"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update by id",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "user",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"firstName\": \"A\",\r\n    \"lastName\": \"B\",\r\n    \"email\": \"email@gmail.com\",\r\n    \"dateOfBirth\": \"2005-07-23\",\r\n    \"coins\": 1448.00,\r\n    \"locale\": \"ru\",\r\n    \"courseIds\": [\r\n        \"b902261b-d1b9-4c58-869f-b04a5bbff4c9\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/students/5a231280-1988-410f-98d9-852b8dc9caf1",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"students",
+										"5a231280-1988-410f-98d9-852b8dc9caf1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "By id",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"firstName\": \"Test\",\r\n    \"lastName\": \"Testov\",\r\n    \"email\": \"test@gmail.com\",\r\n    \"dateOfBirth\": \"2010-05-13\",\r\n    \"coins\": 1004.00\r\n}"
+								},
+								"url": {
+									"raw": "localhost:8080/students/5a231280-1988-410f-98d9-852b8dc9caf1",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"students",
+										"5a231280-1988-410f-98d9-852b8dc9caf1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "courses",
+					"item": [
+						{
+							"name": "All",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "user",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/courses",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"courses"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "By id",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "user",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/courses/64852c52-ed64-4438-b095-2ca10f6b4be0",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"courses",
+										"64852c52-ed64-4438-b095-2ca10f6b4be0"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "user",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"Test course 6\",\r\n    \"description\": \"No description needed\",\r\n    \"price\": 100.00,\r\n    \"coinsPaid\": 100.00\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/courses",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"courses"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update by id",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "user",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"Test course 10\",\r\n    \"description\": \"No description needed\",\r\n    \"price\": 100.00,\r\n    \"coinsPaid\": 100.00,\r\n    \"courseSettingsId\": \"b3fd0738-24af-4eea-99f5-5e81bff1500b\",\r\n    \"studentIds\":[\r\n        \"5a231280-1988-410f-98d9-852b8dc9caf1\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/courses/fdcdaf74-8c4d-442f-bc1e-1ab6f4ddb8ee",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"courses",
+										"fdcdaf74-8c4d-442f-bc1e-1ab6f4ddb8ee"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "By id",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"firstName\": \"Test\",\r\n    \"lastName\": \"Testov\",\r\n    \"email\": \"test@gmail.com\",\r\n    \"dateOfBirth\": \"2010-05-13\",\r\n    \"coins\": 1004.00\r\n}"
+								},
+								"url": {
+									"raw": "localhost:8080/courses/f74405a1-25e9-4b19-b366-bf4be157d138",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"courses",
+										"f74405a1-25e9-4b19-b366-bf4be157d138"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "lessons",
+					"item": [
+						{
+							"name": "All",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "user",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/lessons",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"lessons"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "By id",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "user",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/lessons/e21d011a-c987-4ebc-90cd-2416a6730acd",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"lessons",
+										"e21d011a-c987-4ebc-90cd-2416a6730acd"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create VideoLesson",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "user",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"type\":\"VIDEO\",\r\n    \"title\": \"I don't know\",\r\n    \"durationInMinutes\": 80,\r\n    \"url\":\"https:haha.com\",\r\n    \"platform\":\"Zoom\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/lessons",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"lessons"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create ClassroomLesson",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "user",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"type\":\"CLASSROOM\",\r\n    \"title\": \"I don't know\",\r\n    \"durationInMinutes\": 80,\r\n    \"location\": \"Belarus\",\r\n    \"capacity\": 88\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/lessons",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"lessons"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update VideoLesson by id",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "user",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"type\":\"VIDEO\",\r\n    \"title\": \"I don't know\",\r\n    \"durationInMinutes\": 90,\r\n    \"url\":\"https:haha.com\",\r\n    \"platform\":\"Zoom\",\r\n    \"courseId\": \"64852c52-ed64-4438-b095-2ca10f6b4be0\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/lessons/d21deae0-0eaa-41fe-b08d-5dce5b9e96e1",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"lessons",
+										"d21deae0-0eaa-41fe-b08d-5dce5b9e96e1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update ClassroomLesson by id",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "user",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"type\":\"CLASSROOM\",\r\n    \"title\": \"I don't know\",\r\n    \"durationInMinutes\": 70,\r\n    \"capacity\": 45,\r\n    \"location\": \"Minsk\",\r\n    \"courseId\": \"64852c52-ed64-4438-b095-2ca10f6b4be0\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/lessons/8763e9a3-9544-4837-862a-772f0796fa01",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"lessons",
+										"8763e9a3-9544-4837-862a-772f0796fa01"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "By id",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"firstName\": \"Test\",\r\n    \"lastName\": \"Testov\",\r\n    \"email\": \"test@gmail.com\",\r\n    \"dateOfBirth\": \"2010-05-13\",\r\n    \"coins\": 1004.00\r\n}"
+								},
+								"url": {
+									"raw": "localhost:8080/lessons/373e60bb-c872-4207-982c-859b4dfdb4f7",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"lessons",
+										"373e60bb-c872-4207-982c-859b4dfdb4f7"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "course-settings",
+					"item": [
+						{
+							"name": "All",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "user",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/course-settings",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"course-settings"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "By id",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "user",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/course-settings/38811913-ce40-4ef4-a596-f24d94356949",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"course-settings",
+										"38811913-ce40-4ef4-a596-f24d94356949"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "user",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"startDate\": \"2025-06-01 23:59:59\",\r\n    \"endDate\": \"2025-06-04 20:00:00\",\r\n    \"isPublic\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/course-settings",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"course-settings"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update by id",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "manager",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"startDate\": \"2025-06-01 23:59:59\",\r\n    \"endDate\": \"2025-06-04 20:00:00\",\r\n    \"isPublic\": false\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/course-settings/201a2493-356e-42ef-b668-fdd76f457d93",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"course-settings",
+										"201a2493-356e-42ef-b668-fdd76f457d93"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "By id",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"firstName\": \"Test\",\r\n    \"lastName\": \"Testov\",\r\n    \"email\": \"test@gmail.com\",\r\n    \"dateOfBirth\": \"2010-05-13\",\r\n    \"coins\": 1004.00\r\n}"
+								},
+								"url": {
+									"raw": "localhost:8080/course-settings/8118c118-a57b-4c0e-94e4-975217b712b9",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"course-settings",
+										"8118c118-a57b-4c0e-94e4-975217b712b9"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "actuator",
+					"item": [
+						{
+							"name": "info",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "manager",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/actuator/info",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"actuator",
+										"info"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "health",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/actuator/health",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"actuator",
+										"health"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "loggers",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "manager",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/actuator/loggers",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"actuator",
+										"loggers"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "cloud",
+			"item": [
+				{
+					"name": "students",
+					"item": [
+						{
+							"name": "All",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://067769ebtrial-dev-learning-management-system.cfapps.us10-001.hana.ondemand.com/students",
+									"protocol": "https",
+									"host": [
+										"067769ebtrial-dev-learning-management-system",
+										"cfapps",
+										"us10-001",
+										"hana",
+										"ondemand",
+										"com"
+									],
+									"path": [
+										"students"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "By id",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://067769ebtrial-dev-learning-management-system.cfapps.us10-001.hana.ondemand.com/students/5a231280-1988-410f-98d9-852b8dc9caf1",
+									"protocol": "https",
+									"host": [
+										"067769ebtrial-dev-learning-management-system",
+										"cfapps",
+										"us10-001",
+										"hana",
+										"ondemand",
+										"com"
+									],
+									"path": [
+										"students",
+										"5a231280-1988-410f-98d9-852b8dc9caf1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"firstName\": \"Test\",\r\n    \"lastName\": \"Testov\",\r\n    \"email\": \"test@gmail.com\",\r\n    \"dateOfBirth\": \"2010-05-13\",\r\n    \"coins\": 1004.00,\r\n    \"locale\": \"en\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://067769ebtrial-dev-learning-management-system.cfapps.us10-001.hana.ondemand.com/students",
+									"protocol": "https",
+									"host": [
+										"067769ebtrial-dev-learning-management-system",
+										"cfapps",
+										"us10-001",
+										"hana",
+										"ondemand",
+										"com"
+									],
+									"path": [
+										"students"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add course",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "https://067769ebtrial-dev-learning-management-system.cfapps.us10-001.hana.ondemand.com/students/b7a52558-b3a5-4e13-9929-a210cc800421/courses/f21c879a-a163-46d0-be85-340a83d46b0a",
+									"protocol": "https",
+									"host": [
+										"067769ebtrial-dev-learning-management-system",
+										"cfapps",
+										"us10-001",
+										"hana",
+										"ondemand",
+										"com"
+									],
+									"path": [
+										"students",
+										"b7a52558-b3a5-4e13-9929-a210cc800421",
+										"courses",
+										"f21c879a-a163-46d0-be85-340a83d46b0a"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update by id",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"firstName\": \"Test\",\r\n    \"lastName\": \"Updated\",\r\n    \"email\": \"test@gmail.com\",\r\n    \"dateOfBirth\": \"2010-05-13\",\r\n    \"coins\": 500.00\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://067769ebtrial-dev-learning-management-system.cfapps.us10-001.hana.ondemand.com/students/5a231280-1988-410f-98d9-852b8dc9caf1",
+									"protocol": "https",
+									"host": [
+										"067769ebtrial-dev-learning-management-system",
+										"cfapps",
+										"us10-001",
+										"hana",
+										"ondemand",
+										"com"
+									],
+									"path": [
+										"students",
+										"5a231280-1988-410f-98d9-852b8dc9caf1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "By id",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"firstName\": \"Test\",\r\n    \"lastName\": \"Testov\",\r\n    \"email\": \"test@gmail.com\",\r\n    \"dateOfBirth\": \"2010-05-13\",\r\n    \"coins\": 1004.00\r\n}"
+								},
+								"url": {
+									"raw": "https://067769ebtrial-dev-learning-management-system.cfapps.us10-001.hana.ondemand.com/students/5a231280-1988-410f-98d9-852b8dc9caf1",
+									"protocol": "https",
+									"host": [
+										"067769ebtrial-dev-learning-management-system",
+										"cfapps",
+										"us10-001",
+										"hana",
+										"ondemand",
+										"com"
+									],
+									"path": [
+										"students",
+										"5a231280-1988-410f-98d9-852b8dc9caf1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "courses",
+					"item": [
+						{
+							"name": "All",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://067769ebtrial-dev-learning-management-system.cfapps.us10-001.hana.ondemand.com/courses",
+									"protocol": "https",
+									"host": [
+										"067769ebtrial-dev-learning-management-system",
+										"cfapps",
+										"us10-001",
+										"hana",
+										"ondemand",
+										"com"
+									],
+									"path": [
+										"courses"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "By id",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://067769ebtrial-dev-learning-management-system.cfapps.us10-001.hana.ondemand.com/courses/f74405a1-25e9-4b19-b366-bf4be157d138",
+									"protocol": "https",
+									"host": [
+										"067769ebtrial-dev-learning-management-system",
+										"cfapps",
+										"us10-001",
+										"hana",
+										"ondemand",
+										"com"
+									],
+									"path": [
+										"courses",
+										"f74405a1-25e9-4b19-b366-bf4be157d138"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"Test course 6\",\r\n    \"description\": \"No description needed\",\r\n    \"price\": 100.00,\r\n    \"coinsPaid\": 100.00\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://067769ebtrial-dev-learning-management-system.cfapps.us10-001.hana.ondemand.com/courses",
+									"protocol": "https",
+									"host": [
+										"067769ebtrial-dev-learning-management-system",
+										"cfapps",
+										"us10-001",
+										"hana",
+										"ondemand",
+										"com"
+									],
+									"path": [
+										"courses"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update by id",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"Test course 10\",\r\n    \"description\": \"No description needed\",\r\n    \"price\": 100.00,\r\n    \"coinsPaid\": 100.00,\r\n    \"courseSettingsId\": \"b3fd0738-24af-4eea-99f5-5e81bff1500b\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://067769ebtrial-dev-learning-management-system.cfapps.us10-001.hana.ondemand.com/courses/f74405a1-25e9-4b19-b366-bf4be157d138",
+									"protocol": "https",
+									"host": [
+										"067769ebtrial-dev-learning-management-system",
+										"cfapps",
+										"us10-001",
+										"hana",
+										"ondemand",
+										"com"
+									],
+									"path": [
+										"courses",
+										"f74405a1-25e9-4b19-b366-bf4be157d138"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "By id",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"firstName\": \"Test\",\r\n    \"lastName\": \"Testov\",\r\n    \"email\": \"test@gmail.com\",\r\n    \"dateOfBirth\": \"2010-05-13\",\r\n    \"coins\": 1004.00\r\n}"
+								},
+								"url": {
+									"raw": "https://067769ebtrial-dev-learning-management-system.cfapps.us10-001.hana.ondemand.com/courses/f74405a1-25e9-4b19-b366-bf4be157d138",
+									"protocol": "https",
+									"host": [
+										"067769ebtrial-dev-learning-management-system",
+										"cfapps",
+										"us10-001",
+										"hana",
+										"ondemand",
+										"com"
+									],
+									"path": [
+										"courses",
+										"f74405a1-25e9-4b19-b366-bf4be157d138"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "lessons",
+					"item": [
+						{
+							"name": "All",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://067769ebtrial-dev-learning-management-system.cfapps.us10-001.hana.ondemand.com/lessons",
+									"protocol": "https",
+									"host": [
+										"067769ebtrial-dev-learning-management-system",
+										"cfapps",
+										"us10-001",
+										"hana",
+										"ondemand",
+										"com"
+									],
+									"path": [
+										"lessons"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "By id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://067769ebtrial-dev-learning-management-system.cfapps.us10-001.hana.ondemand.com/lessons/373e60bb-c872-4207-982c-859b4dfdb4f7",
+									"protocol": "https",
+									"host": [
+										"067769ebtrial-dev-learning-management-system",
+										"cfapps",
+										"us10-001",
+										"hana",
+										"ondemand",
+										"com"
+									],
+									"path": [
+										"lessons",
+										"373e60bb-c872-4207-982c-859b4dfdb4f7"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create VideoLesson",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"type\":\"VIDEO\",\r\n    \"title\": \"I don't know\",\r\n    \"durationInMinutes\": 80,\r\n    \"url\":\"https:haha.com\",\r\n    \"platform\":\"Zoom\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://067769ebtrial-dev-learning-management-system.cfapps.us10-001.hana.ondemand.com/lessons",
+									"protocol": "https",
+									"host": [
+										"067769ebtrial-dev-learning-management-system",
+										"cfapps",
+										"us10-001",
+										"hana",
+										"ondemand",
+										"com"
+									],
+									"path": [
+										"lessons"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create ClassroomLesson",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"type\":\"CLASSROOM\",\r\n    \"title\": \"I don't know\",\r\n    \"durationInMinutes\": 80,\r\n    \"location\": \"Belarus\",\r\n    \"capacity\": 88\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://067769ebtrial-dev-learning-management-system.cfapps.us10-001.hana.ondemand.com/lessons",
+									"protocol": "https",
+									"host": [
+										"067769ebtrial-dev-learning-management-system",
+										"cfapps",
+										"us10-001",
+										"hana",
+										"ondemand",
+										"com"
+									],
+									"path": [
+										"lessons"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update VideoLesson by id",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"type\":\"VIDEO\",\r\n    \"title\": \"I don't know\",\r\n    \"durationInMinutes\": 180,\r\n    \"url\":\"https:haha.com\",\r\n    \"platform\":\"Zoom\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://067769ebtrial-dev-learning-management-system.cfapps.us10-001.hana.ondemand.com/lessons/373e60bb-c872-4207-982c-859b4dfdb4f7",
+									"protocol": "https",
+									"host": [
+										"067769ebtrial-dev-learning-management-system",
+										"cfapps",
+										"us10-001",
+										"hana",
+										"ondemand",
+										"com"
+									],
+									"path": [
+										"lessons",
+										"373e60bb-c872-4207-982c-859b4dfdb4f7"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update ClassroomLesson by id",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"type\":\"CLASSROOM\",\r\n    \"title\": \"I don't know\",\r\n    \"durationInMinutes\": 180,\r\n    \"url\":\"https:haha.com\",\r\n    \"platform\":\"Zoom\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://067769ebtrial-dev-learning-management-system.cfapps.us10-001.hana.ondemand.com/lessons/373e60bb-c872-4207-982c-859b4dfdb4f7",
+									"protocol": "https",
+									"host": [
+										"067769ebtrial-dev-learning-management-system",
+										"cfapps",
+										"us10-001",
+										"hana",
+										"ondemand",
+										"com"
+									],
+									"path": [
+										"lessons",
+										"373e60bb-c872-4207-982c-859b4dfdb4f7"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "By id",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"firstName\": \"Test\",\r\n    \"lastName\": \"Testov\",\r\n    \"email\": \"test@gmail.com\",\r\n    \"dateOfBirth\": \"2010-05-13\",\r\n    \"coins\": 1004.00\r\n}"
+								},
+								"url": {
+									"raw": "https://067769ebtrial-dev-learning-management-system.cfapps.us10-001.hana.ondemand.com/lessons/373e60bb-c872-4207-982c-859b4dfdb4f7",
+									"protocol": "https",
+									"host": [
+										"067769ebtrial-dev-learning-management-system",
+										"cfapps",
+										"us10-001",
+										"hana",
+										"ondemand",
+										"com"
+									],
+									"path": [
+										"lessons",
+										"373e60bb-c872-4207-982c-859b4dfdb4f7"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "course-settings",
+					"item": [
+						{
+							"name": "All",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://067769ebtrial-dev-learning-management-system.cfapps.us10-001.hana.ondemand.com/course-settings",
+									"protocol": "https",
+									"host": [
+										"067769ebtrial-dev-learning-management-system",
+										"cfapps",
+										"us10-001",
+										"hana",
+										"ondemand",
+										"com"
+									],
+									"path": [
+										"course-settings"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "By id",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://067769ebtrial-dev-learning-management-system.cfapps.us10-001.hana.ondemand.com/course-settings/8118c118-a57b-4c0e-94e4-975217b712b9",
+									"protocol": "https",
+									"host": [
+										"067769ebtrial-dev-learning-management-system",
+										"cfapps",
+										"us10-001",
+										"hana",
+										"ondemand",
+										"com"
+									],
+									"path": [
+										"course-settings",
+										"8118c118-a57b-4c0e-94e4-975217b712b9"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"startDate\": \"2025-06-01 23:59:59\",\r\n    \"endDate\": \"2025-06-04 20:00:00\",\r\n    \"isPublic\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://067769ebtrial-dev-learning-management-system.cfapps.us10-001.hana.ondemand.com/course-settings",
+									"protocol": "https",
+									"host": [
+										"067769ebtrial-dev-learning-management-system",
+										"cfapps",
+										"us10-001",
+										"hana",
+										"ondemand",
+										"com"
+									],
+									"path": [
+										"course-settings"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update by id",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"startDate\": \"2025-05-29 23:59:59\",\r\n    \"endDate\": \"2025-06-04 20:00:00\",\r\n    \"isPublic\": false\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://067769ebtrial-dev-learning-management-system.cfapps.us10-001.hana.ondemand.com/course-settings/34b56d95-5d74-44b1-b473-3ab2fd36cc5f",
+									"protocol": "https",
+									"host": [
+										"067769ebtrial-dev-learning-management-system",
+										"cfapps",
+										"us10-001",
+										"hana",
+										"ondemand",
+										"com"
+									],
+									"path": [
+										"course-settings",
+										"34b56d95-5d74-44b1-b473-3ab2fd36cc5f"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "By id",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"firstName\": \"Test\",\r\n    \"lastName\": \"Testov\",\r\n    \"email\": \"test@gmail.com\",\r\n    \"dateOfBirth\": \"2010-05-13\",\r\n    \"coins\": 1004.00\r\n}"
+								},
+								"url": {
+									"raw": "https://learning-management-system-bright-vicuna-rd.cfapps.us10-001.hana.ondemand.com/course-settings/8118c118-a57b-4c0e-94e4-975217b712b9",
+									"protocol": "https",
+									"host": [
+										"learning-management-system-bright-vicuna-rd",
+										"cfapps",
+										"us10-001",
+										"hana",
+										"ondemand",
+										"com"
+									],
+									"path": [
+										"course-settings",
+										"8118c118-a57b-4c0e-94e4-975217b712b9"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "actuator",
+					"item": [
+						{
+							"name": "info",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "manager",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://067769ebtrial-dev-learning-management-system.cfapps.us10-001.hana.ondemand.com/actuator/info",
+									"protocol": "https",
+									"host": [
+										"067769ebtrial-dev-learning-management-system",
+										"cfapps",
+										"us10-001",
+										"hana",
+										"ondemand",
+										"com"
+									],
+									"path": [
+										"actuator",
+										"info"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "health",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "manager",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://067769ebtrial-dev-learning-management-system.cfapps.us10-001.hana.ondemand.com/actuator/health",
+									"protocol": "https",
+									"host": [
+										"067769ebtrial-dev-learning-management-system",
+										"cfapps",
+										"us10-001",
+										"hana",
+										"ondemand",
+										"com"
+									],
+									"path": [
+										"actuator",
+										"health"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "loggers",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "manager",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://067769ebtrial-dev-learning-management-system.cfapps.us10-001.hana.ondemand.com/actuator/loggers",
+									"protocol": "https",
+									"host": [
+										"067769ebtrial-dev-learning-management-system",
+										"cfapps",
+										"us10-001",
+										"hana",
+										"ondemand",
+										"com"
+									],
+									"path": [
+										"actuator",
+										"loggers"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "sap-services",
+			"item": [
+				{
+					"name": "destination-service",
+					"item": [
+						{
+							"name": "Request token",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "4f0ce52f-d29c-4a25-91e7-e4c88c8d8f12$QEuu4sAd_QZ-FCe_FqNu_ZooLF5kX4DvRAEuPx-yRcE=",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "sb-clonec689f020c2044c119edcbddcb1e378da!b444531|destination-xsappname!b62",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "grant_type",
+											"value": "client_credentials",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "https://067769ebtrial.authentication.us10.hana.ondemand.com/oauth/token",
+									"protocol": "https",
+									"host": [
+										"067769ebtrial",
+										"authentication",
+										"us10",
+										"hana",
+										"ondemand",
+										"com"
+									],
+									"path": [
+										"oauth",
+										"token"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get destination",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://destination-configuration.cfapps.us10.hana.ondemand.com/destination-configuration/v1/destinations/SmtpDestination",
+									"protocol": "https",
+									"host": [
+										"destination-configuration",
+										"cfapps",
+										"us10",
+										"hana",
+										"ondemand",
+										"com"
+									],
+									"path": [
+										"destination-configuration",
+										"v1",
+										"destinations",
+										"SmtpDestination"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "xsuaa",
+					"item": [
+						{
+							"name": "Request token",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "4a60cbf4-fa3e-45bf-8393-e828808c68d8$N-Si1niF-YGC8BtFbUbxBVpc1QpcQK7vPkotLrrjjBQ=",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "sb-xsuaa-service!t444531",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "grant_type",
+											"value": "client_credentials",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "https://067769ebtrial.authentication.us10.hana.ondemand.com/oauth/token",
+									"protocol": "https",
+									"host": [
+										"067769ebtrial",
+										"authentication",
+										"us10",
+										"hana",
+										"ondemand",
+										"com"
+									],
+									"path": [
+										"oauth",
+										"token"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}
