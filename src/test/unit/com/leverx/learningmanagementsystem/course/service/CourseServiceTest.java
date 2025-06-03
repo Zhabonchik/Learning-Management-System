@@ -13,10 +13,10 @@ import org.springframework.test.context.ActiveProfiles;
 import java.util.List;
 import java.util.Optional;
 
-import static com.leverx.learningmanagementsystem.utils.CourseTestUtils.EXISTING_COURSE_ID;
-import static com.leverx.learningmanagementsystem.utils.CourseTestUtils.NEW_COURSE_TITLE;
-import static com.leverx.learningmanagementsystem.utils.CourseTestUtils.TOTAL_NUMBER_OF_COURSES;
-import static com.leverx.learningmanagementsystem.utils.CourseTestUtils.initializeCourse;
+import static com.leverx.learningmanagementsystem.course.common.utils.CourseTestUtils.EXISTING_COURSE_ID;
+import static com.leverx.learningmanagementsystem.course.common.utils.CourseTestUtils.NEW_COURSE_TITLE;
+import static com.leverx.learningmanagementsystem.course.common.utils.CourseTestUtils.TOTAL_NUMBER_OF_COURSES;
+import static com.leverx.learningmanagementsystem.course.common.utils.CourseTestUtils.initializeCourse;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -24,6 +24,7 @@ import static org.mockito.Mockito.when;
 
 @ActiveProfiles("test")
 @ExtendWith(MockitoExtension.class)
+@Tag("unit")
 public class CourseServiceTest {
 
     @Mock
@@ -33,7 +34,6 @@ public class CourseServiceTest {
     CourseServiceImpl courseService;
 
     @Test
-    @Tag("unit")
     void getAll_ShouldReturnAllCourses() {
         // given
         Course firstCourse = initializeCourse();
@@ -54,7 +54,6 @@ public class CourseServiceTest {
     }
 
     @Test
-    @Tag("unit")
     void getById_givenId_ShouldReturnCourse() {
         // given
         Course existingCourse = initializeCourse();
@@ -68,7 +67,6 @@ public class CourseServiceTest {
     }
 
     @Test
-    @Tag("unit")
     void create_givenCourse_ShouldReturnCourse() {
         // given
         Course newCourse = initializeCourse();

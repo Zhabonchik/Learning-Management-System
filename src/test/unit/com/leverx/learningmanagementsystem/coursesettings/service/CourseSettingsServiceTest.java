@@ -13,8 +13,8 @@ import org.springframework.test.context.ActiveProfiles;
 import java.util.List;
 import java.util.Optional;
 
-import static com.leverx.learningmanagementsystem.utils.CourseSettingsTestUtils.EXISTING_COURSE_SETTINGS_ID;
-import static com.leverx.learningmanagementsystem.utils.CourseSettingsTestUtils.TOTAL_NUMBER_OF_COURSE_SETTINGS;
+import static com.leverx.learningmanagementsystem.coursesettings.common.utils.CourseSettingsTestUtils.EXISTING_COURSE_SETTINGS_ID;
+import static com.leverx.learningmanagementsystem.coursesettings.common.utils.CourseSettingsTestUtils.TOTAL_NUMBER_OF_COURSE_SETTINGS;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -22,6 +22,7 @@ import static org.mockito.Mockito.when;
 
 @ActiveProfiles("test")
 @ExtendWith(MockitoExtension.class)
+@Tag("unit")
 public class CourseSettingsServiceTest {
 
     @Mock
@@ -31,7 +32,6 @@ public class CourseSettingsServiceTest {
     CourseSettingsServiceImpl courseSettingsService;
 
     @Test
-    @Tag("unit")
     void getAll_shouldReturnAllCourseSettings() {
         // given
         CourseSettings firstCourseSettings = new CourseSettings();
@@ -52,7 +52,6 @@ public class CourseSettingsServiceTest {
     }
 
     @Test
-    @Tag("unit")
     void getById_givenId_shouldReturnCourseSettings() {
         // given
         CourseSettings existingCourseSettings = new CourseSettings();
@@ -67,7 +66,6 @@ public class CourseSettingsServiceTest {
     }
 
     @Test
-    @Tag("unit")
     void create_givenCourseSettings_shouldReturnCourseSettings() {
         // given
         CourseSettings newCourseSettings = new CourseSettings();

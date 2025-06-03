@@ -23,14 +23,14 @@ import java.util.Map;
 @Slf4j
 public class SendCourseNotificationJob {
 
+    public static final String TEMPLATE_PATH = "templates/email/course_reminder.mustache";
+    public static final String STUDENT_NAME = "student_name";
+    public static final String COURSE_TITLE = "course_title";
+    public static final String START_DATE = "start_date";
+
     private final CourseService courseService;
     private final EmailService emailService;
     private final MustacheService mustacheService;
-
-    private final String TEMPLATE_PATH = "templates/email_template.mustache";
-    private final String STUDENT_NAME = "student_name";
-    private final String COURSE_TITLE = "course_title";
-    private final String START_DATE = "start_date";
 
     @Scheduled(cron = "*/10 * * * * *")
     public void execute() {

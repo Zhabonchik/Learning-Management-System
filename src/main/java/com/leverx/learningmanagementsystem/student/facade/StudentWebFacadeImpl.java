@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 
 @Component
 @AllArgsConstructor
@@ -99,7 +100,7 @@ public class StudentWebFacadeImpl implements StudentWebFacade {
     }
 
     private void replaceCourses(Student student, List<Course> courses) {
-        if (!isNull(student.getCourses())) {
+        if (nonNull(student.getCourses())) {
             student.getCourses().forEach(course -> course.getStudents().remove(student));
             student.getCourses().clear();
         } else {

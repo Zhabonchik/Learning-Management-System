@@ -1,7 +1,8 @@
 package com.leverx.learningmanagementsystem.lesson.service;
 
-import com.leverx.learningmanagementsystem.lesson.model.Lesson;
-import com.leverx.learningmanagementsystem.lesson.repository.LessonRepository;
+import com.leverx.learningmanagementsystem.lesson.common.service.LessonServiceImpl;
+import com.leverx.learningmanagementsystem.lesson.common.model.Lesson;
+import com.leverx.learningmanagementsystem.lesson.common.repository.LessonRepository;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,10 +14,10 @@ import org.springframework.test.context.ActiveProfiles;
 import java.util.List;
 import java.util.Optional;
 
-import static com.leverx.learningmanagementsystem.utils.LessonTestUtils.EXISTING_LESSON_ID;
-import static com.leverx.learningmanagementsystem.utils.LessonTestUtils.NEW_LESSON_TITLE;
-import static com.leverx.learningmanagementsystem.utils.LessonTestUtils.TOTAL_NUMBER_OF_LESSONS;
-import static com.leverx.learningmanagementsystem.utils.LessonTestUtils.initializeLesson;
+import static com.leverx.learningmanagementsystem.lesson.common.utils.LessonTestUtils.EXISTING_LESSON_ID;
+import static com.leverx.learningmanagementsystem.lesson.common.utils.LessonTestUtils.NEW_LESSON_TITLE;
+import static com.leverx.learningmanagementsystem.lesson.common.utils.LessonTestUtils.TOTAL_NUMBER_OF_LESSONS;
+import static com.leverx.learningmanagementsystem.lesson.common.utils.LessonTestUtils.initializeLesson;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -24,6 +25,7 @@ import static org.mockito.Mockito.when;
 
 @ActiveProfiles("test")
 @ExtendWith(MockitoExtension.class)
+@Tag("unit")
 public class LessonServiceTest {
 
     @Mock
@@ -33,7 +35,6 @@ public class LessonServiceTest {
     LessonServiceImpl lessonService;
 
     @Test
-    @Tag("unit")
     void getAll_shouldReturnAllLessons() {
         // given
         Lesson firstLesson = initializeLesson();
@@ -52,7 +53,6 @@ public class LessonServiceTest {
     }
 
     @Test
-    @Tag("unit")
     void getById_givenId_shouldReturnLesson() {
         // given
         Lesson existingLesson = initializeLesson();
@@ -67,7 +67,6 @@ public class LessonServiceTest {
     }
 
     @Test
-    @Tag("unit")
     void create_givenLesson_shouldReturnLesson() {
         // given
         Lesson newLesson = initializeLesson();

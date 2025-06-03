@@ -14,9 +14,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Base64;
 
-import static com.leverx.learningmanagementsystem.btp.featureflagservice.utils.FeatureFlagsServiceUtils.API;
-import static com.leverx.learningmanagementsystem.btp.featureflagservice.utils.FeatureFlagsServiceUtils.EVALUATE;
-import static com.leverx.learningmanagementsystem.btp.featureflagservice.utils.FeatureFlagsServiceUtils.V2;
+import static com.leverx.learningmanagementsystem.btp.featureflagservice.constants.FeatureFlagsServiceConstants.API;
+import static com.leverx.learningmanagementsystem.btp.featureflagservice.constants.FeatureFlagsServiceConstants.EVALUATE;
+import static com.leverx.learningmanagementsystem.btp.featureflagservice.constants.FeatureFlagsServiceConstants.V2;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.isNull;
 

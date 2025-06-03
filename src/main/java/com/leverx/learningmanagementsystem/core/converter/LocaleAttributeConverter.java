@@ -5,20 +5,20 @@ import jakarta.persistence.Converter;
 
 import java.util.Locale;
 
-import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 
 @Converter
 public class LocaleAttributeConverter implements AttributeConverter<Locale, String> {
 
-    private final String DEFAULT_LANGUAGE = "en";
+    public static final String DEFAULT_LANGUAGE = "en";
 
     @Override
     public String convertToDatabaseColumn(Locale locale) {
-        return !isNull(locale) ? locale.getLanguage() : DEFAULT_LANGUAGE;
+        return nonNull(locale) ? locale.getLanguage() : DEFAULT_LANGUAGE;
     }
 
     @Override
     public Locale convertToEntityAttribute(String language) {
-        return !isNull(language) ? Locale.forLanguageTag(language) : Locale.forLanguageTag(DEFAULT_LANGUAGE);
+        return nonNull(language) ? Locale.forLanguageTag(language) : Locale.forLanguageTag(DEFAULT_LANGUAGE);
     }
 }

@@ -7,8 +7,8 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
-import static com.leverx.learningmanagementsystem.utils.ITUtils.PAGE;
-import static com.leverx.learningmanagementsystem.utils.ITUtils.PAGE_SIZE;
+import static com.leverx.learningmanagementsystem.common.utils.ITUtils.PAGE;
+import static com.leverx.learningmanagementsystem.common.utils.ITUtils.PAGE_SIZE;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;

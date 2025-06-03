@@ -21,8 +21,8 @@ import java.util.Properties;
 @Profile("cloud")
 public class CloudMailSenderProvider implements MailSenderProvider {
 
-    private final String MAIL_SENDER_DESTINATION = "SmtpDestination";
-    private final String SMTP_FLAG = "smtp";
+    public static final String MAIL_SENDER_DESTINATION = "SmtpDestination";
+    public static final String SMTP_FLAG = "smtp";
 
     private final DestinationService destinationService;
     private final FeatureFlagsService featureFlagsService;

@@ -14,9 +14,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import static com.leverx.learningmanagementsystem.btp.destinationservice.utils.DestinationServiceUtils.DESTINATIONS;
-import static com.leverx.learningmanagementsystem.btp.destinationservice.utils.DestinationServiceUtils.DESTINATION_CONFIGURATION;
-import static com.leverx.learningmanagementsystem.btp.destinationservice.utils.DestinationServiceUtils.V1;
+import static com.leverx.learningmanagementsystem.btp.destinationservice.constants.DestinationServiceConstants.DESTINATIONS;
+import static com.leverx.learningmanagementsystem.btp.destinationservice.constants.DestinationServiceConstants.DESTINATION_CONFIGURATION;
+import static com.leverx.learningmanagementsystem.btp.destinationservice.constants.DestinationServiceConstants.V1;
 import static org.springframework.web.client.HttpClientErrorException.Unauthorized;
 
 @Service
@@ -25,8 +25,8 @@ import static org.springframework.web.client.HttpClientErrorException.Unauthoriz
 @Profile("cloud")
 public class DestinationService {
 
-    private final long DELAY = 2000;
-    private final int MAX_ATTEMPTS = 2;
+    public static final long DELAY = 2000;
+    public static final int MAX_ATTEMPTS = 2;
 
     private final TokenService tokenService;
     private final RestClient restClient;

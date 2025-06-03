@@ -18,14 +18,14 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.Base64;
 import java.util.Map;
 
-import static com.leverx.learningmanagementsystem.web.oauth.token.utils.TokenUtils.ACCESS_TOKEN;
-import static com.leverx.learningmanagementsystem.web.oauth.token.utils.TokenUtils.AUTHORIZATION;
-import static com.leverx.learningmanagementsystem.web.oauth.token.utils.TokenUtils.AUTHTOKENS;
-import static com.leverx.learningmanagementsystem.web.oauth.token.utils.TokenUtils.BASIC;
-import static com.leverx.learningmanagementsystem.web.oauth.token.utils.TokenUtils.CLIENT_CREDENTIALS;
-import static com.leverx.learningmanagementsystem.web.oauth.token.utils.TokenUtils.GRANT_TYPE;
-import static com.leverx.learningmanagementsystem.web.oauth.token.utils.TokenUtils.OAUTH;
-import static com.leverx.learningmanagementsystem.web.oauth.token.utils.TokenUtils.TOKEN;
+import static com.leverx.learningmanagementsystem.web.oauth.token.constants.TokenConstants.ACCESS_TOKEN;
+import static com.leverx.learningmanagementsystem.web.oauth.token.constants.TokenConstants.AUTHORIZATION;
+import static com.leverx.learningmanagementsystem.web.oauth.token.constants.TokenConstants.AUTHTOKENS;
+import static com.leverx.learningmanagementsystem.web.oauth.token.constants.TokenConstants.BASIC;
+import static com.leverx.learningmanagementsystem.web.oauth.token.constants.TokenConstants.CLIENT_CREDENTIALS;
+import static com.leverx.learningmanagementsystem.web.oauth.token.constants.TokenConstants.GRANT_TYPE;
+import static com.leverx.learningmanagementsystem.web.oauth.token.constants.TokenConstants.OAUTH;
+import static com.leverx.learningmanagementsystem.web.oauth.token.constants.TokenConstants.TOKEN;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED;
 

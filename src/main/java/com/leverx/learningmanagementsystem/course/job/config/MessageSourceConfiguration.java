@@ -10,8 +10,8 @@ import static java.util.Locale.ENGLISH;
 @Configuration
 public class MessageSourceConfiguration {
 
-    private final String CLASS_PATH = "classpath:language/message";
-    private final String DEFAULT_ENCODING = "UTF-8";
+    public static final String CLASS_PATH = "classpath:i18n/message";
+    public static final String DEFAULT_ENCODING = "UTF-8";
 
     @Bean
     public MessageSource messageSource() {

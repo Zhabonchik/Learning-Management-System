@@ -3,12 +3,12 @@ package com.leverx.learningmanagementsystem.course.facade;
 import com.leverx.learningmanagementsystem.course.dto.CourseResponseDto;
 import com.leverx.learningmanagementsystem.course.dto.CreateCourseDto;
 import com.leverx.learningmanagementsystem.course.model.Course;
-import com.leverx.learningmanagementsystem.lesson.model.Lesson;
+import com.leverx.learningmanagementsystem.lesson.common.model.Lesson;
 import com.leverx.learningmanagementsystem.student.model.Student;
 import com.leverx.learningmanagementsystem.course.mapper.CourseMapper;
 import com.leverx.learningmanagementsystem.course.service.CourseService;
 import com.leverx.learningmanagementsystem.coursesettings.service.CourseSettingsService;
-import com.leverx.learningmanagementsystem.lesson.service.LessonService;
+import com.leverx.learningmanagementsystem.lesson.common.service.LessonService;
 import com.leverx.learningmanagementsystem.student.service.StudentService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 
 @Component
 @AllArgsConstructor
@@ -99,7 +100,7 @@ public class CourseWebFacadeImpl implements CourseWebFacade {
     }
 
     private void replaceStudents(Course course, List<Student> students) {
-        if (!isNull(course.getStudents())) {
+        if (nonNull(course.getStudents())) {
             course.getStudents().forEach(student -> student.getCourses().remove(course));
             course.getStudents().clear();
         } else {
@@ -113,7 +114,7 @@ public class CourseWebFacadeImpl implements CourseWebFacade {
     }
 
     private void replaceLessons(Course course, List<Lesson> lessons) {
-        if (!isNull(course.getLessons())) {
+        if (nonNull(course.getLessons())) {
             course.getLessons().forEach(lesson -> lesson.setCourse(null));
             course.getLessons().clear();
         } else {

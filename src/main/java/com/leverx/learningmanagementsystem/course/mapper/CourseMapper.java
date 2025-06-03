@@ -4,7 +4,7 @@ import com.leverx.learningmanagementsystem.course.dto.CourseResponseDto;
 import com.leverx.learningmanagementsystem.course.dto.CreateCourseDto;
 import com.leverx.learningmanagementsystem.course.model.Course;
 import com.leverx.learningmanagementsystem.coursesettings.model.CourseSettings;
-import com.leverx.learningmanagementsystem.lesson.model.Lesson;
+import com.leverx.learningmanagementsystem.lesson.common.model.Lesson;
 import com.leverx.learningmanagementsystem.student.model.Student;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
