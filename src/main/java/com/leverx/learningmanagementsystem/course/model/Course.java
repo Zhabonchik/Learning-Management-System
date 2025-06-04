@@ -1,8 +1,8 @@
 package com.leverx.learningmanagementsystem.course.model;
 
-import com.leverx.learningmanagementsystem.audit.model.AuditableEntity;
+import com.leverx.learningmanagementsystem.core.audit.model.AuditableEntity;
 import com.leverx.learningmanagementsystem.coursesettings.model.CourseSettings;
-import com.leverx.learningmanagementsystem.lesson.model.Lesson;
+import com.leverx.learningmanagementsystem.lesson.common.model.Lesson;
 import com.leverx.learningmanagementsystem.student.model.Student;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Entity;
@@ -39,6 +39,7 @@ import static jakarta.persistence.GenerationType.UUID;
 @ToString(exclude = {"settings", "lessons", "students"})
 @Builder
 public class Course extends AuditableEntity {
+
     @Id
     @GeneratedValue(strategy = UUID)
     @JdbcTypeCode(SqlTypes.VARCHAR)

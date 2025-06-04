@@ -26,3 +26,11 @@ user-provided:
       port: ${vcap.services.user-service.credentials.mail.smtp.port}
       protocol: ${vcap.services.user-service.credentials.mail.transport.protocol}
       password: ${vcap.services.user-service.credentials.mail.smtp.password}
+
+security-entity:
+  user:
+    username: user
+    password: password
+  manager:
+    username: manager
+    password: password

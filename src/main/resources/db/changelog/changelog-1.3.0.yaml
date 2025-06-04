@@ -34,7 +34,7 @@ databaseChangeLog:
             tableName: student
             columns:
               - column:
-                  name: language
+                  name: locale
                   type: varchar(36)
                   defaultValue: 'EN'
   - changeSet:

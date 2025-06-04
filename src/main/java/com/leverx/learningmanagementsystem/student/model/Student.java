@@ -1,8 +1,8 @@
 package com.leverx.learningmanagementsystem.student.model;
 
-import com.leverx.learningmanagementsystem.audit.model.AuditableEntity;
+import com.leverx.learningmanagementsystem.core.audit.model.AuditableEntity;
 import com.leverx.learningmanagementsystem.course.model.Course;
-import com.leverx.learningmanagementsystem.utils.converter.LocaleAttributeConverter;
+import com.leverx.learningmanagementsystem.core.converter.LocaleAttributeConverter;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
@@ -59,7 +59,7 @@ public class Student extends AuditableEntity {
     @Column(name = "coins")
     private BigDecimal coins;
 
-    @Column(name = "language")
+    @Column(name = "locale")
     @Convert(converter = LocaleAttributeConverter.class)
     private Locale locale;
 

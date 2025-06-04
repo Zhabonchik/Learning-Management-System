@@ -1,8 +1,8 @@
 package com.leverx.learningmanagementsystem.course.service;
 
 import com.leverx.learningmanagementsystem.course.model.Course;
-import com.leverx.learningmanagementsystem.utils.exception.model.EntityNotFoundException;
-import com.leverx.learningmanagementsystem.utils.exception.model.IncorrectResultSizeException;
+import com.leverx.learningmanagementsystem.core.exception.model.EntityNotFoundException;
+import com.leverx.learningmanagementsystem.core.exception.model.IncorrectResultSizeException;
 import com.leverx.learningmanagementsystem.course.repository.CourseRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

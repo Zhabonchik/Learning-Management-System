@@ -18,16 +18,21 @@
 
     <properties>
         <java.version>21</java.version>
+
+        <xsuaa-starter.version>3.6.0</xsuaa-starter.version>
         <springdoc.version>2.8.6</springdoc.version>
-        <lombok.version>1.18.38</lombok.version>
+
+        <hana-jdbc.version>2.24.7</hana-jdbc.version>
+
+        <liquibase-hanadb.version>4.31.1</liquibase-hanadb.version>
+
+        <mustache.version>0.9.14</mustache.version>
+
         <mapstruct.version>1.6.3</mapstruct.version>
         <lombok-mapstruct.version>0.2.0</lombok-mapstruct.version>
+
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <buildnumber-maven-plugin.version>3.2.1</buildnumber-maven-plugin.version>
-        <hana-jdbc.version>2.24.7</hana-jdbc.version>
-        <liquibase-hanadb.version>4.31.1</liquibase-hanadb.version>
-        <xsuaa-starter.verion>3.6.0</xsuaa-starter.verion>
-        <mustache.version>0.9.14</mustache.version>
         <jacoco.version>0.8.13</jacoco.version>
         <build-helper-maven-plugin.version>3.6.0</build-helper-maven-plugin.version>
     </properties>
@@ -52,12 +57,16 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mustache</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
         <dependency>
             <groupId>com.sap.cloud.security.xsuaa</groupId>
             <artifactId>xsuaa-spring-boot-starter</artifactId>
-            <version>${xsuaa-starter.verion}</version>
+            <version>${xsuaa-starter.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -66,6 +75,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-hateoas</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springdoc</groupId>
@@ -105,7 +118,6 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
             <scope>provided</scope>
         </dependency>
         <!-- Template resolver -->
@@ -113,6 +125,11 @@
             <groupId>com.github.spullara.mustache.java</groupId>
             <artifactId>compiler</artifactId>
             <version>${mustache.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.cdimascio</groupId>
+            <artifactId>java-dotenv</artifactId>
+            <version>5.2.2</version>
         </dependency>
         <!-- Mapping -->
         <dependency>

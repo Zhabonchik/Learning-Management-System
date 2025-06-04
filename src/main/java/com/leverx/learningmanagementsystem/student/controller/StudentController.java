@@ -4,12 +4,12 @@ import com.leverx.learningmanagementsystem.course.dto.CourseId;
 import com.leverx.learningmanagementsystem.student.dto.CreateStudentDto;
 import com.leverx.learningmanagementsystem.student.dto.StudentId;
 import com.leverx.learningmanagementsystem.student.dto.StudentResponseDto;
-import com.leverx.learningmanagementsystem.student.webfacade.StudentWebFacade;
+import com.leverx.learningmanagementsystem.student.facade.StudentWebFacade;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.PagedModel;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -33,8 +33,9 @@ public class StudentController {
     private final StudentWebFacade studentWebFacade;
 
     @GetMapping
-    public Page<StudentResponseDto> getAll(@PageableDefault(size = 3, page = 0, sort = "created") Pageable pageable) {
-        return studentWebFacade.getAll(pageable);
+    public PagedModel<StudentResponseDto> getAll(@PageableDefault(size = 3, page = 0, sort = "created") Pageable pageable) {
+        var page = studentWebFacade.getAll(pageable);
+        return new PagedModel<>(page);
     }
 
     @GetMapping("/{id}")

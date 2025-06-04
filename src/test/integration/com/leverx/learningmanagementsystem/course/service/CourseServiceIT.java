@@ -1,30 +1,28 @@
 package com.leverx.learningmanagementsystem.course.service;
 
+import com.leverx.learningmanagementsystem.AbstractCommonIT;
 import com.leverx.learningmanagementsystem.course.model.Course;
-import com.leverx.learningmanagementsystem.lesson.model.Lesson;
-import org.junit.jupiter.api.Tag;
+import com.leverx.learningmanagementsystem.lesson.common.model.Lesson;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.leverx.learningmanagementsystem.utils.CourseITUtils;
-import com.leverx.learningmanagementsystem.utils.LessonITUtils;
+import com.leverx.learningmanagementsystem.course.common.utils.CourseITUtils;
+import com.leverx.learningmanagementsystem.lesson.common.utils.LessonITUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static com.leverx.learningmanagementsystem.utils.CourseITUtils.EXISTING_COURSE_ID;
-import static com.leverx.learningmanagementsystem.utils.CourseITUtils.EXISTING_COURSE_TITLE;
-import static com.leverx.learningmanagementsystem.utils.CourseITUtils.NEW_COURSE_COINS_PAID;
-import static com.leverx.learningmanagementsystem.utils.CourseITUtils.NEW_COURSE_DESCRIPTION;
-import static com.leverx.learningmanagementsystem.utils.CourseITUtils.NEW_COURSE_PRICE;
-import static com.leverx.learningmanagementsystem.utils.CourseITUtils.NEW_COURSE_TITLE;
-import static com.leverx.learningmanagementsystem.utils.CourseITUtils.TOTAL_NUMBER_OF_COURSES;
-import static com.leverx.learningmanagementsystem.utils.LessonITUtils.NON_EXISTING_LESSON_ID;
-import static com.leverx.learningmanagementsystem.utils.ITUtils.CLEAN_SQL;
-import static com.leverx.learningmanagementsystem.utils.ITUtils.INSERT_SQL;
+import static com.leverx.learningmanagementsystem.course.common.utils.CourseITUtils.EXISTING_COURSE_ID;
+import static com.leverx.learningmanagementsystem.course.common.utils.CourseITUtils.EXISTING_COURSE_TITLE;
+import static com.leverx.learningmanagementsystem.course.common.utils.CourseITUtils.NEW_COURSE_COINS_PAID;
+import static com.leverx.learningmanagementsystem.course.common.utils.CourseITUtils.NEW_COURSE_DESCRIPTION;
+import static com.leverx.learningmanagementsystem.course.common.utils.CourseITUtils.NEW_COURSE_PRICE;
+import static com.leverx.learningmanagementsystem.course.common.utils.CourseITUtils.NEW_COURSE_TITLE;
+import static com.leverx.learningmanagementsystem.course.common.utils.CourseITUtils.TOTAL_NUMBER_OF_COURSES;
+import static com.leverx.learningmanagementsystem.lesson.common.utils.LessonITUtils.NON_EXISTING_LESSON_ID;
+import static com.leverx.learningmanagementsystem.common.utils.ITUtils.CLEAN_SQL;
+import static com.leverx.learningmanagementsystem.common.utils.ITUtils.INSERT_SQL;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -32,9 +30,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@SpringBootTest
-@Tag("integration")
-class CourseServiceIT {
+class CourseServiceIT extends AbstractCommonIT {
 
     @Autowired
     private CourseService courseService;
@@ -65,7 +61,6 @@ class CourseServiceIT {
 
     @Test
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @WithMockUser(roles = "USER")
     void create_givenCourse_shouldReturnCreatedCourse() {
         // given
         Course newCourse = CourseITUtils.initializeCourse();
@@ -86,7 +81,6 @@ class CourseServiceIT {
 
     @Test
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @WithMockUser(roles = "USER")
     void update_givenCourse_shouldReturnUpdatedCourse() {
         // given
         Course courseToUpdate = courseService.getById(EXISTING_COURSE_ID);

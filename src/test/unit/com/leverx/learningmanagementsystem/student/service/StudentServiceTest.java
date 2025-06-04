@@ -12,11 +12,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 import java.util.Optional;
 
-import static com.leverx.learningmanagementsystem.utils.StudentTestUtils.EXISTING_STUDENT_ID;
-import static com.leverx.learningmanagementsystem.utils.StudentTestUtils.NEW_STUDENT_FIRST_NAME;
-import static com.leverx.learningmanagementsystem.utils.StudentTestUtils.NEW_STUDENT_LAST_NAME;
-import static com.leverx.learningmanagementsystem.utils.StudentTestUtils.TOTAL_NUMBER_OF_STUDENTS;
-import static com.leverx.learningmanagementsystem.utils.StudentTestUtils.initializeStudent;
+import static com.leverx.learningmanagementsystem.student.common.utils.StudentTestUtils.EXISTING_STUDENT_ID;
+import static com.leverx.learningmanagementsystem.student.common.utils.StudentTestUtils.NEW_STUDENT_FIRST_NAME;
+import static com.leverx.learningmanagementsystem.student.common.utils.StudentTestUtils.NEW_STUDENT_LAST_NAME;
+import static com.leverx.learningmanagementsystem.student.common.utils.StudentTestUtils.TOTAL_NUMBER_OF_STUDENTS;
+import static com.leverx.learningmanagementsystem.student.common.utils.StudentTestUtils.initializeStudent;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;

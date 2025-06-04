@@ -2,12 +2,12 @@ package com.leverx.learningmanagementsystem.coursesettings.controller;
 
 import com.leverx.learningmanagementsystem.coursesettings.dto.CreateCourseSettingsDto;
 import com.leverx.learningmanagementsystem.coursesettings.dto.CourseSettingsResponseDto;
-import com.leverx.learningmanagementsystem.coursesettings.webfacade.CourseSettingsWebFacade;
+import com.leverx.learningmanagementsystem.coursesettings.facade.CourseSettingsWebFacade;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.PagedModel;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -31,8 +31,9 @@ public class CourseSettingsController {
     private final CourseSettingsWebFacade courseSettingsWebFacade;
 
     @GetMapping
-    public Page<CourseSettingsResponseDto> getAll(@PageableDefault(size = 3, page = 0, sort = "created") Pageable pageable) {
-        return courseSettingsWebFacade.getAll(pageable);
+    public PagedModel<CourseSettingsResponseDto> getAll(@PageableDefault(size = 3, page = 0, sort = "created") Pageable pageable) {
+        var page = courseSettingsWebFacade.getAll(pageable);
+        return new PagedModel<>(page);
     }
 
     @GetMapping("/{id}")

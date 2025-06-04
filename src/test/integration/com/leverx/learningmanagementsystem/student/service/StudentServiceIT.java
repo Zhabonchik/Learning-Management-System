@@ -1,30 +1,28 @@
 package com.leverx.learningmanagementsystem.student.service;
 
+import com.leverx.learningmanagementsystem.AbstractCommonIT;
 import com.leverx.learningmanagementsystem.course.model.Course;
 import com.leverx.learningmanagementsystem.student.model.Student;
-import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.leverx.learningmanagementsystem.utils.CourseITUtils;
-import com.leverx.learningmanagementsystem.utils.StudentITUtils;
+import com.leverx.learningmanagementsystem.course.common.utils.CourseITUtils;
+import com.leverx.learningmanagementsystem.student.common.utils.StudentITUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.leverx.learningmanagementsystem.utils.CourseITUtils.NON_EXISTING_COURSE_ID;
-import static com.leverx.learningmanagementsystem.utils.StudentITUtils.EXISTING_STUDENT_ID;
-import static com.leverx.learningmanagementsystem.utils.StudentITUtils.NEW_STUDENT_COINS;
-import static com.leverx.learningmanagementsystem.utils.StudentITUtils.NEW_STUDENT_DATE_OF_BIRTH;
-import static com.leverx.learningmanagementsystem.utils.StudentITUtils.NEW_STUDENT_EMAIL;
-import static com.leverx.learningmanagementsystem.utils.StudentITUtils.NEW_STUDENT_FIRST_NAME;
-import static com.leverx.learningmanagementsystem.utils.StudentITUtils.NEW_STUDENT_LAST_NAME;
-import static com.leverx.learningmanagementsystem.utils.StudentITUtils.TOTAL_NUMBER_OF_STUDENTS;
-import static com.leverx.learningmanagementsystem.utils.StudentITUtils.initializeStudent;
-import static com.leverx.learningmanagementsystem.utils.ITUtils.CLEAN_SQL;
-import static com.leverx.learningmanagementsystem.utils.ITUtils.INSERT_SQL;
+import static com.leverx.learningmanagementsystem.course.common.utils.CourseITUtils.NON_EXISTING_COURSE_ID;
+import static com.leverx.learningmanagementsystem.student.common.utils.StudentITUtils.EXISTING_STUDENT_ID;
+import static com.leverx.learningmanagementsystem.student.common.utils.StudentITUtils.NEW_STUDENT_COINS;
+import static com.leverx.learningmanagementsystem.student.common.utils.StudentITUtils.NEW_STUDENT_DATE_OF_BIRTH;
+import static com.leverx.learningmanagementsystem.student.common.utils.StudentITUtils.NEW_STUDENT_EMAIL;
+import static com.leverx.learningmanagementsystem.student.common.utils.StudentITUtils.NEW_STUDENT_FIRST_NAME;
+import static com.leverx.learningmanagementsystem.student.common.utils.StudentITUtils.NEW_STUDENT_LAST_NAME;
+import static com.leverx.learningmanagementsystem.student.common.utils.StudentITUtils.TOTAL_NUMBER_OF_STUDENTS;
+import static com.leverx.learningmanagementsystem.student.common.utils.StudentITUtils.initializeStudent;
+import static com.leverx.learningmanagementsystem.common.utils.ITUtils.CLEAN_SQL;
+import static com.leverx.learningmanagementsystem.common.utils.ITUtils.INSERT_SQL;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -32,13 +30,10 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-
-@SpringBootTest
-@Tag("integration")
-class StudentServiceIT {
+class StudentServiceIT extends AbstractCommonIT {
 
     @Autowired
-    StudentService studentService;
+    private StudentService studentService;
 
     @Test
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
@@ -63,7 +58,6 @@ class StudentServiceIT {
 
     @Test
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @WithMockUser(roles = "USER")
     void create_givenStudent_shouldReturnCreatedStudent() {
         // given
         Student newStudent = initializeStudent();
@@ -85,7 +79,6 @@ class StudentServiceIT {
 
     @Test
     @Sql(scripts = {CLEAN_SQL, INSERT_SQL}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @WithMockUser(roles = "USER")
     void update_givenStudent_shouldReturnUpdatedStudent() {
         // given
         Student updateStudent = studentService.getById(EXISTING_STUDENT_ID);

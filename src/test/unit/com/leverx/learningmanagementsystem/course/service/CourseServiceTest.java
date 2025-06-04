@@ -12,10 +12,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 import java.util.Optional;
 
-import static com.leverx.learningmanagementsystem.utils.CourseTestUtils.EXISTING_COURSE_ID;
-import static com.leverx.learningmanagementsystem.utils.CourseTestUtils.NEW_COURSE_TITLE;
-import static com.leverx.learningmanagementsystem.utils.CourseTestUtils.TOTAL_NUMBER_OF_COURSES;
-import static com.leverx.learningmanagementsystem.utils.CourseTestUtils.initializeCourse;
+import static com.leverx.learningmanagementsystem.course.common.utils.CourseTestUtils.EXISTING_COURSE_ID;
+import static com.leverx.learningmanagementsystem.course.common.utils.CourseTestUtils.NEW_COURSE_TITLE;
+import static com.leverx.learningmanagementsystem.course.common.utils.CourseTestUtils.TOTAL_NUMBER_OF_COURSES;
+import static com.leverx.learningmanagementsystem.course.common.utils.CourseTestUtils.initializeCourse;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
