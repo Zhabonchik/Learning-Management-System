@@ -55,9 +55,9 @@ class StudentControllerIT extends AbstractCommonIT {
 
         // then
         response.andExpect(status().isOk())
-                .andExpect(jsonPath("$._embedded.studentResponseDtoList.size()").value(TOTAL_NUMBER_OF_STUDENTS))
-                .andExpect(jsonPath("$._embedded.studentResponseDtoList[0].firstName").value(EXISTING_STUDENT_FIRST_NAME))
-                .andExpect(jsonPath("$._embedded.studentResponseDtoList[0].lastName").value(EXISTING_STUDENT_LAST_NAME));
+                .andExpect(jsonPath("$.content.size()").value(TOTAL_NUMBER_OF_STUDENTS))
+                .andExpect(jsonPath("$.content[0].firstName").value(EXISTING_STUDENT_FIRST_NAME))
+                .andExpect(jsonPath("$.content[0].lastName").value(EXISTING_STUDENT_LAST_NAME));
     }
 
     @Test

@@ -17,12 +17,10 @@ import static com.leverx.learningmanagementsystem.lesson.common.utils.LessonITUt
 import static com.leverx.learningmanagementsystem.lesson.common.utils.LessonITUtils.NEW_LESSON_TITLE;
 import static com.leverx.learningmanagementsystem.lesson.common.utils.LessonITUtils.NON_EXISTING_LESSON_ID;
 import static com.leverx.learningmanagementsystem.lesson.common.utils.LessonITUtils.NUMBER_OF_LESSON_FIELDS;
-import static com.leverx.learningmanagementsystem.lesson.common.utils.LessonITUtils.TOTAL_NUMBER_OF_CLASSROOM_LESSONS;
 import static com.leverx.learningmanagementsystem.lesson.common.utils.LessonITUtils.TOTAL_NUMBER_OF_LESSONS;
 import static com.leverx.learningmanagementsystem.common.utils.ITUtils.CLEAN_SQL;
 import static com.leverx.learningmanagementsystem.common.utils.ITUtils.DEFAULT_PAGE;
 import static com.leverx.learningmanagementsystem.common.utils.ITUtils.INSERT_SQL;
-import static com.leverx.learningmanagementsystem.lesson.common.utils.LessonITUtils.TOTAL_NUMBER_OF_VIDEO_LESSONS;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -46,8 +44,7 @@ public class LessonControllerIT extends AbstractCommonIT {
 
         // then
         response.andExpect(status().isOk())
-                .andExpect(jsonPath("$._embedded.videoLessonResponseDtoList.size()").value(TOTAL_NUMBER_OF_VIDEO_LESSONS))
-                .andExpect(jsonPath("$._embedded.classroomLessonResponseDtoList.size()").value(TOTAL_NUMBER_OF_CLASSROOM_LESSONS));
+                .andExpect(jsonPath("$.content.size()").value(TOTAL_NUMBER_OF_LESSONS));
     }
 
     @Test

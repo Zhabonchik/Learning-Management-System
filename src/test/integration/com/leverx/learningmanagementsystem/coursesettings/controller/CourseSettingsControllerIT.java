@@ -46,7 +46,7 @@ public class CourseSettingsControllerIT extends AbstractCommonIT {
 
         // then
         response.andExpect(status().isOk())
-                .andExpect(jsonPath("$._embedded.courseSettingsResponseDtoList.size()").value(TOTAL_NUMBER_OF_COURSE_SETTINGS));
+                .andExpect(jsonPath("$.content.size()").value(TOTAL_NUMBER_OF_COURSE_SETTINGS));
     }
 
     @Test

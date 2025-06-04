@@ -39,7 +39,7 @@ class CourseControllerIT extends AbstractCommonIT {
 
         // then
         response.andExpect(status().isOk())
-                .andExpect(jsonPath("$._embedded.courseResponseDtoList.size()").value(TOTAL_NUMBER_OF_COURSES));
+                .andExpect(jsonPath("$.content.size()").value(TOTAL_NUMBER_OF_COURSES));
     }
 
     @Test
