@@ -1,0 +1,20 @@
+{
+  "xsappname": "learning-management-system",
+  "description": "Roles for LMS app",
+  "tenant-mode": "shared",
+  "scopes": [
+    {
+      "name": "$XSAPPNAME.Info",
+      "description": "Get access to /application-info endpoint."
+    }
+  ],
+  "role-templates": [
+    {
+      "name": "Admin",
+      "description": "Get access to /application-info endpoint.",
+      "scope-references": [
+        "$XSAPPNAME.Info"
+      ]
+    }
+  ]
+}
