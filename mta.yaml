@@ -59,4 +59,4 @@ resources:
     parameters:
       service: xsuaa
       service-plan: application
-      path: src/main/java/com/leverx/learningmanagementsystem/btp/xsuaa/xs-security.json
+      path: xs-security.json
