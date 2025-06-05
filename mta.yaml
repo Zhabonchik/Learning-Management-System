@@ -28,6 +28,28 @@ modules:
       - name: logging-service
       - name: hana-schema
       - name: xsuaa-service
+      - name: user-service
+  - name: approuter
+    type: nodejs
+    path: approuter
+    parameters:
+      disk-quota: 256M
+      memory: 256M
+      routes:
+        - route: https://learning-management-system-${space}-approuter.cfapps.us10-001.hana.ondemand.com
+    requires:
+      - name: xsuaa-service
+    properties:
+      destinations: >
+        [
+          {
+            "name": "learning-management-system",
+            "url": "https://067769ebtrial-dev-learning-management-system.cfapps.us10-001.hana.ondemand.com",
+            "forwardAuthToken": true
+          }
+        ]
+      TENANT_HOST_PATTERN: "^(.*)-${space}-approuter\\.cfapps\\.us10-001\\.hana\\.ondemand\\.com"
+
 
 resources:
   - name: destination-service
@@ -60,3 +82,6 @@ resources:
       service: xsuaa
       service-plan: application
       path: xs-security.json
+
+  - name: user-service
+    type: org.cloudfoundry.existing-service
