@@ -27,10 +27,18 @@ user-provided:
       protocol: ${vcap.services.user-service.credentials.mail.transport.protocol}
       password: ${vcap.services.user-service.credentials.mail.smtp.password}
 
+xsuaa:
+  url: ${vcap.services.xsuaa-service.credentials.url}
+  clientId: ${vcap.services.xsuaa-service.credentials.clientid}
+  clientSecret: ${vcap.services.xsuaa-service.credentials.clientsecret}
+
 security-entity:
   user:
     username: user
     password: password
   manager:
     username: manager
+    password: password
+  admin:
+    username: admin
     password: password

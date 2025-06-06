@@ -1,0 +1,8 @@
+{
+  "xsappname": "learning-management-system",
+  "appUrls": {
+    "onSubscription": "https://067769ebtrial-dev-learning-management-system.cfapps.us10-001.hana.ondemand.com/api/v1/subscribe/{tenantId}"
+  },
+  "displayName": "Learning Management System",
+  "tenantMode": "shared"
+}

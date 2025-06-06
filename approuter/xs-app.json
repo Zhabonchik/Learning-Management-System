@@ -2,6 +2,27 @@
   "authenticationMethod": "route",
   "routes": [
     {
+      "source": "^/api/v1/subscribe/(.*)$",
+      "target": "/api/v1/subscribe/$1",
+      "destination": "learning-management-system",
+      "authenticationType": "none",
+      "csrfProtection": false
+    },
+    {
+      "source": "^/api/v1/unsubscribe/(.*)$",
+      "target": "/api/v1/unsubscribe/$1",
+      "destination": "learning-management-system",
+      "authenticationType": "none",
+      "csrfProtection": false
+    },
+    {
+      "source": "^/actuator/(.*)$",
+      "target": "/actuator/$1",
+      "destination": "learning-management-system",
+      "authenticationType": "none",
+      "csrfProtection": false
+    },
+    {
       "source": "^(.*)$",
       "target": "$1",
       "destination": "learning-management-system",
