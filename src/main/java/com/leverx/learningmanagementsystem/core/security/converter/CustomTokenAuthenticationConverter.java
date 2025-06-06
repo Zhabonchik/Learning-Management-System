@@ -10,7 +10,9 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 public class CustomTokenAuthenticationConverter extends TokenAuthenticationConverter {
@@ -24,23 +26,31 @@ public class CustomTokenAuthenticationConverter extends TokenAuthenticationConve
         AbstractAuthenticationToken authentication = super.convert(jwt);
 
         log.info("I am Custom converter");
-        log.info("Jwt token: {}", jwt);
 
-        List<String> roleCollections = jwt.getClaimAsStringList("xs.system.attributes.xs.rolecollections");
-        if (roleCollections != null) {
+        Map<String, Object> xsSystemAttributes = jwt.getClaim("xs.system.attributes");
+        log.info("xssystem attributes: {}", xsSystemAttributes);
+        List<String> roleCollections = Collections.emptyList();
+
+        if (xsSystemAttributes != null) {
+            Object rc = xsSystemAttributes.get("xs.rolecollections");
+            if (rc instanceof List) {
+                roleCollections = (List<String>) rc;
+            }
+        }
+
+        log.info("Found role collections: {}", roleCollections);
+
+        if (!roleCollections.isEmpty()) {
             List<GrantedAuthority> authorities = new ArrayList<>(authentication.getAuthorities());
             roleCollections.forEach(role ->
                     authorities.add(new SimpleGrantedAuthority("ROLE_" + role))
             );
-            log.info("Converting JWT. Role collections: {}, Current authorities: {}",
-                    roleCollections,
-                    authorities);
-            return new JwtAuthenticationToken(
-                    jwt,
-                    authorities,
-                    authentication.getName()
-            );
+
+            log.info("Final authorities: {}", authorities);
+            return new JwtAuthenticationToken(jwt, authorities);
         }
+
+        log.info("No role collections found");
         return authentication;
     }
 }

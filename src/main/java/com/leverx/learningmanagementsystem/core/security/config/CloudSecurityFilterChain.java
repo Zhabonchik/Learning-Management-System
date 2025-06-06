@@ -58,7 +58,7 @@ public class CloudSecurityFilterChain {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/api/v1/application-info").permitAll()
+                        .requestMatchers("/api/v1/application-info").hasRole(LMS_ADMIN.name())
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> jwt
