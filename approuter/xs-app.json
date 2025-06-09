@@ -1,5 +1,6 @@
 {
   "authenticationMethod": "route",
+  "welcomeFile": "/api/v1/application-info",
   "routes": [
     {
       "source": "^/api/v1/subscribe/(.*)$",

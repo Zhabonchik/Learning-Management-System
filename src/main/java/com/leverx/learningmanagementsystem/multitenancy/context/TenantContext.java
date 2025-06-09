@@ -1,4 +1,4 @@
-package com.leverx.learningmanagementsystem.core.security.context;
+package com.leverx.learningmanagementsystem.multitenancy.context;
 
 public class TenantContext {
 
