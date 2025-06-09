@@ -1,4 +1,4 @@
-package com.leverx.learningmanagementsystem.btp.registry.model;
+package com.leverx.learningmanagementsystem.btp.xsuaa.model;
 
 public record XsuaaResponseDto(
         String url,
