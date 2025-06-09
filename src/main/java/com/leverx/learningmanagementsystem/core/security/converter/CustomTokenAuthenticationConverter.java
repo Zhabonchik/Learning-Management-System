@@ -14,6 +14,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import static java.util.Objects.nonNull;
+
 @Slf4j
 public class CustomTokenAuthenticationConverter extends TokenAuthenticationConverter {
 
@@ -31,7 +33,7 @@ public class CustomTokenAuthenticationConverter extends TokenAuthenticationConve
         log.info("xssystem attributes: {}", xsSystemAttributes);
         List<String> roleCollections = Collections.emptyList();
 
-        if (xsSystemAttributes != null) {
+        if (nonNull(xsSystemAttributes)) {
             Object rc = xsSystemAttributes.get("xs.rolecollections");
             if (rc instanceof List) {
                 roleCollections = (List<String>) rc;

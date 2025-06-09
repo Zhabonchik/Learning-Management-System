@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.HttpStatus.OK;
 
 @RestController
@@ -27,7 +28,7 @@ import static org.springframework.http.HttpStatus.OK;
 @AllArgsConstructor
 @Profile("cloud")
 @Slf4j
-public class SaasController {
+public class RegistryController {
 
     public static final String ROUTER_URL = "https://%s-learning-management-system-approuter.cfapps.us10-001.hana.ondemand.com";
     public static final String INFO_ENDPOINT = "https://067769ebtrial-dev-learning-management-system.cfapps.us10-001.hana.ondemand.com/api/v1/application-info";
@@ -49,6 +50,7 @@ public class SaasController {
     }
 
     @DeleteMapping("/subscribe/{tenantId}")
+    @ResponseStatus(NO_CONTENT)
     public void onUnsubscribe(@PathVariable("tenantId") String tenantId) {
         log.info("Unsubscribing tenant [id = {}]", tenantId);
     }
