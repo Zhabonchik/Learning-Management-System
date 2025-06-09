@@ -1,4 +1,4 @@
-package com.leverx.learningmanagementsystem.btp.registry.config;
+package com.leverx.learningmanagementsystem.btp.xsuaa.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

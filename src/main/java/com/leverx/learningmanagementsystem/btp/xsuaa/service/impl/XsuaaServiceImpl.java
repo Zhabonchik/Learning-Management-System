@@ -1,8 +1,8 @@
-package com.leverx.learningmanagementsystem.btp.registry.service.impl;
+package com.leverx.learningmanagementsystem.btp.xsuaa.service.impl;
 
-import com.leverx.learningmanagementsystem.btp.registry.config.XsuaaConfiguration;
-import com.leverx.learningmanagementsystem.btp.registry.model.XsuaaResponseDto;
-import com.leverx.learningmanagementsystem.btp.registry.service.XsuaaService;
+import com.leverx.learningmanagementsystem.btp.xsuaa.config.XsuaaConfiguration;
+import com.leverx.learningmanagementsystem.btp.xsuaa.model.XsuaaResponseDto;
+import com.leverx.learningmanagementsystem.btp.xsuaa.service.XsuaaService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
