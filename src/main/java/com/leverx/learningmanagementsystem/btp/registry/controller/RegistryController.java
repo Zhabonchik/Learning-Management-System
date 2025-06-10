@@ -29,7 +29,6 @@ import static org.springframework.http.HttpStatus.OK;
 public class RegistryController {
 
     public static final String ROUTER_URL = "https://%s-learning-management-system-approuter.cfapps.us10-001.hana.ondemand.com";
-    public static final String INFO_ENDPOINT = "https://067769ebtrial-dev-learning-management-system.cfapps.us10-001.hana.ondemand.com/api/v1/application-info";
 
     private final TenantRegistryService tenantRegistryService;
 
@@ -38,17 +37,16 @@ public class RegistryController {
     public String onSubscribe(@PathVariable("tenantId") String tenantId,
                               @RequestBody RegistryRequestDto body) {
         log.info("Subscribing tenant [id = {}]", tenantId);
-        tenantRegistryService.subscribeTenant(body.subscribedSubdomain());
+        tenantRegistryService.subscribeTenant(tenantId);
 
         return ROUTER_URL.formatted(body.subscribedSubdomain());
     }
 
     @DeleteMapping("/subscribe/{tenantId}")
     @ResponseStatus(NO_CONTENT)
-    public void onUnsubscribe(@PathVariable("tenantId") String tenantId,
-                              @RequestBody RegistryRequestDto body) {
+    public void onUnsubscribe(@PathVariable("tenantId") String tenantId) {
         log.info("Unsubscribing tenant [id = {}]", tenantId);
-        tenantRegistryService.unsubscribeTenant(body.subscribedSubdomain());
+        tenantRegistryService.unsubscribeTenant(tenantId);
     }
 
     @GetMapping("/check-token-details")

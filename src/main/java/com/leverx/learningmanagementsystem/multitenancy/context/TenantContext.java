@@ -2,17 +2,17 @@ package com.leverx.learningmanagementsystem.multitenancy.context;
 
 public class TenantContext {
 
-    private static final ThreadLocal<String> tenantSubdomain = new ThreadLocal<>();
+    private static final ThreadLocal<String> tenantId = new ThreadLocal<>();
 
-    public static void setTenantSubdomain(String subdomain) {
-        tenantSubdomain.set(subdomain);
+    public static void setTenantId(String subdomain) {
+        tenantId.set(subdomain);
     }
 
-    public static String getTenantSubdomain() {
-        return tenantSubdomain.get();
+    public static String getTenantId() {
+        return tenantId.get();
     }
 
     public static void clear() {
-        tenantSubdomain.remove();
+        tenantId.remove();
     }
 }

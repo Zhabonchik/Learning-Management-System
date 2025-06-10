@@ -16,14 +16,18 @@ import java.io.IOException;
 @Slf4j
 @Profile("local")
 public class LocalTenantInfoFilter extends OncePerRequestFilter {
+
+    public static final String TENANT_HEADER = "X-Tenant-ID";
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String tenantId = request.getParameter("tenantId");
-        if (tenantId == null) {
-            TenantContext.setTenantSubdomain("public");
-        } else {
-            TenantContext.setTenantSubdomain(tenantId);
+        String tenantId = request.getHeader(TENANT_HEADER);
+        TenantContext.setTenantId(tenantId);
+
+        try {
+            filterChain.doFilter(request, response);
+        } finally {
+            TenantContext.clear();
         }
-        filterChain.doFilter(request, response);
     }
 }
