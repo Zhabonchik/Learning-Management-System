@@ -29,6 +29,7 @@ modules:
       - name: xsuaa-service
       - name: user-service
       - name: saas-registry
+      - name: service-manager
     provides:
       - name: learning-management-system-api
         properties:
@@ -97,3 +98,9 @@ resources:
       service: saas-registry
       service-plan: application
       path: src/main/java/com/leverx/learningmanagementsystem/btp/registry/saas-provisioning.json
+
+  - name: service-manager
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: service-manager
+      service-plan: container
