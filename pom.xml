@@ -31,6 +31,8 @@
         <mapstruct.version>1.6.3</mapstruct.version>
         <lombok-mapstruct.version>0.2.0</lombok-mapstruct.version>
 
+        <java-jwt.version>4.5.0</java-jwt.version>
+
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <buildnumber-maven-plugin.version>3.2.1</buildnumber-maven-plugin.version>
         <jacoco.version>0.8.13</jacoco.version>
@@ -141,6 +143,12 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok-mapstruct-binding</artifactId>
             <version>${lombok-mapstruct.version}</version>
+        </dependency>
+        <!-- Jwt -->
+        <dependency>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
+            <version>${java-jwt.version}</version>
         </dependency>
         <!-- Testing -->
         <dependency>

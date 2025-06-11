@@ -16,4 +16,7 @@ public class SecurityEntityConfiguration {
 
     @NestedConfigurationProperty
     private SecurityEntity manager;
+
+    @NestedConfigurationProperty
+    private SecurityEntity admin;
 }

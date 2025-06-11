@@ -6,7 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Profile;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -74,13 +73,6 @@ public class TokenService {
         return UriComponentsBuilder.fromUriString(tokenUrl)
                 .pathSegment(OAUTH, TOKEN)
                 .toUriString();
-    }
-
-    private HttpEntity<MultiValueMap<String, String>> configureHttpEntity(DestinationTokenRequest destinationTokenRequest) {
-        log.info("Configure http entity");
-        HttpHeaders headers = configureHeaders(destinationTokenRequest);
-        MultiValueMap<String, String> body = configureBody();
-        return new HttpEntity<>(body, headers);
     }
 
     private HttpHeaders configureHeaders(DestinationTokenRequest destinationTokenRequest) {
