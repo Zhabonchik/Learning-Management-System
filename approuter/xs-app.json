@@ -17,13 +17,6 @@
       "csrfProtection": false
     },
     {
-      "source": "^/actuator/(.*)$",
-      "target": "/actuator/$1",
-      "destination": "learning-management-system",
-      "authenticationType": "none",
-      "csrfProtection": false
-    },
-    {
       "source": "^(.*)$",
       "target": "$1",
       "destination": "learning-management-system",
