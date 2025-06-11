@@ -1,4 +1,4 @@
-package com.leverx.learningmanagementsystem.multitenancy.config;
+package com.leverx.learningmanagementsystem.core.db.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

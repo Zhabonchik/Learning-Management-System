@@ -1,6 +1,6 @@
 package com.leverx.learningmanagementsystem.multitenancy.connectionprovider;
 
-import com.leverx.learningmanagementsystem.multitenancy.config.DataSourceConfiguration;
+import com.leverx.learningmanagementsystem.core.db.config.DataSourceConfiguration;
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
