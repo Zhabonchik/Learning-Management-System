@@ -32,6 +32,16 @@ xsuaa:
   clientId: ${vcap.services.xsuaa-service.credentials.clientid}
   clientSecret: ${vcap.services.xsuaa-service.credentials.clientsecret}
 
+service-manager:
+  url: ${vcap.services.service-manager.credentials.url}
+  smUrl: ${vcap.services.service-manager.credentials.sm_url}
+  clientId: ${vcap.services.service-manager.credentials.clientid}
+  clientSecret: ${vcap.services.service-manager.credentials.clientsecret}
+
+application:
+  applicationId: ${vcap.application.application_id}
+  spaceId: ${vcap.application.space_id}
+
 security-entity:
   user:
     username: user
