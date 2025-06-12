@@ -10,4 +10,5 @@ import org.springframework.stereotype.Component;
 @Profile("cloud")
 @Slf4j
 public class CloudMultitenantMigrator {
+    // TODO
 }
