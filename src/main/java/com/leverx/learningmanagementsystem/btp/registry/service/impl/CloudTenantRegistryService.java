@@ -39,11 +39,16 @@ public class CloudTenantRegistryService implements TenantRegistryService {
 
         log.info("Assigning schema {} to tenant {}", createSchemaDto.name(), tenantId);
         serviceManager.createServiceInstance(createSchemaDto);
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            log.info("Interrupted while waiting for service instance creation");
+        }
 
         log.info("Getting schema for tenant {}", tenantId);
         SchemaInstanceResponse schemaInstance = serviceManager.getServiceInstanceByTenantId(tenantId);
 
-        log.info("Binding schema {} to tenant {}", schemaInstance.id(), tenantId);
+        log.info("Binding schema {} for tenant {}", schemaInstance.id(), tenantId);
         SchemaBindingRequest bindingRequest = configureSchemaBindingRequest(tenantId, schemaInstance.id(), schemaInstance.name());
         serviceManager.bindServiceInstance(bindingRequest);
     }
@@ -58,6 +63,11 @@ public class CloudTenantRegistryService implements TenantRegistryService {
 
         log.info("Deleting binding {} for schema {}", schemaBinding.id(), schemaInstance.id());
         serviceManager.unbindServiceInstance(schemaBinding.id());
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            log.info("Interrupted while waiting for service unbinding");
+        }
 
         log.info("Deleting schema {}", schemaInstance.id());
         serviceManager.deleteServiceInstance(schemaInstance.id());

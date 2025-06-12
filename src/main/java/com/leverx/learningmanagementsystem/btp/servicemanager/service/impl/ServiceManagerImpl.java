@@ -195,7 +195,9 @@ public class ServiceManagerImpl implements ServiceManager {
             restClient.post()
                     .uri(uri)
                     .headers(httpHeaders -> httpHeaders.addAll(headers))
-                    .body(createSchemaDto);
+                    .body(createSchemaDto)
+                    .retrieve()
+                    .toBodilessEntity();
         } catch (Unauthorized ex) {
             log.info("Unauthorized access while creating service instances");
             refreshAuthToken();
@@ -209,10 +211,13 @@ public class ServiceManagerImpl implements ServiceManager {
             var headers = buildHeaders();
 
             log.info("Trying to bind service instances");
+            log.info("SchemaBindingRequest: {}", schemaBindingRequest);
             restClient.post()
                     .uri(uri)
                     .headers(httpHeaders -> httpHeaders.addAll(headers))
-                    .body(schemaBindingRequest);
+                    .body(schemaBindingRequest)
+                    .retrieve()
+                    .toBodilessEntity();
         } catch (Unauthorized ex) {
             log.info("Unauthorized access while binding service instances");
             refreshAuthToken();
@@ -228,7 +233,9 @@ public class ServiceManagerImpl implements ServiceManager {
             log.info("Trying to unbind service instances");
             restClient.delete()
                     .uri(uri)
-                    .headers(httpHeaders -> httpHeaders.addAll(headers));
+                    .headers(httpHeaders -> httpHeaders.addAll(headers))
+                    .retrieve()
+                    .toBodilessEntity();
         } catch (Unauthorized ex) {
             log.info("Unauthorized access while unbinding service instances");
             refreshAuthToken();
@@ -264,7 +271,9 @@ public class ServiceManagerImpl implements ServiceManager {
             log.info("Trying to delete service instance");
             restClient.delete()
                     .uri(uri)
-                    .headers(httpHeaders -> httpHeaders.addAll(headers));
+                    .headers(httpHeaders -> httpHeaders.addAll(headers))
+                    .retrieve()
+                    .toBodilessEntity();
         } catch (Unauthorized ex) {
             log.info("Unauthorized access while deleting service instances");
             refreshAuthToken();

@@ -10,6 +10,7 @@ import liquibase.database.jvm.JdbcConnection;
 import liquibase.resource.ClassLoaderResourceAccessor;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
@@ -20,7 +21,8 @@ import static com.leverx.learningmanagementsystem.multitenancy.utils.MigrationUt
 @Component
 @Slf4j
 @AllArgsConstructor
-public class DatabaseMigrator {
+@Profile("local")
+public class LocalDatabaseMigrator {
 
     private final DataSource dataSource;
 

@@ -1,6 +1,6 @@
 package com.leverx.learningmanagementsystem.multitenancy.migrator;
 
-import com.leverx.learningmanagementsystem.core.db.service.DatabaseMigrator;
+import com.leverx.learningmanagementsystem.core.db.service.LocalDatabaseMigrator;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -20,7 +20,7 @@ import static com.leverx.learningmanagementsystem.multitenancy.utils.MigrationUt
 public class LocalMultitenantMigrator {
 
     private final JdbcTemplate jdbcTemplate;
-    private final DatabaseMigrator databaseMigrator;
+    private final LocalDatabaseMigrator databaseMigrator;
 
     @EventListener(ApplicationReadyEvent.class)
     public void migrateAllSchemas() {
