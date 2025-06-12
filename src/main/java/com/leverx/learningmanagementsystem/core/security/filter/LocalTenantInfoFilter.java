@@ -1,6 +1,6 @@
 package com.leverx.learningmanagementsystem.core.security.filter;
 
-import com.leverx.learningmanagementsystem.multitenancy.context.TenantContext;
+import com.leverx.learningmanagementsystem.core.security.context.TenantContext;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

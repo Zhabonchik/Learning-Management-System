@@ -4,8 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 
 @Builder
-public record BindResource (
-        @JsonProperty("app_guid") String appGuid,
-        @JsonProperty("space_guid") String spaceGuid
+public record Parameters(
+        @JsonProperty("databaseName") String databaseName
 ) {
 }

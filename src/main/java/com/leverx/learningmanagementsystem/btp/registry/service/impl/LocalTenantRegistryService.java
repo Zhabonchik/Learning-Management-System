@@ -20,7 +20,6 @@ import static com.leverx.learningmanagementsystem.multitenancy.utils.MigrationUt
 @Profile("local")
 public class LocalTenantRegistryService implements TenantRegistryService {
 
-    private final DataSource dataSource;
     private final JdbcTemplate jdbcTemplate;
     private final DataSourcesProvider dataSourcesProvider;
     private final DatabaseMigrator databaseMigrator;

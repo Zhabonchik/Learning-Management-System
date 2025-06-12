@@ -1,6 +1,6 @@
 package com.leverx.learningmanagementsystem.multitenancy.identifierresolver;
 
-import com.leverx.learningmanagementsystem.multitenancy.context.TenantContext;
+import com.leverx.learningmanagementsystem.core.security.context.TenantContext;
 import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernatePropertiesCustomizer;
 import org.springframework.context.annotation.Profile;
