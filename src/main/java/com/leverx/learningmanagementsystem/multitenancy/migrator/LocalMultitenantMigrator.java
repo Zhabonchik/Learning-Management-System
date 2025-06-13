@@ -1,6 +1,8 @@
 package com.leverx.learningmanagementsystem.multitenancy.migrator;
 
+import com.leverx.learningmanagementsystem.core.db.service.DataSourceConfigurer;
 import com.leverx.learningmanagementsystem.core.db.service.LocalDatabaseMigrator;
+import com.leverx.learningmanagementsystem.multitenancy.routingdatasource.RoutingDataSource;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -11,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static com.leverx.learningmanagementsystem.multitenancy.utils.MigrationUtils.PUBLIC;
+import static com.leverx.learningmanagementsystem.core.db.utils.DatabaseUtils.PUBLIC;
 
 @Component
 @AllArgsConstructor
@@ -21,21 +23,29 @@ public class LocalMultitenantMigrator {
 
     private final JdbcTemplate jdbcTemplate;
     private final LocalDatabaseMigrator databaseMigrator;
+    private final RoutingDataSource routingDataSource;
+    private final DataSourceConfigurer dsConfigurer;
 
     @EventListener(ApplicationReadyEvent.class)
     public void migrateAllSchemas() {
         List<String> schemas = getAllSchemas();
+        schemas.add(PUBLIC);
+        //configureRoutingDataSource(schemas);
 
         schemas.forEach(databaseMigrator::migrateSchema);
     }
 
     private List<String> getAllSchemas() {
-        List<String> schemas = jdbcTemplate.queryForList(
+        return jdbcTemplate.queryForList(
                 "SELECT schema_name FROM information_schema.schemata" +
                         " WHERE schema_name LIKE 'schema_%'", String.class
         );
-        schemas.add(PUBLIC);
-
-        return schemas;
     }
+
+    /*private void configureRoutingDataSource(List<String> schemas) {
+        schemas.forEach(schema -> {
+            DataSource dataSource = dsConfigurer.configureDataSource(schema);
+            routingDataSource.addDataSource(schema, dataSource);
+        });
+    }*/
 }
