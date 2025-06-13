@@ -29,31 +29,30 @@ modules:
       - name: xsuaa-service
       - name: user-service
       - name: saas-registry
+      - name: service-manager
     provides:
-      - name: learning-management-system-api
+      - name: lms-api
         properties:
           url: ${default-url}
-  - name: approuter
+
+  - name: lms-approuter
     type: nodejs
     path: approuter
     parameters:
       disk-quota: 256M
       memory: 256M
       routes:
-        - route: "learning-management-system-approuter.${default-domain}"
+        - route: "${app-name}.${default-domain}"
     requires:
       - name: xsuaa-service
-      - name: learning-management-system-api
+      - name: lms-api
+        group: destinations
+        properties:
+          name: lms-api
+          url: '~{url}'
+          forwardAuthToken: true
     properties:
-      TENANT_HOST_PATTERN: "^(.*)-learning-management-system-approuter\\.${default-domain}"
-      destinations: >
-        [
-          {
-            "name": "learning-management-system",
-            "url": "~{learning-management-system-api/url}",
-            "forwardAuthToken": true
-          }
-        ]
+      TENANT_HOST_PATTERN: "^(.*)-${app-name}.${default-domain}"
 
 
 resources:
@@ -86,7 +85,7 @@ resources:
     parameters:
       service: xsuaa
       service-plan: application
-      path: xs-security.json
+      path: btp/xs-security/xs-security.json
 
   - name: user-service
     type: org.cloudfoundry.existing-service
@@ -96,4 +95,9 @@ resources:
     parameters:
       service: saas-registry
       service-plan: application
-      path: src/main/java/com/leverx/learningmanagementsystem/btp/registry/saas-provisioning.json
+      path: btp/saas-provisioning/saas-provisioning.json
+  - name: service-manager
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: service-manager
+      service-plan: container

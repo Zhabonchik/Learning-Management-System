@@ -1,18 +1,16 @@
 package com.leverx.learningmanagementsystem.btp.registry.service.impl;
 
 import com.leverx.learningmanagementsystem.btp.registry.service.TenantRegistryService;
-import com.leverx.learningmanagementsystem.core.db.service.DatabaseMigrator;
-import com.leverx.learningmanagementsystem.multitenancy.connectionprovider.DataSourcesProvider;
-import com.zaxxer.hikari.HikariDataSource;
+import com.leverx.learningmanagementsystem.core.db.service.LocalDatabaseMigrator;
+import com.leverx.learningmanagementsystem.core.db.service.SchemaNameResolver;
+import com.leverx.learningmanagementsystem.multitenancy.connectionprovider.LocalMultitenantConnectionProvider;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
-import javax.sql.DataSource;
-
-import static com.leverx.learningmanagementsystem.multitenancy.utils.MigrationUtils.SCHEMA;
+import static com.leverx.learningmanagementsystem.btp.registry.utils.RegistryUtils.ROUTER_URL;
 
 @Service
 @Slf4j
@@ -20,27 +18,26 @@ import static com.leverx.learningmanagementsystem.multitenancy.utils.MigrationUt
 @Profile("local")
 public class LocalTenantRegistryService implements TenantRegistryService {
 
-    private final DataSource dataSource;
     private final JdbcTemplate jdbcTemplate;
-    private final DataSourcesProvider dataSourcesProvider;
-    private final DatabaseMigrator databaseMigrator;
+    private final LocalDatabaseMigrator databaseMigrator;
+    private final LocalMultitenantConnectionProvider multitenantConnectionProvider;
 
     @Override
-    public void subscribeTenant(String tenantId) {
-        String schemaName = getSchemaName(tenantId);
+    public String subscribeTenant(String tenantId, String tenantSubDomain) {
+        String schemaName = SchemaNameResolver.configureSchemaName(tenantId);
         createSchema(schemaName);
         databaseMigrator.migrateSchema(schemaName);
+        return ROUTER_URL.formatted(tenantSubDomain);
     }
 
     @Override
     public void unsubscribeTenant(String tenantId) {
-        String schemaName = getSchemaName(tenantId);
+        String schemaName = SchemaNameResolver.configureSchemaName(tenantId);
         deleteSchema(schemaName);
         closeConnections(schemaName);
     }
 
     private void createSchema(String schemaName) {
-        log.info("Creating schema [{}]", schemaName);
         jdbcTemplate.execute("CREATE SCHEMA IF NOT EXISTS " + schemaName);
         log.info("Created schema [{}]", schemaName);
     }
@@ -50,13 +47,6 @@ public class LocalTenantRegistryService implements TenantRegistryService {
     }
 
     private void closeConnections(String schemaName) {
-        DataSource ds = dataSourcesProvider.getTenantDataSources().remove(schemaName);
-        if (ds instanceof HikariDataSource hikari) {
-            hikari.close();
-        }
-    }
-
-    private String getSchemaName(String tenantId) {
-        return SCHEMA.formatted(tenantId);
+        multitenantConnectionProvider.removeDataSource(schemaName);
     }
 }

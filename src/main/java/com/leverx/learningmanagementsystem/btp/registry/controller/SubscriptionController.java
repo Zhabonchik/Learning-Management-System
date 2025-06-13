@@ -5,18 +5,13 @@ import com.leverx.learningmanagementsystem.btp.registry.service.TenantRegistrySe
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Map;
-import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.HttpStatus.OK;
@@ -26,9 +21,7 @@ import static org.springframework.http.HttpStatus.OK;
 @Profile({"cloud", "local"})
 @Slf4j
 @AllArgsConstructor
-public class RegistryController {
-
-    public static final String ROUTER_URL = "https://%s-learning-management-system-approuter.cfapps.us10-001.hana.ondemand.com";
+public class SubscriptionController {
 
     private final TenantRegistryService tenantRegistryService;
 
@@ -37,9 +30,7 @@ public class RegistryController {
     public String onSubscribe(@PathVariable("tenantId") String tenantId,
                               @RequestBody RegistryRequestDto body) {
         log.info("Subscribing tenant [id = {}]", tenantId);
-        tenantRegistryService.subscribeTenant(tenantId);
-
-        return ROUTER_URL.formatted(body.subscribedSubdomain());
+        return tenantRegistryService.subscribeTenant(tenantId, body.subscribedSubdomain());
     }
 
     @DeleteMapping("/subscribe/{tenantId}")
@@ -47,16 +38,5 @@ public class RegistryController {
     public void onUnsubscribe(@PathVariable("tenantId") String tenantId) {
         log.info("Unsubscribing tenant [id = {}]", tenantId);
         tenantRegistryService.unsubscribeTenant(tenantId);
-    }
-
-    @GetMapping("/check-token-details")
-    public Map<String, Object> checkTokenDetails(JwtAuthenticationToken authentication) {
-        return Map.of(
-                "name", authentication.getName(),
-                "authorities", authentication.getAuthorities().stream()
-                        .map(Object::toString)
-                        .collect(Collectors.toList()),
-                "tokenAttributes", authentication.getTokenAttributes()
-        );
     }
 }

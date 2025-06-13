@@ -37,7 +37,7 @@ public class CloudSecurityFilterChain {
                 .build();
     }
 
-    @Bean
+    /*@Bean
     @Order(2)
     public SecurityFilterChain xsuaaSubscribeSecurityFilterChain(HttpSecurity http) throws Exception {
         return http
@@ -48,10 +48,10 @@ public class CloudSecurityFilterChain {
                         .requestMatchers("/api/v1/subscribe/**").permitAll())
                 .httpBasic(Customizer.withDefaults())
                 .build();
-    }
+    }*/
 
     @Bean
-    @Order(3)
+    @Order(2)
     public SecurityFilterChain apiSecurityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .securityMatcher("/**")
