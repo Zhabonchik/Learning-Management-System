@@ -1,6 +1,6 @@
 package com.leverx.learningmanagementsystem.multitenancy.connectionprovider;
 
-import com.leverx.learningmanagementsystem.core.db.service.DataSourceConfigurer;
+import com.leverx.learningmanagementsystem.core.db.service.LocalDataSourceConfigurer;
 import com.leverx.learningmanagementsystem.multitenancy.routingdatasource.RoutingDataSource;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +24,7 @@ import static com.leverx.learningmanagementsystem.core.db.utils.DatabaseUtils.PU
 public class LocalMultitenantConnectionProvider implements MultiTenantConnectionProvider<String>, HibernatePropertiesCustomizer {
 
     private final RoutingDataSource routingDataSource;
-    private final DataSourceConfigurer dataSourceConfigurer;
+    private final LocalDataSourceConfigurer localDataSourceConfigurer;
 
     @Override
     public Connection getAnyConnection() throws SQLException {
@@ -42,7 +42,7 @@ public class LocalMultitenantConnectionProvider implements MultiTenantConnection
             return routingDataSource.getConnection();
         } catch (IllegalStateException e) {
             log.info("Could not get connection for {}", tenantId);
-            DataSource dataSource = dataSourceConfigurer.configureDataSource(tenantId);
+            DataSource dataSource = localDataSourceConfigurer.configureLocalDataSource(tenantId);
             routingDataSource.addDataSource(tenantId, dataSource);
             return routingDataSource.getConnection();
         }

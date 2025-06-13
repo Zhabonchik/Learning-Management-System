@@ -1,6 +1,5 @@
 package com.leverx.learningmanagementsystem.multitenancy.migrator;
 
-import com.leverx.learningmanagementsystem.core.db.service.DataSourceConfigurer;
 import com.leverx.learningmanagementsystem.core.db.service.LocalDatabaseMigrator;
 import com.leverx.learningmanagementsystem.multitenancy.routingdatasource.RoutingDataSource;
 import lombok.AllArgsConstructor;
@@ -24,13 +23,11 @@ public class LocalMultitenantMigrator {
     private final JdbcTemplate jdbcTemplate;
     private final LocalDatabaseMigrator databaseMigrator;
     private final RoutingDataSource routingDataSource;
-    private final DataSourceConfigurer dsConfigurer;
 
     @EventListener(ApplicationReadyEvent.class)
     public void migrateAllSchemas() {
         List<String> schemas = getAllSchemas();
         schemas.add(PUBLIC);
-        //configureRoutingDataSource(schemas);
 
         schemas.forEach(databaseMigrator::migrateSchema);
     }
@@ -41,11 +38,4 @@ public class LocalMultitenantMigrator {
                         " WHERE schema_name LIKE 'schema_%'", String.class
         );
     }
-
-    /*private void configureRoutingDataSource(List<String> schemas) {
-        schemas.forEach(schema -> {
-            DataSource dataSource = dsConfigurer.configureDataSource(schema);
-            routingDataSource.addDataSource(schema, dataSource);
-        });
-    }*/
 }

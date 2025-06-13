@@ -4,6 +4,7 @@ import com.leverx.learningmanagementsystem.core.db.config.DataSourceConfiguratio
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
@@ -14,11 +15,12 @@ import static com.leverx.learningmanagementsystem.core.db.utils.DatabaseUtils.MI
 @Service
 @AllArgsConstructor
 @Slf4j
-public class DataSourceConfigurer {
+@Profile("local")
+public class LocalDataSourceConfigurer {
 
     private final DataSourceConfiguration dsConfig;
 
-    public DataSource configureDataSource(String tenantId) {
+    public DataSource configureLocalDataSource(String tenantId) {
         try {
             String schemaName = SchemaNameResolver.configureSchemaName(tenantId);
 
