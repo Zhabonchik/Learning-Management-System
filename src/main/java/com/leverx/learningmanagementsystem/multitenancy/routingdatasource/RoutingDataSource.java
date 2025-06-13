@@ -19,12 +19,12 @@ public class RoutingDataSource extends AbstractRoutingDataSource {
     @PostConstruct
     public void init() {
         super.setTargetDataSources(targetDataSources);
+        super.setLenientFallback(false);
         super.afterPropertiesSet();
     }
 
     public synchronized void addDataSource(String tenantId, DataSource dataSource) {
         targetDataSources.put(tenantId, dataSource);
-        super.setTargetDataSources(targetDataSources);
         super.afterPropertiesSet();
     }
 
@@ -39,13 +39,11 @@ public class RoutingDataSource extends AbstractRoutingDataSource {
             }
         }
 
-        super.setTargetDataSources(targetDataSources);
         super.afterPropertiesSet();
     }
 
     @Override
     protected Object determineCurrentLookupKey() {
-        log.info("Current Lookup Key {}", TenantContext.getTenantId());
         return TenantContext.getTenantId();
     }
 }

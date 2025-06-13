@@ -5,6 +5,7 @@ import com.leverx.learningmanagementsystem.multitenancy.routingdatasource.Routin
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 import javax.sql.DataSource;
 
@@ -12,6 +13,7 @@ import static com.leverx.learningmanagementsystem.core.db.utils.DatabaseUtils.PU
 
 @Configuration
 @AllArgsConstructor
+@Profile("local")
 public class RoutingDataSourceConfiguration {
 
     private final DataSourceConfigurer dataSourceConfigurer;
@@ -21,7 +23,6 @@ public class RoutingDataSourceConfiguration {
         RoutingDataSource routingDataSource = new RoutingDataSource();
 
         DataSource defaultDataSource = dataSourceConfigurer.configureDataSource(PUBLIC);
-        routingDataSource.addDataSource(PUBLIC, defaultDataSource);
         routingDataSource.setDefaultTargetDataSource(defaultDataSource);
 
         return routingDataSource;

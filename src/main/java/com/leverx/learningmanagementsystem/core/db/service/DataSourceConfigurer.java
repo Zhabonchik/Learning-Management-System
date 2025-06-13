@@ -8,9 +8,6 @@ import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-
 import static com.leverx.learningmanagementsystem.core.db.utils.DatabaseUtils.MAXIMUM_POOL_SIZE;
 import static com.leverx.learningmanagementsystem.core.db.utils.DatabaseUtils.MINIMUM_IDLE;
 
@@ -21,9 +18,9 @@ public class DataSourceConfigurer {
 
     private final DataSourceConfiguration dsConfig;
 
-    public DataSource configureDataSource(String schemaName) {
+    public DataSource configureDataSource(String tenantId) {
         try {
-            String tenantId = SchemaNameResolver.extractTenantId(schemaName);
+            String schemaName = SchemaNameResolver.configureSchemaName(tenantId);
 
             log.info("Configuring DataSource for {}", tenantId);
             HikariDataSource dataSource = new HikariDataSource();
