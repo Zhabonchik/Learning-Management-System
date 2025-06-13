@@ -1,6 +1,8 @@
 package com.leverx.learningmanagementsystem.core.db.service;
 
 import com.leverx.learningmanagementsystem.core.exception.model.CustomLiquibaseException;
+import com.leverx.learningmanagementsystem.core.security.context.TenantContext;
+import com.leverx.learningmanagementsystem.multitenancy.connectionprovider.LocalMultitenantConnectionProvider;
 import liquibase.Contexts;
 import liquibase.LabelExpression;
 import liquibase.Liquibase;
@@ -13,10 +15,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import javax.sql.DataSource;
 import java.sql.Connection;
 
-import static com.leverx.learningmanagementsystem.multitenancy.utils.MigrationUtils.DB_CHANGELOG;
+import static com.leverx.learningmanagementsystem.core.db.utils.DatabaseUtils.DB_CHANGELOG;
 
 @Component
 @Slf4j
@@ -24,11 +25,15 @@ import static com.leverx.learningmanagementsystem.multitenancy.utils.MigrationUt
 @Profile("local")
 public class LocalDatabaseMigrator {
 
-    private final DataSource dataSource;
+    private final LocalMultitenantConnectionProvider connectionProvider;
 
     public void migrateSchema(String schemaName) {
-        try (Connection connection = dataSource.getConnection()) {
-            connection.setSchema(schemaName);
+        String tenantId = SchemaNameResolver.extractTenantId(schemaName);
+        TenantContext.setTenantId(tenantId);
+
+        try (Connection connection = connectionProvider.getConnection(tenantId)) {
+
+            log.info("Current tenant {}", TenantContext.getTenantId());
 
             Database dataBase = DatabaseFactory.getInstance()
                     .findCorrectDatabaseImplementation(new JdbcConnection(connection));
