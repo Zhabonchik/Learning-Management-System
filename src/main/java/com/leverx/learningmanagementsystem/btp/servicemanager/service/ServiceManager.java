@@ -11,17 +11,19 @@ public interface ServiceManager {
 
     List<SchemaInstanceResponse> getServiceInstances();
 
+    List<SchemaBindingResponse> getServiceBindings();
+
     SchemaInstanceResponse getServiceInstanceByTenantId(String tenantId);
 
     SchemaBindingResponse getServiceBindingByInstanceId(String schemaInstanceId);
+
+    SchemaBindingResponse getServiceBindingByTenantId(String tenantId);
 
     void createServiceInstance(CreateSchemaDto createSchemaDto);
 
     void bindServiceInstance(SchemaBindingRequest schemaBindingRequest);
 
     void unbindServiceInstance(String serviceBindingId);
-
-    List<SchemaBindingResponse> getServiceBindings();
 
     void deleteServiceInstance(String serviceInstanceId);
 }

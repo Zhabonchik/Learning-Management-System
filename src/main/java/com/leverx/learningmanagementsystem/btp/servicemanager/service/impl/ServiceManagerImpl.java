@@ -9,6 +9,7 @@ import com.leverx.learningmanagementsystem.btp.servicemanager.dto.SchemaBindingR
 import com.leverx.learningmanagementsystem.btp.servicemanager.dto.SchemaInstanceResponse;
 import com.leverx.learningmanagementsystem.btp.servicemanager.dto.SchemaInstanceResponseWrapper;
 import com.leverx.learningmanagementsystem.btp.servicemanager.service.ServiceManager;
+import com.leverx.learningmanagementsystem.core.exception.model.BindingException;
 import com.leverx.learningmanagementsystem.core.exception.model.SchemaException;
 import com.leverx.learningmanagementsystem.web.oauth.token.service.TokenService;
 import lombok.AllArgsConstructor;
@@ -71,6 +72,16 @@ public class ServiceManagerImpl implements ServiceManager {
     )
     public SchemaBindingResponse getServiceBindingByInstanceId(String schemaInstanceId) {
         return tryToGetServiceBindingByInstanceId(schemaInstanceId);
+    }
+
+    @Override
+    @Retryable(
+            retryFor = Unauthorized.class,
+            maxAttempts = MAX_ATTEMPTS,
+            backoff = @Backoff(delay = DELAY)
+    )
+    public SchemaBindingResponse getServiceBindingByTenantId(String tenantId) {
+        return tryToGetServiceBindingByTenantId(tenantId);
     }
 
     @Override
@@ -181,6 +192,29 @@ public class ServiceManagerImpl implements ServiceManager {
             }
         } catch (Unauthorized ex) {
             log.info("Unauthorized access while getting binding for schema instance {}", schemaInstanceId);
+            refreshAuthToken();
+            throw ex;
+        }
+    }
+
+    private SchemaBindingResponse tryToGetServiceBindingByTenantId(String tenantId) {
+        try {
+            List<SchemaBindingResponse> serviceBindings = tryToGetServiceBindings();
+            Optional<SchemaBindingResponse> response =  serviceBindings.stream()
+                    .filter(binding -> {
+                        List<String> tenantIds = binding.labels().get("tenantId");
+                        return nonNull(tenantIds) && tenantIds.contains(tenantId);
+                    })
+                    .findFirst();
+
+            if (response.isPresent()) {
+                return response.get();
+            } else {
+                log.info("No binding found for tenant {}", tenantId);
+                throw new BindingException("No binding found for tenant" + tenantId);
+            }
+        } catch (Unauthorized ex) {
+            log.info("Unauthorized access while getting binding for tenant {}", tenantId);
             refreshAuthToken();
             throw ex;
         }

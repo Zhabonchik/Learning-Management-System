@@ -1,6 +1,6 @@
 package com.leverx.learningmanagementsystem.btp.registry.service.impl;
 
-import com.leverx.learningmanagementsystem.btp.registry.service.TenantRegistryService;
+import com.leverx.learningmanagementsystem.btp.registry.service.SubscriptionService;
 import com.leverx.learningmanagementsystem.btp.servicemanager.dto.BindResource;
 import com.leverx.learningmanagementsystem.btp.servicemanager.dto.CreateSchemaDto;
 import com.leverx.learningmanagementsystem.btp.servicemanager.dto.Parameters;
@@ -29,13 +29,13 @@ import static com.leverx.learningmanagementsystem.btp.registry.utils.RegistryUti
 @Profile("cloud")
 @Slf4j
 @AllArgsConstructor
-public class CloudTenantRegistryService implements TenantRegistryService {
+public class CloudSubscriptionService implements SubscriptionService {
 
     private final ServiceManager serviceManager;
     private final AppConfiguration appConfiguration;
 
     @Override
-    public String subscribeTenant(String tenantId, String tenantSubDomain) {
+    public String subscribe(String tenantId, String tenantSubDomain) {
         CreateSchemaDto createSchemaDto = configureCreateSchemaDto(tenantId);
 
         log.info("Assigning schema {} to tenant {}", createSchemaDto.name(), tenantId);
@@ -52,11 +52,17 @@ public class CloudTenantRegistryService implements TenantRegistryService {
         log.info("Binding schema {} for tenant {}", schemaInstance.id(), tenantId);
         SchemaBindingRequest bindingRequest = configureSchemaBindingRequest(tenantId, schemaInstance.id(), schemaInstance.name());
         serviceManager.bindServiceInstance(bindingRequest);
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            log.info("Interrupted while waiting for service instance binding");
+        }
+
         return ROUTER_URL.formatted(tenantSubDomain);
     }
 
     @Override
-    public void unsubscribeTenant(String tenantId) {
+    public void unsubscribe(String tenantId) {
         log.info("Getting schema for tenant {} to unsubscribe", tenantId);
         SchemaInstanceResponse schemaInstance = serviceManager.getServiceInstanceByTenantId(tenantId);
 

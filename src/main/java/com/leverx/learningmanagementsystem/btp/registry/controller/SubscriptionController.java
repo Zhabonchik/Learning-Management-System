@@ -1,7 +1,7 @@
 package com.leverx.learningmanagementsystem.btp.registry.controller;
 
 import com.leverx.learningmanagementsystem.btp.registry.model.RegistryRequestDto;
-import com.leverx.learningmanagementsystem.btp.registry.service.TenantRegistryService;
+import com.leverx.learningmanagementsystem.btp.registry.service.SubscriptionService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
@@ -23,20 +23,20 @@ import static org.springframework.http.HttpStatus.OK;
 @AllArgsConstructor
 public class SubscriptionController {
 
-    private final TenantRegistryService tenantRegistryService;
+    private final SubscriptionService subscriptionService;
 
     @PutMapping("/subscribe/{tenantId}")
     @ResponseStatus(OK)
     public String onSubscribe(@PathVariable("tenantId") String tenantId,
                               @RequestBody RegistryRequestDto body) {
         log.info("Subscribing tenant [id = {}]", tenantId);
-        return tenantRegistryService.subscribeTenant(tenantId, body.subscribedSubdomain());
+        return subscriptionService.subscribe(tenantId, body.subscribedSubdomain());
     }
 
     @DeleteMapping("/subscribe/{tenantId}")
     @ResponseStatus(NO_CONTENT)
     public void onUnsubscribe(@PathVariable("tenantId") String tenantId) {
         log.info("Unsubscribing tenant [id = {}]", tenantId);
-        tenantRegistryService.unsubscribeTenant(tenantId);
+        subscriptionService.unsubscribe(tenantId);
     }
 }

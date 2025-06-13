@@ -1,4 +1,4 @@
-package com.leverx.learningmanagementsystem.core.db.utils;
+package com.leverx.learningmanagementsystem.db.utils;
 
 import lombok.NoArgsConstructor;
 

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
-import static com.leverx.learningmanagementsystem.core.db.utils.DatabaseUtils.PUBLIC;
+import static com.leverx.learningmanagementsystem.db.utils.DatabaseUtils.PUBLIC;
 import static java.util.Objects.nonNull;
 import static org.hibernate.cfg.MultiTenancySettings.MULTI_TENANT_IDENTIFIER_RESOLVER;
 
