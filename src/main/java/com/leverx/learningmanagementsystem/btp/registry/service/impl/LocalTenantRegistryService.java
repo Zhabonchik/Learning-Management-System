@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
+import static com.leverx.learningmanagementsystem.btp.registry.utils.RegistryUtils.ROUTER_URL;
+
 @Service
 @Slf4j
 @AllArgsConstructor
@@ -21,10 +23,11 @@ public class LocalTenantRegistryService implements TenantRegistryService {
     private final LocalMultitenantConnectionProvider multitenantConnectionProvider;
 
     @Override
-    public void subscribeTenant(String tenantId) {
+    public String subscribeTenant(String tenantId, String tenantSubDomain) {
         String schemaName = SchemaNameResolver.configureSchemaName(tenantId);
         createSchema(schemaName);
         databaseMigrator.migrateSchema(schemaName);
+        return ROUTER_URL.formatted(tenantSubDomain);
     }
 
     @Override

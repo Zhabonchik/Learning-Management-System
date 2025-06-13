@@ -12,4 +12,5 @@ public class RegistryUtils {
     public static final String SERVICE_PLAN_ID = "9196d940-4ba6-452c-941a-094b13934083";
     public static final String TENANT_ID = "tenantId";
     public static final String BINDING = "binding_%s";
+    public static final String ROUTER_URL = "https://%s-learning-management-system-approuter.cfapps.us10-001.hana.ondemand.com";
 }

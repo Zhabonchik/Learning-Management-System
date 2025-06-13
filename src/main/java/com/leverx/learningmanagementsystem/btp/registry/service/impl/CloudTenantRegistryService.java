@@ -20,6 +20,7 @@ import java.util.Map;
 
 import static com.leverx.learningmanagementsystem.btp.registry.utils.RegistryUtils.BINDING;
 import static com.leverx.learningmanagementsystem.btp.registry.utils.RegistryUtils.DB_NAME;
+import static com.leverx.learningmanagementsystem.btp.registry.utils.RegistryUtils.ROUTER_URL;
 import static com.leverx.learningmanagementsystem.btp.registry.utils.RegistryUtils.SCHEMA;
 import static com.leverx.learningmanagementsystem.btp.registry.utils.RegistryUtils.SERVICE_PLAN_ID;
 import static com.leverx.learningmanagementsystem.btp.registry.utils.RegistryUtils.TENANT_ID;
@@ -34,7 +35,7 @@ public class CloudTenantRegistryService implements TenantRegistryService {
     private final AppConfiguration appConfiguration;
 
     @Override
-    public void subscribeTenant(String tenantId) {
+    public String subscribeTenant(String tenantId, String tenantSubDomain) {
         CreateSchemaDto createSchemaDto = configureCreateSchemaDto(tenantId);
 
         log.info("Assigning schema {} to tenant {}", createSchemaDto.name(), tenantId);
@@ -51,6 +52,7 @@ public class CloudTenantRegistryService implements TenantRegistryService {
         log.info("Binding schema {} for tenant {}", schemaInstance.id(), tenantId);
         SchemaBindingRequest bindingRequest = configureSchemaBindingRequest(tenantId, schemaInstance.id(), schemaInstance.name());
         serviceManager.bindServiceInstance(bindingRequest);
+        return ROUTER_URL.formatted(tenantSubDomain);
     }
 
     @Override
