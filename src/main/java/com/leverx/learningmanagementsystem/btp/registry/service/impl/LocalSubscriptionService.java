@@ -11,6 +11,12 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import static com.leverx.learningmanagementsystem.btp.registry.utils.RegistryUtils.CREATE_SCHEMA;
+import static com.leverx.learningmanagementsystem.btp.registry.utils.RegistryUtils.DROP_SCHEMA;
 import static com.leverx.learningmanagementsystem.btp.registry.utils.RegistryUtils.ROUTER_URL;
 
 @Service
@@ -40,12 +46,27 @@ public class LocalSubscriptionService implements SubscriptionService {
     }
 
     private void createSchema(String schemaName) {
-        jdbcTemplate.execute("CREATE SCHEMA IF NOT EXISTS " + schemaName);
-        log.info("Created schema [{}]", schemaName);
+        log.info("Creating schema {}", schemaName);
+        try (Connection connection = multitenantConnectionProvider.getConnection(TenantContext.getTenantId())){
+            Statement statement = connection.createStatement();
+
+            statement.execute(CREATE_SCHEMA.formatted(schemaName));
+            log.info("Created schema [{}]", schemaName);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void deleteSchema(String schemaName) {
-        jdbcTemplate.execute("DROP SCHEMA IF EXISTS %s CASCADE".formatted(schemaName));
+        log.info("Deleting schema {}", schemaName);
+        try (Connection connection = multitenantConnectionProvider.getConnection(TenantContext.getTenantId())){
+            Statement statement = connection.createStatement();
+
+            statement.execute(DROP_SCHEMA.formatted(schemaName));
+            log.info("Deleted schema [{}]", schemaName);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void closeConnections(String schemaName) {

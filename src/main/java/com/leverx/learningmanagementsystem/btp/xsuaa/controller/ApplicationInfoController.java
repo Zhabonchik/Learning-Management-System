@@ -16,7 +16,7 @@ public class ApplicationInfoController {
 
     private final XsuaaService xsuaaService;
 
-    @GetMapping("/")
+    @GetMapping
     public XsuaaResponseDto getXsuaaConfiguration() {
         return xsuaaService.getXsuaaInfo();
     }

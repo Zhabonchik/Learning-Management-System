@@ -79,6 +79,11 @@ public class CloudSubscriptionService implements SubscriptionService {
 
         log.info("Deleting schema {}", schemaInstance.id());
         serviceManager.deleteServiceInstance(schemaInstance.id());
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            log.info("Interrupted while waiting for service's deletion");
+        }
     }
 
     private String configureSchemaName(String tenantId) {

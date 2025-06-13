@@ -13,4 +13,6 @@ public class RegistryUtils {
     public static final String TENANT_ID = "tenantId";
     public static final String BINDING = "binding_%s";
     public static final String ROUTER_URL = "https://%s-learning-management-system-approuter.cfapps.us10-001.hana.ondemand.com";
+    public static final String CREATE_SCHEMA = "CREATE SCHEMA IF NOT EXISTS %s";
+    public static final String DROP_SCHEMA = "DROP SCHEMA IF EXISTS %s CASCADE";
 }

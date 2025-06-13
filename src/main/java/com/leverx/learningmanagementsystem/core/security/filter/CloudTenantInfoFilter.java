@@ -31,7 +31,7 @@ public class CloudTenantInfoFilter extends OncePerRequestFilter {
         }
 
         String serverName = request.getServerName();
-        String subdomain = serverName.substring(0, serverName.indexOf("-learning"));
+        String subdomain = serverName.substring(0, serverName.indexOf("-lms"));
         log.info("Tenant subdomain: {}", subdomain);
 
         String bearerToken = request.getHeader("Authorization");

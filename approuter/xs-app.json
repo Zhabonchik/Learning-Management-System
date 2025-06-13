@@ -5,7 +5,7 @@
     {
       "source": "^(.*)$",
       "target": "$1",
-      "destination": "learning-management-system",
+      "destination": "lms-api",
       "authenticationType": "xsuaa",
       "csrfProtection": false
     }
