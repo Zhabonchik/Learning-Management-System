@@ -15,13 +15,12 @@ import org.springframework.stereotype.Service;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import static com.leverx.learningmanagementsystem.btp.registry.utils.RegistryUtils.CREATE_SCHEMA;
-import static com.leverx.learningmanagementsystem.btp.registry.utils.RegistryUtils.DROP_SCHEMA;
-import static com.leverx.learningmanagementsystem.btp.registry.utils.RegistryUtils.ROUTER_URL;
+import static com.leverx.learningmanagementsystem.btp.registry.constants.RegistryConstants.CREATE_SCHEMA;
+import static com.leverx.learningmanagementsystem.btp.registry.constants.RegistryConstants.DROP_SCHEMA;
+import static com.leverx.learningmanagementsystem.btp.registry.constants.RegistryConstants.ROUTER_URL;
 
 @Service
 @Slf4j

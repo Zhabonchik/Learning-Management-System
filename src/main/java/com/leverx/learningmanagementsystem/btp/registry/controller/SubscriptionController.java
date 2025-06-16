@@ -1,7 +1,7 @@
 package com.leverx.learningmanagementsystem.btp.registry.controller;
 
 import com.leverx.learningmanagementsystem.btp.registry.model.DependenciesResponseDto;
-import com.leverx.learningmanagementsystem.btp.registry.model.RegistryRequestDto;
+import com.leverx.learningmanagementsystem.btp.registry.model.SubscriptionRequestDto;
 import com.leverx.learningmanagementsystem.btp.registry.service.SubscriptionService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +32,7 @@ public class SubscriptionController {
     @PutMapping("/subscribe/{tenantId}")
     @ResponseStatus(OK)
     public String onSubscribe(@PathVariable("tenantId") String tenantId,
-                              @RequestBody RegistryRequestDto body) {
+                              @RequestBody SubscriptionRequestDto body) {
         log.info("Subscribing tenant [id = {}]", tenantId);
         return subscriptionService.subscribe(tenantId, body.subscribedSubdomain());
     }

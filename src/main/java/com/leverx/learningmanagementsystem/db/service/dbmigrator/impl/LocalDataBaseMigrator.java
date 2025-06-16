@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static com.leverx.learningmanagementsystem.db.utils.DatabaseUtils.PUBLIC;
+import static com.leverx.learningmanagementsystem.db.constants.DatabaseConstants.PUBLIC;
 
 @Component
 @Slf4j

@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 
 import javax.sql.DataSource;
 
-import static com.leverx.learningmanagementsystem.db.utils.DatabaseUtils.PUBLIC;
+import static com.leverx.learningmanagementsystem.db.constants.DatabaseConstants.PUBLIC;
 
 @Configuration
 @AllArgsConstructor

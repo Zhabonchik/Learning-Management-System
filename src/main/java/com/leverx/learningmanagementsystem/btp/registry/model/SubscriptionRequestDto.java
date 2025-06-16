@@ -1,6 +1,6 @@
 package com.leverx.learningmanagementsystem.btp.registry.model;
 
-public record RegistryRequestDto(
+public record SubscriptionRequestDto(
         String subscribedSubdomain,
         String subscribedTenantId
 ) {

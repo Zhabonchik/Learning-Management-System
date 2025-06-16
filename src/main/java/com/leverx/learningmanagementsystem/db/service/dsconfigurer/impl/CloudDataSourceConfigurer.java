@@ -13,11 +13,11 @@ import javax.sql.DataSource;
 
 import java.util.Map;
 
-import static com.leverx.learningmanagementsystem.db.utils.DatabaseUtils.DRIVER;
-import static com.leverx.learningmanagementsystem.db.utils.DatabaseUtils.PASSWORD;
-import static com.leverx.learningmanagementsystem.db.utils.DatabaseUtils.PUBLIC;
-import static com.leverx.learningmanagementsystem.db.utils.DatabaseUtils.URL;
-import static com.leverx.learningmanagementsystem.db.utils.DatabaseUtils.USER;
+import static com.leverx.learningmanagementsystem.db.constants.DatabaseConstants.DRIVER;
+import static com.leverx.learningmanagementsystem.db.constants.DatabaseConstants.PASSWORD;
+import static com.leverx.learningmanagementsystem.db.constants.DatabaseConstants.PUBLIC;
+import static com.leverx.learningmanagementsystem.db.constants.DatabaseConstants.URL;
+import static com.leverx.learningmanagementsystem.db.constants.DatabaseConstants.USER;
 
 @Service
 @AllArgsConstructor

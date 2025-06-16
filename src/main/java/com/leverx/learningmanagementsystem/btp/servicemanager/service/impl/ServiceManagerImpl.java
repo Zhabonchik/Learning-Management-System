@@ -25,9 +25,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.List;
 import java.util.Optional;
 
-import static com.leverx.learningmanagementsystem.btp.servicemanager.utils.ServiceManagerUtils.SERVICE_BINDINGS;
-import static com.leverx.learningmanagementsystem.btp.servicemanager.utils.ServiceManagerUtils.SERVICE_INSTANCES;
-import static com.leverx.learningmanagementsystem.btp.servicemanager.utils.ServiceManagerUtils.V1;
+import static com.leverx.learningmanagementsystem.btp.servicemanager.constants.ServiceManagerConstants.SERVICE_BINDINGS;
+import static com.leverx.learningmanagementsystem.btp.servicemanager.constants.ServiceManagerConstants.SERVICE_INSTANCES;
+import static com.leverx.learningmanagementsystem.btp.servicemanager.constants.ServiceManagerConstants.V1;
 import static java.util.Objects.nonNull;
 import static org.springframework.web.client.HttpClientErrorException.Unauthorized;
 

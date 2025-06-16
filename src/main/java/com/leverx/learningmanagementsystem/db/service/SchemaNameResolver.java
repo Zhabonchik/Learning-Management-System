@@ -1,7 +1,7 @@
 package com.leverx.learningmanagementsystem.db.service;
 
-import static com.leverx.learningmanagementsystem.btp.registry.utils.RegistryUtils.SCHEMA;
-import static com.leverx.learningmanagementsystem.db.utils.DatabaseUtils.PUBLIC;
+import static com.leverx.learningmanagementsystem.btp.registry.constants.RegistryConstants.SCHEMA;
+import static com.leverx.learningmanagementsystem.db.constants.DatabaseConstants.PUBLIC;
 
 public class SchemaNameResolver {
 

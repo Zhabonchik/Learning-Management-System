@@ -1,11 +1,11 @@
-package com.leverx.learningmanagementsystem.db.utils;
+package com.leverx.learningmanagementsystem.db.constants;
 
 import lombok.NoArgsConstructor;
 
 import static lombok.AccessLevel.PRIVATE;
 
 @NoArgsConstructor(access = PRIVATE)
-public class DatabaseUtils {
+public class DatabaseConstants {
 
     public static final String DB_CHANGELOG = "db/changelog/db.changelog-master.yaml";
     public static final String SCHEMA = "schema_%s";

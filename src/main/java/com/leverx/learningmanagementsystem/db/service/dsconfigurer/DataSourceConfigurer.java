@@ -5,8 +5,8 @@ import com.zaxxer.hikari.HikariDataSource;
 
 import javax.sql.DataSource;
 
-import static com.leverx.learningmanagementsystem.db.utils.DatabaseUtils.MAXIMUM_POOL_SIZE;
-import static com.leverx.learningmanagementsystem.db.utils.DatabaseUtils.MINIMUM_IDLE;
+import static com.leverx.learningmanagementsystem.db.constants.DatabaseConstants.MAXIMUM_POOL_SIZE;
+import static com.leverx.learningmanagementsystem.db.constants.DatabaseConstants.MINIMUM_IDLE;
 
 public interface DataSourceConfigurer {
 

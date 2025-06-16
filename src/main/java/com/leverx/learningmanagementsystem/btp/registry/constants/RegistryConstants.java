@@ -1,11 +1,11 @@
-package com.leverx.learningmanagementsystem.btp.registry.utils;
+package com.leverx.learningmanagementsystem.btp.registry.constants;
 
 import lombok.NoArgsConstructor;
 
 import static lombok.AccessLevel.PRIVATE;
 
 @NoArgsConstructor(access = PRIVATE)
-public class RegistryUtils {
+public class RegistryConstants {
 
     public static final String SCHEMA = "schema_%s";
     public static final String DB_NAME = "hana-database";

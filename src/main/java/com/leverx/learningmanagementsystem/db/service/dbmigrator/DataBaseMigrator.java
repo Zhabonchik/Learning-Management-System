@@ -10,13 +10,11 @@ import liquibase.database.Database;
 import liquibase.database.DatabaseFactory;
 import liquibase.database.jvm.JdbcConnection;
 import liquibase.resource.ClassLoaderResourceAccessor;
-import lombok.extern.slf4j.Slf4j;
-import lombok.extern.slf4j.XSlf4j;
 
 import java.sql.Connection;
 
-import static com.leverx.learningmanagementsystem.db.utils.DatabaseUtils.DB_CHANGELOG;
-import static com.leverx.learningmanagementsystem.db.utils.DatabaseUtils.SCHEMA;
+import static com.leverx.learningmanagementsystem.db.constants.DatabaseConstants.DB_CHANGELOG;
+import static com.leverx.learningmanagementsystem.db.constants.DatabaseConstants.SCHEMA;
 
 public interface DataBaseMigrator {
 
