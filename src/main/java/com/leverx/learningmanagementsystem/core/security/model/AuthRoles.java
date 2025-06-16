@@ -5,7 +5,7 @@ public enum AuthRoles {
     MANAGER,
     LMS_ADMIN;
 
-    public String asRole(){
+    public String asRole() {
         return "ROLE_" + this.name();
     }
 }

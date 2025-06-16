@@ -22,25 +22,28 @@ import static java.util.Objects.nonNull;
 @Profile("cloud")
 public class CloudTenantInfoFilter extends OncePerRequestFilter {
 
+    public static final String BEARER_PREFIX = "Bearer ";
+    public static final String ZID = "zid";
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String path = request.getRequestURI();
-        if (path.startsWith("/actuator")) {
+        if (path.startsWith("/actuator") || path.startsWith("/api/v1")) {
             filterChain.doFilter(request, response);
             return;
         }
 
         String serverName = request.getServerName();
-        String subdomain = serverName.substring(0, serverName.indexOf("-learning"));
+        String subdomain = serverName.substring(0, serverName.indexOf("-lms"));
         log.info("Tenant subdomain: {}", subdomain);
 
         String bearerToken = request.getHeader("Authorization");
-        if (nonNull(bearerToken) && bearerToken.startsWith("Bearer ")) {
-            String token = bearerToken.substring(7);
+        if (nonNull(bearerToken) && bearerToken.startsWith(BEARER_PREFIX)) {
+            String token = bearerToken.substring(BEARER_PREFIX.length());
             log.info("Bearer token: {}", token);
             DecodedJWT decodedJWT = JWT.decode(token);
             log.info("DecodedJWT payload: {}", decodedJWT.getPayload());
-            String tenantId = decodedJWT.getClaim("zid").asString();
+            String tenantId = decodedJWT.getClaim(ZID).asString();
             log.info("TenantId: {}", tenantId);
             TenantContext.setTenantId(tenantId);
             TenantContext.setTenantSubdomain(subdomain);

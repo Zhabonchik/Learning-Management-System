@@ -17,6 +17,7 @@ destination:
   uri: ${vcap.services.destination-service.credentials.uri}
   clientId: ${vcap.services.destination-service.credentials.clientid}
   clientSecret: ${vcap.services.destination-service.credentials.clientsecret}
+  xsappname: ${vcap.services.destination-service.credentials.xsappname}
 
 user-provided:
   mail:
