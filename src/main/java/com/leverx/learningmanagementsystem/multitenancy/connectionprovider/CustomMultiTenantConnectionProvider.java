@@ -40,6 +40,7 @@ public class CustomMultiTenantConnectionProvider implements MultiTenantConnectio
             log.info("Could not get connection for {}", tenantId);
             DataSource dataSource = dataSourceConfigurer.configureDataSource(tenantId);
             routingDataSource.addDataSource(tenantId, dataSource);
+
             return routingDataSource.getConnection();
         }
     }

@@ -12,5 +12,5 @@ public record SchemaBindingRequest(
         @JsonProperty("service_instance_id") String serviceInstanceId,
         @JsonProperty("bind_resource") BindResource bindResource,
         @JsonProperty("labels") Map<String, List<String>> labels
-        ) {
+) {
 }

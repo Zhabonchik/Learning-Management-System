@@ -9,7 +9,6 @@ import com.leverx.learningmanagementsystem.multitenancy.connectionprovider.Custo
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.sql.Connection;
@@ -28,16 +27,18 @@ import static com.leverx.learningmanagementsystem.btp.registry.constants.Registr
 @Profile("local")
 public class LocalSubscriptionService implements SubscriptionService {
 
-    private final JdbcTemplate jdbcTemplate;
     private final DataBaseMigrator databaseMigrator;
     private final CustomMultiTenantConnectionProvider multitenantConnectionProvider;
 
     @Override
     public String subscribe(String tenantId, String tenantSubDomain) {
         TenantContext.setTenantId(tenantId);
+
         String schemaName = SchemaNameResolver.configureSchemaName(tenantId);
         createSchema(schemaName);
+
         databaseMigrator.migrateSchema(multitenantConnectionProvider);
+
         return ROUTER_URL.formatted(tenantSubDomain);
     }
 
@@ -45,6 +46,7 @@ public class LocalSubscriptionService implements SubscriptionService {
     public void unsubscribe(String tenantId) {
         String schemaName = SchemaNameResolver.configureSchemaName(tenantId);
         deleteSchema(schemaName);
+
         closeConnections(schemaName);
     }
 

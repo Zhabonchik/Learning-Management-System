@@ -49,6 +49,7 @@ public class CloudSubscriptionService implements SubscriptionService {
 
         log.info("Assigning schema {} to tenant {}", createSchemaDto.name(), tenantId);
         serviceManager.createServiceInstance(createSchemaDto);
+
         try {
             Thread.sleep(INSTANCE_CREATION_TIMEOUT_SEC);
         } catch (InterruptedException e) {
@@ -61,6 +62,7 @@ public class CloudSubscriptionService implements SubscriptionService {
         log.info("Binding schema {} for tenant {}", schemaInstance.id(), tenantId);
         SchemaBindingRequest bindingRequest = configureSchemaBindingRequest(tenantId, schemaInstance.id(), schemaInstance.name());
         serviceManager.bindServiceInstance(bindingRequest);
+
         try {
             Thread.sleep(SERVICE_BINDING_TIMEOUT_SEC);
         } catch (InterruptedException e) {
@@ -82,6 +84,7 @@ public class CloudSubscriptionService implements SubscriptionService {
 
         log.info("Deleting binding {} for schema {}", schemaBinding.id(), schemaInstance.id());
         serviceManager.unbindServiceInstance(schemaBinding.id());
+
         try {
             Thread.sleep(SERVICE_UNBINDING_TIMEOUT_SEC);
         } catch (InterruptedException e) {
@@ -90,6 +93,7 @@ public class CloudSubscriptionService implements SubscriptionService {
 
         log.info("Deleting schema {}", schemaInstance.id());
         serviceManager.deleteServiceInstance(schemaInstance.id());
+
         try {
             Thread.sleep(INSTANCE_DELETION_TIMEOUT_SEC);
         } catch (InterruptedException e) {
@@ -102,6 +106,7 @@ public class CloudSubscriptionService implements SubscriptionService {
         var destinationServiceDependency = DependenciesResponseDto.builder()
                 .xsappname(destinationConfiguration.getXsappname())
                 .build();
+
         return List.of(destinationServiceDependency);
     }
 
@@ -112,6 +117,7 @@ public class CloudSubscriptionService implements SubscriptionService {
     private CreateSchemaDto configureCreateSchemaDto(String tenantId) {
         Map<String, List<String>> labels = new HashMap<>();
         labels.put(TENANT_ID, List.of(tenantId));
+
         Parameters parameters = Parameters.builder()
                 .databaseName(DB_NAME)
                 .build();
@@ -127,6 +133,7 @@ public class CloudSubscriptionService implements SubscriptionService {
     private SchemaBindingRequest configureSchemaBindingRequest(String tenantId, String schemaInstanceId, String schemaInstanceName) {
         Map<String, List<String>> labels = new HashMap<>();
         labels.put(TENANT_ID, List.of(tenantId));
+
         BindResource bindResource = BindResource.builder()
                 .appGuid(appConfiguration.getApplicationId())
                 .spaceGuid(appConfiguration.getSpaceId())
