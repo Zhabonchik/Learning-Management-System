@@ -1,7 +1,8 @@
-package com.leverx.learningmanagementsystem.db.service.dbmigrator;
+package com.leverx.learningmanagementsystem.db.service.dbmigrator.impl;
 
 import com.leverx.learningmanagementsystem.core.security.context.TenantContext;
 import com.leverx.learningmanagementsystem.db.service.SchemaNameResolver;
+import com.leverx.learningmanagementsystem.db.service.dbmigrator.DataBaseMigrator;
 import com.leverx.learningmanagementsystem.multitenancy.connectionprovider.CustomMultiTenantConnectionProvider;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -15,4 +15,8 @@ public class RegistryUtils {
     public static final String ROUTER_URL = "https://%s-learning-management-system-approuter.cfapps.us10-001.hana.ondemand.com";
     public static final String CREATE_SCHEMA = "CREATE SCHEMA IF NOT EXISTS %s";
     public static final String DROP_SCHEMA = "DROP SCHEMA IF EXISTS %s CASCADE";
+    public static final int INSTANCE_CREATION_TIMEOUT_SEC = 10000;
+    public static final int SERVICE_BINDING_TIMEOUT_SEC = 90000;
+    public static final int SERVICE_UNBINDING_TIMEOUT_SEC = 10000;
+    public static final int INSTANCE_DELETION_TIMEOUT_SEC = 10000;
 }

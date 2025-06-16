@@ -13,7 +13,11 @@ import javax.sql.DataSource;
 
 import java.util.Map;
 
+import static com.leverx.learningmanagementsystem.db.utils.DatabaseUtils.DRIVER;
+import static com.leverx.learningmanagementsystem.db.utils.DatabaseUtils.PASSWORD;
 import static com.leverx.learningmanagementsystem.db.utils.DatabaseUtils.PUBLIC;
+import static com.leverx.learningmanagementsystem.db.utils.DatabaseUtils.URL;
+import static com.leverx.learningmanagementsystem.db.utils.DatabaseUtils.USER;
 
 @Service
 @AllArgsConstructor
@@ -33,10 +37,10 @@ public class CloudDataSourceConfigurer implements DataSourceConfigurer {
             SchemaBindingResponse schemaBinding = serviceManager.getServiceBindingByTenantId(tenantId);
             Map<String, String> credentials = schemaBinding.credentials();
 
-            dsConfig.setUsername(credentials.get("user"));
-            dsConfig.setPassword(credentials.get("password"));
-            dsConfig.setUrl(credentials.get("url"));
-            dsConfig.setDriverClassName(credentials.get("driver"));
+            dsConfig.setUsername(credentials.get(USER));
+            dsConfig.setPassword(credentials.get(PASSWORD));
+            dsConfig.setUrl(credentials.get(URL));
+            dsConfig.setDriverClassName(credentials.get(DRIVER));
         }
 
         try {

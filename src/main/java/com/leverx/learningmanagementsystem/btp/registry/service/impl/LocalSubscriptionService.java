@@ -1,5 +1,6 @@
 package com.leverx.learningmanagementsystem.btp.registry.service.impl;
 
+import com.leverx.learningmanagementsystem.btp.registry.model.DependenciesResponseDto;
 import com.leverx.learningmanagementsystem.btp.registry.service.SubscriptionService;
 import com.leverx.learningmanagementsystem.core.security.context.TenantContext;
 import com.leverx.learningmanagementsystem.db.service.dbmigrator.DataBaseMigrator;
@@ -14,6 +15,9 @@ import org.springframework.stereotype.Service;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 import static com.leverx.learningmanagementsystem.btp.registry.utils.RegistryUtils.CREATE_SCHEMA;
 import static com.leverx.learningmanagementsystem.btp.registry.utils.RegistryUtils.DROP_SCHEMA;
@@ -43,6 +47,11 @@ public class LocalSubscriptionService implements SubscriptionService {
         String schemaName = SchemaNameResolver.configureSchemaName(tenantId);
         deleteSchema(schemaName);
         closeConnections(schemaName);
+    }
+
+    @Override
+    public List<DependenciesResponseDto> getDependencies() {
+        return Collections.emptyList();
     }
 
     private void createSchema(String schemaName) {

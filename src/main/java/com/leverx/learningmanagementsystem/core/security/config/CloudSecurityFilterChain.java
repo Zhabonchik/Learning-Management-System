@@ -37,19 +37,6 @@ public class CloudSecurityFilterChain {
                 .build();
     }
 
-    /*@Bean
-    @Order(2)
-    public SecurityFilterChain xsuaaSubscribeSecurityFilterChain(HttpSecurity http) throws Exception {
-        return http
-                .securityMatcher("/api/v1/subscribe/**")
-                .csrf(AbstractHttpConfigurer::disable)
-                .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
-                .authorizeHttpRequests(request -> request
-                        .requestMatchers("/api/v1/subscribe/**").permitAll())
-                .httpBasic(Customizer.withDefaults())
-                .build();
-    }*/
-
     @Bean
     @Order(2)
     public SecurityFilterChain apiSecurityFilterChain(HttpSecurity http) throws Exception {

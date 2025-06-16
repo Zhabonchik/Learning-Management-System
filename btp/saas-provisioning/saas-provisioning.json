@@ -3,7 +3,8 @@
   "displayName": "Learning Management System",
   "description": "LMS allows students to sign up for courses using virtual coins.",
   "appUrls": {
-    "onSubscription": "https://067769ebtrial-dev-learning-management-system.cfapps.us10-001.hana.ondemand.com/api/v1/subscribe/{tenantId}"
+    "onSubscription": "https://067769ebtrial-dev-learning-management-system.cfapps.us10-001.hana.ondemand.com/api/v1/subscribe/{tenantId}",
+    "getDependencies": "https://067769ebtrial-dev-learning-management-system.cfapps.us10-001.hana.ondemand.com/api/v1/dependencies"
   },
   "tenantMode": "shared"
 }
