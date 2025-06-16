@@ -14,8 +14,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import static java.util.Objects.nonNull;
-
 @Slf4j
 public class CustomTokenAuthenticationConverter extends TokenAuthenticationConverter {
 
@@ -26,33 +24,42 @@ public class CustomTokenAuthenticationConverter extends TokenAuthenticationConve
     @Override
     public AbstractAuthenticationToken convert(Jwt jwt) {
         AbstractAuthenticationToken authentication = super.convert(jwt);
+        log.info("Custom converter processing JWT token");
 
-        log.info("I am Custom converter");
-
-        Map<String, Object> xsSystemAttributes = jwt.getClaim("xs.system.attributes");
-        log.info("xssystem attributes: {}", xsSystemAttributes);
-        List<String> roleCollections = Collections.emptyList();
-
-        if (nonNull(xsSystemAttributes)) {
-            Object rc = xsSystemAttributes.get("xs.rolecollections");
-            if (rc instanceof List) {
-                roleCollections = (List<String>) rc;
-            }
-        }
-
+        List<String> roleCollections = extractRoleCollections(jwt);
         log.info("Found role collections: {}", roleCollections);
 
-        if (!roleCollections.isEmpty()) {
-            List<GrantedAuthority> authorities = new ArrayList<>(authentication.getAuthorities());
-            roleCollections.forEach(role ->
-                    authorities.add(new SimpleGrantedAuthority("ROLE_" + role))
-            );
-
-            log.info("Final authorities: {}", authorities);
-            return new JwtAuthenticationToken(jwt, authorities);
+        if (roleCollections.isEmpty()) {
+            log.info("No role collections found");
+            return authentication;
         }
 
-        log.info("No role collections found");
-        return authentication;
+        return createAuthenticationWithAuthorities(jwt, authentication, roleCollections);
+    }
+
+    private List<String> extractRoleCollections(Jwt jwt) {
+        Map<String, Object> xsSystemAttributes = jwt.getClaim("xs.system.attributes");
+        log.debug("xs.system.attributes: {}", xsSystemAttributes);
+
+        if (xsSystemAttributes == null) {
+            return Collections.emptyList();
+        }
+
+        Object roleCollections = xsSystemAttributes.get("xs.rolecollections");
+        return roleCollections instanceof List ? (List<String>) roleCollections : Collections.emptyList();
+    }
+
+    private JwtAuthenticationToken createAuthenticationWithAuthorities(
+            Jwt jwt,
+            AbstractAuthenticationToken authentication,
+            List<String> roleCollections
+    ) {
+        List<GrantedAuthority> authorities = new ArrayList<>(authentication.getAuthorities());
+        roleCollections.forEach(role ->
+                authorities.add(new SimpleGrantedAuthority("ROLE_" + role))
+        );
+
+        log.info("Final authorities: {}", authorities);
+        return new JwtAuthenticationToken(jwt, authorities);
     }
 }

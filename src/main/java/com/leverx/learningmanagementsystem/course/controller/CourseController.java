@@ -5,7 +5,6 @@ import com.leverx.learningmanagementsystem.course.dto.CreateCourseDto;
 import com.leverx.learningmanagementsystem.course.facade.CourseWebFacade;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.PagedModel;
@@ -21,6 +20,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.UUID;
 
+import static com.leverx.learningmanagementsystem.course.constants.CourseConstants.DEFAULT_COURSE_PAGE;
+import static com.leverx.learningmanagementsystem.course.constants.CourseConstants.DEFAULT_COURSE_PAGE_SIZE;
+import static com.leverx.learningmanagementsystem.course.constants.CourseConstants.DEFAULT_COURSE_SORT_TYPE;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 
@@ -33,7 +35,8 @@ public class CourseController {
     private final CourseWebFacade courseWebFacade;
 
     @GetMapping
-    public PagedModel<CourseResponseDto> getAll(@PageableDefault(size = 3, page = 0, sort = "created") Pageable pageable) {
+    public PagedModel<CourseResponseDto> getAll(@PageableDefault(size = DEFAULT_COURSE_PAGE_SIZE,
+            page = DEFAULT_COURSE_PAGE, sort = DEFAULT_COURSE_SORT_TYPE) Pageable pageable) {
         var page = courseWebFacade.getAll(pageable);
         return new PagedModel<>(page);
     }
