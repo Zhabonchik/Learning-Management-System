@@ -23,13 +23,9 @@ import java.util.Map;
 
 import static com.leverx.learningmanagementsystem.btp.registry.constants.RegistryConstants.BINDING;
 import static com.leverx.learningmanagementsystem.btp.registry.constants.RegistryConstants.DB_NAME;
-import static com.leverx.learningmanagementsystem.btp.registry.constants.RegistryConstants.INSTANCE_CREATION_TIMEOUT_SEC;
-import static com.leverx.learningmanagementsystem.btp.registry.constants.RegistryConstants.INSTANCE_DELETION_TIMEOUT_SEC;
 import static com.leverx.learningmanagementsystem.btp.registry.constants.RegistryConstants.ROUTER_URL;
 import static com.leverx.learningmanagementsystem.btp.registry.constants.RegistryConstants.SCHEMA;
-import static com.leverx.learningmanagementsystem.btp.registry.constants.RegistryConstants.SERVICE_BINDING_TIMEOUT_SEC;
 import static com.leverx.learningmanagementsystem.btp.registry.constants.RegistryConstants.SERVICE_PLAN_ID;
-import static com.leverx.learningmanagementsystem.btp.registry.constants.RegistryConstants.SERVICE_UNBINDING_TIMEOUT_SEC;
 import static com.leverx.learningmanagementsystem.btp.registry.constants.RegistryConstants.TENANT_ID;
 
 @Service
