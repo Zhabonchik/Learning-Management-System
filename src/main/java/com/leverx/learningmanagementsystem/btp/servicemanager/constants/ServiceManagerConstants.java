@@ -10,4 +10,5 @@ public class ServiceManagerConstants {
     public static final String V1 = "v1";
     public static final String SERVICE_INSTANCES = "service_instances";
     public static final String SERVICE_BINDINGS = "service_bindings";
+    public static final String ASYNC = "async";
 }

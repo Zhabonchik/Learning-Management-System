@@ -48,26 +48,11 @@ public class CloudSubscriptionService implements SubscriptionService {
         CreateSchemaDto createSchemaDto = configureCreateSchemaDto(tenantId);
 
         log.info("Assigning schema {} to tenant {}", createSchemaDto.name(), tenantId);
-        serviceManager.createServiceInstance(createSchemaDto);
-
-        try {
-            Thread.sleep(INSTANCE_CREATION_TIMEOUT_SEC);
-        } catch (InterruptedException e) {
-            log.info("Interrupted while waiting for service instance creation");
-        }
-
-        log.info("Getting schema for tenant {}", tenantId);
-        SchemaInstanceResponse schemaInstance = serviceManager.getServiceInstanceByTenantId(tenantId);
+        SchemaInstanceResponse schemaInstance = serviceManager.createServiceInstance(createSchemaDto);
 
         log.info("Binding schema {} for tenant {}", schemaInstance.id(), tenantId);
         SchemaBindingRequest bindingRequest = configureSchemaBindingRequest(tenantId, schemaInstance.id(), schemaInstance.name());
         serviceManager.bindServiceInstance(bindingRequest);
-
-        try {
-            Thread.sleep(SERVICE_BINDING_TIMEOUT_SEC);
-        } catch (InterruptedException e) {
-            log.info("Interrupted while waiting for service instance binding");
-        }
 
         dataBaseMigrator.migrateSchemaOnStartUp(tenantId);
 
@@ -85,20 +70,8 @@ public class CloudSubscriptionService implements SubscriptionService {
         log.info("Deleting binding {} for schema {}", schemaBinding.id(), schemaInstance.id());
         serviceManager.unbindServiceInstance(schemaBinding.id());
 
-        try {
-            Thread.sleep(SERVICE_UNBINDING_TIMEOUT_SEC);
-        } catch (InterruptedException e) {
-            log.info("Interrupted while waiting for service unbinding");
-        }
-
         log.info("Deleting schema {}", schemaInstance.id());
         serviceManager.deleteServiceInstance(schemaInstance.id());
-
-        try {
-            Thread.sleep(INSTANCE_DELETION_TIMEOUT_SEC);
-        } catch (InterruptedException e) {
-            log.info("Interrupted while waiting for service's deletion");
-        }
     }
 
     @Override

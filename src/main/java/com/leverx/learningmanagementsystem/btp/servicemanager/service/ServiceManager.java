@@ -19,9 +19,9 @@ public interface ServiceManager {
 
     SchemaBindingResponse getServiceBindingByTenantId(String tenantId);
 
-    void createServiceInstance(CreateSchemaDto createSchemaDto);
+    SchemaInstanceResponse createServiceInstance(CreateSchemaDto createSchemaDto);
 
-    void bindServiceInstance(SchemaBindingRequest schemaBindingRequest);
+    SchemaBindingResponse bindServiceInstance(SchemaBindingRequest schemaBindingRequest);
 
     void unbindServiceInstance(String serviceBindingId);
 

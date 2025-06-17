@@ -25,6 +25,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.List;
 import java.util.Optional;
 
+import static com.leverx.learningmanagementsystem.btp.servicemanager.constants.ServiceManagerConstants.ASYNC;
 import static com.leverx.learningmanagementsystem.btp.servicemanager.constants.ServiceManagerConstants.SERVICE_BINDINGS;
 import static com.leverx.learningmanagementsystem.btp.servicemanager.constants.ServiceManagerConstants.SERVICE_INSTANCES;
 import static com.leverx.learningmanagementsystem.btp.servicemanager.constants.ServiceManagerConstants.V1;
@@ -90,8 +91,8 @@ public class ServiceManagerImpl implements ServiceManager {
             maxAttempts = MAX_ATTEMPTS,
             backoff = @Backoff(delay = DELAY)
     )
-    public void createServiceInstance(CreateSchemaDto createSchemaDto) {
-        tryToCreateServiceInstance(createSchemaDto);
+    public SchemaInstanceResponse createServiceInstance(CreateSchemaDto createSchemaDto) {
+        return tryToCreateServiceInstance(createSchemaDto);
     }
 
     @Override
@@ -100,8 +101,8 @@ public class ServiceManagerImpl implements ServiceManager {
             maxAttempts = MAX_ATTEMPTS,
             backoff = @Backoff(delay = DELAY)
     )
-    public void bindServiceInstance(SchemaBindingRequest schemaBindingRequest) {
-        tryToBindServiceInstance(schemaBindingRequest);
+    public SchemaBindingResponse bindServiceInstance(SchemaBindingRequest schemaBindingRequest) {
+        return tryToBindServiceInstance(schemaBindingRequest);
     }
 
     @Override
@@ -200,6 +201,7 @@ public class ServiceManagerImpl implements ServiceManager {
     private SchemaBindingResponse tryToGetServiceBindingByTenantId(String tenantId) {
         try {
             List<SchemaBindingResponse> serviceBindings = tryToGetServiceBindings();
+
             Optional<SchemaBindingResponse> response =  serviceBindings.stream()
                     .filter(binding -> {
                         List<String> tenantIds = binding.labels().get("tenantId");
@@ -213,6 +215,7 @@ public class ServiceManagerImpl implements ServiceManager {
                 log.info("No binding found for tenant {}", tenantId);
                 throw new BindingException("No binding found for tenant" + tenantId);
             }
+
         } catch (Unauthorized ex) {
             log.info("Unauthorized access while getting binding for tenant {}", tenantId);
             refreshAuthToken();
@@ -220,18 +223,18 @@ public class ServiceManagerImpl implements ServiceManager {
         }
     }
 
-    private void tryToCreateServiceInstance(CreateSchemaDto createSchemaDto) {
+    private SchemaInstanceResponse tryToCreateServiceInstance(CreateSchemaDto createSchemaDto) {
         try {
             String uri = configureServiceInstancesUri();
             var headers = buildHeaders();
 
             log.info("Trying to create service instances");
-            restClient.post()
+            return restClient.post()
                     .uri(uri)
                     .headers(httpHeaders -> httpHeaders.addAll(headers))
                     .body(createSchemaDto)
                     .retrieve()
-                    .toBodilessEntity();
+                    .body(SchemaInstanceResponse.class);
         } catch (Unauthorized ex) {
             log.info("Unauthorized access while creating service instances");
             refreshAuthToken();
@@ -239,19 +242,19 @@ public class ServiceManagerImpl implements ServiceManager {
         }
     }
 
-    private void tryToBindServiceInstance(SchemaBindingRequest schemaBindingRequest) {
+    private SchemaBindingResponse tryToBindServiceInstance(SchemaBindingRequest schemaBindingRequest) {
         try {
             String uri = configureServiceBindingsUri();
             var headers = buildHeaders();
 
             log.info("Trying to bind service instances");
             log.info("SchemaBindingRequest: {}", schemaBindingRequest);
-            restClient.post()
+            return restClient.post()
                     .uri(uri)
                     .headers(httpHeaders -> httpHeaders.addAll(headers))
                     .body(schemaBindingRequest)
                     .retrieve()
-                    .toBodilessEntity();
+                    .body(SchemaBindingResponse.class);
         } catch (Unauthorized ex) {
             log.info("Unauthorized access while binding service instances");
             refreshAuthToken();
@@ -318,32 +321,38 @@ public class ServiceManagerImpl implements ServiceManager {
     private HttpHeaders buildHeaders() {
         var tokenRequest = configureTokenRequest();
         String authToken = tokenService.getAuthToken(tokenRequest);
+
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(authToken);
+
         return headers;
     }
 
     private String configureServiceInstancesUri() {
         return UriComponentsBuilder.fromUriString(serviceManagerConfiguration.getSmUrl())
                 .pathSegment(V1, SERVICE_INSTANCES)
+                .queryParam(ASYNC, false)
                 .toUriString();
     }
 
     private String configureServiceInstanceUri(String serviceInstanceId) {
         return UriComponentsBuilder.fromUriString(serviceManagerConfiguration.getSmUrl())
                 .pathSegment(V1, SERVICE_INSTANCES, serviceInstanceId)
+                .queryParam(ASYNC, false)
                 .toUriString();
     }
 
     private String configureServiceBindingsUri() {
         return UriComponentsBuilder.fromUriString(serviceManagerConfiguration.getSmUrl())
                 .pathSegment(V1, SERVICE_BINDINGS)
+                .queryParam(ASYNC, false)
                 .toUriString();
     }
 
     private String configureServiceUnbindingUri(String serviceBindingId) {
         return UriComponentsBuilder.fromUriString(serviceManagerConfiguration.getSmUrl())
                 .pathSegment(V1, SERVICE_BINDINGS, serviceBindingId)
+                .queryParam(ASYNC, false)
                 .toUriString();
     }
 
