@@ -31,5 +31,7 @@
 ### Steps
 1. git clone https://github.com/Zhabonchik/Learning-Management-System
 2. cd Learning-Management-System
-3. mvn clean install
-4. mvn spring-boot:run -Dspring-boot.run.profiles=local
+3. Add .env file in src/main/resources with properties EMAIL_USERNAME=, EMAIL_PASSWORD=.
+4. docker compose-up -d
+5. mvn clean install
+6. mvn spring-boot:run "-Dspring-boot.run.profiles=local"
