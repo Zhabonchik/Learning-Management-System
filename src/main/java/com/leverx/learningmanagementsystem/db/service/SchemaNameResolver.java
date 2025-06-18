@@ -1,6 +1,6 @@
 package com.leverx.learningmanagementsystem.db.service;
 
-import static com.leverx.learningmanagementsystem.btp.subscription.constants.RegistryConstants.SCHEMA;
+import static com.leverx.learningmanagementsystem.btp.subscription.constants.SubscriptionConstants.SCHEMA;
 import static com.leverx.learningmanagementsystem.db.constants.DatabaseConstants.PUBLIC;
 
 public class SchemaNameResolver {

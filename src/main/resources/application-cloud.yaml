@@ -41,6 +41,7 @@ service-manager:
 application:
   applicationId: ${vcap.application.application_id}
   spaceId: ${vcap.application.space_id}
+  uri: ${vcap.application.uris[0]}
 
 security-entity:
   user:

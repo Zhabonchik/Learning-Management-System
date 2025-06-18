@@ -2,7 +2,7 @@ package com.leverx.learningmanagementsystem.btp.destinationservice.service;
 
 import com.leverx.learningmanagementsystem.btp.destinationservice.config.DestinationServiceConfiguration;
 import com.leverx.learningmanagementsystem.btp.destinationservice.model.Destination;
-import com.leverx.learningmanagementsystem.btp.destinationservice.model.TokenRequest;
+import com.leverx.learningmanagementsystem.web.oauth.token.model.TokenRequest;
 import com.leverx.learningmanagementsystem.core.security.context.TenantContext;
 import com.leverx.learningmanagementsystem.web.oauth.token.service.TokenService;
 import lombok.AllArgsConstructor;

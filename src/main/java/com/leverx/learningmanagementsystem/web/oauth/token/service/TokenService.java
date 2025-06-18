@@ -1,6 +1,6 @@
 package com.leverx.learningmanagementsystem.web.oauth.token.service;
 
-import com.leverx.learningmanagementsystem.btp.destinationservice.model.TokenRequest;
+import com.leverx.learningmanagementsystem.web.oauth.token.model.TokenRequest;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CachePut;
