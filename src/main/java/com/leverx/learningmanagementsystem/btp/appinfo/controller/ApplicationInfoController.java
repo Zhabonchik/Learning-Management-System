@@ -1,7 +1,7 @@
-package com.leverx.learningmanagementsystem.btp.xsuaa.controller;
+package com.leverx.learningmanagementsystem.btp.appinfo.controller;
 
-import com.leverx.learningmanagementsystem.btp.xsuaa.model.XsuaaResponseDto;
-import com.leverx.learningmanagementsystem.btp.xsuaa.service.XsuaaService;
+import com.leverx.learningmanagementsystem.btp.appinfo.model.ApplicationInfoDto;
+import com.leverx.learningmanagementsystem.btp.appinfo.service.ApplicationInfoService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 @Profile("cloud")
 public class ApplicationInfoController {
 
-    private final XsuaaService xsuaaService;
+    private final ApplicationInfoService applicationInfoService;
 
     @GetMapping
-    public XsuaaResponseDto getXsuaaConfiguration() {
-        return xsuaaService.getXsuaaInfo();
+    public ApplicationInfoDto getApplicationInfo() {
+        return applicationInfoService.getApplicationInfo();
     }
 }
