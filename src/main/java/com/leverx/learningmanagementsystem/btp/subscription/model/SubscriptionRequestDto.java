@@ -1,4 +1,4 @@
-package com.leverx.learningmanagementsystem.btp.registry.model;
+package com.leverx.learningmanagementsystem.btp.subscription.model;
 
 public record SubscriptionRequestDto(
         String subscribedSubdomain,

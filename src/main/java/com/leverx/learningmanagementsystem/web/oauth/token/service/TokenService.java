@@ -1,6 +1,6 @@
 package com.leverx.learningmanagementsystem.web.oauth.token.service;
 
-import com.leverx.learningmanagementsystem.btp.destinationservice.model.DestinationTokenRequest;
+import com.leverx.learningmanagementsystem.btp.destinationservice.model.TokenRequest;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CachePut;
@@ -36,21 +36,21 @@ public class TokenService {
 
     private final RestClient restClient;
 
-    @Cacheable(value = AUTHTOKENS, key = "#destinationTokenRequest.clientId()")
-    public String getAuthToken(DestinationTokenRequest destinationTokenRequest) {
+    @Cacheable(value = AUTHTOKENS, key = "#tokenRequest.clientId()")
+    public String getAuthToken(TokenRequest tokenRequest) {
         log.info("Get auth token");
-        return requestAuthToken(destinationTokenRequest);
+        return requestAuthToken(tokenRequest);
     }
 
-    @CachePut(value = AUTHTOKENS, key = "#destinationTokenRequest.clientId()")
-    public String refreshAuthToken(DestinationTokenRequest destinationTokenRequest) {
+    @CachePut(value = AUTHTOKENS, key = "#tokenRequest.clientId()")
+    public String refreshAuthToken(TokenRequest tokenRequest) {
         log.info("Refresh auth token");
-        return requestAuthToken(destinationTokenRequest);
+        return requestAuthToken(tokenRequest);
     }
 
-    private String requestAuthToken(DestinationTokenRequest destinationTokenRequest) {
-        String authUrl = getAuthUrl(destinationTokenRequest.tokenUrl());
-        var headers = configureHeaders(destinationTokenRequest);
+    private String requestAuthToken(TokenRequest tokenRequest) {
+        String authUrl = getAuthUrl(tokenRequest.tokenUrl());
+        var headers = configureHeaders(tokenRequest);
         var body = configureBody();
 
         log.info("Request auth token");
@@ -75,12 +75,12 @@ public class TokenService {
                 .toUriString();
     }
 
-    private HttpHeaders configureHeaders(DestinationTokenRequest destinationTokenRequest) {
+    private HttpHeaders configureHeaders(TokenRequest tokenRequest) {
         log.info("Configure headers");
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(APPLICATION_FORM_URLENCODED);
 
-        String auth = "%s:%s".formatted(destinationTokenRequest.clientId(), destinationTokenRequest.clientSecret());
+        String auth = "%s:%s".formatted(tokenRequest.clientId(), tokenRequest.clientSecret());
         String encodedAuth = Base64.getEncoder().encodeToString(auth.getBytes(UTF_8));
 
         headers.set(AUTHORIZATION, BASIC + " " + encodedAuth);

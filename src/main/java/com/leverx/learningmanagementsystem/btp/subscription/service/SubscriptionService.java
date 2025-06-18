@@ -1,6 +1,6 @@
-package com.leverx.learningmanagementsystem.btp.registry.service;
+package com.leverx.learningmanagementsystem.btp.subscription.service;
 
-import com.leverx.learningmanagementsystem.btp.registry.model.DependenciesResponseDto;
+import com.leverx.learningmanagementsystem.btp.subscription.model.DependenciesResponseDto;
 
 import java.util.List;
 

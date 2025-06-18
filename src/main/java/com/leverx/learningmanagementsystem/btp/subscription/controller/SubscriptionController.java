@@ -1,8 +1,8 @@
-package com.leverx.learningmanagementsystem.btp.registry.controller;
+package com.leverx.learningmanagementsystem.btp.subscription.controller;
 
-import com.leverx.learningmanagementsystem.btp.registry.model.DependenciesResponseDto;
-import com.leverx.learningmanagementsystem.btp.registry.model.SubscriptionRequestDto;
-import com.leverx.learningmanagementsystem.btp.registry.service.SubscriptionService;
+import com.leverx.learningmanagementsystem.btp.subscription.model.DependenciesResponseDto;
+import com.leverx.learningmanagementsystem.btp.subscription.model.SubscriptionRequestDto;
+import com.leverx.learningmanagementsystem.btp.subscription.service.SubscriptionService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
@@ -21,7 +21,7 @@ import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.HttpStatus.OK;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/subscriptions")
 @Profile({"cloud", "local"})
 @Slf4j
 @AllArgsConstructor
@@ -29,7 +29,7 @@ public class SubscriptionController {
 
     private final SubscriptionService subscriptionService;
 
-    @PutMapping("/subscribe/{tenantId}")
+    @PutMapping("/tenants/{tenantId}")
     @ResponseStatus(OK)
     public String onSubscribe(@PathVariable("tenantId") String tenantId,
                               @RequestBody SubscriptionRequestDto body) {
@@ -37,7 +37,7 @@ public class SubscriptionController {
         return subscriptionService.subscribe(tenantId, body.subscribedSubdomain());
     }
 
-    @DeleteMapping("/subscribe/{tenantId}")
+    @DeleteMapping("/tenants/{tenantId}")
     @ResponseStatus(NO_CONTENT)
     public void onUnsubscribe(@PathVariable("tenantId") String tenantId) {
         log.info("Unsubscribing tenant [id = {}]", tenantId);

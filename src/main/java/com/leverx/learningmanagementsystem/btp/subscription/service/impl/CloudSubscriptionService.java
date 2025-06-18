@@ -1,8 +1,8 @@
-package com.leverx.learningmanagementsystem.btp.registry.service.impl;
+package com.leverx.learningmanagementsystem.btp.subscription.service.impl;
 
 import com.leverx.learningmanagementsystem.btp.destinationservice.config.DestinationServiceConfiguration;
-import com.leverx.learningmanagementsystem.btp.registry.model.DependenciesResponseDto;
-import com.leverx.learningmanagementsystem.btp.registry.service.SubscriptionService;
+import com.leverx.learningmanagementsystem.btp.subscription.model.DependenciesResponseDto;
+import com.leverx.learningmanagementsystem.btp.subscription.service.SubscriptionService;
 import com.leverx.learningmanagementsystem.btp.servicemanager.dto.BindResource;
 import com.leverx.learningmanagementsystem.btp.servicemanager.dto.CreateSchemaDto;
 import com.leverx.learningmanagementsystem.btp.servicemanager.dto.Parameters;
@@ -14,6 +14,7 @@ import com.leverx.learningmanagementsystem.core.app.config.AppConfiguration;
 import com.leverx.learningmanagementsystem.db.service.dbmigrator.DataBaseMigrator;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
@@ -21,18 +22,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.leverx.learningmanagementsystem.btp.registry.constants.RegistryConstants.BINDING;
-import static com.leverx.learningmanagementsystem.btp.registry.constants.RegistryConstants.DB_NAME;
-import static com.leverx.learningmanagementsystem.btp.registry.constants.RegistryConstants.ROUTER_URL;
-import static com.leverx.learningmanagementsystem.btp.registry.constants.RegistryConstants.SCHEMA;
-import static com.leverx.learningmanagementsystem.btp.registry.constants.RegistryConstants.SERVICE_PLAN_ID;
-import static com.leverx.learningmanagementsystem.btp.registry.constants.RegistryConstants.TENANT_ID;
+import static com.leverx.learningmanagementsystem.btp.subscription.constants.SubscriptionConstants.BINDING;
+import static com.leverx.learningmanagementsystem.btp.subscription.constants.SubscriptionConstants.DB_NAME;
+import static com.leverx.learningmanagementsystem.btp.subscription.constants.SubscriptionConstants.HTTPS_PROTOCOL;
+import static com.leverx.learningmanagementsystem.btp.subscription.constants.SubscriptionConstants.SCHEMA;
+import static com.leverx.learningmanagementsystem.btp.subscription.constants.SubscriptionConstants.SCHEMA_SERVICE_PLAN_ID;
+import static com.leverx.learningmanagementsystem.btp.subscription.constants.SubscriptionConstants.TENANT_ID;
 
 @Service
 @Profile("cloud")
 @Slf4j
 @AllArgsConstructor
 public class CloudSubscriptionService implements SubscriptionService {
+
+    @Value("${APPROUTER_NAME}")
+    private final String approuterName;
+    @Value("${vcap.application.uris[0]}")
+    private final String approuterDomain;
 
     private final ServiceManager serviceManager;
     private final AppConfiguration appConfiguration;
@@ -52,7 +58,7 @@ public class CloudSubscriptionService implements SubscriptionService {
 
         dataBaseMigrator.migrateSchemaOnStartUp(tenantId);
 
-        return ROUTER_URL.formatted(tenantSubDomain);
+        return "%s://%s-%s.%s".formatted(HTTPS_PROTOCOL, tenantSubDomain, approuterName, approuterDomain);
     }
 
     @Override
@@ -93,7 +99,7 @@ public class CloudSubscriptionService implements SubscriptionService {
 
         return CreateSchemaDto.builder()
                 .name(configureSchemaName(tenantId))
-                .servicePlanId(SERVICE_PLAN_ID)
+                .servicePlanId(SCHEMA_SERVICE_PLAN_ID)
                 .parameters(parameters)
                 .labels(labels)
                 .build();

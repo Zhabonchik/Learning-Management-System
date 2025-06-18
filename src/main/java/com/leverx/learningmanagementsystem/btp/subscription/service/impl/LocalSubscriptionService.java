@@ -1,7 +1,7 @@
-package com.leverx.learningmanagementsystem.btp.registry.service.impl;
+package com.leverx.learningmanagementsystem.btp.subscription.service.impl;
 
-import com.leverx.learningmanagementsystem.btp.registry.model.DependenciesResponseDto;
-import com.leverx.learningmanagementsystem.btp.registry.service.SubscriptionService;
+import com.leverx.learningmanagementsystem.btp.subscription.model.DependenciesResponseDto;
+import com.leverx.learningmanagementsystem.btp.subscription.service.SubscriptionService;
 import com.leverx.learningmanagementsystem.core.security.context.TenantContext;
 import com.leverx.learningmanagementsystem.db.service.dbmigrator.DataBaseMigrator;
 import com.leverx.learningmanagementsystem.db.service.SchemaNameResolver;
@@ -17,9 +17,9 @@ import java.sql.Statement;
 import java.util.Collections;
 import java.util.List;
 
-import static com.leverx.learningmanagementsystem.btp.registry.constants.RegistryConstants.CREATE_SCHEMA;
-import static com.leverx.learningmanagementsystem.btp.registry.constants.RegistryConstants.DROP_SCHEMA;
-import static com.leverx.learningmanagementsystem.btp.registry.constants.RegistryConstants.ROUTER_URL;
+import static com.leverx.learningmanagementsystem.btp.subscription.constants.SubscriptionConstants.CREATE_SCHEMA;
+import static com.leverx.learningmanagementsystem.btp.subscription.constants.SubscriptionConstants.DROP_SCHEMA;
+import static com.leverx.learningmanagementsystem.btp.subscription.constants.SubscriptionConstants.LOCAL_ROUTER_URL;
 
 @Service
 @Slf4j
@@ -39,7 +39,7 @@ public class LocalSubscriptionService implements SubscriptionService {
 
         databaseMigrator.migrateSchema(multitenantConnectionProvider);
 
-        return ROUTER_URL.formatted(tenantSubDomain);
+        return LOCAL_ROUTER_URL.formatted(tenantSubDomain);
     }
 
     @Override
