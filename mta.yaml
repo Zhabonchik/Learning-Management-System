@@ -30,6 +30,7 @@ modules:
       - name: user-service
       - name: saas-registry
       - name: service-manager
+      - name: lms-autoscaler
     provides:
       - name: lms-api
         properties:
@@ -101,3 +102,10 @@ resources:
     parameters:
       service: service-manager
       service-plan: container
+
+  - name: lms-autoscaler
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: autoscaler
+      service-plan: standard
+      path: btp/autoscaler/cpu_scaling_policy.json
