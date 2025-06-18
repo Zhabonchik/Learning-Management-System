@@ -9,14 +9,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("api/v1")
+@RequestMapping("api/v1/application-info")
 @AllArgsConstructor
 @Profile("cloud")
-public class XsuaaController {
+public class ApplicationInfoController {
 
     private final XsuaaService xsuaaService;
 
-    @GetMapping("/application-info")
+    @GetMapping
     public XsuaaResponseDto getXsuaaConfiguration() {
         return xsuaaService.getXsuaaInfo();
     }
