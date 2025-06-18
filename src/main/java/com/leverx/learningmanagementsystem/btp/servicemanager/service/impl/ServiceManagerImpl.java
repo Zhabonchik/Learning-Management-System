@@ -1,6 +1,6 @@
 package com.leverx.learningmanagementsystem.btp.servicemanager.service.impl;
 
-import com.leverx.learningmanagementsystem.btp.destinationservice.model.DestinationTokenRequest;
+import com.leverx.learningmanagementsystem.btp.destinationservice.model.TokenRequest;
 import com.leverx.learningmanagementsystem.btp.servicemanager.config.ServiceManagerConfiguration;
 import com.leverx.learningmanagementsystem.btp.servicemanager.dto.CreateSchemaDto;
 import com.leverx.learningmanagementsystem.btp.servicemanager.dto.SchemaBindingRequest;
@@ -356,8 +356,8 @@ public class ServiceManagerImpl implements ServiceManager {
                 .toUriString();
     }
 
-    private DestinationTokenRequest configureTokenRequest() {
-        return new DestinationTokenRequest(
+    private TokenRequest configureTokenRequest() {
+        return new TokenRequest(
                 serviceManagerConfiguration.getUrl(),
                 serviceManagerConfiguration.getClientId(),
                 serviceManagerConfiguration.getClientSecret()
