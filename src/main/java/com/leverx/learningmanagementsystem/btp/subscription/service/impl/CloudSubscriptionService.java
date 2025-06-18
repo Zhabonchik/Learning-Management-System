@@ -1,5 +1,6 @@
 package com.leverx.learningmanagementsystem.btp.subscription.service.impl;
 
+import com.leverx.learningmanagementsystem.btp.appinfo.config.ApprouterConfiguration;
 import com.leverx.learningmanagementsystem.btp.destinationservice.config.DestinationServiceConfiguration;
 import com.leverx.learningmanagementsystem.btp.subscription.model.DependenciesResponseDto;
 import com.leverx.learningmanagementsystem.btp.subscription.service.SubscriptionService;
@@ -12,9 +13,10 @@ import com.leverx.learningmanagementsystem.btp.servicemanager.dto.SchemaInstance
 import com.leverx.learningmanagementsystem.btp.servicemanager.service.ServiceManager;
 import com.leverx.learningmanagementsystem.core.app.config.AppConfiguration;
 import com.leverx.learningmanagementsystem.db.service.dbmigrator.DataBaseMigrator;
+import com.leverx.learningmanagementsystem.multitenancy.connectionprovider.CustomMultiTenantConnectionProvider;
+import com.leverx.learningmanagementsystem.multitenancy.routingdatasource.RoutingDataSource;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
@@ -35,15 +37,12 @@ import static com.leverx.learningmanagementsystem.btp.subscription.constants.Sub
 @AllArgsConstructor
 public class CloudSubscriptionService implements SubscriptionService {
 
-    @Value("${APPROUTER_NAME}")
-    private final String approuterName;
-    @Value("${vcap.application.uris[0]}")
-    private final String approuterDomain;
-
     private final ServiceManager serviceManager;
     private final AppConfiguration appConfiguration;
     private final DataBaseMigrator dataBaseMigrator;
     private final DestinationServiceConfiguration destinationConfiguration;
+    private final ApprouterConfiguration approuterConfiguration;
+    private final CustomMultiTenantConnectionProvider connectionProvider;
 
     @Override
     public String subscribe(String tenantId, String tenantSubDomain) {
@@ -58,7 +57,13 @@ public class CloudSubscriptionService implements SubscriptionService {
 
         dataBaseMigrator.migrateSchemaOnStartUp(tenantId);
 
-        return "%s://%s-%s.%s".formatted(HTTPS_PROTOCOL, tenantSubDomain, approuterName, approuterDomain);
+        String appUri = appConfiguration.getUri();
+        String appName = appUri.substring(0,appUri.indexOf('.'));
+
+        return "%s://%s-%s".formatted(
+                HTTPS_PROTOCOL,
+                tenantSubDomain,
+                appUri.replace(appName, approuterConfiguration.getName()));
     }
 
     @Override
@@ -74,6 +79,8 @@ public class CloudSubscriptionService implements SubscriptionService {
 
         log.info("Deleting schema {}", schemaInstance.id());
         serviceManager.deleteServiceInstance(schemaInstance.id());
+
+        connectionProvider.removeDataSource(tenantId);
     }
 
     @Override

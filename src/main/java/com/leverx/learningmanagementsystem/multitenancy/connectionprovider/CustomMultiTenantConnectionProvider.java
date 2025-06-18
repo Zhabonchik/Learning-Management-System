@@ -42,6 +42,9 @@ public class CustomMultiTenantConnectionProvider implements MultiTenantConnectio
             routingDataSource.addDataSource(tenantId, dataSource);
 
             return routingDataSource.getConnection();
+        } catch (Exception e) {
+            log.info("Exception in getConnection() with message: {}", e.getMessage());
+            throw e;
         }
     }
 

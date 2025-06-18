@@ -1,8 +1,7 @@
-package com.leverx.learningmanagementsystem.core.security.converter;
+package com.leverx.learningmanagementsystem.btp.xsuaa.converter;
 
-import com.sap.cloud.security.xsuaa.XsuaaServiceConfiguration;
-import com.sap.cloud.security.xsuaa.token.TokenAuthenticationConverter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -15,26 +14,18 @@ import java.util.List;
 import java.util.Map;
 
 @Slf4j
-public class CustomTokenAuthenticationConverter extends TokenAuthenticationConverter {
-
-    public CustomTokenAuthenticationConverter(XsuaaServiceConfiguration xsuaaServiceConfiguration) {
-        super(xsuaaServiceConfiguration);
-    }
+public class CustomTokenAuthenticationConverter implements Converter<Jwt, AbstractAuthenticationToken> {
 
     @Override
     public AbstractAuthenticationToken convert(Jwt jwt) {
-        AbstractAuthenticationToken authentication = super.convert(jwt);
-        log.info("Custom converter processing JWT token");
+        log.info("Jwt token subject: {}", jwt.getSubject());
 
         List<String> roleCollections = extractRoleCollections(jwt);
         log.info("Found role collections: {}", roleCollections);
 
-        if (roleCollections.isEmpty()) {
-            log.info("No role collections found");
-            return authentication;
-        }
+        List<GrantedAuthority> authorities = new ArrayList<>();
 
-        return createAuthenticationWithAuthorities(jwt, authentication, roleCollections);
+        return createAuthenticationWithAuthorities(jwt, authorities, roleCollections);
     }
 
     private List<String> extractRoleCollections(Jwt jwt) {
@@ -51,10 +42,9 @@ public class CustomTokenAuthenticationConverter extends TokenAuthenticationConve
 
     private JwtAuthenticationToken createAuthenticationWithAuthorities(
             Jwt jwt,
-            AbstractAuthenticationToken authentication,
+            List<GrantedAuthority> authorities,
             List<String> roleCollections
     ) {
-        List<GrantedAuthority> authorities = new ArrayList<>(authentication.getAuthorities());
         roleCollections.forEach(role ->
                 authorities.add(new SimpleGrantedAuthority("ROLE_" + role))
         );

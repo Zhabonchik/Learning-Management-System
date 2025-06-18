@@ -36,6 +36,7 @@ public class CloudDataBaseMigrator implements DataBaseMigrator {
 
     public void migrateSchemaOnStartUp(String tenantId) {
         TenantContext.setTenantId(tenantId);
+        log.info("Tenant context in CloudSubscriptionService: {}", TenantContext.getTenantId());
 
         migrateSchema(connectionProvider);
     }

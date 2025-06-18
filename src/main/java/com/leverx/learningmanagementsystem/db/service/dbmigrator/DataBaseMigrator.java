@@ -20,8 +20,8 @@ public interface DataBaseMigrator {
 
     default void migrateSchema(CustomMultiTenantConnectionProvider connectionProvider) {
         String tenantId = TenantContext.getTenantId();
-        try (Connection connection = connectionProvider.getConnection(tenantId)) {
-
+        try {
+            Connection connection = connectionProvider.getConnection(tenantId);
             Database dataBase = DatabaseFactory.getInstance()
                     .findCorrectDatabaseImplementation(new JdbcConnection(connection));
 

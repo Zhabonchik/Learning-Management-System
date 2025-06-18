@@ -1,6 +1,6 @@
 package com.leverx.learningmanagementsystem.btp.servicemanager.service.impl;
 
-import com.leverx.learningmanagementsystem.btp.destinationservice.model.TokenRequest;
+import com.leverx.learningmanagementsystem.web.oauth.token.model.TokenRequest;
 import com.leverx.learningmanagementsystem.btp.servicemanager.config.ServiceManagerConfiguration;
 import com.leverx.learningmanagementsystem.btp.servicemanager.dto.CreateSchemaDto;
 import com.leverx.learningmanagementsystem.btp.servicemanager.dto.SchemaBindingRequest;

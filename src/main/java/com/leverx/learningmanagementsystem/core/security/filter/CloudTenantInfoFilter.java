@@ -9,6 +9,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -25,7 +26,9 @@ public class CloudTenantInfoFilter extends OncePerRequestFilter {
     public static final String BEARER_PREFIX = "Bearer ";
     public static final String ZID = "zid";
     public static final String AUTHORIZATION = "Authorization";
-    public static final String API_NAME = "-lms";
+
+    @Value("${APPROUTER_NAME}")
+    private String approuterName;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -69,7 +72,7 @@ public class CloudTenantInfoFilter extends OncePerRequestFilter {
 
     private String extractTenantSubdomain(HttpServletRequest request) {
         String serverName = request.getServerName();
-        return serverName.substring(0, serverName.indexOf(API_NAME));
+        return serverName.substring(0, serverName.indexOf(approuterName));
     }
 
     private void setTenantContext(String tenantId, String tenantSubdomain) {

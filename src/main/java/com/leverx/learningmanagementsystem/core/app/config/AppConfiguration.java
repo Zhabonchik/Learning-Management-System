@@ -12,4 +12,6 @@ public class AppConfiguration {
     private String applicationId;
 
     private String spaceId;
+
+    private String uri;
 }
