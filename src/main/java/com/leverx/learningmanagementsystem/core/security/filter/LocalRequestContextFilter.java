@@ -1,6 +1,6 @@
 package com.leverx.learningmanagementsystem.core.security.filter;
 
-import com.leverx.learningmanagementsystem.core.security.context.TenantContext;
+import com.leverx.learningmanagementsystem.core.security.context.RequestContext;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,19 +15,19 @@ import java.io.IOException;
 @Component
 @Slf4j
 @Profile("local")
-public class LocalTenantInfoFilter extends OncePerRequestFilter {
+public class LocalRequestContextFilter extends OncePerRequestFilter {
 
     public static final String TENANT_HEADER = "X-Tenant-ID";
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String tenantId = request.getHeader(TENANT_HEADER);
-        TenantContext.setTenantId(tenantId);
+        RequestContext.setTenantId(tenantId);
 
         try {
             filterChain.doFilter(request, response);
         } finally {
-            TenantContext.clear();
+            RequestContext.clear();
         }
     }
 }

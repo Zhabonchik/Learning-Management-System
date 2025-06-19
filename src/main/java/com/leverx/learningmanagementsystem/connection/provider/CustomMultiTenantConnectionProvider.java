@@ -1,7 +1,7 @@
-package com.leverx.learningmanagementsystem.multitenancy.connectionprovider;
+package com.leverx.learningmanagementsystem.connection.provider;
 
 import com.leverx.learningmanagementsystem.db.service.dsconfigurer.DataSourceConfigurer;
-import com.leverx.learningmanagementsystem.multitenancy.routingdatasource.RoutingDataSource;
+import com.leverx.learningmanagementsystem.connection.routingdatasource.RoutingDataSource;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.cfg.AvailableSettings;
@@ -45,6 +45,18 @@ public class CustomMultiTenantConnectionProvider implements MultiTenantConnectio
         } catch (Exception e) {
             log.info("Exception in getConnection() with message: {}", e.getMessage());
             throw e;
+        }
+    }
+
+    public DataSource getDataSource(String tenantId) {
+        try {
+            return routingDataSource.getDataSource();
+        } catch (IllegalStateException e) {
+            log.info("Could not get datasource for {}", tenantId);
+            DataSource dataSource = dataSourceConfigurer.configureDataSource(tenantId);
+            routingDataSource.addDataSource(tenantId, dataSource);
+
+            return routingDataSource.getDataSource();
         }
     }
 

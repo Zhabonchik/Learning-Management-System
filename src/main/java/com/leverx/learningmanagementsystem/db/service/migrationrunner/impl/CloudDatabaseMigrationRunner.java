@@ -1,10 +1,10 @@
-package com.leverx.learningmanagementsystem.db.service.dbmigrator.impl;
+package com.leverx.learningmanagementsystem.db.service.migrationrunner.impl;
 
 import com.leverx.learningmanagementsystem.btp.servicemanager.dto.SchemaBindingResponse;
 import com.leverx.learningmanagementsystem.btp.servicemanager.service.ServiceManager;
-import com.leverx.learningmanagementsystem.core.security.context.TenantContext;
-import com.leverx.learningmanagementsystem.db.service.dbmigrator.DataBaseMigrator;
-import com.leverx.learningmanagementsystem.multitenancy.connectionprovider.CustomMultiTenantConnectionProvider;
+import com.leverx.learningmanagementsystem.core.security.context.RequestContext;
+import com.leverx.learningmanagementsystem.db.service.migrationrunner.DatabaseMigrationRunner;
+import com.leverx.learningmanagementsystem.connection.provider.CustomMultiTenantConnectionProvider;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -22,21 +22,21 @@ import static com.leverx.learningmanagementsystem.db.constants.DatabaseConstants
 @Slf4j
 @AllArgsConstructor
 @Profile("cloud")
-public class CloudDataBaseMigrator implements DataBaseMigrator {
+public class CloudDatabaseMigrationRunner implements DatabaseMigrationRunner {
 
     private final CustomMultiTenantConnectionProvider connectionProvider;
     private final ServiceManager serviceManager;
 
     @EventListener(ApplicationReadyEvent.class)
-    public void migrateAllSchemas() {
+    public void runAll() {
         List<String> tenantIds = getAllTenantIds();
 
-        tenantIds.forEach(this::migrateSchemaOnStartUp);
+        tenantIds.forEach(this::run);
     }
 
-    public void migrateSchemaOnStartUp(String tenantId) {
-        TenantContext.setTenantId(tenantId);
-        log.info("Tenant context in CloudSubscriptionService: {}", TenantContext.getTenantId());
+    public void run(String tenantId) {
+        RequestContext.setTenantId(tenantId);
+        log.info("Tenant context in CloudSubscriptionService: {}", RequestContext.getTenantId());
 
         migrateSchema(connectionProvider);
     }

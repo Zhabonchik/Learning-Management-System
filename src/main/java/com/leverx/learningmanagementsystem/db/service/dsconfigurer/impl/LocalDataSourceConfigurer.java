@@ -14,7 +14,7 @@ import javax.sql.DataSource;
 @Service
 @AllArgsConstructor
 @Slf4j
-@Profile("local")
+@Profile({"local", "test"})
 public class LocalDataSourceConfigurer implements DataSourceConfigurer {
 
     private final DataSourceConfiguration dsConfig;

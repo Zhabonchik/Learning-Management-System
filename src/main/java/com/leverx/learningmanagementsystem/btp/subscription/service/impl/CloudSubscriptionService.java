@@ -12,9 +12,8 @@ import com.leverx.learningmanagementsystem.btp.servicemanager.dto.SchemaBindingR
 import com.leverx.learningmanagementsystem.btp.servicemanager.dto.SchemaInstanceResponse;
 import com.leverx.learningmanagementsystem.btp.servicemanager.service.ServiceManager;
 import com.leverx.learningmanagementsystem.core.app.config.AppConfiguration;
-import com.leverx.learningmanagementsystem.db.service.dbmigrator.DataBaseMigrator;
-import com.leverx.learningmanagementsystem.multitenancy.connectionprovider.CustomMultiTenantConnectionProvider;
-import com.leverx.learningmanagementsystem.multitenancy.routingdatasource.RoutingDataSource;
+import com.leverx.learningmanagementsystem.db.service.migrationrunner.DatabaseMigrationRunner;
+import com.leverx.learningmanagementsystem.connection.provider.CustomMultiTenantConnectionProvider;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
@@ -39,7 +38,7 @@ public class CloudSubscriptionService implements SubscriptionService {
 
     private final ServiceManager serviceManager;
     private final AppConfiguration appConfiguration;
-    private final DataBaseMigrator dataBaseMigrator;
+    private final DatabaseMigrationRunner databaseMigrationRunner;
     private final DestinationServiceConfiguration destinationConfiguration;
     private final ApprouterConfiguration approuterConfiguration;
     private final CustomMultiTenantConnectionProvider connectionProvider;
@@ -55,7 +54,7 @@ public class CloudSubscriptionService implements SubscriptionService {
         SchemaBindingRequest bindingRequest = configureSchemaBindingRequest(tenantId, schemaInstance.id(), schemaInstance.name());
         serviceManager.bindServiceInstance(bindingRequest);
 
-        dataBaseMigrator.migrateSchemaOnStartUp(tenantId);
+        databaseMigrationRunner.run(tenantId);
 
         String appUri = appConfiguration.getUri();
         String appName = appUri.substring(0,appUri.indexOf('.'));

@@ -1,7 +1,7 @@
 package com.leverx.learningmanagementsystem.db.config;
 
 import com.leverx.learningmanagementsystem.db.service.dsconfigurer.DataSourceConfigurer;
-import com.leverx.learningmanagementsystem.multitenancy.routingdatasource.RoutingDataSource;
+import com.leverx.learningmanagementsystem.connection.routingdatasource.RoutingDataSource;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

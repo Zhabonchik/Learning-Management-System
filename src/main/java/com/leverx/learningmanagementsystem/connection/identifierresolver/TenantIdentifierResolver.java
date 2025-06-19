@@ -1,6 +1,6 @@
-package com.leverx.learningmanagementsystem.multitenancy.identifierresolver;
+package com.leverx.learningmanagementsystem.connection.identifierresolver;
 
-import com.leverx.learningmanagementsystem.core.security.context.TenantContext;
+import com.leverx.learningmanagementsystem.core.security.context.RequestContext;
 import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernatePropertiesCustomizer;
 import org.springframework.stereotype.Component;
@@ -16,7 +16,7 @@ public class TenantIdentifierResolver implements CurrentTenantIdentifierResolver
 
     @Override
     public String resolveCurrentTenantIdentifier() {
-        String tenantId = TenantContext.getTenantId();
+        String tenantId = RequestContext.getTenantId();
         return (nonNull(tenantId)) ? tenantId : PUBLIC;
     }
 

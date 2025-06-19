@@ -1,6 +1,6 @@
-package com.leverx.learningmanagementsystem.multitenancy.routingdatasource;
+package com.leverx.learningmanagementsystem.connection.routingdatasource;
 
-import com.leverx.learningmanagementsystem.core.security.context.TenantContext;
+import com.leverx.learningmanagementsystem.core.security.context.RequestContext;
 import jakarta.annotation.PostConstruct;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -42,8 +42,12 @@ public class RoutingDataSource extends AbstractRoutingDataSource {
         super.afterPropertiesSet();
     }
 
+    public synchronized DataSource getDataSource() {
+        return determineTargetDataSource();
+    }
+
     @Override
     protected Object determineCurrentLookupKey() {
-        return TenantContext.getTenantId();
+        return RequestContext.getTenantId();
     }
 }

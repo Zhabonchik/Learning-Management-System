@@ -1,6 +1,6 @@
 package com.leverx.learningmanagementsystem.core.security.context;
 
-public class TenantContext {
+public class RequestContext {
 
     private static final ThreadLocal<String> tenantId = new ThreadLocal<>();
     private static final ThreadLocal<String> tenantSubdomain = new ThreadLocal<>();

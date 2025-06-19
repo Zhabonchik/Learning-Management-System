@@ -34,8 +34,8 @@ xsuaa:
   clientSecret: ${vcap.services.xsuaa-service.credentials.clientsecret}
 
 service-manager:
-  url: ${vcap.services.service-manager.credentials.url}
-  smUrl: ${vcap.services.service-manager.credentials.sm_url}
+  tokenUrl: ${vcap.services.service-manager.credentials.url}
+  url: ${vcap.services.service-manager.credentials.sm_url}
   clientId: ${vcap.services.service-manager.credentials.clientid}
   clientSecret: ${vcap.services.service-manager.credentials.clientsecret}
 
