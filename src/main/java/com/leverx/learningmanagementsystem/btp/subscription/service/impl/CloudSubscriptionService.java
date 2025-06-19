@@ -12,8 +12,8 @@ import com.leverx.learningmanagementsystem.btp.servicemanager.dto.SchemaBindingR
 import com.leverx.learningmanagementsystem.btp.servicemanager.dto.SchemaInstanceResponse;
 import com.leverx.learningmanagementsystem.btp.servicemanager.service.ServiceManager;
 import com.leverx.learningmanagementsystem.core.app.config.AppConfiguration;
-import com.leverx.learningmanagementsystem.db.service.migrationrunner.DatabaseMigrationRunner;
-import com.leverx.learningmanagementsystem.connection.provider.CustomMultiTenantConnectionProvider;
+import com.leverx.learningmanagementsystem.multitenancy.db.service.migrationrunner.DatabaseMigrationRunner;
+import com.leverx.learningmanagementsystem.multitenancy.connection.provider.CustomMultiTenantConnectionProvider;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;

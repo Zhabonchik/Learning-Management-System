@@ -1,4 +1,4 @@
-package com.leverx.learningmanagementsystem.db.constants;
+package com.leverx.learningmanagementsystem.multitenancy.db.constants;
 
 import lombok.NoArgsConstructor;
 
@@ -7,7 +7,7 @@ import static lombok.AccessLevel.PRIVATE;
 @NoArgsConstructor(access = PRIVATE)
 public class DatabaseConstants {
 
-    public static final String DB_CHANGELOG = "db/changelog/db.changelog-master.yaml";
+    /*public static final String DB_CHANGELOG = "db/changelog/db.changelog-master.yaml";*/
     public static final String SCHEMA = "schema_%s";
     public static final String PUBLIC = "public";
     public static final String TENANT_ID = "tenantId";

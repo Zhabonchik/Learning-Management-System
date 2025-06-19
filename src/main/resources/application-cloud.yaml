@@ -54,3 +54,6 @@ security-entity:
   admin:
     username: admin
     password: password
+
+db:
+  changelog: db/changelog/db.changelog-master.yaml

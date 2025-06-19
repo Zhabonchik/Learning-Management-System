@@ -1,4 +1,4 @@
-package com.leverx.learningmanagementsystem.core.security.filter;
+package com.leverx.learningmanagementsystem.core.security.filter.impl;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.DecodedJWT;
@@ -32,11 +32,6 @@ public class CloudRequestContextFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String path = request.getRequestURI();
-        if (path.startsWith("/actuator") || path.startsWith("/api/v1")) {
-            filterChain.doFilter(request, response);
-            return;
-        }
 
         String subdomain = extractTenantSubdomain(request);
         log.info("Tenant subdomain: {}", subdomain);

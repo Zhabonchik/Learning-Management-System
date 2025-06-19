@@ -1,9 +1,9 @@
-package com.leverx.learningmanagementsystem.db.service.dsconfigurer.impl;
+package com.leverx.learningmanagementsystem.multitenancy.connection.datasource.configurer.impl;
 
 import com.leverx.learningmanagementsystem.btp.servicemanager.dto.SchemaBindingResponse;
 import com.leverx.learningmanagementsystem.btp.servicemanager.service.ServiceManager;
-import com.leverx.learningmanagementsystem.db.config.DataSourceConfiguration;
-import com.leverx.learningmanagementsystem.db.service.dsconfigurer.DataSourceConfigurer;
+import com.leverx.learningmanagementsystem.multitenancy.connection.datasource.config.DataSourceConfiguration;
+import com.leverx.learningmanagementsystem.multitenancy.connection.datasource.configurer.DataSourceConfigurer;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
@@ -13,11 +13,11 @@ import javax.sql.DataSource;
 
 import java.util.Map;
 
-import static com.leverx.learningmanagementsystem.db.constants.DatabaseConstants.DRIVER;
-import static com.leverx.learningmanagementsystem.db.constants.DatabaseConstants.PASSWORD;
-import static com.leverx.learningmanagementsystem.db.constants.DatabaseConstants.PUBLIC;
-import static com.leverx.learningmanagementsystem.db.constants.DatabaseConstants.URL;
-import static com.leverx.learningmanagementsystem.db.constants.DatabaseConstants.USER;
+import static com.leverx.learningmanagementsystem.multitenancy.db.constants.DatabaseConstants.DRIVER;
+import static com.leverx.learningmanagementsystem.multitenancy.db.constants.DatabaseConstants.PASSWORD;
+import static com.leverx.learningmanagementsystem.multitenancy.db.constants.DatabaseConstants.PUBLIC;
+import static com.leverx.learningmanagementsystem.multitenancy.db.constants.DatabaseConstants.URL;
+import static com.leverx.learningmanagementsystem.multitenancy.db.constants.DatabaseConstants.USER;
 
 @Service
 @AllArgsConstructor

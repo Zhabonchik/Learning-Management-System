@@ -1,23 +1,22 @@
-package com.leverx.learningmanagementsystem.db.service.migrationrunner;
+package com.leverx.learningmanagementsystem.multitenancy.db.service.migrationrunner;
 
 import com.leverx.learningmanagementsystem.core.exception.model.CustomLiquibaseException;
 import com.leverx.learningmanagementsystem.core.security.context.RequestContext;
-import com.leverx.learningmanagementsystem.connection.provider.CustomMultiTenantConnectionProvider;
+import com.leverx.learningmanagementsystem.multitenancy.connection.provider.CustomMultiTenantConnectionProvider;
 import liquibase.integration.spring.SpringLiquibase;
 
 import javax.sql.DataSource;
 
-import static com.leverx.learningmanagementsystem.db.constants.DatabaseConstants.DB_CHANGELOG;
-import static com.leverx.learningmanagementsystem.db.constants.DatabaseConstants.SCHEMA;
+import static com.leverx.learningmanagementsystem.multitenancy.db.constants.DatabaseConstants.SCHEMA;
 
-public interface DatabaseMigrationRunner {
+public abstract class AbstractDatabaseMigrationRunner {
 
-    default void migrateSchema(CustomMultiTenantConnectionProvider connectionProvider) {
+    public void migrateSchema(CustomMultiTenantConnectionProvider connectionProvider, String dbChangelog) {
         String tenantId = RequestContext.getTenantId();
         try {
             DataSource dataSource = connectionProvider.getDataSource(tenantId);
             SpringLiquibase liquibase = new SpringLiquibase();
-            liquibase.setChangeLog(DB_CHANGELOG);
+            liquibase.setChangeLog(dbChangelog);
             liquibase.setDataSource(dataSource);
 
             liquibase.afterPropertiesSet();
@@ -25,8 +24,4 @@ public interface DatabaseMigrationRunner {
             throw new CustomLiquibaseException("Could not apply migration to schema: "  + SCHEMA.formatted(tenantId));
         }
     }
-
-    void runAll();
-
-    void run(String tenantId);
 }

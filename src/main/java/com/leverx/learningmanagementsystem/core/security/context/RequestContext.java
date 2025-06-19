@@ -1,28 +1,32 @@
 package com.leverx.learningmanagementsystem.core.security.context;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class RequestContext {
 
-    private static final ThreadLocal<String> tenantId = new ThreadLocal<>();
-    private static final ThreadLocal<String> tenantSubdomain = new ThreadLocal<>();
+    public static final String TENANT_ID = "tenantId";
+    public static final String TENANT_SUBDOMAIN = "tenantSubdomain";
+
+    private static final ThreadLocal<Map<String, String>> context = ThreadLocal.withInitial(HashMap::new);
 
     public static String getTenantId() {
-        return tenantId.get();
+        return context.get().get(TENANT_ID);
     }
 
     public static String getTenantSubdomain() {
-        return tenantSubdomain.get();
+        return context.get().get(TENANT_SUBDOMAIN);
     }
 
-    public static void setTenantId(String subdomain) {
-        tenantId.set(subdomain);
+    public static void setTenantId(String id) {
+        context.get().put(TENANT_ID, id);
     }
 
     public static void setTenantSubdomain(String subdomain) {
-        tenantSubdomain.set(subdomain);
+        context.get().put(TENANT_SUBDOMAIN, subdomain);
     }
 
     public static void clear() {
-        tenantId.remove();
-        tenantSubdomain.remove();
+        context.get().clear();
     }
 }

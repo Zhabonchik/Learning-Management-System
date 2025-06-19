@@ -1,4 +1,4 @@
-package com.leverx.learningmanagementsystem.core.security.filter;
+package com.leverx.learningmanagementsystem.core.security.filter.impl;
 
 import com.leverx.learningmanagementsystem.core.security.context.RequestContext;
 import jakarta.servlet.FilterChain;

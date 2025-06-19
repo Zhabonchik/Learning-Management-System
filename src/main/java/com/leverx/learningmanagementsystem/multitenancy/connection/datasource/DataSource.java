@@ -1,4 +1,4 @@
-package com.leverx.learningmanagementsystem.connection.routingdatasource;
+package com.leverx.learningmanagementsystem.multitenancy.connection.datasource;
 
 import com.leverx.learningmanagementsystem.core.security.context.RequestContext;
 import jakarta.annotation.PostConstruct;
@@ -6,13 +6,12 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 
-import javax.sql.DataSource;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @Setter
-public class RoutingDataSource extends AbstractRoutingDataSource {
+public class DataSource extends AbstractRoutingDataSource {
 
     private final Map<Object, Object> targetDataSources = new ConcurrentHashMap<>();
 
@@ -23,13 +22,13 @@ public class RoutingDataSource extends AbstractRoutingDataSource {
         super.afterPropertiesSet();
     }
 
-    public synchronized void addDataSource(String tenantId, DataSource dataSource) {
+    public synchronized void addDataSource(String tenantId, javax.sql.DataSource dataSource) {
         targetDataSources.put(tenantId, dataSource);
         super.afterPropertiesSet();
     }
 
     public synchronized void removeDataSource(String tenantId) {
-        DataSource dataSource = (DataSource) targetDataSources.remove(tenantId);
+        javax.sql.DataSource dataSource = (javax.sql.DataSource) targetDataSources.remove(tenantId);
 
         if (dataSource instanceof AutoCloseable closeable) {
             try {
@@ -42,7 +41,7 @@ public class RoutingDataSource extends AbstractRoutingDataSource {
         super.afterPropertiesSet();
     }
 
-    public synchronized DataSource getDataSource() {
+    public synchronized javax.sql.DataSource getDataSource() {
         return determineTargetDataSource();
     }
 

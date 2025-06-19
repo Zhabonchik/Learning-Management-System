@@ -1,6 +1,7 @@
-package com.leverx.learningmanagementsystem.db.config;
+package com.leverx.learningmanagementsystem.multitenancy.connection.datasource.config;
 
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -16,4 +17,7 @@ public class DataSourceConfiguration {
     private String password;
 
     private String driverClassName;
+
+    @Value("${db.changelog}")
+    private String dbChangelog;
 }

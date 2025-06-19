@@ -1,12 +1,12 @@
-package com.leverx.learningmanagementsystem.db.service.dsconfigurer;
+package com.leverx.learningmanagementsystem.multitenancy.connection.datasource.configurer;
 
-import com.leverx.learningmanagementsystem.db.config.DataSourceConfiguration;
+import com.leverx.learningmanagementsystem.multitenancy.connection.datasource.config.DataSourceConfiguration;
 import com.zaxxer.hikari.HikariDataSource;
 
 import javax.sql.DataSource;
 
-import static com.leverx.learningmanagementsystem.db.constants.DatabaseConstants.MAXIMUM_POOL_SIZE;
-import static com.leverx.learningmanagementsystem.db.constants.DatabaseConstants.MINIMUM_IDLE;
+import static com.leverx.learningmanagementsystem.multitenancy.db.constants.DatabaseConstants.MAXIMUM_POOL_SIZE;
+import static com.leverx.learningmanagementsystem.multitenancy.db.constants.DatabaseConstants.MINIMUM_IDLE;
 
 public interface DataSourceConfigurer {
 

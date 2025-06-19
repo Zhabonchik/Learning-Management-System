@@ -1,8 +1,8 @@
-package com.leverx.learningmanagementsystem.db.service.dsconfigurer.impl;
+package com.leverx.learningmanagementsystem.multitenancy.connection.datasource.configurer.impl;
 
-import com.leverx.learningmanagementsystem.db.config.DataSourceConfiguration;
-import com.leverx.learningmanagementsystem.db.service.dsconfigurer.DataSourceConfigurer;
-import com.leverx.learningmanagementsystem.db.service.SchemaNameResolver;
+import com.leverx.learningmanagementsystem.multitenancy.connection.datasource.config.DataSourceConfiguration;
+import com.leverx.learningmanagementsystem.multitenancy.connection.datasource.configurer.DataSourceConfigurer;
+import com.leverx.learningmanagementsystem.multitenancy.db.service.SchemaNameResolver;
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

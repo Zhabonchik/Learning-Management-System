@@ -1,10 +1,12 @@
-package com.leverx.learningmanagementsystem.db.service.migrationrunner.impl;
+package com.leverx.learningmanagementsystem.multitenancy.db.service.migrationrunner.impl;
 
 import com.leverx.learningmanagementsystem.btp.servicemanager.dto.SchemaBindingResponse;
 import com.leverx.learningmanagementsystem.btp.servicemanager.service.ServiceManager;
 import com.leverx.learningmanagementsystem.core.security.context.RequestContext;
-import com.leverx.learningmanagementsystem.db.service.migrationrunner.DatabaseMigrationRunner;
-import com.leverx.learningmanagementsystem.connection.provider.CustomMultiTenantConnectionProvider;
+import com.leverx.learningmanagementsystem.multitenancy.connection.datasource.config.DataSourceConfiguration;
+import com.leverx.learningmanagementsystem.multitenancy.db.service.migrationrunner.AbstractDatabaseMigrationRunner;
+import com.leverx.learningmanagementsystem.multitenancy.db.service.migrationrunner.DatabaseMigrationRunner;
+import com.leverx.learningmanagementsystem.multitenancy.connection.provider.CustomMultiTenantConnectionProvider;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -15,17 +17,18 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.leverx.learningmanagementsystem.db.constants.DatabaseConstants.PUBLIC;
-import static com.leverx.learningmanagementsystem.db.constants.DatabaseConstants.TENANT_ID;
+import static com.leverx.learningmanagementsystem.multitenancy.db.constants.DatabaseConstants.PUBLIC;
+import static com.leverx.learningmanagementsystem.multitenancy.db.constants.DatabaseConstants.TENANT_ID;
 
 @Component
 @Slf4j
 @AllArgsConstructor
 @Profile("cloud")
-public class CloudDatabaseMigrationRunner implements DatabaseMigrationRunner {
+public class CloudDatabaseMigrationRunner extends AbstractDatabaseMigrationRunner implements DatabaseMigrationRunner {
 
     private final CustomMultiTenantConnectionProvider connectionProvider;
     private final ServiceManager serviceManager;
+    private final DataSourceConfiguration dsConfig;
 
     @EventListener(ApplicationReadyEvent.class)
     public void runAll() {
@@ -35,10 +38,14 @@ public class CloudDatabaseMigrationRunner implements DatabaseMigrationRunner {
     }
 
     public void run(String tenantId) {
-        RequestContext.setTenantId(tenantId);
-        log.info("Tenant context in CloudSubscriptionService: {}", RequestContext.getTenantId());
+        try {
+            RequestContext.setTenantId(tenantId);
+            log.info("Tenant context in CloudSubscriptionService: {}", RequestContext.getTenantId());
 
-        migrateSchema(connectionProvider);
+            migrateSchema(connectionProvider, dsConfig.getDbChangelog());
+        } finally {
+            RequestContext.clear();
+        }
     }
 
     private List<String> getAllTenantIds() {
