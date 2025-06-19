@@ -9,4 +9,6 @@ public interface SubscriptionService {
     String subscribe(String tenantId, String tenantSubDomain);
 
     void unsubscribe(String tenantId);
+
+    List<DependenciesResponseDto> getDependencies();
 }

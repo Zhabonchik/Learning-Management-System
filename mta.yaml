@@ -34,7 +34,7 @@ modules:
     provides:
       - name: lms-api
         properties:
-          url: ${default-url}
+          lms-url: ${default-url}
 
   - name: lms-approuter
     type: nodejs
@@ -50,7 +50,7 @@ modules:
         group: destinations
         properties:
           name: lms-api
-          url: '~{url}'
+          url: ~{lms-url}
           forwardAuthToken: true
     properties:
       TENANT_HOST_PATTERN: "^(.*)-${app-name}.${default-domain}"

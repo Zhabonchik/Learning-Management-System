@@ -34,7 +34,6 @@ public class CloudSecurityFilterChain {
                 .build();
     }
 
-
     @Bean
     @Order(2)
     public SecurityFilterChain apiSecurityFilterChain(HttpSecurity http) throws Exception {

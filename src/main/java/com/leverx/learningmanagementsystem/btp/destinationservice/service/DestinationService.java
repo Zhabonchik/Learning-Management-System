@@ -3,7 +3,7 @@ package com.leverx.learningmanagementsystem.btp.destinationservice.service;
 import com.leverx.learningmanagementsystem.btp.destinationservice.config.DestinationServiceConfiguration;
 import com.leverx.learningmanagementsystem.btp.destinationservice.model.Destination;
 import com.leverx.learningmanagementsystem.web.oauth.token.model.TokenRequest;
-import com.leverx.learningmanagementsystem.core.security.context.TenantContext;
+import com.leverx.learningmanagementsystem.core.security.context.RequestContext;
 import com.leverx.learningmanagementsystem.web.oauth.token.service.TokenService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -42,13 +42,13 @@ public class DestinationService {
             backoff = @Backoff(delay = DELAY)
     )
     public Destination getByName(String name) {
-        String subdomain = TenantContext.getTenantSubdomain();
+        String subdomain = RequestContext.getTenantSubdomain();
 
         if (nonNull(subdomain)) {
-            try {
-                return tryToGetSubaccountDestination(subdomain, name);
-            } catch (HttpClientErrorException.NotFound ex) {
-                log.info("Destination {} not found in subAccount {}", name, subdomain);
+            Destination destination = tryToGetSubaccountDestination(name, subdomain);
+
+            if (nonNull(destination)) {
+                return destination;
             }
         }
 
@@ -57,9 +57,15 @@ public class DestinationService {
     }
 
     private Destination tryToGetSubaccountDestination(String name, String subdomain) {
-        log.info("Retrieving destination by subAccount {}", subdomain);
-        String tokenUrl = replaceProviderWithSubscriberUrl(destinationServiceConfiguration.getUrl());
-        return tryToGetDestination(name, SUBACCOUNT_DESTINATIONS, tokenUrl);
+        try {
+            log.info("Retrieving destination by subAccount {}", subdomain);
+            String tokenUrl = replaceProviderWithSubscriberUrl(destinationServiceConfiguration.getUrl());
+
+            return tryToGetDestination(name, SUBACCOUNT_DESTINATIONS, tokenUrl);
+        } catch (HttpClientErrorException.NotFound ex) {
+            log.info("Destination {} not found in subAccount {}", name, subdomain);
+            return null;
+        }
     }
 
     private Destination tryToGetDestination(String name, String destinationsType, String tokenUrl) {
@@ -107,7 +113,7 @@ public class DestinationService {
     }
 
     private String replaceProviderWithSubscriberUrl(String url) {
-        String subdomain = TenantContext.getTenantSubdomain();
+        String subdomain = RequestContext.getTenantSubdomain();
 
         return url.replaceFirst("https://[^.]+", "https://" + subdomain);
     }

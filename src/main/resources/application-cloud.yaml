@@ -17,6 +17,7 @@ destination:
   uri: ${vcap.services.destination-service.credentials.uri}
   clientId: ${vcap.services.destination-service.credentials.clientid}
   clientSecret: ${vcap.services.destination-service.credentials.clientsecret}
+  xsappname: ${vcap.services.destination-service.credentials.xsappname}
 
 user-provided:
   mail:
@@ -33,8 +34,8 @@ xsuaa:
   clientSecret: ${vcap.services.xsuaa-service.credentials.clientsecret}
 
 service-manager:
-  url: ${vcap.services.service-manager.credentials.url}
-  smUrl: ${vcap.services.service-manager.credentials.sm_url}
+  tokenUrl: ${vcap.services.service-manager.credentials.url}
+  url: ${vcap.services.service-manager.credentials.sm_url}
   clientId: ${vcap.services.service-manager.credentials.clientid}
   clientSecret: ${vcap.services.service-manager.credentials.clientsecret}
 
@@ -53,3 +54,6 @@ security-entity:
   admin:
     username: admin
     password: password
+
+db:
+  changelog: db/changelog/db.changelog-master.yaml

@@ -18,4 +18,6 @@ public class DestinationServiceConfiguration {
     private String clientId;
 
     private String clientSecret;
+
+    private String xsappname;
 }

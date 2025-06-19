@@ -1,9 +1,9 @@
-package com.leverx.learningmanagementsystem.core.security.filter;
+package com.leverx.learningmanagementsystem.core.security.filter.impl;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.leverx.learningmanagementsystem.core.exception.model.TenantException;
-import com.leverx.learningmanagementsystem.core.security.context.TenantContext;
+import com.leverx.learningmanagementsystem.core.security.context.RequestContext;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,7 +21,7 @@ import static java.util.Objects.nonNull;
 @Component
 @Slf4j
 @Profile("cloud")
-public class CloudTenantInfoFilter extends OncePerRequestFilter {
+public class CloudRequestContextFilter extends OncePerRequestFilter {
 
     public static final String BEARER_PREFIX = "Bearer ";
     public static final String ZID = "zid";
@@ -32,11 +32,6 @@ public class CloudTenantInfoFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String path = request.getRequestURI();
-        if (path.startsWith("/actuator") || path.startsWith("/api/v1")) {
-            filterChain.doFilter(request, response);
-            return;
-        }
 
         String subdomain = extractTenantSubdomain(request);
         log.info("Tenant subdomain: {}", subdomain);
@@ -49,7 +44,7 @@ public class CloudTenantInfoFilter extends OncePerRequestFilter {
         try {
             filterChain.doFilter(request, response);
         } finally {
-            TenantContext.clear();
+            RequestContext.clear();
         }
     }
 
@@ -76,7 +71,7 @@ public class CloudTenantInfoFilter extends OncePerRequestFilter {
     }
 
     private void setTenantContext(String tenantId, String tenantSubdomain) {
-        TenantContext.setTenantId(tenantId);
-        TenantContext.setTenantSubdomain(tenantSubdomain);
+        RequestContext.setTenantId(tenantId);
+        RequestContext.setTenantSubdomain(tenantSubdomain);
     }
 }
