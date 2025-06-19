@@ -5,8 +5,8 @@
   "category": "Test",
   "tenantMode": "shared",
   "appUrls": {
-    "onSubscription": "https://067769ebtrial-dev-learning-management-system.cfapps.us10-001.hana.ondemand.com/api/v1/subscribe/{tenantId}",
-    "getDependencies": "https://067769ebtrial-dev-learning-management-system.cfapps.us10-001.hana.ondemand.com/api/v1/dependencies"
+    "onSubscription": "https://067769ebtrial-dev-learning-management-system.cfapps.us10-001.hana.ondemand.com/api/v1/subscriptions/tenants/{tenantId}",
+    "getDependencies": "https://067769ebtrial-dev-learning-management-system.cfapps.us10-001.hana.ondemand.com/api/v1/subscriptions/dependencies"
   },
   "appPlans": [
     {

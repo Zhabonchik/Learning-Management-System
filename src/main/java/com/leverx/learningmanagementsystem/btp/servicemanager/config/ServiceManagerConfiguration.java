@@ -11,9 +11,9 @@ import org.springframework.context.annotation.Profile;
 @Profile("cloud")
 public class ServiceManagerConfiguration {
 
-    private String url;
+    private String tokenUrl;
 
-    private String smUrl;
+    private String url;
 
     private String clientId;
 

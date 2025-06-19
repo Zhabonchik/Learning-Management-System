@@ -1,7 +1,6 @@
 package com.leverx.learningmanagementsystem.core.security.config;
 
-import com.leverx.learningmanagementsystem.core.security.converter.CustomTokenAuthenticationConverter;
-import com.sap.cloud.security.xsuaa.XsuaaServiceConfiguration;
+import com.leverx.learningmanagementsystem.btp.xsuaa.converter.CustomTokenAuthenticationConverter;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,8 +19,6 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @Profile("cloud")
 @AllArgsConstructor
 public class CloudSecurityFilterChain {
-
-    private final XsuaaServiceConfiguration xsuaaServiceConfiguration;
 
     @Bean
     @Order(1)
@@ -49,7 +46,7 @@ public class CloudSecurityFilterChain {
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> jwt
-                                .jwtAuthenticationConverter(new CustomTokenAuthenticationConverter(xsuaaServiceConfiguration))))
+                                .jwtAuthenticationConverter(new CustomTokenAuthenticationConverter())))
                 .build();
     }
 }

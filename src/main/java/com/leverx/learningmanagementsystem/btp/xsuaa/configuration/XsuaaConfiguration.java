@@ -1,4 +1,4 @@
-package com.leverx.learningmanagementsystem.core.app.config;
+package com.leverx.learningmanagementsystem.btp.xsuaa.configuration;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -6,14 +6,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 @Configuration
-@ConfigurationProperties("application")
+@ConfigurationProperties("xsuaa")
 @Data
 @Profile("cloud")
-public class AppConfiguration {
+public class XsuaaConfiguration {
 
-    private String applicationId;
+    private String url;
 
-    private String spaceId;
+    private String clientId;
 
-    private String uri;
+    private String clientSecret;
 }

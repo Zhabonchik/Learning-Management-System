@@ -1,6 +1,6 @@
 package com.leverx.learningmanagementsystem.btp.servicemanager.service.impl;
 
-import com.leverx.learningmanagementsystem.btp.destinationservice.model.DestinationTokenRequest;
+import com.leverx.learningmanagementsystem.web.oauth.token.model.TokenRequest;
 import com.leverx.learningmanagementsystem.btp.servicemanager.config.ServiceManagerConfiguration;
 import com.leverx.learningmanagementsystem.btp.servicemanager.dto.CreateSchemaDto;
 import com.leverx.learningmanagementsystem.btp.servicemanager.dto.SchemaBindingRequest;
@@ -181,16 +181,8 @@ public class ServiceManagerImpl implements ServiceManager {
     private SchemaBindingResponse tryToGetServiceBindingByInstanceId(String schemaInstanceId) {
         try {
             List<SchemaBindingResponse> serviceBindings = tryToGetServiceBindings();
-            Optional<SchemaBindingResponse> response =  serviceBindings.stream()
-                    .filter(binding -> nonNull(binding.serviceInstanceId()) && binding.serviceInstanceId().equals(schemaInstanceId))
-                    .findFirst();
 
-            if (response.isPresent()) {
-                return response.get();
-            } else {
-                log.info("No binding found for schema instance {}", schemaInstanceId);
-                throw new SchemaException("No binding found for schema instance" + schemaInstanceId);
-            }
+            return getServiceBindingByInstanceIdIfPresent(serviceBindings, schemaInstanceId);
         } catch (Unauthorized ex) {
             log.info("Unauthorized access while getting binding for schema instance {}", schemaInstanceId);
             refreshAuthToken();
@@ -198,28 +190,44 @@ public class ServiceManagerImpl implements ServiceManager {
         }
     }
 
+    private SchemaBindingResponse getServiceBindingByInstanceIdIfPresent(List<SchemaBindingResponse> serviceBindings, String schemaInstanceId) {
+        Optional<SchemaBindingResponse> response =  serviceBindings.stream()
+                .filter(binding -> nonNull(binding.serviceInstanceId()) && binding.serviceInstanceId().equals(schemaInstanceId))
+                .findFirst();
+
+        if (response.isPresent()) {
+            return response.get();
+        } else {
+            log.info("No binding found for schema instance {}", schemaInstanceId);
+            throw new SchemaException("No binding found for schema instance" + schemaInstanceId);
+        }
+    }
+
     private SchemaBindingResponse tryToGetServiceBindingByTenantId(String tenantId) {
         try {
             List<SchemaBindingResponse> serviceBindings = tryToGetServiceBindings();
 
-            Optional<SchemaBindingResponse> response =  serviceBindings.stream()
-                    .filter(binding -> {
-                        List<String> tenantIds = binding.labels().get("tenantId");
-                        return nonNull(tenantIds) && tenantIds.contains(tenantId);
-                    })
-                    .findFirst();
-
-            if (response.isPresent()) {
-                return response.get();
-            } else {
-                log.info("No binding found for tenant {}", tenantId);
-                throw new BindingException("No binding found for tenant" + tenantId);
-            }
-
+            return getServiceBindingByTenantIdIfPresent(serviceBindings, tenantId);
         } catch (Unauthorized ex) {
             log.info("Unauthorized access while getting binding for tenant {}", tenantId);
             refreshAuthToken();
             throw ex;
+        }
+    }
+
+    private SchemaBindingResponse getServiceBindingByTenantIdIfPresent(List<SchemaBindingResponse> serviceBindings, String tenantId) {
+        Optional<SchemaBindingResponse> response =  serviceBindings.stream()
+                .filter(binding -> {
+                    List<String> tenantIds = binding.labels().get("tenantId");
+                    return nonNull(tenantIds) && tenantIds.contains(tenantId);
+                })
+                .findFirst();
+
+        if (response.isPresent()) {
+            return response.get();
+        } else {
+            log.info("No binding found for tenant {}", tenantId);
+            throw new BindingException("No binding found for tenant" + tenantId);
         }
     }
 
@@ -329,36 +337,36 @@ public class ServiceManagerImpl implements ServiceManager {
     }
 
     private String configureServiceInstancesUri() {
-        return UriComponentsBuilder.fromUriString(serviceManagerConfiguration.getSmUrl())
+        return UriComponentsBuilder.fromUriString(serviceManagerConfiguration.getUrl())
                 .pathSegment(V1, SERVICE_INSTANCES)
                 .queryParam(ASYNC, false)
                 .toUriString();
     }
 
     private String configureServiceInstanceUri(String serviceInstanceId) {
-        return UriComponentsBuilder.fromUriString(serviceManagerConfiguration.getSmUrl())
+        return UriComponentsBuilder.fromUriString(serviceManagerConfiguration.getUrl())
                 .pathSegment(V1, SERVICE_INSTANCES, serviceInstanceId)
                 .queryParam(ASYNC, false)
                 .toUriString();
     }
 
     private String configureServiceBindingsUri() {
-        return UriComponentsBuilder.fromUriString(serviceManagerConfiguration.getSmUrl())
+        return UriComponentsBuilder.fromUriString(serviceManagerConfiguration.getUrl())
                 .pathSegment(V1, SERVICE_BINDINGS)
                 .queryParam(ASYNC, false)
                 .toUriString();
     }
 
     private String configureServiceUnbindingUri(String serviceBindingId) {
-        return UriComponentsBuilder.fromUriString(serviceManagerConfiguration.getSmUrl())
+        return UriComponentsBuilder.fromUriString(serviceManagerConfiguration.getUrl())
                 .pathSegment(V1, SERVICE_BINDINGS, serviceBindingId)
                 .queryParam(ASYNC, false)
                 .toUriString();
     }
 
-    private DestinationTokenRequest configureTokenRequest() {
-        return new DestinationTokenRequest(
-                serviceManagerConfiguration.getUrl(),
+    private TokenRequest configureTokenRequest() {
+        return new TokenRequest(
+                serviceManagerConfiguration.getTokenUrl(),
                 serviceManagerConfiguration.getClientId(),
                 serviceManagerConfiguration.getClientSecret()
         );
