@@ -22,6 +22,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.UUID;
 
+import static com.leverx.learningmanagementsystem.student.constants.StudentConstants.DEFAULT_STUDENT_PAGE;
+import static com.leverx.learningmanagementsystem.student.constants.StudentConstants.DEFAULT_STUDENT_PAGE_SIZE;
+import static com.leverx.learningmanagementsystem.student.constants.StudentConstants.DEFAULT_STUDENT_SORT_TYPE;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 
@@ -33,7 +36,8 @@ public class StudentController {
     private final StudentWebFacade studentWebFacade;
 
     @GetMapping
-    public PagedModel<StudentResponseDto> getAll(@PageableDefault(size = 3, page = 0, sort = "created") Pageable pageable) {
+    public PagedModel<StudentResponseDto> getAll(@PageableDefault(size = DEFAULT_STUDENT_PAGE_SIZE,
+            page = DEFAULT_STUDENT_PAGE, sort = DEFAULT_STUDENT_SORT_TYPE) Pageable pageable) {
         var page = studentWebFacade.getAll(pageable);
         return new PagedModel<>(page);
     }
