@@ -1,13 +1,11 @@
 package com.leverx.learningmanagementsystem.course.job;
 
+import com.leverx.learningmanagementsystem.course.job.service.CourseNotificationSender;
 import com.leverx.learningmanagementsystem.course.model.Course;
 import com.leverx.learningmanagementsystem.course.job.service.MustacheService;
 import com.leverx.learningmanagementsystem.course.service.CourseService;
-import com.leverx.learningmanagementsystem.email.service.impl.EmailService;
-import jakarta.mail.MessagingException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.mail.MailException;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -29,7 +27,7 @@ public class SendCourseNotificationJob {
     public static final String START_DATE = "start_date";
 
     private final CourseService courseService;
-    private final EmailService emailService;
+    private final CourseNotificationSender courseNotificationSender;
     private final MustacheService mustacheService;
 
     @Scheduled(cron = "0 */1 * * * *")
@@ -57,7 +55,7 @@ public class SendCourseNotificationJob {
                             course.getTitle(),
                             course.getSettings().getStartDate());
 
-                    tryToSendCourseNotification(student.getEmail(), course.getTitle(), body);
+                    courseNotificationSender.tryToSendCourseNotification(student.getEmail(), course.getTitle(), body);
                 });
     }
 
@@ -68,13 +66,5 @@ public class SendCourseNotificationJob {
         model.put(START_DATE, startDate);
 
         return mustacheService.processTemplate(TEMPLATE_PATH, model, locale);
-    }
-
-    private void tryToSendCourseNotification(String email, String subject, String body) {
-        try {
-            emailService.sendEmail(email, subject, body);
-        } catch (MessagingException | MailException ex) {
-            log.error(ex.getMessage());
-        }
     }
 }
