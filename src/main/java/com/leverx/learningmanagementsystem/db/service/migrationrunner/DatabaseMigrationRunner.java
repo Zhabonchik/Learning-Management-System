@@ -16,16 +16,6 @@ public interface DatabaseMigrationRunner {
         String tenantId = RequestContext.getTenantId();
         try {
             DataSource dataSource = connectionProvider.getDataSource(tenantId);
-            /*Database dataBase = DatabaseFactory.getInstance()
-                    .findCorrectDatabaseImplementation(new JdbcConnection(connection));
-
-            Liquibase liquibase = new Liquibase(
-                    DB_CHANGELOG,
-                    new ClassLoaderResourceAccessor(),
-                    dataBase
-            );
-
-            liquibase.update(new Contexts(), new LabelExpression());*/
             SpringLiquibase liquibase = new SpringLiquibase();
             liquibase.setChangeLog(DB_CHANGELOG);
             liquibase.setDataSource(dataSource);
