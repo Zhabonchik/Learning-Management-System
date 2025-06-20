@@ -44,10 +44,10 @@ public class CloudDataSourceConfigurer implements DataSourceConfigurer {
         }
 
         try {
-            log.info("Configuring local DataSource for {}", tenantId);
+            log.info("Configuring local RoutingDataSource for {}", tenantId);
             return configureDataSourceWithoutSchema(dsConfig);
         } catch (Exception e) {
-            log.error("Failed to configure DataSource", e);
+            log.error("Failed to configure RoutingDataSource", e);
             return null;
         }
     }

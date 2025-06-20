@@ -44,6 +44,9 @@ application:
   spaceId: ${vcap.application.space_id}
   uri: ${vcap.application.uris[0]}
 
+approuter:
+  name: lms-approuter
+
 security-entity:
   user:
     username: user

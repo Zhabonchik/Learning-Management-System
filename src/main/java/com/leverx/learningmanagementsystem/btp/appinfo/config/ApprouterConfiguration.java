@@ -10,6 +10,6 @@ import org.springframework.context.annotation.Profile;
 @Profile("cloud")
 public class ApprouterConfiguration {
 
-    @Value("${APPROUTER_NAME}")
+    @Value("${approuter.name}")
     private String name;
 }

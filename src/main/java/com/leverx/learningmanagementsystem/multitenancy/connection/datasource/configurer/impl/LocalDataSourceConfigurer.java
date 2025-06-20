@@ -23,13 +23,13 @@ public class LocalDataSourceConfigurer implements DataSourceConfigurer {
         try {
             String schemaName = SchemaNameResolver.configureSchemaName(tenantId);
 
-            log.info("Configuring local DataSource for {}", tenantId);
+            log.info("Configuring local RoutingDataSource for {}", tenantId);
             HikariDataSource dataSource = configureDataSourceWithoutSchema(dsConfig);
             dataSource.setSchema(schemaName);
 
             return dataSource;
         } catch (Exception e) {
-            log.error("Failed to configure DataSource", e);
+            log.error("Failed to configure RoutingDataSource", e);
             return null;
         }
     }
