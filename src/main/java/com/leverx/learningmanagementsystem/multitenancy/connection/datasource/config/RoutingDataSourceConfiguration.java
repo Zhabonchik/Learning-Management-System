@@ -1,10 +1,12 @@
 package com.leverx.learningmanagementsystem.multitenancy.connection.datasource.config;
 
+import com.leverx.learningmanagementsystem.multitenancy.connection.datasource.RoutingDataSource;
 import com.leverx.learningmanagementsystem.multitenancy.connection.datasource.configurer.DataSourceConfigurer;
-import com.leverx.learningmanagementsystem.multitenancy.connection.datasource.DataSource;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import javax.sql.DataSource;
 
 import static com.leverx.learningmanagementsystem.multitenancy.db.constants.DatabaseConstants.PUBLIC;
 
@@ -15,10 +17,10 @@ public class RoutingDataSourceConfiguration {
     private final DataSourceConfigurer dataSourceConfigurer;
 
     @Bean
-    public javax.sql.DataSource routingDataSource() {
-        DataSource dataSource = new DataSource();
+    public DataSource routingDataSource() {
+        RoutingDataSource dataSource = new RoutingDataSource();
 
-        javax.sql.DataSource defaultDataSource = dataSourceConfigurer.configureDataSource(PUBLIC);
+        DataSource defaultDataSource = dataSourceConfigurer.configureDataSource(PUBLIC);
         dataSource.setDefaultTargetDataSource(defaultDataSource);
 
         return dataSource;

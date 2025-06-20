@@ -7,6 +7,9 @@
       "https://*.cfapps.us10-001.hana.ondemand.com/login/callback"
     ]
   },
+  "authorities": [
+    "$ACCEPT_GRANTED_AUTHORITIES"
+  ],
   "scopes": [
     {
       "name": "$XSAPPNAME.Basic",
@@ -38,6 +41,15 @@
       "scope-references": [
         "$XSAPPNAME.Info",
         "$XSAPPNAME.Basic"
+      ]
+    }
+  ],
+  "role-collections": [
+    {
+      "name": "LMS_ADMIN",
+      "description": "LMS administrator.",
+      "role-template-references": [
+        "$XSAPPNAME.ADMIN"
       ]
     }
   ]
