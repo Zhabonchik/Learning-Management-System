@@ -31,6 +31,9 @@ modules:
       - name: saas-registry
       - name: service-manager
       - name: lms-autoscaler
+        parameters:
+          path: btp/autoscaler/cpu_scaling_policy.json
+
     provides:
       - name: lms-api
         properties:
@@ -109,4 +112,3 @@ resources:
     parameters:
       service: autoscaler
       service-plan: standard
-      path: btp/autoscaler/cpu_scaling_policy.json

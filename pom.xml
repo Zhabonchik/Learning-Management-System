@@ -33,6 +33,10 @@
 
         <java-jwt.version>4.5.0</java-jwt.version>
 
+        <java-dotenv.version>5.2.2</java-dotenv.version>
+
+        <cf-java-logging-support-logback.version>3.8.5</cf-java-logging-support-logback.version>
+
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <buildnumber-maven-plugin.version>3.2.1</buildnumber-maven-plugin.version>
         <jacoco.version>0.8.13</jacoco.version>
@@ -131,7 +135,7 @@
         <dependency>
             <groupId>io.github.cdimascio</groupId>
             <artifactId>java-dotenv</artifactId>
-            <version>5.2.2</version>
+            <version>${java-dotenv.version}</version>
         </dependency>
         <!-- Mapping -->
         <dependency>
@@ -149,6 +153,12 @@
             <groupId>com.auth0</groupId>
             <artifactId>java-jwt</artifactId>
             <version>${java-jwt.version}</version>
+        </dependency>
+        <!-- Enhanced SAP Logging -->
+        <dependency>
+            <groupId>com.sap.hcp.cf.logging</groupId>
+            <artifactId>cf-java-logging-support-logback</artifactId>
+            <version>${cf-java-logging-support-logback.version}</version>
         </dependency>
         <!-- Testing -->
         <dependency>
