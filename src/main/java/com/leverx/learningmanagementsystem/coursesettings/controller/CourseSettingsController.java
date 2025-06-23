@@ -20,6 +20,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.UUID;
 
+import static com.leverx.learningmanagementsystem.coursesettings.constants.CourseSettingsConstants.DEFAULT_COURSE_SETTINGS_PAGE;
+import static com.leverx.learningmanagementsystem.coursesettings.constants.CourseSettingsConstants.DEFAULT_COURSE_SETTINGS_PAGE_SIZE;
+import static com.leverx.learningmanagementsystem.coursesettings.constants.CourseSettingsConstants.DEFAULT_COURSE_SETTINGS_SORT_TYPE;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 
@@ -31,7 +34,8 @@ public class CourseSettingsController {
     private final CourseSettingsWebFacade courseSettingsWebFacade;
 
     @GetMapping
-    public PagedModel<CourseSettingsResponseDto> getAll(@PageableDefault(size = 3, page = 0, sort = "created") Pageable pageable) {
+    public PagedModel<CourseSettingsResponseDto> getAll(@PageableDefault(size = DEFAULT_COURSE_SETTINGS_PAGE_SIZE,
+            page = DEFAULT_COURSE_SETTINGS_PAGE, sort = DEFAULT_COURSE_SETTINGS_SORT_TYPE) Pageable pageable) {
         var page = courseSettingsWebFacade.getAll(pageable);
         return new PagedModel<>(page);
     }

@@ -2,9 +2,10 @@ package com.leverx.learningmanagementsystem.core.security.model;
 
 public enum AuthRoles {
     USER,
-    MANAGER;
+    MANAGER,
+    LMS_ADMIN;
 
-    public String asRole(){
+    public String asRole() {
         return "ROLE_" + this.name();
     }
 }
