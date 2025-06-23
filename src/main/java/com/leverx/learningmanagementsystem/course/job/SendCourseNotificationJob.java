@@ -48,9 +48,9 @@ public class SendCourseNotificationJob {
 
     private void prepareAndSendNotification(Course course) {
         course.getStudents()
-                .forEach(student -> {
-                    sendNotification(student, course);
-                });
+                .forEach(student ->
+                    sendNotification(student, course)
+                );
     }
 
     private void sendNotification(Student student, Course course) {
