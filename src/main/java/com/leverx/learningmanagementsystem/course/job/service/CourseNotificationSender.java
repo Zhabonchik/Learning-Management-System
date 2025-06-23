@@ -18,7 +18,7 @@ public class CourseNotificationSender {
     @Async("courseNotificationThreadPoolExecutor")
     public void tryToSendCourseNotification(String email, String subject, String body) {
         try {
-            log.info("Current thread: {}", Thread.currentThread().getName());
+            log.info("Email sending started");
             emailService.sendEmail(email, subject, body);
         } catch (MessagingException | MailException ex) {
             log.error(ex.getMessage());

@@ -4,6 +4,7 @@ import com.leverx.learningmanagementsystem.course.job.service.CourseNotification
 import com.leverx.learningmanagementsystem.course.model.Course;
 import com.leverx.learningmanagementsystem.course.job.service.MustacheService;
 import com.leverx.learningmanagementsystem.course.service.CourseService;
+import com.leverx.learningmanagementsystem.student.model.Student;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -48,15 +49,18 @@ public class SendCourseNotificationJob {
     private void prepareAndSendNotification(Course course) {
         course.getStudents()
                 .forEach(student -> {
-
-                    String body = configureEmailBody(
-                            student.getFirstName(),
-                            student.getLocale(),
-                            course.getTitle(),
-                            course.getSettings().getStartDate());
-
-                    courseNotificationSender.tryToSendCourseNotification(student.getEmail(), course.getTitle(), body);
+                    sendNotification(student, course);
                 });
+    }
+
+    private void sendNotification(Student student, Course course) {
+        String body = configureEmailBody(
+                student.getFirstName(),
+                student.getLocale(),
+                course.getTitle(),
+                course.getSettings().getStartDate());
+
+        courseNotificationSender.tryToSendCourseNotification(student.getEmail(), course.getTitle(), body);
     }
 
     private String configureEmailBody(String studentName, Locale locale, String courseTitle, LocalDateTime startDate) {

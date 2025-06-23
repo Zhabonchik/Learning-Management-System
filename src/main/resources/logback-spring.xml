@@ -8,12 +8,12 @@
 
     <springProfile name="cloud">
         <appender name="STDOUT-JSON" class="ch.qos.logback.core.ConsoleAppender">
-            <encoder class="com.sap.hcp.cf.logback.encoder.JsonEncoder"/>
+            <encoder class="com.sap.hcp.cf.logback.encoder.JsonEncoder">
+                <pattern>%date %blue(%-5level) --- [${applicationName}:${applicationVersion}] - %magenta([%thread]) - %cyan(%logger) : %msg%n</pattern>
+            </encoder>
         </appender>
         <root level="INFO">
             <appender-ref ref="STDOUT-JSON"/>
         </root>
-        <logger name="com.sap.cloud.sdk" level="INFO"/>
-        <logger name="package.to.log" level="DEBUG"/>
     </springProfile>
 </configuration>

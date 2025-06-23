@@ -6,7 +6,7 @@
       "metric_type": "cpuutil",
       "breach_duration_secs": 500,
       "threshold": 75,
-      "operator": ">",
+      "operator": ">=",
       "cool_dow_secs": 250,
       "adjustment": "+1"
     },
@@ -14,7 +14,7 @@
       "metric_type": "cpuutil",
       "breach_duration_secs": 500,
       "threshold": 30,
-      "operator": "<",
+      "operator": "<=",
       "cool_down_secs": 250,
       "adjustment": "-1"
     }
