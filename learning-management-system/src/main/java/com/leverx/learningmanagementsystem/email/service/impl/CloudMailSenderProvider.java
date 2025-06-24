@@ -1,9 +1,9 @@
 package com.leverx.learningmanagementsystem.email.service.impl;
 
+import com.leverx.featureflagsstarter.btp.featureflagservice.service.FeatureFlagsService;
 import com.leverx.learningmanagementsystem.btp.destinationservice.model.MailDestinationConfiguration;
 import com.leverx.learningmanagementsystem.btp.destinationservice.service.DestinationService;
 import com.leverx.learningmanagementsystem.email.service.MailSenderProvider;
-import com.leverx.learningmanagementsystem.btp.featureflagservice.service.FeatureFlagsService;
 import com.leverx.learningmanagementsystem.email.model.MailConfig;
 import com.leverx.learningmanagementsystem.email.model.MailConfigUserProvided;
 import lombok.AllArgsConstructor;
