@@ -1,0 +1,2 @@
+com.leverx.featureflagsstarter.config.FeatureFlagsServiceAutoconfiguration
+com.leverx.featureflagsstarter.web.restclient.RestClientAutoconfiguration

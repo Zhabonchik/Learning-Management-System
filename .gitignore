@@ -1,11 +1,11 @@
-HELP.md
+learning-management-system/HELP.md
 target/
-!.mvn/wrapper/maven-wrapper.jar
+!learning-management-system/.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-src/main/resources/.env
-src/main/resources/data
+learning-management-system/src/main/resources/.env
+learning-management-system/src/main/resources/data
 mta_archives
 approuter/node_modules
 

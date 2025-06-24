@@ -1,0 +1,54 @@
+info:
+  app:
+    name: Learning Managements System
+    description: Application provides functionality for creation of courses and students' further enrollment
+    version: 1.0.0
+
+spring:
+  application:
+    name: LearningManagementSystem
+  liquibase:
+    enabled: true
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/lms
+    username: user
+    password: password
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${EMAIL_USERNAME}
+    password: ${EMAIL_PASSWORD}
+    protocol: smtp
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info
+  endpoint:
+    health:
+      show-details: always
+  info:
+    env:
+      enabled: true
+
+security-entity:
+  user:
+    username: user
+    password: password
+  manager:
+    username: manager
+    password: password
+
+db:
+  changelog: db/changelog/db.changelog-master.yaml
