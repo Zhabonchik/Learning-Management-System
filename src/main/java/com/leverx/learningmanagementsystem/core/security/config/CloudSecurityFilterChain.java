@@ -14,9 +14,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 import static com.leverx.learningmanagementsystem.core.security.constants.SecurityConstants.ACTUATOR_HEALTH_PATH;
 import static com.leverx.learningmanagementsystem.core.security.constants.SecurityConstants.ACTUATOR_PATH;
-import static com.leverx.learningmanagementsystem.core.security.constants.SecurityConstants.APPLICATION_INFO_PATH;
 import static com.leverx.learningmanagementsystem.core.security.model.AuthRoles.MANAGER;
-import static com.leverx.learningmanagementsystem.core.security.model.Authorities.INFO;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 @Configuration
@@ -48,7 +46,6 @@ public class CloudSecurityFilterChain {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers(APPLICATION_INFO_PATH).hasAuthority(INFO.getName())
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> jwt

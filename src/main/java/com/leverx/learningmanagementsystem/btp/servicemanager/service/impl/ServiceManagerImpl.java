@@ -1,7 +1,7 @@
 package com.leverx.learningmanagementsystem.btp.servicemanager.service.impl;
 
 import com.leverx.learningmanagementsystem.web.oauth.token.model.TokenRequest;
-import com.leverx.learningmanagementsystem.btp.servicemanager.config.ServiceManagerConfiguration;
+import com.leverx.learningmanagementsystem.btp.servicemanager.model.ServiceManagerProperties;
 import com.leverx.learningmanagementsystem.btp.servicemanager.dto.CreateSchemaDto;
 import com.leverx.learningmanagementsystem.btp.servicemanager.dto.SchemaBindingRequest;
 import com.leverx.learningmanagementsystem.btp.servicemanager.dto.SchemaBindingResponse;
@@ -42,7 +42,7 @@ public class ServiceManagerImpl implements ServiceManager {
     public static final int MAX_ATTEMPTS = 2;
 
     private final RestClient restClient;
-    private final ServiceManagerConfiguration serviceManagerConfiguration;
+    private final ServiceManagerProperties serviceManagerProperties;
     private final TokenService tokenService;
 
     @Override
@@ -337,28 +337,28 @@ public class ServiceManagerImpl implements ServiceManager {
     }
 
     private String configureServiceInstancesUri() {
-        return UriComponentsBuilder.fromUriString(serviceManagerConfiguration.getUrl())
+        return UriComponentsBuilder.fromUriString(serviceManagerProperties.getUrl())
                 .pathSegment(V1, SERVICE_INSTANCES)
                 .queryParam(ASYNC, false)
                 .toUriString();
     }
 
     private String configureServiceInstanceUri(String serviceInstanceId) {
-        return UriComponentsBuilder.fromUriString(serviceManagerConfiguration.getUrl())
+        return UriComponentsBuilder.fromUriString(serviceManagerProperties.getUrl())
                 .pathSegment(V1, SERVICE_INSTANCES, serviceInstanceId)
                 .queryParam(ASYNC, false)
                 .toUriString();
     }
 
     private String configureServiceBindingsUri() {
-        return UriComponentsBuilder.fromUriString(serviceManagerConfiguration.getUrl())
+        return UriComponentsBuilder.fromUriString(serviceManagerProperties.getUrl())
                 .pathSegment(V1, SERVICE_BINDINGS)
                 .queryParam(ASYNC, false)
                 .toUriString();
     }
 
     private String configureServiceUnbindingUri(String serviceBindingId) {
-        return UriComponentsBuilder.fromUriString(serviceManagerConfiguration.getUrl())
+        return UriComponentsBuilder.fromUriString(serviceManagerProperties.getUrl())
                 .pathSegment(V1, SERVICE_BINDINGS, serviceBindingId)
                 .queryParam(ASYNC, false)
                 .toUriString();
@@ -366,9 +366,9 @@ public class ServiceManagerImpl implements ServiceManager {
 
     private TokenRequest configureTokenRequest() {
         return new TokenRequest(
-                serviceManagerConfiguration.getTokenUrl(),
-                serviceManagerConfiguration.getClientId(),
-                serviceManagerConfiguration.getClientSecret()
+                serviceManagerProperties.getTokenUrl(),
+                serviceManagerProperties.getClientId(),
+                serviceManagerProperties.getClientSecret()
         );
     }
 
