@@ -12,10 +12,11 @@ modules:
     parameters:
       memory: 2048M
       buildpack: sap_java_buildpack_jakarta
-      random-route: true
       health-check-type: http
       health-check-http-endpoint: /actuator/health
       health-check-timeout: 40
+      routes:
+        - route: "${protocol}://${org}-${app-name}-${space}.${default-domain}"
     properties:
       SPRING_PROFILES_ACTIVE: cloud
       TARGET_RUNTIME: tomcat
@@ -28,6 +29,35 @@ modules:
       - name: logging-service
       - name: hana-schema
       - name: xsuaa-service
+      - name: user-service
+      - name: saas-registry
+      - name: service-manager
+      - name: lms-autoscaler
+        parameters:
+          path: btp/autoscaler/cpu_scaling_policy.json
+    provides:
+      - name: lms-api
+        properties:
+          lms-url: "${routes/0/route}"
+
+  - name: lms-approuter
+    type: nodejs
+    path: approuter
+    parameters:
+      disk-quota: 256M
+      memory: 256M
+      routes:
+        - route: "${app-name}.${default-domain}"
+    requires:
+      - name: xsuaa-service
+      - name: lms-api
+        group: destinations
+        properties:
+          name: lms-api
+          url: ~{lms-url}
+          forwardAuthToken: true
+    properties:
+      TENANT_HOST_PATTERN: "^(.*)-${app-name}.${default-domain}"
 
 resources:
   - name: destination-service
@@ -59,3 +89,26 @@ resources:
     parameters:
       service: xsuaa
       service-plan: application
+      path: btp/xsuaa/xs-security.json
+
+  - name: user-service
+    type: org.cloudfoundry.user-provided-service
+
+  - name: saas-registry
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: saas-registry
+      service-plan: application
+      path: btp/saas-provisioning/saas-provisioning.json
+
+  - name: service-manager
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: service-manager
+      service-plan: container
+
+  - name: lms-autoscaler
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: autoscaler
+      service-plan: standard

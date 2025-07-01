@@ -12,6 +12,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 
+import static com.leverx.learningmanagementsystem.core.security.constants.SecurityConstants.ACTUATOR_HEALTH_PATH;
+import static com.leverx.learningmanagementsystem.core.security.constants.SecurityConstants.ACTUATOR_PATH;
 import static com.leverx.learningmanagementsystem.core.security.model.AuthRoles.MANAGER;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
@@ -26,17 +28,18 @@ public class CloudSecurityFilterChain {
     @Order(1)
     public SecurityFilterChain actuatorSecurityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .securityMatcher("/actuator/**")
+                .securityMatcher(ACTUATOR_PATH)
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/actuator/health").permitAll()
+                        .requestMatchers(ACTUATOR_HEALTH_PATH).permitAll()
                         .anyRequest().hasRole(MANAGER.name()))
                 .httpBasic(Customizer.withDefaults())
                 .build();
     }
 
     @Bean
+    @Order(2)
     public SecurityFilterChain apiSecurityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .securityMatcher("/**")
@@ -46,7 +49,13 @@ public class CloudSecurityFilterChain {
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> jwt
-                                .jwtAuthenticationConverter(new TokenAuthenticationConverter(xsuaaServiceConfiguration))))
+                                .jwtAuthenticationConverter(tokenAuthenticationConverter())))
                 .build();
+    }
+
+    private TokenAuthenticationConverter tokenAuthenticationConverter() {
+        TokenAuthenticationConverter authenticationConverter = new TokenAuthenticationConverter(xsuaaServiceConfiguration);
+        authenticationConverter.setLocalScopeAsAuthorities(true);
+        return authenticationConverter;
     }
 }

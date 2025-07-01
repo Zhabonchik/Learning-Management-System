@@ -1,8 +1,11 @@
 package com.leverx.learningmanagementsystem.core.security.config;
 
+import com.leverx.learningmanagementsystem.core.security.model.SecurityEntityProperties;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,9 +19,10 @@ import static com.leverx.learningmanagementsystem.core.security.model.AuthRoles.
 @Configuration
 @EnableWebSecurity
 @AllArgsConstructor
+@EnableMethodSecurity
 public class SecurityConfiguration {
 
-    private final SecurityEntityConfiguration configuration;
+    private final SecurityEntityProperties configuration;
 
     @Bean
     public UserDetailsService userDetailsService() {

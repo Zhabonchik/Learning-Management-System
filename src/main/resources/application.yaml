@@ -31,3 +31,6 @@ management:
   info:
     env:
       enabled: true
+
+db:
+  changelog: db/changelog/db.changelog-master.yaml

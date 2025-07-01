@@ -12,7 +12,7 @@
 
     <groupId>com.LeverX</groupId>
     <artifactId>LearningManagementSystem</artifactId>
-    <version>1.3.0</version>
+    <version>1.5.0</version>
     <name>LearningManagementSystem</name>
     <description>LearningManagementSystem</description>
 
@@ -30,6 +30,12 @@
 
         <mapstruct.version>1.6.3</mapstruct.version>
         <lombok-mapstruct.version>0.2.0</lombok-mapstruct.version>
+
+        <java-jwt.version>4.5.0</java-jwt.version>
+
+        <java-dotenv.version>5.2.2</java-dotenv.version>
+
+        <cf-java-logging-support-logback.version>3.8.5</cf-java-logging-support-logback.version>
 
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <buildnumber-maven-plugin.version>3.2.1</buildnumber-maven-plugin.version>
@@ -129,7 +135,7 @@
         <dependency>
             <groupId>io.github.cdimascio</groupId>
             <artifactId>java-dotenv</artifactId>
-            <version>5.2.2</version>
+            <version>${java-dotenv.version}</version>
         </dependency>
         <!-- Mapping -->
         <dependency>
@@ -141,6 +147,18 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok-mapstruct-binding</artifactId>
             <version>${lombok-mapstruct.version}</version>
+        </dependency>
+        <!-- Jwt -->
+        <dependency>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
+            <version>${java-jwt.version}</version>
+        </dependency>
+        <!-- Enhanced SAP Logging -->
+        <dependency>
+            <groupId>com.sap.hcp.cf.logging</groupId>
+            <artifactId>cf-java-logging-support-logback</artifactId>
+            <version>${cf-java-logging-support-logback.version}</version>
         </dependency>
         <!-- Testing -->
         <dependency>

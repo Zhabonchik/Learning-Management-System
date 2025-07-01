@@ -1,0 +1,13 @@
+{
+  "authenticationMethod": "route",
+  "welcomeFile": "/api/v1/application-info",
+  "routes": [
+    {
+      "source": "^(.*)$",
+      "target": "$1",
+      "destination": "lms-api",
+      "authenticationType": "xsuaa",
+      "csrfProtection": false
+    }
+  ]
+}

@@ -20,6 +20,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.UUID;
 
+import static com.leverx.learningmanagementsystem.lesson.constants.LessonConstants.DEFAULT_LESSON_PAGE;
+import static com.leverx.learningmanagementsystem.lesson.constants.LessonConstants.DEFAULT_LESSON_PAGE_SIZE;
+import static com.leverx.learningmanagementsystem.lesson.constants.LessonConstants.DEFAULT_LESSON_SORT_TYPE;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 
@@ -31,7 +34,8 @@ public class LessonController {
     private final LessonWebFacade lessonWebFacade;
 
     @GetMapping
-    public PagedModel<LessonResponseDto> getAll(@PageableDefault(size = 3, page = 0, sort = "created") Pageable pageable) {
+    public PagedModel<LessonResponseDto> getAll(@PageableDefault(size = DEFAULT_LESSON_PAGE_SIZE,
+            page = DEFAULT_LESSON_PAGE, sort = DEFAULT_LESSON_SORT_TYPE) Pageable pageable) {
         var page = lessonWebFacade.getAll(pageable);
         return new PagedModel<>(page);
     }

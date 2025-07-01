@@ -1,0 +1,56 @@
+{
+  "xsappname": "learning-management-system",
+  "description": "Roles for LMS app",
+  "tenant-mode": "shared",
+  "oauth2-configuration": {
+    "redirect-uris": [
+      "https://*.cfapps.us10-001.hana.ondemand.com/login/callback"
+    ]
+  },
+  "authorities": [
+    "$ACCEPT_GRANTED_AUTHORITIES"
+  ],
+  "scopes": [
+    {
+      "name": "$XSAPPNAME.Manage",
+      "description": "Send basic requests to application."
+    },
+    {
+      "name": "$XSAPPNAME.Administrate",
+      "description": "Get access to /application-info endpoint."
+    },
+    {
+      "name": "$XSAPPNAME.Callback",
+      "description": "With this scope set, the callbacks for tenant onboarding, offboarding and getDependencies can be called.",
+      "grant-as-authority-to-apps": [
+        "$XSAPPNAME(application,sap-provisioning,tenant-onboarding)"
+      ]
+    }
+  ],
+  "role-templates": [
+    {
+      "name": "USER",
+      "description": "Sends basic requests to application.",
+      "scope-references": [
+        "$XSAPPNAME.Manage"
+      ]
+    },
+    {
+      "name": "ADMIN",
+      "description": "Sends basic requests to application and has access to /application-info endpoint.",
+      "scope-references": [
+        "$XSAPPNAME.Administrate",
+        "$XSAPPNAME.Manage"
+      ]
+    }
+  ],
+  "role-collections": [
+    {
+      "name": "LMS_ADMIN",
+      "description": "LMS administrator.",
+      "role-template-references": [
+        "$XSAPPNAME.ADMIN"
+      ]
+    }
+  ]
+}
