@@ -15,6 +15,8 @@ modules:
       health-check-type: http
       health-check-http-endpoint: /actuator/health
       health-check-timeout: 40
+      routes:
+        - route: "${protocol}://${org}-${app-name}-${space}.${default-domain}"
     properties:
       SPRING_PROFILES_ACTIVE: cloud
       TARGET_RUNTIME: tomcat
@@ -33,11 +35,10 @@ modules:
       - name: lms-autoscaler
         parameters:
           path: btp/autoscaler/cpu_scaling_policy.json
-
     provides:
       - name: lms-api
         properties:
-          lms-url: ${default-url}
+          lms-url: "${routes/0/route}"
 
   - name: lms-approuter
     type: nodejs
@@ -57,7 +58,6 @@ modules:
           forwardAuthToken: true
     properties:
       TENANT_HOST_PATTERN: "^(.*)-${app-name}.${default-domain}"
-
 
 resources:
   - name: destination-service

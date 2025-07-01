@@ -12,11 +12,11 @@
   ],
   "scopes": [
     {
-      "name": "$XSAPPNAME.Basic",
+      "name": "$XSAPPNAME.Manage",
       "description": "Send basic requests to application."
     },
     {
-      "name": "$XSAPPNAME.Info",
+      "name": "$XSAPPNAME.Administrate",
       "description": "Get access to /application-info endpoint."
     },
     {
@@ -32,15 +32,15 @@
       "name": "USER",
       "description": "Sends basic requests to application.",
       "scope-references": [
-        "$XSAPPNAME.Basic"
+        "$XSAPPNAME.Manage"
       ]
     },
     {
       "name": "ADMIN",
       "description": "Sends basic requests to application and has access to /application-info endpoint.",
       "scope-references": [
-        "$XSAPPNAME.Info",
-        "$XSAPPNAME.Basic"
+        "$XSAPPNAME.Administrate",
+        "$XSAPPNAME.Manage"
       ]
     }
   ],

@@ -16,7 +16,7 @@ public class CourseNotificationSender {
     private final EmailService emailService;
 
     @Async("courseNotificationThreadPoolExecutor")
-    public void tryToSendCourseNotification(String email, String subject, String body) {
+    public void send(String email, String subject, String body) {
         try {
             log.info("Email sending started");
             emailService.sendEmail(email, subject, body);

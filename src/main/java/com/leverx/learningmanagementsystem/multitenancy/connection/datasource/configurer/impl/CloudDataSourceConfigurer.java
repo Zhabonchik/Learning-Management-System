@@ -4,6 +4,7 @@ import com.leverx.learningmanagementsystem.btp.servicemanager.dto.SchemaBindingR
 import com.leverx.learningmanagementsystem.btp.servicemanager.service.ServiceManager;
 import com.leverx.learningmanagementsystem.multitenancy.connection.datasource.config.DataSourceConfiguration;
 import com.leverx.learningmanagementsystem.multitenancy.connection.datasource.configurer.DataSourceConfigurer;
+import com.zaxxer.hikari.HikariDataSource;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
@@ -14,6 +15,8 @@ import javax.sql.DataSource;
 import java.util.Map;
 
 import static com.leverx.learningmanagementsystem.multitenancy.db.constants.DatabaseConstants.DRIVER;
+import static com.leverx.learningmanagementsystem.multitenancy.db.constants.DatabaseConstants.MAXIMUM_POOL_SIZE;
+import static com.leverx.learningmanagementsystem.multitenancy.db.constants.DatabaseConstants.MINIMUM_IDLE;
 import static com.leverx.learningmanagementsystem.multitenancy.db.constants.DatabaseConstants.PASSWORD;
 import static com.leverx.learningmanagementsystem.multitenancy.db.constants.DatabaseConstants.PUBLIC;
 import static com.leverx.learningmanagementsystem.multitenancy.db.constants.DatabaseConstants.URL;
@@ -45,10 +48,24 @@ public class CloudDataSourceConfigurer implements DataSourceConfigurer {
 
         try {
             log.info("Configuring local RoutingDataSource for {}", tenantId);
-            return configureDataSourceWithoutSchema(dsConfig);
+            return configureDataSourceWithoutSchema();
         } catch (Exception e) {
             log.error("Failed to configure RoutingDataSource", e);
             return null;
         }
+    }
+
+    @Override
+    public HikariDataSource configureDataSourceWithoutSchema() {
+        HikariDataSource dataSource = new HikariDataSource();
+
+        dataSource.setJdbcUrl(dataSourceConfiguration.getUrl());
+        dataSource.setUsername(dataSourceConfiguration.getUsername());
+        dataSource.setPassword(dataSourceConfiguration.getPassword());
+        dataSource.setDriverClassName(dataSourceConfiguration.getDriverClassName());
+        dataSource.setMaximumPoolSize(MAXIMUM_POOL_SIZE);
+        dataSource.setMinimumIdle(MINIMUM_IDLE);
+
+        return dataSource;
     }
 }

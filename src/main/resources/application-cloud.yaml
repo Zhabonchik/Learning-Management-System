@@ -13,7 +13,7 @@ feature-flags:
   password: ${vcap.services.feature-flags-service.credentials.password}
 
 destination:
-  url: ${vcap.services.destination-service.credentials.url}
+  tokenUrl: ${vcap.services.destination-service.credentials.url}
   uri: ${vcap.services.destination-service.credentials.uri}
   clientId: ${vcap.services.destination-service.credentials.clientid}
   clientSecret: ${vcap.services.destination-service.credentials.clientsecret}
@@ -57,6 +57,3 @@ security-entity:
   admin:
     username: admin
     password: password
-
-db:
-  changelog: db/changelog/db.changelog-master.yaml
